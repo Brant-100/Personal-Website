@@ -2,6 +2,8 @@
 
 Personal portfolio for **Brant Simpson** — Software Developer & Offensive Cyber Operator.
 
+Repository: [Brant-100/Personal-Website](https://github.com/Brant-100/Personal-Website).
+
 - **Frontend:** React + Vite + Tailwind CSS + Framer Motion + shadcn/ui
 - **Backend:** FastAPI (Python)
 
