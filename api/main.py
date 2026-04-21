@@ -29,12 +29,15 @@ class Project(BaseModel):
     title: str
     tagline: str
     description: str
+    features: List[str] = Field(default_factory=list)
     tech: List[str] = Field(default_factory=list)
     tags: List[str] = Field(default_factory=list)
     status: str = "public"
     year: Optional[str] = None
     repo_url: Optional[str] = None
     live_url: Optional[str] = None
+    # Frontend maps this to card chrome: skillswap | healthhive | cyber | default
+    accent_theme: str = "default"
 
 
 class Service(BaseModel):
