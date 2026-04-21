@@ -92,6 +92,7 @@ function yearBadgeVariant(accentKey, isDark) {
   return isDark ? "default" : "accent";
 }
 
+/** Mirrors `api/data/projects.py` so all four projects show even when the API is offline. */
 const FALLBACK = [
   {
     id: "skillswap",
@@ -110,6 +111,8 @@ const FALLBACK = [
     status: "public",
     year: "2025",
     accent_theme: "skillswap",
+    repo_url: null,
+    live_url: null,
   },
   {
     id: "healthhive",
@@ -128,6 +131,39 @@ const FALLBACK = [
     status: "public",
     year: "2025",
     accent_theme: "healthhive",
+    repo_url: null,
+    live_url: null,
+  },
+  {
+    id: "network-scanner",
+    title: "Network Scanner",
+    tagline: "Multithreaded Python recon — host discovery, port scan, banner grabs.",
+    description:
+      "TCP network scanner: CIDR ping sweep, threaded connect scans, banner grabbing, argparse CLI.",
+    features: [],
+    tech: ["Python", "asyncio", "sockets", "argparse", "pytest"],
+    tags: ["offensive-security", "recon", "cli"],
+    status: "public",
+    year: "2025",
+    accent_theme: "cyber",
+    repo_url:
+      "https://github.com/Brant-100/Personal-Website/tree/main/projects/network-scanner",
+    live_url: null,
+  },
+  {
+    id: "project-nexus",
+    title: "Project Nexus",
+    tagline: "Custom C2 framework for offensive operations.",
+    description:
+      "Modular C2 with AES-GCM implant comms, operator dashboard, and containerized deployment.",
+    features: [],
+    tech: ["Python", "FastAPI", "Docker", "AES-GCM"],
+    tags: ["offensive-security", "infrastructure", "red-team"],
+    status: "private",
+    year: "2026",
+    accent_theme: "cyber",
+    repo_url: null,
+    live_url: null,
   },
 ];
 
@@ -139,7 +175,10 @@ export function Projects() {
   useEffect(() => {
     const ctrl = new AbortController();
     api.projects({ signal: ctrl.signal, fallback: null }).then((data) => {
-      if (Array.isArray(data) && data.length) setItems(data);
+      if (Array.isArray(data) && data.length) {
+        setItems(data);
+      }
+      /* If fetch failed (API down), keep FALLBACK — already includes Nexus + scanner. */
     });
     return () => ctrl.abort();
   }, []);
