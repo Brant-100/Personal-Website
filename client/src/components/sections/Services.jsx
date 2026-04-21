@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Code2, Palette, Cpu, ArrowUpRight, Sparkles } from "lucide-react";
 import {
   Card,
@@ -13,6 +14,12 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+
+const SERVICE_ROUTES = {
+  "web-development": "/services/web-development",
+  "ui-ux-design": "/services/ui-ux-design",
+  "custom-software-solutions": "/services/custom-software-solutions",
+};
 
 const ICONS = {
   web: Code2,
@@ -111,9 +118,13 @@ export function Services() {
 
 function ServiceCard({ service, index, isDark }) {
   const Icon = ICONS[service.icon] || Sparkles;
+  const route = SERVICE_ROUTES[service.id];
 
   // Light mode: chunky pop-art card w/ tilt on hover.
   // Dark mode: matte card with glowing border ring on hover.
+  const CardWrapper = route ? Link : "div";
+  const wrapperProps = route ? { to: route } : {};
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -123,9 +134,11 @@ function ServiceCard({ service, index, isDark }) {
       whileHover={{ y: -6, rotate: isDark ? 0 : -1 }}
       className="group"
     >
+    <CardWrapper {...wrapperProps} className="block h-full">
       <Card
         className={cn(
           "relative h-full overflow-hidden transition-all",
+          route && "cursor-pointer",
           isDark
             ? "bg-card/60 backdrop-blur border-border hover:border-primary/60 hover:shadow-neon-cyan"
             : "border-2 border-foreground shadow-pop hover:shadow-pop-primary"
@@ -206,7 +219,19 @@ function ServiceCard({ service, index, isDark }) {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
           </div>
         )}
+
+        {route && (
+          <div
+            className={cn(
+              "absolute bottom-4 right-4 font-mono text-[10px] uppercase tracking-[0.25em] transition-colors",
+              isDark ? "text-primary" : "text-foreground/60 group-hover:text-primary"
+            )}
+          >
+            view demo →
+          </div>
+        )}
       </Card>
+    </CardWrapper>
     </motion.div>
   );
 }

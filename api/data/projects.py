@@ -17,4 +17,21 @@ PROJECTS = [
         "repo_url": None,
         "live_url": None,
     },
+    {
+        "id": "network-scanner",
+        "title": "Network Scanner",
+        "tagline": "Multithreaded Python recon toolkit — host discovery, port scanning, banner grabs.",
+        "description": (
+            "TCP network scanner for the reconnaissance phase. Host discovery via "
+            "CIDR ping sweep, multithreaded TCP connect port scanning, service "
+            "banner grabbing, and text/JSON reporting — all wrapped behind a clean "
+            "argparse CLI."
+        ),
+        "tech": ["Python", "asyncio", "sockets", "argparse", "pytest"],
+        "tags": ["offensive-security", "recon", "cli"],
+        "status": "public",
+        "year": "2025",
+        "repo_url": "https://github.com/Brant-100/Personal-Website/tree/main/projects/network-scanner",
+        "live_url": None,
+    },
 ]

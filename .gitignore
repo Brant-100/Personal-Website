@@ -6,7 +6,7 @@ client/.vite/
 
 # Python
 api/.venv/
-api/__pycache__/
+projects/**/.venv/
 **/__pycache__/
 *.py[cod]
 .pytest_cache/

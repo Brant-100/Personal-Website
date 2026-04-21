@@ -52,6 +52,7 @@ class Credential(BaseModel):
     issuer: str
     category: str
     year: Optional[str] = None
+    url: Optional[str] = None
 
 
 class ExperienceEntry(BaseModel):

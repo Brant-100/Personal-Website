@@ -2,16 +2,16 @@
 
 EXPERIENCE = [
     {
-        "id": "bpa-web-team-lead",
-        "title": "Web Application Team Lead",
+        "id": "bpa-web-team",
+        "title": "Web Application Team Contributor",
         "org": "Business Professionals of America (BPA)",
         "period": "2025 — Present",
         "summary": (
-            "Lead a student team building the BPA Web Application Team competitive "
-            "entry. Drive architecture decisions, delegate feature work, and own the "
-            "final polish and shipping pass."
+            "Helped build the BPA Web Application Team competitive entry. "
+            "Contributed across frontend, UX polish, and integration work "
+            "alongside the rest of the team."
         ),
-        "tags": ["leadership", "react", "ux"],
+        "tags": ["teamwork", "react", "ux"],
     },
     {
         "id": "kent-hack-enough",
@@ -24,17 +24,6 @@ EXPERIENCE = [
             "pressure."
         ),
         "tags": ["hackathon", "full-stack"],
-    },
-    {
-        "id": "ocri-statewide-ctf",
-        "title": "Competitor — Statewide CTF",
-        "org": "OCRI (Ohio Cyber Reserve Institute)",
-        "period": "2025",
-        "summary": (
-            "Represented team in a statewide capture-the-flag competition covering "
-            "web exploitation, forensics, cryptography, and network analysis."
-        ),
-        "tags": ["ctf", "offensive-security"],
     },
     {
         "id": "congressional-app-challenge",

@@ -1,4 +1,4 @@
-import { Github, Mail, Terminal } from "lucide-react";
+import { Github, Linkedin, Mail, Award, Terminal } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -8,7 +8,7 @@ export function Footer() {
   const isDark = theme === "dark";
 
   return (
-    <footer id="contact" className="relative border-t border-border">
+    <footer className="relative border-t border-border">
       <div className="container py-16">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
@@ -28,7 +28,7 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-              Software development and offensive cyber operations — built from Ohio,
+              Software development and cybersecurity — built from Ohio,
               shipped everywhere.
             </p>
           </div>
@@ -38,10 +38,10 @@ export function Footer() {
               Navigate
             </div>
             <ul className="space-y-2 text-sm">
-              {["Services", "Projects", "Credentials", "Experience"].map((l) => (
+              {["Services", "Projects", "Credentials", "Experience", "Contact"].map((l) => (
                 <li key={l}>
                   <a
-                    href={`#${l.toLowerCase()}`}
+                    href={`/#${l.toLowerCase()}`}
                     className="text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {l}
@@ -53,22 +53,38 @@ export function Footer() {
 
           <div>
             <div className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              Contact
+              Elsewhere
             </div>
             <div className="flex flex-col gap-3 text-sm">
               <a
-                href="mailto:brant@brantsimpson.com"
+                href="mailto:brantsimpson100@gmail.com"
                 className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
               >
-                <Mail className="h-4 w-4" /> brant@brantsimpson.com
+                <Mail className="h-4 w-4" /> brantsimpson100@gmail.com
               </a>
               <a
-                href="https://github.com/"
+                href="https://github.com/Brant-100"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
               >
-                <Github className="h-4 w-4" /> github
+                <Github className="h-4 w-4" /> github.com/Brant-100
+              </a>
+              <a
+                href="https://www.linkedin.com/in/brant-simpson-2b5b1b331/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
+              >
+                <Linkedin className="h-4 w-4" /> LinkedIn
+              </a>
+              <a
+                href="https://www.credly.com/users/brant-simpson/badges#credly"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
+              >
+                <Award className="h-4 w-4" /> Credly badges
               </a>
             </div>
           </div>
