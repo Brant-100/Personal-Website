@@ -267,7 +267,7 @@ function ProjectCard({ project, index, isDark }) {
                 className={cn(
                   accentKey === "healthhive" &&
                     isDark &&
-                    "ring-1 ring-accent/50 bg-accent/30 text-accent-foreground shadow-[0_0_18px_-4px_hsl(var(--accent)/0.65),0_0_36px_-10px_hsl(var(--accent)/0.28)]"
+                    "ring-1 ring-accent/50 bg-accent/30 shadow-[0_0_18px_-4px_hsl(var(--accent)/0.65),0_0_36px_-10px_hsl(var(--accent)/0.28)] font-bold tabular-nums tracking-tight text-lime-50 [text-shadow:0_1px_2px_rgb(0_0_0_/_0.75),0_0_16px_hsl(var(--accent)/0.55)]"
                 )}
               >
                 {project.year || "2026"}
