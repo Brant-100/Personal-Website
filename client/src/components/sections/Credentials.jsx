@@ -31,7 +31,6 @@ const ICON_MAP = {
   default: BadgeCheck,
 };
 
-/** Display order and labels — matches portfolio grouping. */
 const GROUP_ORDER = ["comptia", "it-specialist", "process", "literacy"];
 const GROUP_LABELS = {
   comptia: "CompTIA",
@@ -40,7 +39,7 @@ const GROUP_LABELS = {
   literacy: "Digital Literacy",
 };
 
-/** Offline parity with `api/data/credentials.py` — same tiles when API is down. */
+/** Mirrors `api/data/credentials.py` when the API is offline. */
 const FALLBACK = [
   {
     id: "comptia-security-plus-sy0701",
@@ -52,7 +51,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-artificial-intelligence",
-    name: "IT Specialist — Artificial Intelligence",
+    name: "IT Specialist – Artificial Intelligence",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "ai",
     group: "it-specialist",
@@ -60,7 +59,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-cloud-computing",
-    name: "IT Specialist — Cloud Computing",
+    name: "IT Specialist – Cloud Computing",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "cloud",
     group: "it-specialist",
@@ -68,7 +67,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-computational-thinking",
-    name: "IT Specialist — Computational Thinking",
+    name: "IT Specialist – Computational Thinking",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "foundations",
     group: "it-specialist",
@@ -76,7 +75,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-cybersecurity",
-    name: "IT Specialist — Cybersecurity",
+    name: "IT Specialist – Cybersecurity",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "cybersecurity",
     group: "it-specialist",
@@ -84,7 +83,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-databases",
-    name: "IT Specialist — Databases",
+    name: "IT Specialist – Databases",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "development",
     group: "it-specialist",
@@ -92,7 +91,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-html-css",
-    name: "IT Specialist — HTML and CSS",
+    name: "IT Specialist – HTML and CSS",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "web",
     group: "it-specialist",
@@ -100,7 +99,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-javascript",
-    name: "IT Specialist — JavaScript",
+    name: "IT Specialist – JavaScript",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "development",
     group: "it-specialist",
@@ -108,7 +107,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-networking",
-    name: "IT Specialist — Networking",
+    name: "IT Specialist – Networking",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "network",
     group: "it-specialist",
@@ -116,7 +115,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-network-security",
-    name: "IT Specialist — Network Security",
+    name: "IT Specialist – Network Security",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "cybersecurity",
     group: "it-specialist",
@@ -124,7 +123,7 @@ const FALLBACK = [
   },
   {
     id: "itsp-python",
-    name: "IT Specialist — Python",
+    name: "IT Specialist – Python",
     issuer: "Certiport / Pearson VUE (IT Specialist Series)",
     category: "development",
     group: "it-specialist",
@@ -166,6 +165,42 @@ function groupCredentials(items) {
     if (list.length) ordered.push({ id, label: id, items: list });
   }
   return ordered;
+}
+
+/** Shuffled accent slots so IT Specialist tiles don't share one color per column. */
+const IT_SPECIALIST_ACCENT_SHUFFLE = [0, 2, 1, 1, 0, 2, 2, 1, 0, 1];
+
+function getAccentSlot(sectionId, indexInSection, globalIndex) {
+  if (sectionId === "it-specialist") {
+    return IT_SPECIALIST_ACCENT_SHUFFLE[indexInSection % IT_SPECIALIST_ACCENT_SHUFFLE.length];
+  }
+  const n = globalIndex % 3;
+  return n < 0 ? n + 3 : n;
+}
+
+function iconWrapClasses(slot, isDark) {
+  if (isDark) {
+    if (slot === 0)
+      return "bg-primary/10 text-primary ring-1 ring-primary/30";
+    if (slot === 1)
+      return "bg-secondary/10 text-secondary ring-1 ring-secondary/40";
+    return "bg-accent/10 text-accent ring-1 ring-accent/35";
+  }
+  if (slot === 0) return "bg-primary text-primary-foreground";
+  if (slot === 1) return "bg-secondary text-secondary-foreground";
+  return "bg-accent text-accent-foreground";
+}
+
+function cornerBlobClasses(slot) {
+  if (slot === 0) return "bg-primary";
+  if (slot === 1) return "bg-secondary";
+  return "bg-accent";
+}
+
+function itSpecialistHoverClass(slot) {
+  if (slot === 0) return "hover:border-primary/55 hover:shadow-neon-cyan";
+  if (slot === 1) return "hover:border-secondary/55 hover:shadow-neon-purple";
+  return "hover:border-accent/55 hover:shadow-[0_0_32px_-10px_hsl(var(--accent)/0.38)]";
 }
 
 export function Credentials() {
@@ -219,6 +254,8 @@ export function Credentials() {
                   key={cred.id || cred.name}
                   cred={cred}
                   index={sectionIdx * 10 + i}
+                  indexInSection={i}
+                  sectionId={section.id}
                   isDark={isDark}
                 />
               ))}
@@ -230,9 +267,10 @@ export function Credentials() {
   );
 }
 
-function CredentialTile({ cred, index, isDark }) {
+function CredentialTile({ cred, index, indexInSection, sectionId, isDark }) {
   const Icon = ICON_MAP[cred.category] || ICON_MAP.default;
   const href = cred.url || null;
+  const slot = getAccentSlot(sectionId, indexInSection, index);
 
   const inner = (
     <>
@@ -240,13 +278,7 @@ function CredentialTile({ cred, index, isDark }) {
         <div
           className={cn(
             "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl",
-            isDark
-              ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-              : index % 3 === 0
-              ? "bg-primary text-primary-foreground"
-              : index % 3 === 1
-              ? "bg-secondary text-secondary-foreground"
-              : "bg-accent text-accent-foreground"
+            iconWrapClasses(slot, isDark)
           )}
         >
           <Icon className="h-6 w-6" />
@@ -272,7 +304,7 @@ function CredentialTile({ cred, index, isDark }) {
       <div
         className={cn(
           "absolute -right-6 -bottom-6 h-20 w-20 rounded-full opacity-20",
-          isDark ? "bg-primary" : index % 3 === 0 ? "bg-primary" : index % 3 === 1 ? "bg-secondary" : "bg-accent"
+          cornerBlobClasses(slot)
         )}
       />
     </>
@@ -281,7 +313,12 @@ function CredentialTile({ cred, index, isDark }) {
   const tileClass = cn(
     "relative block overflow-hidden rounded-2xl p-5 transition-colors",
     isDark
-      ? "border border-border bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
+      ? cn(
+          "border border-border bg-card/70 backdrop-blur",
+          sectionId === "it-specialist"
+            ? itSpecialistHoverClass(slot)
+            : "hover:border-primary/50 hover:shadow-neon-cyan"
+        )
       : "border-2 border-foreground bg-card shadow-pop",
     href && "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
   );
