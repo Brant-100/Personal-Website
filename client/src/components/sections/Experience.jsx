@@ -5,41 +5,33 @@ import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
+/** Mirrors `api/data/experience.py` when the API is offline. */
 const FALLBACK = [
   {
-    id: "bpa-web",
-    title: "Web Application Team Lead",
-    org: "BPA (Business Professionals of America)",
+    id: "bpa-web-team",
+    title: "Web Application Team Member",
+    org: "Business Professionals of America (BPA)",
     period: "2025 — Present",
     summary:
-      "Led a team building the official web application entry, driving architecture, delegation, and final shipping pass.",
-    tags: ["leadership", "react", "ux"],
+      "Dedicated, hardworking member of the BPA Web Application Team. Shows up consistently, takes ownership of tasks, and collaborates closely with teammates on frontend work, UX polish, and integration for the competitive web application entry.",
+    tags: ["teamwork", "react", "ux"],
   },
   {
-    id: "khe",
+    id: "kent-hack-enough",
     title: "Hackathon Participant",
     org: "Kent Hack Enough",
     period: "2025",
     summary:
-      "Shipped a full-stack prototype in 36 hours with a small team. Focused on rapid iteration and tight UX polish.",
+      "Shipped a full-stack prototype in 36 hours with a small team. Focus on rapid iteration, end-to-end delivery, and tight UX polish under time pressure.",
     tags: ["hackathon", "full-stack"],
   },
   {
-    id: "ocri-ctf",
-    title: "Competitor — Statewide CTF",
-    org: "Ohio Cyber Reserve Institute",
-    period: "2025",
-    summary:
-      "Represented team in a statewide capture-the-flag — focus on web exploitation, forensics, and network analysis.",
-    tags: ["ctf", "offensive-security"],
-  },
-  {
-    id: "cac",
+    id: "congressional-app-challenge",
     title: "Entrant — Congressional App Challenge",
     org: "U.S. House of Representatives",
     period: "2024",
     summary:
-      "Designed and submitted an original app to the Congressional App Challenge for the local district.",
+      "Designed, built, and submitted an original application to the Congressional App Challenge for the local congressional district.",
     tags: ["product", "civic-tech"],
   },
 ];
@@ -76,12 +68,11 @@ export function Experience() {
           Experience
         </h2>
         <p className="mt-4 text-muted-foreground text-lg">
-          Leadership, competition, and shipped products.
+          Teamwork, competitions, and shipped products.
         </p>
       </Reveal>
 
       <div ref={sectionRef} className="relative mx-auto max-w-4xl">
-        {/* Center vertical line (desktop) / left line (mobile) */}
         <div
           aria-hidden
           className="absolute left-4 md:left-1/2 top-0 h-full w-px -translate-x-1/2 bg-border"
@@ -124,7 +115,6 @@ function TimelineEntry({ entry, index, isDark }) {
         !isLeft && "md:[&>*:first-child]:order-2"
       )}
     >
-      {/* Node on the line */}
       <div
         className={cn(
           "absolute left-4 md:left-1/2 top-2 h-4 w-4 -translate-x-1/2 rounded-full border-2",
@@ -141,7 +131,6 @@ function TimelineEntry({ entry, index, isDark }) {
         />
       </div>
 
-      {/* Card */}
       <div
         className={cn(
           "ml-12 md:ml-0 md:px-6",
@@ -186,7 +175,6 @@ function TimelineEntry({ entry, index, isDark }) {
         </div>
       </div>
 
-      {/* Spacer for the other side */}
       <div className="hidden md:block" />
     </motion.div>
   );

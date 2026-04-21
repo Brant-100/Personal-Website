@@ -3,13 +3,14 @@
 EXPERIENCE = [
     {
         "id": "bpa-web-team",
-        "title": "Web Application Team Contributor",
+        "title": "Web Application Team Member",
         "org": "Business Professionals of America (BPA)",
         "period": "2025 — Present",
         "summary": (
-            "Helped build the BPA Web Application Team competitive entry. "
-            "Contributed across frontend, UX polish, and integration work "
-            "alongside the rest of the team."
+            "Dedicated, hardworking member of the BPA Web Application Team. "
+            "Shows up consistently, takes ownership of tasks, and collaborates "
+            "closely with teammates on frontend work, UX polish, and integration "
+            "for the competitive web application entry."
         ),
         "tags": ["teamwork", "react", "ux"],
     },
