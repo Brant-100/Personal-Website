@@ -56,6 +56,10 @@ class Credential(BaseModel):
     category: str
     year: Optional[str] = None
     url: Optional[str] = None
+    # Optional second line under the credential name (e.g. belt stack note).
+    subtitle: Optional[str] = None
+    # Groups credentials in the vault UI: comptia | it-specialist | process | literacy
+    group: Optional[str] = None
 
 
 class ExperienceEntry(BaseModel):
