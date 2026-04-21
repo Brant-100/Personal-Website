@@ -262,7 +262,14 @@ function ProjectCard({ project, index, isDark }) {
                   <Icon className="h-5 w-5" />
                 </span>
               )}
-              <Badge variant={yearBadgeVariant(accentKey, isDark)}>
+              <Badge
+                variant={yearBadgeVariant(accentKey, isDark)}
+                className={cn(
+                  accentKey === "healthhive" &&
+                    isDark &&
+                    "ring-1 ring-accent/50 bg-accent/30 text-accent-foreground shadow-[0_0_18px_-4px_hsl(var(--accent)/0.65),0_0_36px_-10px_hsl(var(--accent)/0.28)]"
+                )}
+              >
                 {project.year || "2026"}
               </Badge>
             </div>
