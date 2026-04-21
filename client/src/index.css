@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Dual-theme tokens.
+
+  Light mode is NOT a simple inversion of dark mode. It uses a warm, crisp
+  off-white paper-like background with multiple vivid accent colors
+  (electric orange primary, electric blue secondary, vivid yellow accent).
+
+  Dark mode is a dense cyber/hacker palette: deep slate/black backgrounds
+  with neon cyan primary, purple secondary, and matrix-green accent.
+*/
+
+@layer base {
+  /* ---------- LIGHT (vibrant) ---------- */
+  :root {
+    --background: 40 40% 98%;        /* warm off-white paper */
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 20 95% 55%;           /* electric orange */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 95% 55%;        /* electric blue */
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 48 100% 58%;           /* vivid yellow */
+    --accent-foreground: 222 47% 11%;
+
+    --muted: 220 25% 95%;
+    --muted-foreground: 222 15% 35%;
+
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 88%;
+    --input: 220 20% 88%;
+    --ring: 20 95% 55%;
+
+    --pop-pink: 330 85% 62%;
+    --pop-lime: 140 70% 48%;
+    --pop-cyan: 190 90% 55%;
+    --pop-purple: 270 80% 60%;
+
+    --radius: 0.9rem;
+
+    color-scheme: light;
+  }
+
+  /* ---------- DARK (cyber/hacker) ---------- */
+  .dark {
+    --background: 222 47% 5%;        /* near-black slate */
+    --foreground: 180 30% 92%;
+
+    --card: 222 47% 8%;
+    --card-foreground: 180 30% 92%;
+
+    --popover: 222 47% 7%;
+    --popover-foreground: 180 30% 92%;
+
+    --primary: 180 100% 55%;         /* neon cyan */
+    --primary-foreground: 222 47% 5%;
+
+    --secondary: 280 95% 65%;        /* neon purple */
+    --secondary-foreground: 222 47% 5%;
+
+    --accent: 135 90% 55%;           /* matrix green */
+    --accent-foreground: 222 47% 5%;
+
+    --muted: 222 30% 12%;
+    --muted-foreground: 215 20% 65%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 180 100% 55%;
+
+    --pop-pink: 320 90% 65%;
+    --pop-lime: 140 90% 55%;
+    --pop-cyan: 180 100% 55%;
+    --pop-purple: 280 95% 65%;
+
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+    transition: background-color 400ms ease, color 400ms ease;
+  }
+
+  /* Theme-specific body backdrop — different vibe per theme, not an inversion */
+  body {
+    background-image: theme('backgroundImage.vibrant-mesh');
+    background-attachment: fixed;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(1200px 600px at 80% -10%, hsl(var(--secondary) / 0.10), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, hsl(var(--primary) / 0.10), transparent 60%),
+      linear-gradient(hsl(var(--primary) / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.04) 1px, transparent 1px);
+    background-size: auto, auto, 32px 32px, 32px 32px;
+    background-attachment: fixed;
+  }
+
+  /* Theme-aware typography flavor */
+  .dark h1, .dark h2, .dark h3 {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    letter-spacing: -0.01em;
+  }
+
+  :root:not(.dark) h1,
+  :root:not(.dark) h2,
+  :root:not(.dark) h3 {
+    font-family: 'Space Grotesk', Inter, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+    color: hsl(var(--foreground));
+  }
+}
+
+@layer components {
+  /* Terminal cursor used in dark-mode Hero */
+  .terminal-cursor::after {
+    content: "▊";
+    margin-left: 2px;
+    color: hsl(var(--primary));
+    animation: blink 1.1s steps(2, start) infinite;
+  }
+
+  /* Neon text glow — used sparingly in dark mode */
+  .text-neon {
+    text-shadow:
+      0 0 8px hsl(var(--primary) / 0.55),
+      0 0 20px hsl(var(--primary) / 0.25);
+  }
+
+  /* Thick stroked "pop" text used in light mode for headlines */
+  .text-pop {
+    -webkit-text-stroke: 1px hsl(var(--foreground));
+    text-shadow: 4px 4px 0 hsl(var(--accent));
+  }
+
+  /* Shimmer utility for skeletons / accent bars */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.15) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+
+  .card-surface {
+    @apply bg-card text-card-foreground border border-border rounded-2xl;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
