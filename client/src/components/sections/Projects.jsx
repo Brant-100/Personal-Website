@@ -109,7 +109,7 @@ const FALLBACK = [
     tech: ["Next.js 15", "React 19", "TypeScript", "Prisma", "PostgreSQL", "NextAuth.js", "OpenAI"],
     tags: ["edtech", "ai"],
     status: "public",
-    year: "2025",
+    year: "2026",
     accent_theme: "skillswap",
     repo_url: null,
     live_url: null,
@@ -144,7 +144,7 @@ const FALLBACK = [
     tech: ["Python", "asyncio", "sockets", "argparse", "pytest"],
     tags: ["offensive-security", "recon", "cli"],
     status: "public",
-    year: "2025",
+    year: "2026",
     accent_theme: "cyber",
     repo_url:
       "https://github.com/Brant-100/Personal-Website/tree/main/projects/network-scanner",
