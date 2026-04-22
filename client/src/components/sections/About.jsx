@@ -1,18 +1,18 @@
-import { motion } from "framer-motion";
 import { MapPin, Mail, Shield, Sigma, Code2, Server, Globe, Database, Terminal, ChevronRight } from "lucide-react";
-import { Section, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
+import { Section, Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
+import { motion } from "framer-motion";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const SKILLS = [
-  { name: "Python", level: "Proficient", pct: 90, icon: Terminal },
-  { name: "React", level: "Proficient", pct: 88, icon: Code2 },
-  { name: "FastAPI", level: "Proficient", pct: 85, icon: Server },
-  { name: "Docker", level: "Comfortable", pct: 70, icon: Server },
-  { name: "SQL / SQLite", level: "Comfortable", pct: 72, icon: Database },
-  { name: "TypeScript", level: "Comfortable", pct: 68, icon: Code2 },
-  { name: "Tailwind CSS", level: "Proficient", pct: 90, icon: Globe },
-  { name: "Offensive Security", level: "Developing", pct: 60, icon: Shield },
+  { name: "Python",            icon: Terminal, category: "backend"  },
+  { name: "React",             icon: Code2,    category: "frontend" },
+  { name: "FastAPI",           icon: Server,   category: "backend"  },
+  { name: "Tailwind CSS",      icon: Globe,    category: "frontend" },
+  { name: "TypeScript",        icon: Code2,    category: "frontend" },
+  { name: "Docker",            icon: Server,   category: "infra"    },
+  { name: "SQL / SQLite",      icon: Database, category: "backend"  },
+  { name: "Offensive Security",icon: Shield,   category: "security" },
 ];
 
 export function About() {
@@ -208,7 +208,7 @@ export function About() {
             </div>
           </Reveal>
 
-          {/* Skills self-assessment */}
+          {/* Skills */}
           <Reveal>
             <div className={cn(
               "rounded-2xl p-5",
@@ -217,38 +217,37 @@ export function About() {
                 : "border-2 border-foreground bg-card shadow-pop"
             )}>
               <div className={cn("mb-4 font-mono text-[10px] uppercase tracking-[0.25em]", isDark ? "text-primary" : "text-muted-foreground")}>
-                Skills · self-assessed
+                Stack
               </div>
-              <ul className="space-y-3">
+              <motion.ul
+                variants={staggerContainer(0.06, 0.05)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true }}
+                className="grid grid-cols-2 gap-2"
+              >
                 {SKILLS.map((s) => {
                   const Icon = s.icon;
                   return (
-                    <li key={s.name}>
-                      <div className="mb-1 flex items-center justify-between">
-                        <span className="flex items-center gap-1.5 text-xs font-medium text-foreground/90">
-                          <Icon className={cn("h-3 w-3", isDark ? "text-primary" : "text-foreground/60")} />
-                          {s.name}
-                        </span>
-                        <span className={cn("font-mono text-[10px] uppercase tracking-widest", isDark ? "text-muted-foreground" : "text-muted-foreground")}>
-                          {s.level}
-                        </span>
-                      </div>
-                      <div className={cn("h-1.5 w-full overflow-hidden rounded-full", isDark ? "bg-muted" : "bg-muted")}>
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${s.pct}%` }}
-                          viewport={{ once: true }}
-                          transition={{ ...spring.soft, delay: 0.1 }}
-                          className={cn("h-full rounded-full", isDark ? "bg-primary" : "bg-primary")}
-                        />
-                      </div>
-                    </li>
+                    <motion.li
+                      key={s.name}
+                      variants={{
+                        hidden: { opacity: 0, y: 6 },
+                        show:   { opacity: 1, y: 0 },
+                      }}
+                      className={cn(
+                        "flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium",
+                        isDark
+                          ? "bg-muted/60 text-foreground/90"
+                          : "bg-muted/80 text-foreground/90"
+                      )}
+                    >
+                      <Icon className={cn("h-3.5 w-3.5 shrink-0", isDark ? "text-primary" : "text-foreground/60")} />
+                      {s.name}
+                    </motion.li>
                   );
                 })}
-              </ul>
-              <p className="mt-4 text-[10px] text-muted-foreground leading-relaxed">
-                Self-assessed honesty: these are working proficiencies, not resume inflation. I can always go deeper.
-              </p>
+              </motion.ul>
             </div>
           </Reveal>
         </div>
