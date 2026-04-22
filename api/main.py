@@ -12,6 +12,7 @@ Run locally:
 """
 from __future__ import annotations
 
+import os
 from typing import List, Optional
 
 from fastapi import FastAPI
@@ -84,18 +85,29 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Vite dev server runs on :5173 by default; allow both localhost + 127.0.0.1.
-ALLOWED_ORIGINS = [
+# Local dev (Vite :5173 / preview :4173). Add production domains via CORS_EXTRA_ORIGINS
+# on Railway (e.g. https://yourdomain.com). \*.vercel.app is allowed by regex for previews.
+_DEV_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://localhost:4173",  # vite preview
+    "http://localhost:4173",
     "http://127.0.0.1:4173",
 ]
+
+_extra = os.environ.get("CORS_EXTRA_ORIGINS", "")
+_extra_origins = [o.strip() for o in _extra.split(",") if o.strip()]
+ALLOWED_ORIGINS = list(dict.fromkeys([*_DEV_ORIGINS, *_extra_origins]))
+
+# Localhost + any Vercel deployment host (production, preview, branch deploys).
+_CORS_ORIGIN_REGEX = (
+    r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$"
+    r"|^https://[a-zA-Z0-9][-a-zA-Z0-9.]*\.vercel\.app$"
+)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_origin_regex=_CORS_ORIGIN_REGEX,
     allow_credentials=True,
     allow_methods=["GET"],
     allow_headers=["*"],
