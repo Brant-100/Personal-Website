@@ -18,15 +18,19 @@ from __future__ import annotations
 
 import logging
 import os
+import pathlib
 from typing import Any, Dict, List, Optional
 
+import frontmatter as fm
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, Field
 
-logger = logging.getLogger("brandsimpson-api")
+logger = logging.getLogger("brantsimpson-api")
 
 from data import CREDENTIALS, EXPERIENCE, PROJECTS, SERVICES
+
+POSTS_DIR = pathlib.Path(__file__).parent / "content" / "posts"
 
 
 # ---------------------------------------------------------------------------
@@ -106,6 +110,30 @@ class Health(BaseModel):
     version: str = "0.1.0"
 
 
+class PostMeta(BaseModel):
+    slug: str
+    title: str
+    date: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
+    excerpt: Optional[str] = None
+
+
+class PostDetail(PostMeta):
+    content: str
+
+
+class ContactRequest(BaseModel):
+    name: str
+    email: EmailStr
+    message: str
+    website: str = ""  # honeypot field
+
+
+class ContactResponse(BaseModel):
+    ok: bool
+    message: str
+
+
 # ---------------------------------------------------------------------------
 # App + CORS
 # ---------------------------------------------------------------------------
@@ -146,7 +174,7 @@ app.add_middleware(
     allow_origins=ALLOWED_ORIGINS,
     allow_origin_regex=_CORS_ORIGIN_REGEX,
     allow_credentials=True,
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -187,6 +215,82 @@ def get_credentials() -> List[Credential]:
 @app.get("/api/experience", response_model=List[ExperienceEntry], tags=["portfolio"])
 def get_experience() -> List[ExperienceEntry]:
     return [ExperienceEntry(**e) for e in EXPERIENCE]
+
+
+def _load_post(path: pathlib.Path) -> PostDetail:
+    """Parse a markdown file with YAML frontmatter into PostDetail."""
+    post = fm.load(str(path))
+    slug = path.stem
+    return PostDetail(
+        slug=slug,
+        title=post.metadata.get("title", slug),
+        date=str(post.metadata.get("date", "")) or None,
+        tags=post.metadata.get("tags", []),
+        excerpt=post.metadata.get("excerpt"),
+        content=post.content,
+    )
+
+
+@app.get("/api/posts", response_model=List[PostMeta], tags=["blog"])
+def get_posts() -> List[PostMeta]:
+    if not POSTS_DIR.exists():
+        return []
+    posts: List[PostDetail] = []
+    for md_file in POSTS_DIR.glob("*.md"):
+        try:
+            posts.append(_load_post(md_file))
+        except Exception as exc:
+            logger.warning("Could not parse %s: %s", md_file, exc)
+    posts.sort(key=lambda p: p.date or "", reverse=True)
+    return posts
+
+
+@app.get("/api/posts/{slug}", response_model=PostDetail, tags=["blog"])
+def get_post(slug: str) -> PostDetail:
+    md_file = POSTS_DIR / f"{slug}.md"
+    if not md_file.exists():
+        raise HTTPException(status_code=404, detail=f"Post '{slug}' not found")
+    return _load_post(md_file)
+
+
+@app.post("/api/contact", response_model=ContactResponse, tags=["contact"])
+async def contact(req: ContactRequest) -> ContactResponse:
+    # Discard honeypot-filled submissions silently
+    if req.website:
+        return ContactResponse(ok=True, message="Message received.")
+
+    resend_key = os.environ.get("RESEND_API_KEY")
+    to_email = os.environ.get("CONTACT_TO_EMAIL", "brantsimpson100@gmail.com")
+
+    if resend_key:
+        try:
+            import httpx
+            async with httpx.AsyncClient() as client:
+                r = await client.post(
+                    "https://api.resend.com/emails",
+                    headers={"Authorization": f"Bearer {resend_key}"},
+                    json={
+                        "from": f"Portfolio Contact <contact@brantsimpson.com>",
+                        "to": [to_email],
+                        "subject": f"Portfolio contact from {req.name}",
+                        "text": f"From: {req.name} <{req.email}>\n\n{req.message}",
+                        "reply_to": req.email,
+                    },
+                    timeout=10.0,
+                )
+                if r.status_code >= 400:
+                    logger.error("Resend error %s: %s", r.status_code, r.text)
+        except Exception as exc:
+            logger.error("Resend send failed: %s", exc)
+    else:
+        logger.info(
+            "Contact form (no RESEND_API_KEY) — from=%s <%s> msg=%s",
+            req.name,
+            req.email,
+            req.message[:120],
+        )
+
+    return ContactResponse(ok=True, message="Message received. I usually reply within 48 hours.")
 
 
 @app.get("/", include_in_schema=False)
