@@ -139,7 +139,7 @@ export function ContrastChecker() {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 rows={3}
-                className="w-full resize-none bg-transparent text-sm leading-relaxed outline-none"
+                className="w-full resize-none bg-transparent text-base md:text-sm leading-relaxed outline-none"
                 style={{ color: fg }}
               />
               <div

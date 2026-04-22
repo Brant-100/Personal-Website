@@ -245,7 +245,7 @@ export function CliTerminalEmulator() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={onKeyDown}
-            className="flex-1 bg-transparent font-mono text-xs text-foreground outline-none placeholder:text-muted-foreground/50"
+            className="flex-1 bg-transparent font-mono text-base md:text-xs text-foreground outline-none placeholder:text-muted-foreground/50"
             placeholder="type a command..."
             autoComplete="off"
             spellCheck={false}

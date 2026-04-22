@@ -49,7 +49,7 @@ export function CTAInquiryForm({ source = "general" }) {
   };
 
   const inputCls = cn(
-    "w-full rounded-xl border bg-transparent px-4 py-2.5 text-sm outline-none transition-colors",
+    "w-full rounded-xl border bg-transparent px-4 py-2.5 text-base md:text-sm outline-none transition-colors",
     "placeholder:text-muted-foreground/50",
     isDark
       ? "border-border focus:border-primary"

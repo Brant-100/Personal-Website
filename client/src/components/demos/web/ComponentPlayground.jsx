@@ -108,7 +108,7 @@ export function ComponentPlayground() {
               value={cfg.label}
               onChange={(e) => set("label", e.target.value)}
               className={cn(
-                "w-full rounded-lg border px-3 py-1.5 text-sm bg-transparent outline-none",
+                "w-full rounded-lg border px-3 py-1.5 text-base md:text-sm bg-transparent outline-none",
                 "border-border focus:border-primary"
               )}
             />
