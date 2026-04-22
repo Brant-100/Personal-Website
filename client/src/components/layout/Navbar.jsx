@@ -7,6 +7,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const SECTIONS = [
+  { id: "about", label: "About" },
   { id: "services", label: "Services" },
   { id: "projects", label: "Projects" },
   { id: "credentials", label: "Credentials" },

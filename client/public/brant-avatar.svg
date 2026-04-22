@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="dark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00ffff" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <!-- Placeholder avatar  replace with a real headshot -->
+  <circle cx="100" cy="100" r="98" fill="#1a2332" stroke="#00ffff" stroke-width="2"/>
+  <circle cx="100" cy="80" r="34" fill="#2a3a52"/>
+  <ellipse cx="100" cy="155" rx="52" ry="36" fill="#2a3a52"/>
+  <text x="100" y="87" fill="#00ffff" font-size="28" font-weight="700" text-anchor="middle" font-family="JetBrains Mono, monospace">BS</text>
+  <text x="100" y="185" fill="#888" font-size="9" text-anchor="middle" font-family="Inter, sans-serif">[ replace with headshot ]</text>
+</svg>
