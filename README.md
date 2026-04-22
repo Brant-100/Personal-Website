@@ -1,6 +1,6 @@
 # brantsimpson.com
 
-Personal portfolio for **Brant Simpson** — Software Developer & cybersecurity profeshional.
+Personal portfolio for **Brant Simpson** — Software Developer & cybersecurity professional.
 
 - **Frontend:** React + Vite + Tailwind CSS + Framer Motion + shadcn/ui
 - **Backend:** FastAPI (Python)

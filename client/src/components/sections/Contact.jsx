@@ -36,7 +36,7 @@ export const CONTACT_LINKS = [
     id: "credly",
     label: "Credly",
     handle: "brant-simpson",
-    href: "https://www.credly.com/users/brant-simpson/badges#credly",
+    href: "https://www.credly.com/users/brant-simpson/badges",
     icon: Award,
     darkColor: "text-pop-pink",
     lightBg: "bg-accent",

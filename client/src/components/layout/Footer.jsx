@@ -79,7 +79,7 @@ export function Footer() {
                 <Linkedin className="h-4 w-4" /> LinkedIn
               </a>
               <a
-                href="https://www.credly.com/users/brant-simpson/badges#credly"
+                href="https://www.credly.com/users/brant-simpson/badges"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
