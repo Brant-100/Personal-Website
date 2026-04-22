@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Award, Terminal } from "lucide-react";
+import { Github, Linkedin, Mail, Award, Terminal, FileText, Clock } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -48,6 +48,16 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a href="/blog" className="text-muted-foreground transition-colors hover:text-foreground">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="/now" className="text-muted-foreground transition-colors hover:text-foreground">
+                  Now
+                </a>
+              </li>
             </ul>
           </div>
 

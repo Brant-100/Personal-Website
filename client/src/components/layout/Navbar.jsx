@@ -15,6 +15,11 @@ const SECTIONS = [
   { id: "contact", label: "Contact" },
 ];
 
+const STANDALONE_LINKS = [
+  { href: "/blog", label: "Blog" },
+  { href: "/now", label: "Now" },
+];
+
 export function Navbar() {
   const { theme } = useTheme();
   const location = useLocation();
@@ -72,6 +77,18 @@ export function Navbar() {
             >
               <span>{l.label}</span>
             </a>
+          ))}
+          {STANDALONE_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              to={l.href}
+              className={cn(
+                "relative rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors",
+                "hover:text-foreground"
+              )}
+            >
+              <span>{l.label}</span>
+            </Link>
           ))}
         </nav>
 

@@ -2,19 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, Tag, ChevronRight } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-
-/* react-markdown is installed in Phase 7; until then render raw text gracefully */
-let ReactMarkdown = null;
-try {
-  // Dynamic-ish import trick: will be replaced with real import when installed
-  ReactMarkdown = null;
-} catch {
-  ReactMarkdown = null;
-}
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
@@ -126,18 +119,38 @@ export function BlogPost() {
 
           <Reveal>
             <div className={cn(
-              "mt-12 rounded-2xl p-8 prose prose-lg max-w-none",
+              "mt-12 rounded-2xl p-8",
               isDark
-                ? "border border-border bg-card/70 backdrop-blur prose-invert prose-headings:text-neon prose-a:text-primary prose-code:text-accent"
-                : "border-2 border-foreground bg-card shadow-pop prose-headings:text-foreground prose-a:text-primary"
+                ? "border border-border bg-card/70 backdrop-blur"
+                : "border-2 border-foreground bg-card shadow-pop"
             )}>
-              {post.content ? (
-                <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-muted-foreground">
+              <div className={cn(
+                "prose max-w-none",
+                isDark
+                  ? [
+                      "prose-invert",
+                      "prose-headings:font-mono prose-headings:text-foreground",
+                      "prose-h1:text-neon prose-h2:text-neon",
+                      "prose-a:text-primary prose-a:no-underline hover:prose-a:underline",
+                      "prose-code:text-accent prose-code:bg-muted/50 prose-code:rounded prose-code:px-1 prose-code:text-sm",
+                      "prose-pre:bg-muted/60 prose-pre:border prose-pre:border-border",
+                      "prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground",
+                      "prose-strong:text-foreground",
+                      "prose-hr:border-border",
+                    ].join(" ")
+                  : [
+                      "prose-headings:font-display prose-headings:text-foreground",
+                      "prose-a:text-primary prose-a:no-underline hover:prose-a:underline",
+                      "prose-code:bg-muted/60 prose-code:rounded prose-code:px-1 prose-code:text-sm",
+                      "prose-pre:bg-muted/60 prose-pre:border-2 prose-pre:border-foreground",
+                      "prose-blockquote:border-primary",
+                      "prose-strong:text-foreground",
+                    ].join(" ")
+              )}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {post.content}
-                </pre>
-              ) : (
-                <p className="text-muted-foreground">Content coming soon.</p>
-              )}
+                </ReactMarkdown>
+              </div>
             </div>
           </Reveal>
 
