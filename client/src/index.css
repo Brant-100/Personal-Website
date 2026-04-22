@@ -189,3 +189,53 @@
     scrollbar-width: none;
   }
 }
+
+/* Print stylesheet — hides nav, animations, and contact cards; renders essential content */
+@media print {
+  header,
+  footer,
+  nav,
+  .no-print,
+  [aria-hidden="true"],
+  button[aria-label="Back to top"],
+  .animate-scanline {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    background-image: none !important;
+  }
+
+  .dark body {
+    background-image: none !important;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+  }
+
+  section {
+    page-break-inside: avoid;
+    padding: 1rem 0;
+  }
+
+  h1, h2, h3 {
+    color: black !important;
+    text-shadow: none !important;
+  }
+
+  .shadow-pop,
+  .shadow-neon-cyan,
+  .backdrop-blur,
+  .bg-card\/70 {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    background: white !important;
+    border: 1px solid #ccc !important;
+  }
+}

@@ -3,6 +3,8 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BackToTop } from "@/components/layout/BackToTop";
+import { CommandPalette } from "@/components/ui/CommandPalette";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { HomePage } from "@/pages/HomePage";
 import { ProjectDetail } from "@/pages/ProjectDetail";
 import { BlogIndex } from "@/pages/BlogIndex";
@@ -13,10 +15,16 @@ import { UIDesignDemo } from "@/pages/UIDesignDemo";
 import { CustomSoftwareDemo } from "@/pages/CustomSoftwareDemo";
 import { NotFound } from "@/pages/NotFound";
 
+function AppShell({ children }) {
+  useKeyboardShortcuts();
+  return <>{children}</>;
+}
+
 export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <AppShell>
         <div className="relative min-h-screen">
           <Navbar />
           <main>
@@ -34,7 +42,9 @@ export default function App() {
           </main>
           <Footer />
           <BackToTop />
+          <CommandPalette />
         </div>
+        </AppShell>
       </BrowserRouter>
     </ThemeProvider>
   );
