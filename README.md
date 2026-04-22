@@ -1,5 +1,7 @@
 # brantsimpson.com
 
+[![CI](https://github.com/Brant-100/Personal-Website/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/Brant-100/Personal-Website/actions/workflows/ci.yml)
+
 Personal portfolio for **Brant Simpson** — Software Developer & cybersecurity professional.
 
 - **Frontend:** React + Vite + Tailwind CSS + Framer Motion + shadcn/ui
