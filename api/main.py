@@ -1,23 +1,30 @@
 """FastAPI entrypoint for brantsimpson.com.
 
 Serves JSON data for the portfolio frontend:
-    - GET /api/health
-    - GET /api/projects
-    - GET /api/services
-    - GET /api/credentials
-    - GET /api/experience
+    - GET  /api/health
+    - GET  /api/projects
+    - GET  /api/projects/{id}
+    - GET  /api/services
+    - GET  /api/credentials
+    - GET  /api/experience
+    - GET  /api/posts
+    - GET  /api/posts/{slug}
+    - POST /api/contact
 
 Run locally:
     uvicorn main:app --reload --port 8000
 """
 from __future__ import annotations
 
+import logging
 import os
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
+
+logger = logging.getLogger("brandsimpson-api")
 
 from data import CREDENTIALS, EXPERIENCE, PROJECTS, SERVICES
 
@@ -25,20 +32,43 @@ from data import CREDENTIALS, EXPERIENCE, PROJECTS, SERVICES
 # ---------------------------------------------------------------------------
 # Pydantic models
 # ---------------------------------------------------------------------------
+class TechnicalDecision(BaseModel):
+    decision: str
+    why: str
+    tradeoffs: str
+
+
+class Screenshot(BaseModel):
+    url: str
+    caption: str
+
+
 class Project(BaseModel):
     id: str
+    sort_order: int = 99
     title: str
     tagline: str
     description: str
+    problem: Optional[str] = None
+    constraints: List[str] = Field(default_factory=list)
     features: List[str] = Field(default_factory=list)
     tech: List[str] = Field(default_factory=list)
     tags: List[str] = Field(default_factory=list)
     status: str = "public"
     year: Optional[str] = None
+    last_updated: Optional[str] = None
     repo_url: Optional[str] = None
     live_url: Optional[str] = None
     # Frontend maps this to card chrome: skillswap | healthhive | cyber | default
     accent_theme: str = "default"
+    architecture_diagram_url: Optional[str] = None
+    screenshots: List[Screenshot] = Field(default_factory=list)
+    demo_video_url: Optional[str] = None
+    mitre_techniques: List[str] = Field(default_factory=list)
+    visibility_note: Optional[str] = None
+    technical_decisions: List[TechnicalDecision] = Field(default_factory=list)
+    lessons_learned: List[str] = Field(default_factory=list)
+    roadmap: List[str] = Field(default_factory=list)
 
 
 class Service(BaseModel):
@@ -131,7 +161,17 @@ def health() -> Health:
 
 @app.get("/api/projects", response_model=List[Project], tags=["portfolio"])
 def get_projects() -> List[Project]:
-    return [Project(**p) for p in PROJECTS]
+    items = [Project(**p) for p in PROJECTS]
+    items.sort(key=lambda p: p.sort_order)
+    return items
+
+
+@app.get("/api/projects/{project_id}", response_model=Project, tags=["portfolio"])
+def get_project(project_id: str) -> Project:
+    for p in PROJECTS:
+        if p["id"] == project_id:
+            return Project(**p)
+    raise HTTPException(status_code=404, detail=f"Project '{project_id}' not found")
 
 
 @app.get("/api/services", response_model=List[Service], tags=["portfolio"])
@@ -150,15 +190,19 @@ def get_experience() -> List[ExperienceEntry]:
 
 
 @app.get("/", include_in_schema=False)
-def root() -> dict:
+def root() -> Dict[str, Any]:
     return {
         "service": "brantsimpson-api",
         "docs": "/docs",
         "endpoints": [
             "/api/health",
             "/api/projects",
+            "/api/projects/{id}",
             "/api/services",
             "/api/credentials",
             "/api/experience",
+            "/api/posts",
+            "/api/posts/{slug}",
+            "/api/contact",
         ],
     }
