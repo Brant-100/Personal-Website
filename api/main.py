@@ -85,18 +85,25 @@ app = FastAPI(
     version="0.1.0",
 )
 
-# Local dev (Vite :5173 / preview :4173). Add production domains via CORS_EXTRA_ORIGINS
-# on Railway (e.g. https://yourdomain.com). \*.vercel.app is allowed by regex for previews.
+# Local dev (Vite :5173 / preview :4173). \*.vercel.app is allowed by regex for preview deploys.
+# Production custom domain is listed here so CORS works even if Railway env is mis-set; add
+# more origins via CORS_EXTRA_ORIGINS (comma-separated) on the host.
 _DEV_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:4173",
     "http://127.0.0.1:4173",
 ]
+_SITE_ORIGINS = [
+    "https://brantsimpson.com",
+    "https://www.brantsimpson.com",
+]
 
 _extra = os.environ.get("CORS_EXTRA_ORIGINS", "")
 _extra_origins = [o.strip() for o in _extra.split(",") if o.strip()]
-ALLOWED_ORIGINS = list(dict.fromkeys([*_DEV_ORIGINS, *_extra_origins]))
+ALLOWED_ORIGINS = list(
+    dict.fromkeys([*_DEV_ORIGINS, *_SITE_ORIGINS, *_extra_origins])
+)
 
 # Localhost + any Vercel deployment host (production, preview, branch deploys).
 _CORS_ORIGIN_REGEX = (
