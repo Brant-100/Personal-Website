@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" style="background:#f0fdf4;font-family:Inter,sans-serif">
+  <rect width="900" height="400" fill="#f0fdf4"/>
+  <text x="450" y="35" fill="#15803d" font-size="16" font-weight="bold" text-anchor="middle">HealthHive  Architecture (Placeholder)</text>
+  <rect x="30" y="70" width="160" height="55" rx="8" fill="#fff" stroke="#15803d" stroke-width="2"/>
+  <text x="110" y="97" fill="#374151" font-size="11" text-anchor="middle">Django 5.1 Templates</text>
+  <text x="110" y="113" fill="#9ca3af" font-size="9" text-anchor="middle">HTML5 · CSS3 · JS</text>
+  <rect x="260" y="70" width="160" height="55" rx="8" fill="#fff" stroke="#16a34a" stroke-width="2"/>
+  <text x="340" y="97" fill="#374151" font-size="11" text-anchor="middle">Django Views</text>
+  <text x="340" y="113" fill="#9ca3af" font-size="9" text-anchor="middle">MVT architecture</text>
+  <rect x="490" y="70" width="160" height="55" rx="8" fill="#fff" stroke="#b45309" stroke-width="2"/>
+  <text x="570" y="97" fill="#374151" font-size="11" text-anchor="middle">Django ORM</text>
+  <text x="570" y="113" fill="#9ca3af" font-size="9" text-anchor="middle">SQLite</text>
+  <text x="450" y="370" fill="#d1fae5" font-size="11" text-anchor="middle">[ PLACEHOLDER  replace with Excalidraw export ]</text>
+</svg>

@@ -2,7 +2,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/context/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { BackToTop } from "@/components/layout/BackToTop";
 import { HomePage } from "@/pages/HomePage";
+import { ProjectDetail } from "@/pages/ProjectDetail";
+import { BlogIndex } from "@/pages/BlogIndex";
+import { BlogPost } from "@/pages/BlogPost";
+import { Now } from "@/pages/Now";
 import { WebDevDemo } from "@/pages/WebDevDemo";
 import { UIDesignDemo } from "@/pages/UIDesignDemo";
 import { CustomSoftwareDemo } from "@/pages/CustomSoftwareDemo";
@@ -17,6 +22,10 @@ export default function App() {
           <main>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/projects/:id" element={<ProjectDetail />} />
+              <Route path="/blog" element={<BlogIndex />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/now" element={<Now />} />
               <Route path="/services/web-development" element={<WebDevDemo />} />
               <Route path="/services/ui-ux-design" element={<UIDesignDemo />} />
               <Route path="/services/custom-software-solutions" element={<CustomSoftwareDemo />} />
@@ -24,6 +33,7 @@ export default function App() {
             </Routes>
           </main>
           <Footer />
+          <BackToTop />
         </div>
       </BrowserRouter>
     </ThemeProvider>
