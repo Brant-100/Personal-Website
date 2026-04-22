@@ -1,4 +1,4 @@
-# brantsimpson.com — api
+# brantsimpson.com (api)
 
 FastAPI service that serves the portfolio data (projects, services, credentials, experience).
 
@@ -39,7 +39,7 @@ All seed content lives in [`api/data/`](./data/):
 - `credentials.py`
 - `experience.py`
 
-Add an entry to the relevant list — Pydantic models in `main.py` enforce the schema.
+Add an entry to the relevant list. Pydantic models in `main.py` enforce the schema.
 
 ## CORS
 

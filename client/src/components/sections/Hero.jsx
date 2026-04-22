@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Mail, Terminal, Shield, Code2, Sparkles, Download, Zap } from "lucide-react";
+import { ArrowRight, Mail, Terminal, Shield, Code2, Sparkles, Download, Zap, ShieldCheck, Flag, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
@@ -9,7 +9,9 @@ import { cn } from "@/lib/utils";
 
 const ROLES = [
   { label: "Software Development", icon: Code2 },
-  { label: "Offensive Cyber Operations", icon: Shield },
+  { label: "Cybersecurity", icon: ShieldCheck },
+  { label: "Military Enlistment", icon: Flag },
+  { label: "Continuous Learning", icon: BookOpen },
 ];
 
 export function Hero() {
@@ -31,7 +33,7 @@ export function Hero() {
       <ThemeBackdrop isDark={isDark} />
 
       <div className="container relative z-10 grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-        {/* Left column — headline + CTAs */}
+        {/* Left column: headline + CTAs */}
         <motion.div
           initial="hidden"
           animate="show"
@@ -44,7 +46,7 @@ export function Hero() {
               className="gap-2 px-3 py-1 text-[11px] uppercase tracking-[0.22em]"
             >
               <Sparkles className="h-3 w-3" />
-              {isDark ? "// online // available for work" : "available for hire — 2026"}
+              {isDark ? "// online // available for work" : "available for hire · 2026"}
             </Badge>
           </Reveal>
 
@@ -57,7 +59,7 @@ export function Hero() {
           />
 
           <AnimatedHeadline
-            text="builds things & breaks things."
+            text="builds things that matter"
             className={cn(
               "mt-3 text-4xl md:text-6xl font-extrabold leading-[1.05] tracking-tight",
               isDark ? "text-primary" : "text-primary"
@@ -88,8 +90,8 @@ export function Hero() {
           </Reveal>
 
           <Reveal className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
-            Full-stack engineer and offensive security operator. I design crisp product
-            experiences, ship production software, and red-team the systems behind them.
+            I write software, dig into security, and am working toward serving in the military.
+            Still early in the journey, but I show up, I learn fast, and I get things done.
           </Reveal>
 
           {/* Now-building chip */}
@@ -103,12 +105,12 @@ export function Hero() {
               <Zap className={cn("h-3 w-3", isDark ? "text-accent" : "text-primary")} />
               <span>now building:</span>
               <span className={isDark ? "text-foreground" : "text-primary"}>
-                Project Nexus Phase 2 · EDPT pending
+                Nexus Phase 2 · EDPT
               </span>
             </div>
           </Reveal>
 
-          <Reveal className="mt-10 flex flex-wrap items-center gap-4">
+          <Reveal className="mt-7 flex flex-wrap items-center gap-4">
             <Button size="lg" variant={isDark ? "default" : "pop"} asChild>
               <a href="#projects" className="inline-flex items-center gap-2">
                 View Work <ArrowRight className="h-4 w-4" />
@@ -121,27 +123,20 @@ export function Hero() {
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="/Brant_Simpson_Resume.pdf" download className="inline-flex items-center gap-2">
+              <a
+                href={isDark ? "/Brant_Simpson_Resume_Dark.pdf" : "/Brant_Simpson_Resume_Light.pdf"}
+                download
+                className="inline-flex items-center gap-2"
+              >
                 <Download className="h-4 w-4" />
                 Resume
               </a>
             </Button>
           </Reveal>
 
-          <Reveal className="mt-10 flex flex-wrap items-center gap-2 text-xs font-mono text-muted-foreground">
-            <span className="text-foreground/60">stack::</span>
-            {["React", "FastAPI", "Python", "Docker", "Tailwind", "Framer Motion"].map((t) => (
-              <span
-                key={t}
-                className="rounded-md border border-border bg-muted/60 px-2 py-1"
-              >
-                {t}
-              </span>
-            ))}
-          </Reveal>
         </motion.div>
 
-        {/* Right column — theme-dependent visual */}
+        {/* Right column: theme-dependent visual */}
         <motion.div
           initial={{ opacity: 0, y: prefersReduced ? 0 : 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -226,7 +221,7 @@ function TerminalCard({ prefersReduced = false }) {
             </motion.div>
           ))}
 
-          {/* scanline sheen — skipped when prefers-reduced-motion */}
+          {/* scanline sheen (skipped when prefers-reduced-motion) */}
           {!prefersReduced && (
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute inset-x-0 h-24 bg-gradient-to-b from-primary/0 via-primary/10 to-primary/0 animate-scanline" />
@@ -276,7 +271,7 @@ function PopArtCard() {
           systems that <span className="text-secondary">hold</span>.
         </h3>
         <p className="mt-4 text-sm text-muted-foreground">
-          Shipping bold, accessible interfaces for startups & teams —
+          Shipping bold, accessible interfaces for startups and teams,
           then stress-testing the infra behind them.
         </p>
 

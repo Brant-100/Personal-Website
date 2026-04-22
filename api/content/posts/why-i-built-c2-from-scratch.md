@@ -2,12 +2,12 @@
 title: "Why I Built a C2 Framework From Scratch Instead of Using Cobalt Strike"
 date: "2026-04-20"
 tags: ["nexus", "security", "c2", "learning"]
-excerpt: "The case for building your own offensive tooling — not to avoid detection, but to understand every component well enough to explain it under pressure."
+excerpt: "The case for building your own offensive tooling: not to avoid detection, but to understand every component well enough to explain it under pressure."
 ---
 
 # Why I Built a C2 Framework From Scratch Instead of Using Cobalt Strike
 
-> **Status:** Draft — fill in with your actual reasoning and experience.
+> **Status:** Draft. Fill in with your actual reasoning and experience.
 
 ## The obvious objection
 
@@ -21,7 +21,7 @@ Cobalt Strike exists. Sliver exists. Metasploit exists. Why spend months buildin
 
 ## The interrogation test
 
-My mental model for what "understanding" means: I should be able to sit in a room with a security engineer and answer every question they can ask about how my tool works. Not "I used Cobalt Strike and it handled that" — I should know the actual mechanism.
+My mental model for what "understanding" means: I should be able to sit in a room with a security engineer and answer every question they can ask about how my tool works. Not "I used Cobalt Strike and it handled that." I should know the actual mechanism.
 
 [Write about what this test revealed during development. What questions could you not answer? What forced you to go deeper?]
 
@@ -31,7 +31,7 @@ My mental model for what "understanding" means: I should be able to sit in a roo
 
 ## The tradeoffs
 
-Commercial C2 frameworks are better than Nexus for actual red team engagements — they're mature, supported, and hardened. Nexus was never supposed to compete with them. It was supposed to teach me things they couldn't.
+Commercial C2 frameworks are better than Nexus for actual red team engagements: they're mature, supported, and hardened. Nexus was never supposed to compete with them. It was supposed to teach me things they couldn't.
 
 [Write about the specific limitations and what they taught you.]
 

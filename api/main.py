@@ -134,6 +134,18 @@ class ContactResponse(BaseModel):
     message: str
 
 
+class InquiryPayload(BaseModel):
+    name: str
+    email: EmailStr
+    message: str
+    source: Optional[str] = None  # which service page the form was submitted from
+
+
+class InquiryResponse(BaseModel):
+    ok: bool
+    message: str
+
+
 # ---------------------------------------------------------------------------
 # App + CORS
 # ---------------------------------------------------------------------------
@@ -284,13 +296,52 @@ async def contact(req: ContactRequest) -> ContactResponse:
             logger.error("Resend send failed: %s", exc)
     else:
         logger.info(
-            "Contact form (no RESEND_API_KEY) — from=%s <%s> msg=%s",
+            "Contact form (no RESEND_API_KEY); from=%s <%s> msg=%s",
             req.name,
             req.email,
             req.message[:120],
         )
 
     return ContactResponse(ok=True, message="Message received. I usually reply within 48 hours.")
+
+
+@app.post("/api/inquiry", response_model=InquiryResponse, tags=["contact"])
+async def inquiry(req: InquiryPayload) -> InquiryResponse:
+    source_label = f" [{req.source}]" if req.source else ""
+
+    resend_key = os.environ.get("RESEND_API_KEY")
+    to_email = os.environ.get("CONTACT_TO_EMAIL", "brantsimpson100@gmail.com")
+
+    if resend_key:
+        try:
+            import httpx
+            async with httpx.AsyncClient() as client:
+                r = await client.post(
+                    "https://api.resend.com/emails",
+                    headers={"Authorization": f"Bearer {resend_key}"},
+                    json={
+                        "from": f"Portfolio Inquiry <contact@brantsimpson.com>",
+                        "to": [to_email],
+                        "subject": f"Service inquiry{source_label} from {req.name}",
+                        "text": f"From: {req.name} <{req.email}>\nSource: {req.source or 'unknown'}\n\n{req.message}",
+                        "reply_to": req.email,
+                    },
+                    timeout=10.0,
+                )
+                if r.status_code >= 400:
+                    logger.error("Resend error %s: %s", r.status_code, r.text)
+        except Exception as exc:
+            logger.error("Resend inquiry send failed: %s", exc)
+    else:
+        logger.info(
+            "Inquiry form (no RESEND_API_KEY); from=%s <%s> source=%s msg=%s",
+            req.name,
+            req.email,
+            req.source,
+            req.message[:120],
+        )
+
+    return InquiryResponse(ok=True, message="Got it — I'll reply within 48 hours.")
 
 
 @app.get("/", include_in_schema=False)
@@ -308,5 +359,6 @@ def root() -> Dict[str, Any]:
             "/api/posts",
             "/api/posts/{slug}",
             "/api/contact",
+            "/api/inquiry",
         ],
     }

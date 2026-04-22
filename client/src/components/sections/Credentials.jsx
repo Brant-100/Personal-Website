@@ -186,7 +186,7 @@ export function Credentials() {
     <Section id="credentials" className="container">
       <Reveal className="mb-4">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 04" : "04 —"} credentials vault
+          {isDark ? "// credentials" : "credentials ·"} vault
         </span>
       </Reveal>
       <Reveal className="mb-12 max-w-3xl">
@@ -302,7 +302,7 @@ function CredentialTile({ cred, colorIndex, isDark }) {
         href={href}
         target="_blank"
         rel="noreferrer"
-        aria-label={`${cred.name} — open on Credly`}
+        aria-label={`${cred.name}, open on Credly`}
         variants={{
           hidden: { opacity: 0, y: 16 },
           show: { opacity: 1, y: 0, transition: spring.soft },

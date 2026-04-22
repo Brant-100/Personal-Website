@@ -13,6 +13,7 @@ import { Now } from "@/pages/Now";
 import { WebDevDemo } from "@/pages/WebDevDemo";
 import { UIDesignDemo } from "@/pages/UIDesignDemo";
 import { CustomSoftwareDemo } from "@/pages/CustomSoftwareDemo";
+import { AboutPage } from "@/pages/AboutPage";
 import { NotFound } from "@/pages/NotFound";
 
 function AppShell({ children }) {
@@ -33,6 +34,7 @@ export default function App() {
               <Route path="/projects/:id" element={<ProjectDetail />} />
               <Route path="/blog" element={<BlogIndex />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="/now" element={<Now />} />
               <Route path="/services/web-development" element={<WebDevDemo />} />
               <Route path="/services/ui-ux-design" element={<UIDesignDemo />} />

@@ -52,7 +52,7 @@ export function BlogIndex() {
       <div className="container relative z-10">
         <Reveal className="mb-4">
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            {isDark ? "// writing" : "writing —"}
+            {isDark ? "// writing" : "writing ·"}
           </span>
         </Reveal>
         <Reveal className="mb-4">
@@ -77,7 +77,7 @@ export function BlogIndex() {
               isDark ? "border border-border bg-card/70" : "border-2 border-foreground bg-card shadow-pop"
             )}>
               <p className="text-muted-foreground">
-                Posts are being written. Check back soon — the Nexus Phase 1 retrospective is up first.
+                Posts are being written. Check back soon; the Nexus Phase 1 retrospective is up first.
               </p>
             </div>
           </Reveal>

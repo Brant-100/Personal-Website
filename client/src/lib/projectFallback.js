@@ -1,21 +1,21 @@
 /**
  * Shared project fallback data used by both Projects.jsx (card list) and
  * ProjectDetail.jsx (detail page) when the API is offline.
- * Mirrors api/data/projects.py — keep in sync.
+ * Mirrors api/data/projects.py (keep in sync).
  */
 export const FALLBACK = [
   {
     id: "project-nexus",
     sort_order: 1,
     title: "Project Nexus",
-    tagline: "Custom C2 framework built from scratch — every component explainable under pressure.",
+    tagline: "Custom C2 framework built from scratch. Every component explainable under pressure.",
     description:
       "A modular, full-stack command-and-control framework built deliberately without off-the-shelf frameworks so every layer can be explained, modified, and defended against.",
     problem:
       "Existing C2 frameworks abstract away the details that matter most for learning. The goal was to build one where I could stand in front of any component and answer 'why does this work this way?'",
     constraints: [
-      "No existing C2 frameworks — build from primitive socket and crypto operations",
-      "Operator-safe logging — append-only JSONL hash chain, no plaintext secrets on disk",
+      "No existing C2 frameworks: build from primitive socket and crypto operations",
+      "Operator-safe logging: append-only JSONL hash chain, no plaintext secrets on disk",
       "Portable: single Docker Compose up from a clean host",
       "All techniques explicitly mapped to MITRE ATT&CK before implementation",
     ],
@@ -42,14 +42,14 @@ export const FALLBACK = [
     live_url: null,
     architecture_diagram_url: "/projects/project-nexus/architecture.svg",
     screenshots: [
-      { url: "/projects/project-nexus/screenshot-1.svg", caption: "Operator console — active session view" },
+      { url: "/projects/project-nexus/screenshot-1.svg", caption: "Operator console, active session view" },
     ],
     mitre_techniques: [
       "T1059.001", "T1071.001", "T1132.001", "T1573.001", "T1027", "T1082",
       "T1083", "T1057", "T1016", "T1033", "T1105", "T1041", "T1070.004",
       "T1053.005", "T1547.001", "T1036", "T1497", "T1055",
     ],
-    visibility_note: "Source private for OPSEC — full technical walkthrough available on request.",
+    visibility_note: "Source private for OPSEC; full technical walkthrough available on request.",
     technical_decisions: [
       {
         decision: "AES-GCM for implant comms instead of TLS",
@@ -69,7 +69,7 @@ export const FALLBACK = [
     ],
     lessons_learned: [
       "Beacon jitter matters far more than sleep duration for evading time-based detections.",
-      "Sandbox detection via timing is unreliable on modern hypervisors — artifact-based checks are more durable.",
+      "Sandbox detection via timing is unreliable on modern hypervisors; artifact-based checks are more durable.",
       "Operator UX is as important as implant capability.",
     ],
     roadmap: [
@@ -83,7 +83,7 @@ export const FALLBACK = [
     id: "network-scanner",
     sort_order: 2,
     title: "Network Scanner",
-    tagline: "Multithreaded Python recon toolkit — host discovery, port scan, banner grabs.",
+    tagline: "Multithreaded Python recon toolkit: host discovery, port scan, banner grabs.",
     description:
       "TCP network scanner: CIDR ping sweep, multithreaded TCP connect scans, service banner grabbing, argparse CLI, pytest suite. Built to understand every layer of the recon pipeline.",
     problem:
@@ -112,7 +112,7 @@ export const FALLBACK = [
     live_url: null,
     architecture_diagram_url: "/projects/network-scanner/architecture.svg",
     screenshots: [
-      { url: "/projects/network-scanner/screenshot-1.svg", caption: "CLI scan output — port scan with banner grabs" },
+      { url: "/projects/network-scanner/screenshot-1.svg", caption: "CLI scan output, port scan with banner grabs" },
     ],
     mitre_techniques: ["T1046", "T1595.001"],
     visibility_note: null,
@@ -129,7 +129,7 @@ export const FALLBACK = [
       },
     ],
     lessons_learned: [
-      "TCP connect scan latency is dominated by refused connections — set timeouts aggressively.",
+      "TCP connect scan latency is dominated by refused connections; set timeouts aggressively.",
       "Banner grabbing requires per-protocol delays; SSH sends immediately, HTTP needs a probe first.",
       "Writing tests before refactoring caught two race conditions in result ordering.",
     ],
@@ -143,7 +143,7 @@ export const FALLBACK = [
     id: "skillswap",
     sort_order: 3,
     title: "SkillSwap",
-    tagline: "Student talent exchange — peer-to-peer learning in a structured platform.",
+    tagline: "Student talent exchange and peer-to-peer learning in a structured platform.",
     description:
       "Peer-to-peer learning web platform for sharing skills and booking sessions safely.",
     problem:
@@ -170,7 +170,7 @@ export const FALLBACK = [
     live_url: null,
     architecture_diagram_url: "/projects/skillswap/architecture.svg",
     screenshots: [
-      { url: "/projects/skillswap/screenshot-1.svg", caption: "Session booking flow — skill match view" },
+      { url: "/projects/skillswap/screenshot-1.svg", caption: "Session booking flow, skill match view" },
     ],
     mitre_techniques: [],
     visibility_note: null,
@@ -195,13 +195,13 @@ export const FALLBACK = [
     id: "healthhive",
     sort_order: 4,
     title: "HealthHive",
-    tagline: "Team wellness tracker — group accountability inspired by the hive.",
+    tagline: "Team wellness tracker with group accountability inspired by the hive.",
     description:
       "Team-centric wellness application that turns individual health tracking into a collaborative journey.",
     problem:
       "Individual wellness apps have high drop-off rates because they rely solely on self-motivation. Team accountability significantly improves habit retention.",
     constraints: [
-      "Django MVT architecture — no separate frontend SPA to keep deployment simple",
+      "Django MVT architecture: no separate frontend SPA to keep deployment simple",
       "SQLite for portability (school server constraints)",
       "Agile sprint structure for team collaboration with Trello",
     ],
@@ -221,7 +221,7 @@ export const FALLBACK = [
     live_url: null,
     architecture_diagram_url: "/projects/healthhive/architecture.svg",
     screenshots: [
-      { url: "/projects/healthhive/screenshot-1.svg", caption: "Team dashboard — group activity feed" },
+      { url: "/projects/healthhive/screenshot-1.svg", caption: "Team dashboard, group activity feed" },
     ],
     mitre_techniques: [],
     visibility_note: null,

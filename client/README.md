@@ -1,4 +1,4 @@
-# brantsimpson.com — client
+# brantsimpson.com (client)
 
 React + Vite + Tailwind + Framer Motion + shadcn/ui frontend.
 
@@ -42,8 +42,8 @@ src/
 
 Dual-theme with CSS variables:
 
-- **Light** — warm off-white, electric orange primary, electric blue secondary, vivid yellow accent, chunky borders + neobrutalist `shadow-pop`.
-- **Dark** — deep slate, neon cyan primary, neon purple secondary, matrix green accent, subtle grid backdrop + `shadow-neon-*` glows.
+- **Light:** warm off-white, electric orange primary, electric blue secondary, vivid yellow accent, chunky borders + neobrutalist `shadow-pop`.
+- **Dark:** deep slate, neon cyan primary, neon purple secondary, matrix green accent, subtle grid backdrop + `shadow-neon-*` glows.
 
 Typography flavor also swaps: Space Grotesk headings in light mode, JetBrains Mono headings in dark mode.
 

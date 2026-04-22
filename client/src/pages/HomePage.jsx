@@ -3,7 +3,7 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Services } from "@/components/sections/Services";
 import { Projects } from "@/components/sections/Projects";
-import { Credentials } from "@/components/sections/Credentials";
+import { CredentialHighlights } from "@/components/sections/CredentialHighlights";
 import { Experience } from "@/components/sections/Experience";
 import { Contact } from "@/components/sections/Contact";
 
@@ -23,7 +23,7 @@ export function HomePage() {
       <About />
       <Services />
       <Projects />
-      <Credentials />
+      <CredentialHighlights />
       <Experience />
       <Contact />
     </>

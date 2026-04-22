@@ -37,7 +37,7 @@ const FALLBACK = [
     id: "web-development",
     title: "Web Development",
     blurb:
-      "Fast, accessible, beautifully animated websites and web apps — built with React, Vite, and Tailwind.",
+      "Fast, accessible, beautifully animated websites and web apps, built with React, Vite, and Tailwind.",
     icon: "web",
     bullets: ["Marketing sites", "Dashboards & portals", "Framer Motion animations"],
   },
@@ -45,7 +45,7 @@ const FALLBACK = [
     id: "ui-ux-design",
     title: "UI / UX Design",
     blurb:
-      "Interface design with a point of view — bold typography, considered motion, and accessible color.",
+      "Interface design with a point of view: bold typography, considered motion, and accessible color.",
     icon: "design",
     bullets: ["Design systems", "Product UX audits", "Prototyping"],
   },
@@ -53,7 +53,7 @@ const FALLBACK = [
     id: "custom-software-solutions",
     title: "Custom Software Solutions",
     blurb:
-      "Bespoke tooling, APIs, and internal platforms — from Python services to full-stack apps.",
+      "Bespoke tooling, APIs, and internal platforms, from Python services to full-stack apps.",
     icon: "software",
     bullets: ["FastAPI / Python services", "Automation & integrations", "CLI tooling"],
   },
@@ -76,7 +76,7 @@ export function Services() {
     <Section id="services" className="container">
       <Reveal className="mb-4 flex items-center gap-2">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 01" : "01 —"} services
+          {isDark ? "// 01" : "01 ·"} services
         </span>
       </Reveal>
 
@@ -104,7 +104,7 @@ export function Services() {
       </Reveal>
 
       <Reveal className="mb-12 max-w-2xl text-muted-foreground">
-        Three focused offerings. Each one animated, accessible, and built to last.
+        Got something you want built? Let&apos;s make it happen.
       </Reveal>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

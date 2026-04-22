@@ -5,7 +5,7 @@ import path from "node:path";
 export default defineConfig({
   plugins: [react()],
   define: {
-    // Injected at build time — readable in JS as __BUILD_DATE__
+    // Injected at build time; readable in JS as __BUILD_DATE__
     __BUILD_DATE__: JSON.stringify(new Date().toISOString()),
   },
   resolve: {

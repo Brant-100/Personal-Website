@@ -62,7 +62,7 @@ export function ProjectDetail() {
   if (!project) {
     return (
       <section className="container flex min-h-[60vh] flex-col items-center justify-center py-24 text-center">
-        <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">404 — project not found</div>
+        <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">404 · project not found</div>
         <h1 className="mt-4 text-4xl font-extrabold">Project not found.</h1>
         <Button size="lg" className="mt-8" asChild>
           <Link to="/#projects">Back to projects</Link>
@@ -350,7 +350,7 @@ export function ProjectDetail() {
           {/* MITRE ATT&CK */}
           {(project.mitre_techniques || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} title={`MITRE ATT&CK — ${project.mitre_techniques.length} techniques mapped`}>
+              <SectionBlock isDark={isDark} title={`MITRE ATT&CK: ${project.mitre_techniques.length} techniques mapped`}>
                 <div className="flex flex-wrap gap-2">
                   {project.mitre_techniques.map((t) => (
                     <a
@@ -373,7 +373,7 @@ export function ProjectDetail() {
                   "mt-4 text-xs",
                   isDark ? "text-muted-foreground" : "text-muted-foreground"
                 )}>
-                  All techniques are mapped against systems owned or explicitly authorized for testing. These mappings are used for detection engineering — understanding attacker TTPs to build better defenses.
+                  All techniques are mapped against systems owned or explicitly authorized for testing. These mappings are used for detection engineering: understanding attacker TTPs to build better defenses.
                 </p>
               </SectionBlock>
             </Reveal>

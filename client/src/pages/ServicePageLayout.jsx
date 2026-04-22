@@ -23,7 +23,7 @@ export function ServicePageLayout({
 
   return (
     <div className="relative overflow-hidden pt-28 md:pt-36">
-      {/* Backdrop — differs per theme */}
+      {/* Backdrop (differs per theme) */}
       <div className="pointer-events-none absolute inset-0 -z-0 overflow-hidden">
         {isDark ? (
           <>

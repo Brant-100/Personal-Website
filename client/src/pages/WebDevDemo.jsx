@@ -3,24 +3,44 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Zap, Accessibility, Layers, Monitor, Smartphone, Tablet } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { BeforeAfterSlider } from "@/components/demos/web/BeforeAfterSlider";
+import { PerformanceScoreCard } from "@/components/demos/web/PerformanceScoreCard";
+import { ProjectTimeline } from "@/components/demos/web/ProjectTimeline";
+import { TechStackGalaxy } from "@/components/demos/web/TechStackGalaxy";
+import { ComponentPlayground } from "@/components/demos/web/ComponentPlayground";
+import { WebCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
+import { WebPricingCard } from "@/components/demos/shared/PricingCard";
+import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
+import { CTAInquiryForm } from "@/components/demos/shared/CTAInquiryForm";
+import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function WebDevDemo() {
   return (
     <ServicePageLayout
-      eyebrow="01 — service / web development"
+      eyebrow="01 · service / web development"
       title="Web Development"
-      tagline="Fast, accessible, beautifully animated websites and web apps — built with React, Vite, Tailwind, and shipped with care."
+      tagline="Fast, accessible, beautifully animated websites and web apps, built with React, Vite, Tailwind, and shipped with care."
       tags={["React", "Vite", "Tailwind", "Framer Motion", "shadcn/ui", "accessibility"]}
     >
       <FeatureGrid />
+      <BeforeAfterSlider />
       <div className="mt-16">
         <DevicePreview />
       </div>
+      <PerformanceScoreCard />
       <div className="mt-16">
         <LiveCodeDemo />
       </div>
+      <TechStackGalaxy />
+      <ComponentPlayground />
+      <ProjectTimeline />
+      <WebCaseStudy />
+      <FAQAccordion />
+      <WebPricingCard />
+      <CTAInquiryForm source="web-development" />
+      <OtherServicesNav current="web" />
     </ServicePageLayout>
   );
 }
@@ -149,7 +169,6 @@ function DevicePreview() {
             sizes[device]
           )}
         >
-          {/* Faux UI */}
           <div className="flex items-center gap-1.5 border-b border-border bg-background/80 px-3 py-2">
             <span className="h-2.5 w-2.5 rounded-full bg-destructive/70" />
             <span className="h-2.5 w-2.5 rounded-full bg-accent/80" />

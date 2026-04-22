@@ -91,7 +91,7 @@ export function Contact() {
     <Section id="contact" className="container">
       <Reveal className="mb-4">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 06" : "06 —"} contact
+          {isDark ? "// 05" : "05 ·"} contact
         </span>
       </Reveal>
       <Reveal className="mb-12 max-w-3xl">
@@ -173,7 +173,7 @@ export function Contact() {
             />
           </div>
 
-          {/* Honeypot — hidden from real users, bots fill it */}
+          {/* Honeypot (hidden from real users; bots fill it) */}
           <input
             name="website"
             type="text"
@@ -224,7 +224,7 @@ export function Contact() {
             {status === "error" && (
               <span className="inline-flex items-center gap-1.5 text-sm text-destructive">
                 <AlertCircle className="h-4 w-4" />
-                Something went wrong — try emailing directly.
+                Something went wrong. Try emailing directly.
               </span>
             )}
           </div>
@@ -262,7 +262,7 @@ function ContactCard({ link, index, isDark }) {
       href={link.href}
       target={external ? "_blank" : undefined}
       rel={external ? "noreferrer" : undefined}
-      aria-label={`${link.label} — ${link.handle}`}
+      aria-label={`${link.label}: ${link.handle}`}
       variants={{
         hidden: { opacity: 0, y: 16 },
         show: { opacity: 1, y: 0, transition: spring.soft },

@@ -2,12 +2,12 @@
 title: "Lean Six Sigma Black Belt at 17: What It Taught Me About Building Software"
 date: "2026-02-10"
 tags: ["six-sigma", "process", "engineering", "retrospective"]
-excerpt: "DMAIC isn't just a manufacturing framework. It maps directly to debugging, incident response, and feature planning — and finishing Black Belt at 17 changed how I think about problems."
+excerpt: "DMAIC isn't just a manufacturing framework. It maps directly to debugging, incident response, and feature planning, and finishing Black Belt at 17 changed how I think about problems."
 ---
 
 # Lean Six Sigma Black Belt at 17: What It Taught Me About Building Software
 
-> **Status:** Draft — fill in with your actual experience and specific examples.
+> **Status:** Draft. Fill in with your actual experience and specific examples.
 
 ## What Six Sigma actually is
 
@@ -21,7 +21,7 @@ excerpt: "DMAIC isn't just a manufacturing framework. It maps directly to debugg
 
 ### Define: Stating the problem precisely
 
-[Write about the parallel: most bugs and most failed features share a root cause — the problem wasn't stated precisely enough before the solution was started. How do you apply Define to a sprint or a debugging session?]
+[Write about the parallel: most bugs and most failed features share a root cause: the problem wasn't stated precisely enough before the solution was started. How do you apply Define to a sprint or a debugging session?]
 
 ### Measure: What's actually happening vs. what you think is happening
 

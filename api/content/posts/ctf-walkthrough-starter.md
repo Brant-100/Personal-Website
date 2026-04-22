@@ -1,5 +1,5 @@
 ---
-title: "CTF Walkthrough: [Machine Name] — TryHackMe / HackTheBox"
+title: "CTF Walkthrough: [Machine Name] (TryHackMe / HackTheBox)"
 date: "2026-04-01"
 tags: ["ctf", "walkthrough", "offensive-security"]
 excerpt: "A step-by-step walkthrough of [machine name]: reconnaissance, initial access, privilege escalation, and lessons learned."
@@ -7,7 +7,7 @@ excerpt: "A step-by-step walkthrough of [machine name]: reconnaissance, initial 
 
 # CTF Walkthrough: [Machine Name]
 
-> **Status:** Draft — replace [Machine Name] with the actual box you're writing up. TryHackMe rooms or retired HackTheBox boxes are ideal.
+> **Status:** Draft. Replace [Machine Name] with the actual box you're writing up. TryHackMe rooms or retired HackTheBox boxes are ideal.
 
 **Platform:** TryHackMe / HackTheBox  
 **Difficulty:** Easy / Medium  
@@ -32,7 +32,7 @@ nmap -sC -sV -oN initial.nmap [target-ip]
 
 ## Initial Access
 
-[Write about how you got your first shell. What vulnerability? What was the exact exploit path? Be specific — include the commands.]
+[Write about how you got your first shell. What vulnerability? What was the exact exploit path? Be specific. Include the commands.]
 
 ## Privilege Escalation
 
@@ -47,7 +47,7 @@ root.txt: [hash]
 
 ## What I learned
 
-[This is the most important section. Write about what this box taught you — specific techniques, specific tools, specific concepts. What would you do differently next time?]
+[This is the most important section. Write about what this box taught you: specific techniques, specific tools, specific concepts. What would you do differently next time?]
 
 ## Detection notes
 

@@ -14,7 +14,7 @@ CREDENTIALS = [
         "group": "comptia",
         "url": "https://www.credly.com/users/brant-simpson/badges",
     },
-    # ----- Certiport / Pearson VUE — IT Specialist Series -----
+    # ----- Certiport / Pearson VUE: IT Specialist Series -----
     {
         "id": "itsp-artificial-intelligence",
         "name": "IT Specialist – Artificial Intelligence",

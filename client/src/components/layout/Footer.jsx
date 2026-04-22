@@ -28,7 +28,7 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 max-w-sm text-sm text-muted-foreground">
-              Software development and cybersecurity — built from Ohio,
+              Software development and cybersecurity, built from Ohio,
               shipped everywhere.
             </p>
           </div>
@@ -38,7 +38,7 @@ export function Footer() {
               Navigate
             </div>
             <ul className="space-y-2 text-sm">
-              {["About", "Services", "Projects", "Credentials", "Experience", "Contact"].map((l) => (
+              {["Services", "Projects", "Credentials", "Experience", "Contact"].map((l) => (
                 <li key={l}>
                   <a
                     href={`/#${l.toLowerCase()}`}
@@ -48,6 +48,11 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <a href="/about" className="text-muted-foreground transition-colors hover:text-foreground">
+                  About
+                </a>
+              </li>
               <li>
                 <a href="/blog" className="text-muted-foreground transition-colors hover:text-foreground">
                   Blog
@@ -104,7 +109,7 @@ export function Footer() {
 
         <div className="flex flex-col items-start justify-between gap-4 text-xs text-muted-foreground md:flex-row md:items-center">
           <span className="font-mono">
-            © {new Date().getFullYear()} Brant Simpson — all rights reserved.
+            © {new Date().getFullYear()} Brant Simpson. All rights reserved.
           </span>
           <span className="font-mono">
             {isDark ? (

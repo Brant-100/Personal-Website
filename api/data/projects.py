@@ -6,13 +6,13 @@ mitre_techniques uses ATT&CK technique IDs (e.g. T1059.001).
 
 PROJECTS = [
     # ------------------------------------------------------------------ #
-    # 1. Project Nexus — centerpiece, private C2 framework               #
+    # 1. Project Nexus (centerpiece, private C2 framework)                #
     # ------------------------------------------------------------------ #
     {
         "id": "project-nexus",
         "sort_order": 1,
         "title": "Project Nexus",
-        "tagline": "Custom C2 framework built from scratch — every component explainable under pressure.",
+        "tagline": "Custom C2 framework built from scratch. Every component explainable under pressure.",
         "description": (
             "A modular, full-stack command-and-control framework built deliberately without "
             "off-the-shelf frameworks (no Cobalt Strike, no Metasploit) so every layer can be "
@@ -21,14 +21,14 @@ PROJECTS = [
             "and 18 MITRE ATT&CK techniques mapped across 17 task handlers."
         ),
         "problem": (
-            "Existing C2 frameworks abstract away the details that matter most for learning — "
+            "Existing C2 frameworks abstract away the details that matter most for learning: "
             "encryption negotiation, beacon scheduling, sandbox detection, OPSEC-conscious "
             "staging. The goal was to build one where I could stand in front of any component "
             "and answer 'why does this work this way?'"
         ),
         "constraints": [
-            "No existing C2 frameworks — build from primitive socket and crypto operations",
-            "Operator-safe logging — append-only JSONL hash chain, no plaintext secrets on disk",
+            "No existing C2 frameworks: build from primitive socket and crypto operations",
+            "Operator-safe logging: append-only JSONL hash chain, no plaintext secrets on disk",
             "Portable: single Docker Compose up from a clean host",
             "All techniques explicitly mapped to MITRE ATT&CK before implementation",
         ],
@@ -55,7 +55,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/project-nexus/architecture.svg",
         "screenshots": [
-            {"url": "/projects/project-nexus/screenshot-1.png", "caption": "Operator console — active session view"},
+            {"url": "/projects/project-nexus/screenshot-1.png", "caption": "Operator console, active session view"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [
@@ -78,7 +78,7 @@ PROJECTS = [
             "T1497",      # Virtualization / Sandbox Evasion
             "T1055",      # Process Injection (planned)
         ],
-        "visibility_note": "Source private for OPSEC — full technical walkthrough available on request.",
+        "visibility_note": "Source private for OPSEC; full technical walkthrough available on request.",
         "technical_decisions": [
             {
                 "decision": "AES-GCM for implant comms instead of TLS",
@@ -98,7 +98,7 @@ PROJECTS = [
         ],
         "lessons_learned": [
             "Beacon jitter matters far more than sleep duration for evading time-based detections.",
-            "Sandbox detection via timing is unreliable on modern hypervisors — artifact-based checks are more durable.",
+            "Sandbox detection via timing is unreliable on modern hypervisors; artifact-based checks are more durable.",
             "Operator UX (clear session state, typed commands, error messages) is as important as implant capability.",
         ],
         "roadmap": [
@@ -110,24 +110,24 @@ PROJECTS = [
     },
 
     # ------------------------------------------------------------------ #
-    # 2. Network Scanner — multithreaded Python recon toolkit             #
+    # 2. Network Scanner (multithreaded Python recon toolkit)            #
     # ------------------------------------------------------------------ #
     {
         "id": "network-scanner",
         "sort_order": 2,
         "title": "Network Scanner",
-        "tagline": "Multithreaded Python recon toolkit — host discovery, port scan, banner grabs.",
+        "tagline": "Multithreaded Python recon toolkit: host discovery, port scan, banner grabs.",
         "description": (
             "TCP network scanner for the reconnaissance phase. Host discovery via "
             "CIDR ping sweep, multithreaded TCP connect port scanning, service "
-            "banner grabbing, and text/JSON reporting — all wrapped behind a clean "
+            "banner grabbing, and text/JSON reporting, all wrapped behind a clean "
             "argparse CLI. Built to understand every layer of the recon pipeline, "
             "not to wrap nmap."
         ),
         "problem": (
             "Most recon tools are black boxes. Building one from raw sockets forced "
             "a deep understanding of TCP connect semantics, threading models, timeout "
-            "behavior, and the structure of service banners — all directly applicable "
+            "behavior, and the structure of service banners, all directly applicable "
             "to understanding what defenders see."
         ),
         "constraints": [
@@ -154,7 +154,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/network-scanner/architecture.svg",
         "screenshots": [
-            {"url": "/projects/network-scanner/screenshot-1.png", "caption": "CLI scan output — port scan with banner grabs"},
+            {"url": "/projects/network-scanner/screenshot-1.png", "caption": "CLI scan output, port scan with banner grabs"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [
@@ -175,7 +175,7 @@ PROJECTS = [
             },
         ],
         "lessons_learned": [
-            "TCP connect scan latency is dominated by refused connections, not accepted ones — set timeouts aggressively.",
+            "TCP connect scan latency is dominated by refused connections, not accepted ones; set timeouts aggressively.",
             "Banner grabbing requires per-protocol delays; SSH sends a banner immediately, HTTP needs a probe first.",
             "Writing tests before refactoring the thread pool caught two race conditions in result ordering.",
         ],
@@ -188,13 +188,13 @@ PROJECTS = [
     },
 
     # ------------------------------------------------------------------ #
-    # 3. SkillSwap — peer-to-peer learning platform                       #
+    # 3. SkillSwap (peer-to-peer learning platform)                      #
     # ------------------------------------------------------------------ #
     {
         "id": "skillswap",
         "sort_order": 3,
         "title": "SkillSwap",
-        "tagline": "Student talent exchange — peer-to-peer learning in a structured platform.",
+        "tagline": "Student talent exchange and peer-to-peer learning in a structured platform.",
         "description": (
             "Peer-to-peer learning web platform for sharing skills and booking sessions safely. "
             "Addresses expensive traditional tutoring and the difficulty of finding "
@@ -227,7 +227,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/skillswap/architecture.svg",
         "screenshots": [
-            {"url": "/projects/skillswap/screenshot-1.png", "caption": "Session booking flow — skill match view"},
+            {"url": "/projects/skillswap/screenshot-1.png", "caption": "Session booking flow, skill match view"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [],
@@ -251,13 +251,13 @@ PROJECTS = [
     },
 
     # ------------------------------------------------------------------ #
-    # 4. HealthHive — team wellness tracker                               #
+    # 4. HealthHive (team wellness tracker)                              #
     # ------------------------------------------------------------------ #
     {
         "id": "healthhive",
         "sort_order": 4,
         "title": "HealthHive",
-        "tagline": "Team wellness tracker — group accountability inspired by the hive.",
+        "tagline": "Team wellness tracker with group accountability inspired by the hive.",
         "description": (
             "Team-centric wellness application that turns individual health tracking "
             "into a collaborative journey. Inspired by how bees work together, the platform "
@@ -265,11 +265,11 @@ PROJECTS = [
         ),
         "problem": (
             "Individual wellness apps have high drop-off rates because they rely solely on "
-            "self-motivation. Team accountability significantly improves habit retention — "
+            "self-motivation. Team accountability significantly improves habit retention; "
             "HealthHive makes the group's progress visible to every member."
         ),
         "constraints": [
-            "Django MVT architecture — no separate frontend SPA to keep deployment simple",
+            "Django MVT architecture: no separate frontend SPA to keep deployment simple",
             "SQLite for portability (school server constraints)",
             "Agile sprint structure for team collaboration with Trello",
         ],
@@ -289,7 +289,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/healthhive/architecture.svg",
         "screenshots": [
-            {"url": "/projects/healthhive/screenshot-1.png", "caption": "Team dashboard — group activity feed"},
+            {"url": "/projects/healthhive/screenshot-1.png", "caption": "Team dashboard, group activity feed"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [],
@@ -302,7 +302,7 @@ PROJECTS = [
             },
         ],
         "lessons_learned": [
-            "Team projects need a clear data model contract agreed on in week one — we refactored our activity schema twice.",
+            "Team projects need a clear data model contract agreed on in week one; we refactored our activity schema twice.",
             "Django signals are powerful for reminders but hard to test; prefer explicit service layer calls.",
         ],
         "roadmap": [

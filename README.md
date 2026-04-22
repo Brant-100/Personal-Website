@@ -2,15 +2,15 @@
 
 [![CI](https://github.com/Brant-100/Personal-Website/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/Brant-100/Personal-Website/actions/workflows/ci.yml)
 
-Personal portfolio for **Brant Simpson** — Software Developer & cybersecurity professional.
+Personal portfolio for **Brant Simpson**, Software Developer and cybersecurity professional.
 
 - **Frontend:** React + Vite + Tailwind CSS + Framer Motion + shadcn/ui
 - **Backend:** FastAPI (Python)
 
 The site ships with two visually distinct themes:
 
-- **Dark** — sleek cyber/hacker aesthetic (slate/black backgrounds, neon cyan/purple/matrix-green accents, monospaced code feel).
-- **Light** — bright and vibrant (electric orange, electric blue, vivid yellow accents on clean off-white).
+- **Dark:** sleek cyber/hacker aesthetic (slate/black backgrounds, neon cyan/purple/matrix-green accents, monospaced code feel).
+- **Light:** bright and vibrant (electric orange, electric blue, vivid yellow accents on clean off-white).
 
 ## Project layout
 
@@ -22,7 +22,7 @@ brantsimpson.com/
 
 ## Running locally
 
-You'll want two terminals — one for the API, one for the frontend.
+You'll want two terminals: one for the API, one for the frontend.
 
 ### 1. Backend (FastAPI)
 
@@ -64,4 +64,4 @@ npx shadcn@latest init
 npx shadcn@latest add button card badge separator
 ```
 
-Everything else — Tailwind config, theme tokens, components — is pre-wired.
+Everything else (Tailwind config, theme tokens, components) is pre-wired.

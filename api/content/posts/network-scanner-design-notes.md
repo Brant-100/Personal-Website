@@ -7,7 +7,7 @@ excerpt: "Why threading over asyncio, how banner grabbing actually works, and wh
 
 # Building a Multithreaded Network Scanner in Python: Design Notes
 
-> **Status:** Draft — fill in with your actual design process and lessons.
+> **Status:** Draft. Fill in with your actual design process and lessons.
 
 ## Why build one instead of using nmap?
 
@@ -17,10 +17,10 @@ excerpt: "Why threading over asyncio, how banner grabbing actually works, and wh
 
 The scanner has four modules:
 
-- `discovery.py` — CIDR ping sweep (host discovery)
-- `core.py` — multithreaded TCP connect port scanning
-- `banner.py` — service banner grabbing
-- `report.py` — text and JSON output
+- `discovery.py`: CIDR ping sweep (host discovery)
+- `core.py`: multithreaded TCP connect port scanning
+- `banner.py`: service banner grabbing
+- `report.py`: text and JSON output
 
 [Write about why each piece is separate. What would you refactor now?]
 

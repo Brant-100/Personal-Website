@@ -7,7 +7,7 @@ excerpt: "How I approached the SY0-701 exam, what resources worked, what didn't,
 
 # Security+ SY0-701 Study Notes: Introduction and Approach
 
-> **Status:** Draft — fill in with your actual study experience and notes.
+> **Status:** Draft. Fill in with your actual study experience and notes.
 
 ## Why Security+
 
@@ -23,7 +23,7 @@ excerpt: "How I approached the SY0-701 exam, what resources worked, what didn't,
 
 ### What the exam actually tests
 
-[Security+ is more conceptual than hands-on. Write about the gap between "knows the exam" and "can actually do the security work" — and how you addressed it with hands-on practice alongside the cert prep.]
+[Security+ is more conceptual than hands-on. Write about the gap between "knows the exam" and "can actually do the security work," and how you addressed it with hands-on practice alongside the cert prep.]
 
 ## The domains
 

@@ -3,24 +3,44 @@ import { motion } from "framer-motion";
 import { Cpu, Cog, Database, Play, Square, Terminal } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { CliTerminalEmulator } from "@/components/demos/software/CliTerminalEmulator";
+import { WebhookInspector } from "@/components/demos/software/WebhookInspector";
+import { ArchitectureDiagramViewer } from "@/components/demos/software/ArchitectureDiagramViewer";
+import { IntegrationCatalog } from "@/components/demos/software/IntegrationCatalog";
+import { AutomationRecipeBuilder } from "@/components/demos/software/AutomationRecipeBuilder";
+import { SoftwareCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
+import { SoftwarePricingCard } from "@/components/demos/shared/PricingCard";
+import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
+import { CTAInquiryForm } from "@/components/demos/shared/CTAInquiryForm";
+import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function CustomSoftwareDemo() {
   return (
     <ServicePageLayout
-      eyebrow="03 — service / custom software"
+      eyebrow="03 · service / custom software"
       title="Custom Software Solutions"
-      tagline="Bespoke tooling, APIs, automations, and internal platforms — from FastAPI services to CLIs and ETL jobs."
+      tagline="Bespoke tooling, APIs, automations, and internal platforms, from FastAPI services to CLIs and ETL jobs."
       tags={["Python", "FastAPI", "CLI tools", "automation", "APIs", "integrations"]}
     >
       <CapabilityGrid />
       <div className="mt-16">
         <FakeApiDemo />
       </div>
+      <CliTerminalEmulator />
+      <ArchitectureDiagramViewer />
+      <WebhookInspector />
+      <IntegrationCatalog />
+      <AutomationRecipeBuilder />
       <div className="mt-16">
         <PipelineDemo />
       </div>
+      <SoftwareCaseStudy />
+      <FAQAccordion />
+      <SoftwarePricingCard />
+      <CTAInquiryForm source="custom-software-solutions" />
+      <OtherServicesNav current="software" />
     </ServicePageLayout>
   );
 }
@@ -79,8 +99,6 @@ function CapabilityGrid() {
   );
 }
 
-/* ---------- Fake API demo: tap endpoints, see response ---------- */
-
 const ENDPOINTS = [
   {
     id: "port-scan",
@@ -91,9 +109,9 @@ const ENDPOINTS = [
       target: "10.0.0.5",
       scanned_ports: 1024,
       open: [
-        { port: 22,   service: "ssh",   banner: "OpenSSH_9.2" },
-        { port: 80,   service: "http",  banner: "nginx/1.25" },
-        { port: 443,  service: "https", banner: "nginx/1.25" },
+        { port: 22,  service: "ssh",   banner: "OpenSSH_9.2" },
+        { port: 80,  service: "http",  banner: "nginx/1.25" },
+        { port: 443, service: "https", banner: "nginx/1.25" },
       ],
       elapsed_ms: 2847,
     },
@@ -103,11 +121,7 @@ const ENDPOINTS = [
     method: "POST",
     path: "/api/v1/automation/ingest",
     body: { source: "stripe", event: "invoice.paid", id: "evt_abc123" },
-    response: {
-      queued: true,
-      job_id: "bg_82fe11",
-      eta_ms: 80,
-    },
+    response: { queued: true, job_id: "bg_82fe11", eta_ms: 80 },
   },
   {
     id: "user-report",
@@ -176,9 +190,7 @@ function FakeApiDemo() {
               : "border-2 border-foreground bg-card shadow-pop"
           )}
         >
-          <span className="text-muted-foreground">
-            {`# ${active.method} ${active.path}`}
-          </span>
+          <span className="text-muted-foreground">{`# ${active.method} ${active.path}`}</span>
           {"\n"}
           {active.body && (
             <>
@@ -197,10 +209,8 @@ function FakeApiDemo() {
   );
 }
 
-/* ---------- Mini pipeline demo: start/stop a live-scrolling job log ---------- */
-
 const LOG_LINES = [
-  "[boot] pipeline.start — run_id=run_9f81a2",
+  "[boot] pipeline.start, run_id=run_9f81a2",
   "[fetch] GET https://api.vendor.example/v2/orders?since=2026-04-20",
   "[fetch] 200 OK · 318 records in 412ms",
   "[transform] normalizing currencies → USD",
@@ -246,9 +256,7 @@ function PipelineDemo() {
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            live demo
-          </div>
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">live demo</div>
           <h2 className="mt-1 text-2xl font-bold">Run a sample ETL pipeline</h2>
         </div>
         <div className="flex gap-2">
@@ -264,8 +272,7 @@ function PipelineDemo() {
                 : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop"
             )}
           >
-            <Play className="h-4 w-4" />
-            Run
+            <Play className="h-4 w-4" /> Run
           </button>
           <button
             onClick={stop}
@@ -276,33 +283,22 @@ function PipelineDemo() {
               !running && "opacity-50"
             )}
           >
-            <Square className="h-4 w-4" />
-            Stop
+            <Square className="h-4 w-4" /> Stop
           </button>
         </div>
       </div>
 
-      <div
-        className={cn(
-          "relative overflow-hidden rounded-2xl",
-          isDark
-            ? "border border-border bg-card/80 backdrop-blur"
-            : "border-2 border-foreground bg-card shadow-pop"
-        )}
-      >
+      <div className={cn(
+        "relative overflow-hidden rounded-2xl",
+        isDark ? "border border-border bg-card/80 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+      )}>
         <div className="flex items-center gap-2 border-b border-border bg-background/60 px-4 py-2">
           <Terminal className="h-4 w-4 text-primary" />
-          <span className="font-mono text-xs text-muted-foreground">
-            pipeline.log
-          </span>
-          <span
-            className={cn(
-              "ml-auto rounded-full px-2 py-0.5 font-mono text-[10px] font-bold",
-              running
-                ? "bg-accent/30 text-accent"
-                : "bg-muted text-muted-foreground"
-            )}
-          >
+          <span className="font-mono text-xs text-muted-foreground">pipeline.log</span>
+          <span className={cn(
+            "ml-auto rounded-full px-2 py-0.5 font-mono text-[10px] font-bold",
+            running ? "bg-accent/30 text-accent" : "bg-muted text-muted-foreground"
+          )}>
             {running ? "● running" : "idle"}
           </span>
         </div>

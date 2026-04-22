@@ -4,10 +4,10 @@ import { useTheme } from "@/hooks/useTheme";
 
 /**
  * Global keyboard shortcuts:
- *   g p  — jump to #projects
- *   g c  — jump to #contact
- *   g b  — navigate to /blog
- *   t    — toggle theme
+ *   g p  : jump to #projects
+ *   g c  : jump to #contact
+ *   g b  : navigate to /blog
+ *   t    : toggle theme
  *
  * Does NOT fire when focus is inside an input, textarea, or contenteditable.
  */

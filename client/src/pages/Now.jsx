@@ -7,8 +7,8 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /**
- * /now — a single paragraph updated monthly.
- * Inspired by nownownow.com. No database needed — just edit this file.
+ * /now: a single paragraph updated monthly.
+ * Inspired by nownownow.com. No database needed; just edit this file.
  * Last updated: April 2026
  */
 export function Now() {
@@ -38,7 +38,7 @@ export function Now() {
         <div className="mx-auto max-w-2xl">
           <Reveal className="mb-4">
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              {isDark ? "// now" : "now —"}
+              {isDark ? "// now" : "now ·"}
             </span>
           </Reveal>
           <Reveal>
@@ -56,7 +56,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Building">
                 <p className="text-muted-foreground leading-relaxed">
-                  Deep in <strong className={isDark ? "text-foreground" : "text-foreground"}>Project Nexus Phase 2</strong> — adding a web-based operator dashboard and process injection support. The core beacon and task handler infrastructure from Phase 1 is stable; Phase 2 is about operator UX and extending the technique coverage.
+                  Deep in <strong className={isDark ? "text-foreground" : "text-foreground"}>Project Nexus Phase 2</strong>, adding a web-based operator dashboard and process injection support. The core beacon and task handler infrastructure from Phase 1 is stable; Phase 2 is about operator UX and extending the technique coverage.
                 </p>
               </NowSection>
             </Reveal>
@@ -80,7 +80,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Writing">
                 <p className="text-muted-foreground leading-relaxed">
-                  Working on the Nexus Phase 1 retrospective — the &ldquo;why I built a C2 from scratch instead of using Cobalt Strike&rdquo; post. It&apos;s the most important piece of writing I can publish right now because it explains the deliberate constraint that makes the project meaningful.
+                  Working on the Nexus Phase 1 retrospective, the &ldquo;why I built a C2 from scratch instead of using Cobalt Strike&rdquo; post. It&apos;s the most important piece of writing I can publish right now because it explains the deliberate constraint that makes the project meaningful.
                 </p>
               </NowSection>
             </Reveal>
@@ -116,7 +116,7 @@ function NowSection({ isDark, title, children }) {
         "mb-3 font-mono text-xs uppercase tracking-[0.3em]",
         isDark ? "text-primary" : "text-foreground/60"
       )}>
-        {isDark ? `// ${title.toLowerCase()}` : `${title} —`}
+        {isDark ? `// ${title.toLowerCase()}` : `${title} ·`}
       </h2>
       {children}
     </div>

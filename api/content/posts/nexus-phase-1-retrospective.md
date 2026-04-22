@@ -7,7 +7,7 @@ excerpt: "What I built, every design decision I made, and what I'd change. The s
 
 # Project Nexus Phase 1 Retrospective
 
-> **Status:** Draft — fill in with real phase 1 details.
+> **Status:** Draft. Fill in with real phase 1 details.
 
 ## What I set out to build
 
@@ -17,7 +17,7 @@ excerpt: "What I built, every design decision I made, and what I'd change. The s
 
 The deliberate constraint: no Cobalt Strike, no Metasploit, no Sliver. Every component had to be something I could stand in front of and explain from first principles. Here's why that mattered.
 
-[Explain: the constraint was a learning mechanism. The goal wasn't to reinvent the wheel, it was to understand the wheel well enough to know when the commercial tools would fail you — and why.]
+[Explain: the constraint was a learning mechanism. The goal wasn't to reinvent the wheel, it was to understand the wheel well enough to know when the commercial tools would fail you, and why.]
 
 ## What I actually shipped
 
@@ -49,7 +49,7 @@ The deliberate constraint: no Cobalt Strike, no Metasploit, no Sliver. Every com
 
 ## What Phase 1 taught me about defenders
 
-[This is the most important section. Write about what building offense taught you about how to detect it. Each technique you implemented — what would a blue team analyst see? What logs would it leave?]
+[This is the most important section. Write about what building offense taught you about how to detect it. Each technique you implemented: what would a blue team analyst see? What logs would it leave?]
 
 ## What's next in Phase 2
 

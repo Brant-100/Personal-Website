@@ -15,7 +15,7 @@ import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
-/** Per-project visual language — tuned for site light/dark, not generic inversion. */
+/** Per-project visual language, tuned for site light/dark, not generic inversion. */
 const ACCENT = {
   skillswap: {
     Icon: Sparkles,
@@ -106,7 +106,7 @@ const FALLBACK = [
     id: "project-nexus",
     sort_order: 1,
     title: "Project Nexus",
-    tagline: "Custom C2 framework built from scratch — every component explainable under pressure.",
+    tagline: "Custom C2 framework built from scratch. Every component explainable under pressure.",
     description:
       "A modular, full-stack command-and-control framework built deliberately without off-the-shelf frameworks so every layer can be explained, modified, and defended against.",
     features: [
@@ -131,13 +131,13 @@ const FALLBACK = [
       "T1083","T1057","T1016","T1033","T1105","T1041","T1070.004",
       "T1053.005","T1547.001","T1036","T1497","T1055",
     ],
-    visibility_note: "Source private for OPSEC — full technical walkthrough available on request.",
+    visibility_note: "Source private for OPSEC; full technical walkthrough available on request.",
   },
   {
     id: "network-scanner",
     sort_order: 2,
     title: "Network Scanner",
-    tagline: "Multithreaded Python recon toolkit — host discovery, port scan, banner grabs.",
+    tagline: "Multithreaded Python recon toolkit: host discovery, port scan, banner grabs.",
     description:
       "TCP network scanner: CIDR ping sweep, multithreaded TCP connect scans, service banner grabbing, argparse CLI, pytest suite.",
     features: [
@@ -163,7 +163,7 @@ const FALLBACK = [
     id: "skillswap",
     sort_order: 3,
     title: "SkillSwap",
-    tagline: "Student talent exchange — peer-to-peer learning in a structured platform.",
+    tagline: "Student talent exchange and peer-to-peer learning in a structured platform.",
     description:
       "Peer-to-peer learning web platform for sharing skills and booking sessions safely.",
     features: [
@@ -187,7 +187,7 @@ const FALLBACK = [
     id: "healthhive",
     sort_order: 4,
     title: "HealthHive",
-    tagline: "Team wellness tracker — group accountability inspired by the hive.",
+    tagline: "Team wellness tracker with group accountability inspired by the hive.",
     description:
       "Team-centric wellness app for activity logging, reminders, and group progress.",
     features: [
@@ -237,7 +237,7 @@ export function Projects() {
     <Section id="projects" className="container">
       <Reveal className="mb-4">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 02" : "02 —"} selected work
+          {isDark ? "// 02" : "02 ·"} selected work
         </span>
       </Reveal>
       <Reveal className="mb-8 max-w-3xl">
@@ -245,7 +245,7 @@ export function Projects() {
           Projects & operations
         </h2>
         <p className="mt-4 text-muted-foreground text-lg">
-          Security-focused builds, product engineering, and wellness tooling — each with its own visual identity.
+          Security-focused builds, product engineering, and wellness tooling, each with its own visual identity.
         </p>
       </Reveal>
 
@@ -523,7 +523,7 @@ function ProjectCard({ project, index, isDark }) {
           </Link>
         </CardContent>
 
-        {/* Cyber-style sheen — SkillSwap / HealthHive get their own mesh above */}
+        {/* Cyber-style sheen; SkillSwap / HealthHive get their own mesh above */}
         {isDark && (accentKey === "cyber" || accentKey === "default") && (
           <div className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
             <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-secondary/30 blur-2xl" />

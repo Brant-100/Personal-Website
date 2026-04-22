@@ -9,7 +9,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [0.2.0] — 2026-04-22 · Portfolio Sweep
+## [0.2.0] (2026-04-22) · Portfolio Sweep
 
 Fifteen atomic commits on `develop` covering a comprehensive overhaul of the site.
 
@@ -50,7 +50,7 @@ Fifteen atomic commits on `develop` covering a comprehensive overhaul of the sit
 - New form above the four cards: name, email, message, honeypot hidden field.
 - Theme-correct input styling (dark: `focus:ring-primary`; light: `border-2 border-foreground shadow-pop`).
 - `POST /api/contact` FastAPI endpoint: validates, discards honeypot submissions, forwards via Resend if `RESEND_API_KEY` env var is present, otherwise logs and returns success.
-- `client/src/lib/contact.js` — single `CONTACT_EMAIL` constant for easy domain-email swap.
+- `client/src/lib/contact.js`: single `CONTACT_EMAIL` constant for easy domain-email swap.
 - "I usually reply within 48 hours." trust line.
 - Resume download CTA in contact form.
 
@@ -85,7 +85,7 @@ Fifteen atomic commits on `develop` covering a comprehensive overhaul of the sit
 - `SECURITY.md` responsible disclosure policy.
 
 **Blog infrastructure**
-- `api/content/posts/` — Markdown posts with YAML frontmatter.
+- `api/content/posts/`: Markdown posts with YAML frontmatter.
 - `GET /api/posts` (list, sorted desc by date), `GET /api/posts/{slug}` (full content).
 - `python-frontmatter` added to `api/requirements.txt`.
 - `BlogIndex.jsx` at `/blog`, `BlogPost.jsx` at `/blog/:slug`.
@@ -94,19 +94,19 @@ Fifteen atomic commits on `develop` covering a comprehensive overhaul of the sit
 - Blog and /now links added to Navbar and Footer.
 
 **UX delight**
-- `CommandPalette.jsx` (`cmdk`) — opens with ⌘K / Ctrl+K. Commands: jump to all sections, toggle theme, copy email, open GitHub/LinkedIn/Credly, download resume, view keyboard shortcuts cheat-sheet.
-- `useKeyboardShortcuts.js` — `g p` (projects), `g c` (contact), `g b` (blog), `t` (toggle theme).
-- `BackToTop.jsx` — appears after 600px scroll, both theme variants.
+- `CommandPalette.jsx` (`cmdk`): opens with ⌘K / Ctrl+K. Commands: jump to all sections, toggle theme, copy email, open GitHub/LinkedIn/Credly, download resume, view keyboard shortcuts cheat-sheet.
+- `useKeyboardShortcuts.js`: `g p` (projects), `g c` (contact), `g b` (blog), `t` (toggle theme).
+- `BackToTop.jsx`: appears after 600px scroll, both theme variants.
 - `/now` page (monthly status: building, studying, available for, writing).
 - `client/public/humans.txt`.
-- Print stylesheet in `client/src/index.css` — hides nav, animations, and renders clean text.
+- Print stylesheet in `client/src/index.css`: hides nav, animations, and renders clean text.
 
 **Code quality + CI**
 - `client/.eslintrc.cjs` (eslint + react + react-hooks + react-refresh).
 - `client/.prettierrc`.
 - `api/pyproject.toml` (ruff: line-length=100, py311 target, E/F/W/I/UP rules).
-- `api/tests/test_main.py` — 12 async integration tests: health, projects list, project detail, 404s, services, credentials, experience, posts list, post detail, contact success, contact honeypot.
-- `.github/workflows/ci.yml` — parallel jobs: `client-build` (Node 20, npm ci + build + lint) and `api-test` (Python 3.11, pip install + ruff + pytest).
+- `api/tests/test_main.py`: 12 async integration tests: health, projects list, project detail, 404s, services, credentials, experience, posts list, post detail, contact success, contact honeypot.
+- `.github/workflows/ci.yml`: parallel jobs: `client-build` (Node 20, npm ci + build + lint) and `api-test` (Python 3.11, pip install + ruff + pytest).
 - CI badge on README.
 
 ### Changed
@@ -126,6 +126,6 @@ Fifteen atomic commits on `develop` covering a comprehensive overhaul of the sit
 
 ---
 
-## [0.1.0] — 2025 · Initial Portfolio
+## [0.1.0] (2025) · Initial Portfolio
 
 Initial launch: Hero, Services, Projects (4), Credentials, Experience, Contact, dual theme.

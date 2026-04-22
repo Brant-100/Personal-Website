@@ -11,14 +11,14 @@ const FALLBACK = [
     id: "bpa-web-team",
     title: "Web Application Team Member",
     org: "Business Professionals of America (BPA)",
-    period: "2025 — Present",
+    period: "2025 to present",
     summary:
       "Built and owned the frontend component layer for the BPA competitive web application entry. Shipped the core UI end-to-end, led UX polish passes in the final sprint, and integrated with the team's backend API. [Update with placement result when available.]",
     tags: ["react", "ux", "teamwork", "competition"],
   },
   {
     id: "kent-hack-enough",
-    title: "Hackathon — [Update with role]",
+    title: "Hackathon: [Update with role]",
     org: "Kent Hack Enough",
     period: "2025",
     summary:
@@ -27,7 +27,7 @@ const FALLBACK = [
   },
   {
     id: "congressional-app-challenge",
-    title: "Entrant — Congressional App Challenge",
+    title: "Entrant, Congressional App Challenge",
     org: "U.S. House of Representatives",
     period: "2024",
     summary:
@@ -60,7 +60,7 @@ export function Experience() {
     <Section id="experience" className="container">
       <Reveal className="mb-4">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 05" : "05 —"} timeline
+          {isDark ? "// 04" : "04 ·"} timeline
         </span>
       </Reveal>
       <Reveal className="mb-16 max-w-3xl">
