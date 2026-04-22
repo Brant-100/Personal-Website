@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Mail, Terminal, Shield, Code2, Sparkles } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Mail, Terminal, Shield, Code2, Sparkles, Download, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
@@ -15,6 +15,7 @@ const ROLES = [
 export function Hero() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const prefersReduced = useReducedMotion();
 
   const [roleIdx, setRoleIdx] = useState(0);
   useEffect(() => {
@@ -91,6 +92,22 @@ export function Hero() {
             experiences, ship production software, and red-team the systems behind them.
           </Reveal>
 
+          {/* Now-building chip */}
+          <Reveal className="mt-5">
+            <div className={cn(
+              "inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs",
+              isDark
+                ? "border border-accent/30 bg-accent/10 text-accent"
+                : "border-2 border-foreground bg-card text-foreground"
+            )}>
+              <Zap className={cn("h-3 w-3", isDark ? "text-accent" : "text-primary")} />
+              <span>now building:</span>
+              <span className={isDark ? "text-foreground" : "text-primary"}>
+                Project Nexus Phase 2 · EDPT pending
+              </span>
+            </div>
+          </Reveal>
+
           <Reveal className="mt-10 flex flex-wrap items-center gap-4">
             <Button size="lg" variant={isDark ? "default" : "pop"} asChild>
               <a href="#projects" className="inline-flex items-center gap-2">
@@ -101,6 +118,12 @@ export function Hero() {
               <a href="#contact" className="inline-flex items-center gap-2">
                 <Mail className="h-4 w-4" />
                 Get in touch
+              </a>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <a href="/Brant_Simpson_Resume.pdf" download className="inline-flex items-center gap-2">
+                <Download className="h-4 w-4" />
+                Resume
               </a>
             </Button>
           </Reveal>
@@ -120,21 +143,21 @@ export function Hero() {
 
         {/* Right column — theme-dependent visual */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: prefersReduced ? 0 : 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...spring.soft, delay: 0.25 }}
+          transition={{ ...spring.soft, delay: prefersReduced ? 0 : 0.25 }}
           className="relative"
         >
           <AnimatePresence mode="wait">
             {isDark ? (
               <motion.div
                 key="terminal"
-                initial={{ opacity: 0, scale: 0.96 }}
+                initial={{ opacity: 0, scale: prefersReduced ? 1 : 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
+                exit={{ opacity: 0, scale: prefersReduced ? 1 : 0.96 }}
                 transition={spring.snap}
               >
-                <TerminalCard />
+                <TerminalCard prefersReduced={prefersReduced} />
               </motion.div>
             ) : (
               <motion.div
@@ -158,7 +181,7 @@ export function Hero() {
 /* Theme-dependent right-side visuals                          */
 /* ============================================================ */
 
-function TerminalCard() {
+function TerminalCard({ prefersReduced = false }) {
   const lines = [
     { prompt: "~$", text: "whoami" },
     { prompt: ">", text: "brant.simpson", accent: true },
@@ -188,9 +211,9 @@ function TerminalCard() {
           {lines.map((l, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, x: -8 }}
+              initial={{ opacity: prefersReduced ? 1 : 0, x: prefersReduced ? 0 : -8 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 + i * 0.12, ...spring.soft }}
+              transition={{ delay: prefersReduced ? 0 : 0.4 + i * 0.12, ...spring.soft }}
               className={cn(
                 "flex gap-2",
                 l.accent ? "text-accent" : "text-foreground/90"
@@ -203,10 +226,12 @@ function TerminalCard() {
             </motion.div>
           ))}
 
-          {/* scanline sheen */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute inset-x-0 h-24 bg-gradient-to-b from-primary/0 via-primary/10 to-primary/0 animate-scanline" />
-          </div>
+          {/* scanline sheen — skipped when prefers-reduced-motion */}
+          {!prefersReduced && (
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="absolute inset-x-0 h-24 bg-gradient-to-b from-primary/0 via-primary/10 to-primary/0 animate-scanline" />
+            </div>
+          )}
         </div>
       </div>
 
