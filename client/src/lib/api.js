@@ -1,5 +1,10 @@
-const BASE_URL =
-  (import.meta.env && import.meta.env.VITE_API_BASE_URL) || "http://localhost:8000";
+// Baked in at build time. On Vercel, set VITE_API_BASE_URL to your public API (e.g. Railway).
+// No trailing slash — adding paths like /api/... would otherwise produce //api/... and 404s.
+// Never default to localhost in production — the browser would call the visitor's machine, not your API.
+const rawBase =
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV ? "http://localhost:8000" : "");
+const BASE_URL = rawBase ? rawBase.replace(/\/+$/, "") : "";
 
 async function request(path, { fallback = null, signal } = {}) {
   try {
