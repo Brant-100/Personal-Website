@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" style="font-family:JetBrains Mono,monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#1a2332"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Grid pattern -->
+  <rect width="1200" height="630" fill="none" stroke="#00ffff" stroke-opacity="0.04"/>
+  <!-- Corner accents -->
+  <line x1="0" y1="0" x2="60" y2="0" stroke="#00ffff" stroke-width="3" stroke-opacity="0.6"/>
+  <line x1="0" y1="0" x2="0" y2="60" stroke="#00ffff" stroke-width="3" stroke-opacity="0.6"/>
+  <line x1="1200" y1="630" x2="1140" y2="630" stroke="#00ffff" stroke-width="3" stroke-opacity="0.6"/>
+  <line x1="1200" y1="630" x2="1200" y2="570" stroke="#00ffff" stroke-width="3" stroke-opacity="0.6"/>
+  <!-- Name -->
+  <text x="80" y="200" fill="#e2f0f0" font-size="72" font-weight="700" letter-spacing="-2">Brant Simpson</text>
+  <!-- Role -->
+  <text x="80" y="270" fill="#00ffff" font-size="32" font-weight="400">Software Developer &amp; Offensive Cyber Operator</text>
+  <!-- Divider -->
+  <line x1="80" y1="310" x2="700" y2="310" stroke="#00ffff" stroke-width="1" stroke-opacity="0.3"/>
+  <!-- Chips -->
+  <rect x="80" y="335" width="130" height="32" rx="6" fill="#00ffff" fill-opacity="0.12" stroke="#00ffff" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="145" y="357" fill="#00ffff" font-size="13" text-anchor="middle">React · FastAPI</text>
+  <rect x="224" y="335" width="130" height="32" rx="6" fill="#a855f7" fill-opacity="0.12" stroke="#a855f7" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="289" y="357" fill="#a855f7" font-size="13" text-anchor="middle">Security+</text>
+  <rect x="368" y="335" width="180" height="32" rx="6" fill="#22c55e" fill-opacity="0.12" stroke="#22c55e" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="458" y="357" fill="#22c55e" font-size="13" text-anchor="middle">18 MITRE techniques</text>
+  <!-- Domain -->
+  <text x="80" y="440" fill="#888" font-size="22">brantsimpson.com</text>
+  <!-- PLACEHOLDER watermark -->
+  <text x="600" y="560" fill="#333" font-size="14" text-anchor="middle">[ PLACEHOLDER  replace og-image.svg with a 1200x630 PNG before deploying ]</text>
+</svg>
