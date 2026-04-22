@@ -97,7 +97,18 @@ export function Footer() {
             © {new Date().getFullYear()} Brant Simpson — all rights reserved.
           </span>
           <span className="font-mono">
-            {isDark ? "// status: online" : "built with curiosity + caffeine"}
+            {isDark ? (
+              <>
+                built with React + FastAPI · deployed on Vercel ·{" "}
+                <span className="text-primary/60">
+                  {typeof __BUILD_DATE__ !== "undefined"
+                    ? new Date(__BUILD_DATE__).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+                    : "local dev"}
+                </span>
+              </>
+            ) : (
+              <>built with React + FastAPI · deployed on Vercel</>
+            )}
           </span>
         </div>
       </div>
