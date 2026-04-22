@@ -16,8 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
-import { api } from "@/lib/api";
+import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, Tag, ArrowRight } from "lucide-react";
-import { Section, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
+import { Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 

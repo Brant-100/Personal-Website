@@ -3,8 +3,8 @@ import { Command } from "cmdk";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, Moon, Sun, Mail, Github, Linkedin, Award,
-  FolderOpen, Shield, Hash, Clock, FileText, User,
-  Briefcase, Star, Download, Keyboard,
+  FolderOpen, Clock, FileText, User,
+  Briefcase, Star, Download,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@/hooks/useTheme";

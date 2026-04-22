@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Zap, Accessibility, Layers, Monitor, Smartphone, Tablet } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 

@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Award, Terminal, FileText, Clock } from "lucide-react";
+import { Github, Linkedin, Mail, Award, Terminal } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";

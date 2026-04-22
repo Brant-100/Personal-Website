@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Palette, Type, Eye, Check } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
