@@ -186,7 +186,7 @@ export function Credentials() {
     <Section id="credentials" className="container">
       <Reveal className="mb-4">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 03" : "03 —"} credentials vault
+          {isDark ? "// 04" : "04 —"} credentials vault
         </span>
       </Reveal>
       <Reveal className="mb-12 max-w-3xl">

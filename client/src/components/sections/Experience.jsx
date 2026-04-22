@@ -13,17 +13,17 @@ const FALLBACK = [
     org: "Business Professionals of America (BPA)",
     period: "2025 — Present",
     summary:
-      "Dedicated, hardworking member of the BPA Web Application Team. Shows up consistently, takes ownership of tasks, and collaborates closely with teammates on frontend work, UX polish, and integration for the competitive web application entry.",
-    tags: ["teamwork", "react", "ux"],
+      "Built and owned the frontend component layer for the BPA competitive web application entry. Shipped the core UI end-to-end, led UX polish passes in the final sprint, and integrated with the team's backend API. [Update with placement result when available.]",
+    tags: ["react", "ux", "teamwork", "competition"],
   },
   {
     id: "kent-hack-enough",
-    title: "Hackathon Participant",
+    title: "Hackathon — [Update with role]",
     org: "Kent Hack Enough",
     period: "2025",
     summary:
-      "Shipped a full-stack prototype in 36 hours with a small team. Focus on rapid iteration, end-to-end delivery, and tight UX polish under time pressure.",
-    tags: ["hackathon", "full-stack"],
+      "Shipped a full-stack prototype in 36 hours with a small team. Rapid iteration, end-to-end delivery, and tight UX polish under time pressure. [Update with project name and outcome.]",
+    tags: ["hackathon", "full-stack", "rapid-iteration"],
   },
   {
     id: "congressional-app-challenge",
@@ -31,8 +31,8 @@ const FALLBACK = [
     org: "U.S. House of Representatives",
     period: "2024",
     summary:
-      "Designed, built, and submitted an original application to the Congressional App Challenge for the local congressional district.",
-    tags: ["product", "civic-tech"],
+      "Designed, built, and submitted an original application to the Congressional App Challenge for the local congressional district. [Update with project description and district.]",
+    tags: ["product", "civic-tech", "solo"],
   },
 ];
 
@@ -60,7 +60,7 @@ export function Experience() {
     <Section id="experience" className="container">
       <Reveal className="mb-4">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 04" : "04 —"} timeline
+          {isDark ? "// 05" : "05 —"} timeline
         </span>
       </Reveal>
       <Reveal className="mb-16 max-w-3xl">
