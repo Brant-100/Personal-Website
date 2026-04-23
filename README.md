@@ -31,10 +31,10 @@ cd api
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --host 127.0.0.1 --port 8765
 ```
 
-The API will be available at `http://localhost:8000` with endpoints:
+The API will be available at `http://localhost:8765` with endpoints:
 
 - `GET /api/health`
 - `GET /api/projects`
@@ -52,7 +52,7 @@ npm run dev
 
 Dev server: `http://localhost:5173`.
 
-The frontend expects the API at `http://localhost:8000` (configurable via `VITE_API_BASE_URL` in a `.env` file).
+For local dev, `client/.env.development` points at `http://localhost:8765`. Override with `VITE_API_BASE_URL` in `client/.env` or `client/.env.local`.
 
 ## First-time setup
 

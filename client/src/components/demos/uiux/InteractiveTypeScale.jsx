@@ -1,18 +1,55 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
-const RATIO_NAMES = [
-  { value: 1.125, name: "Minor Second" },
-  { value: 1.2,   name: "Major Second" },
-  { value: 1.25,  name: "Major Third" },
-  { value: 1.333, name: "Perfect Fourth" },
-  { value: 1.414, name: "Augmented Fourth" },
-  { value: 1.5,   name: "Perfect Fifth" },
-  { value: 1.618, name: "Golden Ratio" },
+/** Named steps use the same ratios as common musical intervals—reused in typography to space type sizes. */
+const RATIO_PRESETS = [
+  {
+    value: 1.125,
+    name: "Minor Second",
+    blurb:
+      "The smallest step here: each tier only nudges larger, so hierarchy feels subtle and tight—like a tiny half-step between notes.",
+  },
+  {
+    value: 1.2,
+    name: "Major Second",
+    blurb:
+      "Still gentle jumps. Good when you want clear levels without headlines exploding—common for UI-heavy, text-dense layouts.",
+  },
+  {
+    value: 1.25,
+    name: "Major Third",
+    blurb:
+      "A familiar “one-fourth bigger each step” rhythm (×1.25). Balanced contrast: headings stand out without feeling theatrical.",
+  },
+  {
+    value: 1.333,
+    name: "Perfect Fourth",
+    blurb:
+      "Based on the 4:3 interval—wider steps, so display type pulls away from body copy more dramatically.",
+  },
+  {
+    value: 1.414,
+    name: "Augmented Fourth",
+    blurb:
+      "Roughly √2: two steps ≈ double the size. Bold hierarchy; the musical name is the tritone—the “devil’s interval.”",
+  },
+  {
+    value: 1.5,
+    name: "Perfect Fifth",
+    blurb:
+      "Strong, poster-like gaps between tiers. Great when you want hero display type to feel unmistakably above everything else.",
+  },
+  {
+    value: 1.618,
+    name: "Golden Ratio",
+    blurb:
+      "φ ≈ 1.618—the proportion famous in art and nature. Each step scales by phi; many people find the rhythm naturally pleasing.",
+  },
 ];
+
+const PRESET_MATCH_EPS = 0.015;
 
 const BASE = 16;
 
@@ -25,11 +62,15 @@ const TIERS = [
   { label: "display", n: 4,  weight: "font-extrabold tracking-tight", sample: "Display" },
 ];
 
-function getRatioName(val) {
-  const nearest = RATIO_NAMES.reduce((prev, curr) =>
+function getNearestPreset(val) {
+  return RATIO_PRESETS.reduce((prev, curr) =>
     Math.abs(curr.value - val) < Math.abs(prev.value - val) ? curr : prev
   );
-  if (Math.abs(nearest.value - val) < 0.015) return nearest.name;
+}
+
+function getRatioName(val) {
+  const nearest = getNearestPreset(val);
+  if (Math.abs(nearest.value - val) < PRESET_MATCH_EPS) return nearest.name;
   return `Custom (${val.toFixed(3)})`;
 }
 
@@ -68,9 +109,9 @@ export function InteractiveTypeScale() {
               <span>1.618</span>
             </div>
           </div>
-          <div className="text-right">
+          <div className="text-right sm:min-w-[9rem]">
             <div className="font-mono text-lg font-bold">{ratio.toFixed(3)}</div>
-            <div className="text-xs text-primary">{getRatioName(ratio)}</div>
+            <div className="text-neon-subtle text-xs font-semibold text-primary">{getRatioName(ratio)}</div>
           </div>
         </div>
 
@@ -78,28 +119,56 @@ export function InteractiveTypeScale() {
         <div className="space-y-4">
           {TIERS.map((tier) => {
             const size = BASE * Math.pow(ratio, tier.n);
+            const fontPx = Math.min(size, 72);
             return (
-              <motion.div
+              <div
                 key={tier.label}
-                layout
                 className="flex items-baseline gap-4 border-b border-border/40 pb-3 last:border-0 last:pb-0"
               >
                 <div className="w-16 shrink-0 font-mono text-[10px] text-muted-foreground">
                   <div>{tier.label}</div>
                   <div className="text-primary">{size.toFixed(1)}px</div>
                 </div>
-                <motion.div
-                  animate={{ fontSize: `${Math.min(size, 72)}px` }}
-                  transition={{ type: "spring", stiffness: 180, damping: 22 }}
-                  className={cn("leading-tight overflow-hidden whitespace-nowrap", tier.weight)}
-                  style={{ fontSize: `${Math.min(size, 72)}px` }}
+                <div
+                  className={cn(
+                    "min-w-0 flex-1 leading-tight transition-[font-size] duration-150 ease-out",
+                    tier.weight
+                  )}
+                  style={{ fontSize: `${fontPx}px` }}
                 >
                   {tier.sample}
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             );
           })}
         </div>
+
+        <details
+          className={cn(
+            "mt-8 rounded-lg border px-3 py-2 text-left",
+            isDark ? "border-border bg-background/40" : "border-border bg-muted/30"
+          )}
+        >
+          <summary className="cursor-pointer select-none text-xs font-medium text-foreground">
+            What do these scale names mean?
+          </summary>
+          <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+            Typographers borrow labels from music: the ratio between two notes is the same multiplier you use between type
+            sizes (caption → body → heading → display). The number is what you multiply by at each step up the scale.
+          </p>
+          <dl className="mt-3 space-y-2.5 border-t border-border/50 pt-3">
+            {RATIO_PRESETS.map((p) => (
+              <div key={p.name}>
+                <dt className="text-[11px] font-semibold text-foreground">
+                  <span className="font-mono text-primary">{p.value}</span>
+                  <span className="mx-1.5 text-muted-foreground">·</span>
+                  {p.name}
+                </dt>
+                <dd className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{p.blurb}</dd>
+              </div>
+            ))}
+          </dl>
+        </details>
       </div>
     </DemoSection>
   );

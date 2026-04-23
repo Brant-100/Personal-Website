@@ -31,9 +31,11 @@ const ROUNDED_MAP = {
   full: "rounded-full",
 };
 
+const CLASS_PREFIX = "inline-flex items-center gap-2 font-semibold transition-all";
+
 function buildClassName(cfg) {
   const parts = [
-    "inline-flex items-center gap-2 font-semibold transition-all",
+    CLASS_PREFIX,
     SIZE_MAP[cfg.size],
     ROUNDED_MAP[cfg.rounded],
   ];
@@ -46,7 +48,10 @@ function buildClassName(cfg) {
     parts.push("bg-transparent");
   }
 
-  if (cfg.shadow) parts.push("shadow-md");
+  // Ghost has no filled box — box-shadow is nearly invisible; drop-shadow follows the glyphs.
+  if (cfg.shadow) {
+    parts.push(cfg.variant === "ghost" ? "drop-shadow-md" : "shadow-md");
+  }
 
   return parts.join(" ");
 }
@@ -58,10 +63,24 @@ function buildSnippet(cfg) {
       ? `background: "${cfg.color}"`
       : `color: "${cfg.color}", borderColor: "${cfg.color}"`;
 
+  const rest =
+    cls.startsWith(CLASS_PREFIX) && cls.length > CLASS_PREFIX.length
+      ? cls.slice(CLASS_PREFIX.length).trim()
+      : cls;
+
+  // Split prefix / tail so toggling shadow only changes the second string — avoids a new wrapped line and layout jump
+  const classNameBlock =
+    cls.startsWith(CLASS_PREFIX) && rest
+      ? `className={
+    "${CLASS_PREFIX} " +
+    "${rest}"
+  }`
+      : `className="${cls}"`;
+
   return `<motion.button
   whileHover={{ scale: 1.04 }}
   whileTap={{ scale: 0.96 }}
-  className="${cls}"
+  ${classNameBlock}
   style={{ ${colorParts} }}
 >
   ${cfg.label}
@@ -72,11 +91,11 @@ function buildSnippet(cfg) {
 export function ComponentPlayground() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const [cfg, setCfg] = useState(DEFAULT);
+  const [cfg, setCfg] = useState(() => ({ ...DEFAULT }));
   const [copied, setCopied] = useState(false);
 
   const set = (key, val) => setCfg((p) => ({ ...p, [key]: val }));
-  const reset = () => setCfg(DEFAULT);
+  const reset = () => setCfg({ ...DEFAULT });
 
   const copy = async () => {
     await navigator.clipboard.writeText(buildSnippet(cfg));
@@ -188,28 +207,35 @@ export function ComponentPlayground() {
           </div>
 
           <div className="flex items-center justify-between">
-            <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Shadow</label>
+            <label htmlFor="playground-shadow" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              Shadow
+            </label>
             <button
+              id="playground-shadow"
+              type="button"
+              role="switch"
+              aria-checked={cfg.shadow}
               onClick={() => set("shadow", !cfg.shadow)}
               className={cn(
-                "relative h-5 w-9 rounded-full transition-colors",
+                "relative h-5 w-9 shrink-0 rounded-full transition-colors",
                 cfg.shadow ? "bg-primary" : "bg-border"
               )}
             >
+              {/* w-9 (36px) − thumb (16px) − inset (4px) → travel 16px; base left-0.5 + translateX */}
               <motion.span
-                animate={{ x: cfg.shadow ? 16 : 2 }}
+                animate={{ x: cfg.shadow ? 16 : 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                className="absolute top-0.5 h-4 w-4 rounded-full bg-white shadow"
+                className="absolute left-0.5 top-0.5 block h-4 w-4 rounded-full bg-white shadow"
               />
             </button>
           </div>
         </div>
 
-        {/* Preview + code */}
-        <div className="flex flex-col gap-4">
+        {/* Preview + code — fixed preview height + fixed code viewport so toggles don’t resize the column */}
+        <div className="flex min-h-0 flex-col gap-4">
           {/* Preview box */}
           <div className={cn(
-            "flex flex-1 min-h-[140px] items-center justify-center rounded-2xl",
+            "flex h-40 shrink-0 items-center justify-center rounded-2xl",
             isDark ? "border border-border bg-card/60 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
           )}>
             <motion.button
@@ -227,10 +253,10 @@ export function ComponentPlayground() {
 
           {/* Generated code */}
           <div className={cn(
-            "relative overflow-hidden rounded-2xl",
+            "relative flex min-h-0 flex-col overflow-hidden rounded-2xl",
             isDark ? "border border-border bg-card/70" : "border-2 border-foreground bg-card shadow-pop"
           )}>
-            <div className="flex items-center justify-between border-b border-border px-4 py-2">
+            <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-2">
               <span className="font-mono text-xs text-muted-foreground">generated jsx</span>
               <button
                 onClick={copy}
@@ -240,7 +266,7 @@ export function ComponentPlayground() {
                 {copied ? "copied!" : "copy"}
               </button>
             </div>
-            <pre className="overflow-x-auto p-4 font-mono text-xs leading-6 text-foreground/80">
+            <pre className="max-h-64 min-h-64 overflow-auto p-4 font-mono text-xs leading-6 text-foreground/80 [overflow-wrap:anywhere]">
               {buildSnippet(cfg)}
             </pre>
           </div>

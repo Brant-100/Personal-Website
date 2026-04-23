@@ -12,7 +12,7 @@ Serves JSON data for the portfolio frontend:
     - POST /api/contact
 
 Run locally:
-    uvicorn main:app --reload --port 8000
+    uvicorn main:app --reload --host 127.0.0.1 --port 8765
 """
 from __future__ import annotations
 

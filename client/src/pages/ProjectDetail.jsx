@@ -33,7 +33,7 @@ export function ProjectDetail() {
   useEffect(() => {
     const ctrl = new AbortController();
     fetch(
-      `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? "http://localhost:8000" : "")}/api/projects/${id}`,
+      `${import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? "http://localhost:8765" : "")}/api/projects/${id}`,
       { signal: ctrl.signal }
     )
       .then((r) => r.json())

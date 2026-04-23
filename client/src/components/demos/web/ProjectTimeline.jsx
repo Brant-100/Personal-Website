@@ -10,55 +10,55 @@ const PHASES = [
     id: "discovery",
     label: "Discovery",
     icon: Search,
-    duration: "Week 1",
-    summary: "We align on goals before a single pixel is drawn.",
+    duration: "~1 week",
+    summary: "Clarify goals and what success looks like.",
     detail:
-      "Kick-off call, requirements doc, sitemap draft, tech-stack decision. Deliverable: a one-page brief you approve before work starts. No surprises downstream.",
+      "We talk through what you need, who it’s for, and what has to be on the site. You get a short written summary to approve before anything is designed.",
   },
   {
     id: "design",
     label: "Design",
     icon: Paintbrush,
-    duration: "Weeks 1–2",
-    summary: "Wireframes → high-fidelity mockups, all in Figma.",
+    duration: "~1–2 weeks",
+    summary: "Layouts first, then full visuals you can react to.",
     detail:
-      "Lo-fi wireframes first for layout feedback, then full colour/type/motion mockups. You see and approve every screen before I write a line of code.",
+      "Simple layouts come first so we can agree on structure. Then you see polished screens with real colours and type. Nothing is built until you sign off on the look.",
   },
   {
     id: "build",
     label: "Build",
     icon: Code2,
-    duration: "Weeks 2–4",
-    summary: "Clean, tested, component-driven code.",
+    duration: "~2–4 weeks",
+    summary: "The approved design becomes your real site.",
     detail:
-      "React + Vite + Tailwind + Framer Motion. Components are documented, accessibility-checked, and staged on a preview URL so you can watch progress in real time.",
+      "I build the site from what you approved and share a private preview link so you can watch it take shape. Quick check-ins keep surprises out of the process.",
   },
   {
     id: "polish",
     label: "Polish",
     icon: Sparkles,
-    duration: "Week 4",
-    summary: "Animations, edge cases, cross-device QA.",
+    duration: "~1 week",
+    summary: "Speed, phones, and the little things.",
     detail:
-      "Performance audit, Lighthouse green pass, touch-target checks, reduced-motion support, final copy review. This is where good becomes great.",
+      "Final pass on load time, how it feels on mobile, readability, and wording tweaks. This is when we tighten everything before go-live.",
   },
   {
     id: "launch",
     label: "Launch",
     icon: Rocket,
-    duration: "Week 5",
-    summary: "Deploy, domain, handover docs.",
+    duration: "~1 week",
+    summary: "Go live on your domain and hand off cleanly.",
     detail:
-      "Vercel / Netlify deploy with CI, custom domain, env vars locked down. You get a written handover doc and a 30-minute walkthrough call so you own what you paid for.",
+      "Point your domain, flip the site on, and make sure the basics are secure and backed up. You get a short walkthrough so you know what you have and where things live.",
   },
   {
     id: "support",
     label: "Support",
     icon: LifeBuoy,
-    duration: "30 days",
-    summary: "Bug fixes and small tweaks, on me.",
+    duration: "~30 days",
+    summary: "Small fixes after launch, included.",
     detail:
-      "30 days post-launch I'm available for bugs and minor adjustments at no extra charge. After that, flexible hourly or retainer options available.",
+      "For about a month after launch I handle bugs and small adjustments at no extra charge. If you want ongoing help after that, we can work that out separately.",
   },
 ];
 
@@ -69,14 +69,11 @@ export function ProjectTimeline() {
   const [active, setActive] = useState("discovery");
 
   const toggle = (id) => setActive((prev) => (prev === id ? null : id));
-  const reset = () => setActive("discovery");
-
   return (
     <DemoSection
       eyebrow="process"
       heading="How a project flows"
-      description="Click any phase to see what happens — and what you get at the end of it."
-      onReset={reset}
+      description="Typical order of steps for a website project. Tap a phase for a bit more detail."
     >
       {/* Horizontal timeline (desktop) */}
       <div className="hidden lg:block">
@@ -114,7 +111,7 @@ export function ProjectTimeline() {
                 <span className={cn("text-xs font-semibold", isActive ? "text-foreground" : "text-muted-foreground")}>
                   {phase.label}
                 </span>
-                <span className="font-mono text-[9px] text-muted-foreground/60">{phase.duration}</span>
+                <span className="text-[9px] text-muted-foreground/70">{phase.duration}</span>
               </button>
             );
           })}
@@ -148,8 +145,8 @@ export function ProjectTimeline() {
                     <Icon className="h-4 w-4" />
                   </div>
                   <div>
-                    <div className="font-semibold">{phase.label} <span className="font-mono text-xs text-muted-foreground">· {phase.duration}</span></div>
-                    <div className="mt-1 text-sm text-muted-foreground">{phase.detail}</div>
+                    <div className="font-semibold">{phase.label} <span className="text-xs font-normal text-muted-foreground">· {phase.duration} <span className="italic">(estimate)</span></span></div>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{phase.detail}</p>
                   </div>
                 </div>
               </motion.div>
@@ -189,7 +186,7 @@ export function ProjectTimeline() {
                   <div className="text-sm font-semibold">{phase.label}</div>
                   <div className="truncate text-xs text-muted-foreground">{phase.summary}</div>
                 </div>
-                <span className="font-mono text-[10px] text-muted-foreground shrink-0">{phase.duration}</span>
+                <span className="shrink-0 text-[10px] text-muted-foreground">{phase.duration}</span>
               </button>
               <AnimatePresence>
                 {isActive && (
@@ -200,7 +197,10 @@ export function ProjectTimeline() {
                     transition={{ type: "spring", stiffness: 300, damping: 28 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-4 py-3 text-sm text-muted-foreground">{phase.detail}</div>
+                    <div className="space-y-2 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
+                      <p>{phase.detail}</p>
+                      <p className="text-xs italic text-muted-foreground/90">{phase.duration} — estimate only; your schedule may differ.</p>
+                    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -208,6 +208,10 @@ export function ProjectTimeline() {
           );
         })}
       </div>
+
+      <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
+        <span className="font-semibold text-foreground/80">About these dates:</span> They’re ballpark estimates for a standard site, not a fixed contract calendar. Real timelines depend on scope, how quickly feedback comes back, and how many revision rounds you need. We’ll agree on milestones for your project before work starts.
+      </p>
     </DemoSection>
   );
 }

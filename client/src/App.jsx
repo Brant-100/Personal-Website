@@ -10,6 +10,7 @@ import { ProjectDetail } from "@/pages/ProjectDetail";
 import { BlogIndex } from "@/pages/BlogIndex";
 import { BlogPost } from "@/pages/BlogPost";
 import { Now } from "@/pages/Now";
+import { ServicesPage } from "@/pages/ServicesPage";
 import { WebDevDemo } from "@/pages/WebDevDemo";
 import { UIDesignDemo } from "@/pages/UIDesignDemo";
 import { CustomSoftwareDemo } from "@/pages/CustomSoftwareDemo";
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/now" element={<Now />} />
+              <Route path="/services" element={<ServicesPage />} />
               <Route path="/services/web-development" element={<WebDevDemo />} />
               <Route path="/services/ui-ux-design" element={<UIDesignDemo />} />
               <Route path="/services/custom-software-solutions" element={<CustomSoftwareDemo />} />

@@ -5,7 +5,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const SCORES = [
-  { label: "Performance",     value: 98, color: "#22E5FF", detail: "Vite code-splitting, lazy routes, tree-shaken deps." },
+  { label: "Performance",     value: 100, color: "#22E5FF", detail: "Vite code-splitting, lazy routes, tree-shaken deps." },
   { label: "Accessibility",   value: 100, color: "#3BF475", detail: "Semantic HTML, ARIA labels, focus rings, skip links." },
   { label: "Best Practices",  value: 100, color: "#B678FF", detail: "HTTPS, no mixed content, modern image formats." },
   { label: "SEO",             value: 100, color: "#FFD028", detail: "Meta tags, sitemap, structured data, clean URLs." },

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Code2, Zap, Accessibility, Layers, Monitor, Smartphone, Tablet } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -37,9 +37,9 @@ export function WebDevDemo() {
       <ComponentPlayground />
       <ProjectTimeline />
       <WebCaseStudy />
-      <FAQAccordion />
       <WebPricingCard />
       <CTAInquiryForm source="web-development" />
+      <FAQAccordion />
       <OtherServicesNav current="web" />
     </ServicePageLayout>
   );
@@ -197,7 +197,10 @@ function DevicePreview() {
 function LiveCodeDemo() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const prefersReduced = useReducedMotion();
   const [hovered, setHovered] = useState(false);
+
+  const barPattern = [0.35, 0.85, 0.5, 1, 0.45, 0.92, 0.6];
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
@@ -207,42 +210,101 @@ function LiveCodeDemo() {
         </div>
         <h3 className="mt-2 text-2xl font-bold">Hover the button →</h3>
         <p className="mt-3 text-muted-foreground">
-          A tiny demo of spring-based interaction: state drives animation,
-          motion drives feel, Tailwind drives the look.
+          Spring motion, light sweep, and a tiny live meter — no debug flags, just
+          feedback you can feel.
         </p>
 
-        <div className="mt-8 flex items-center gap-4">
-          <motion.button
-            onHoverStart={() => setHovered(true)}
-            onHoverEnd={() => setHovered(false)}
-            onFocus={() => setHovered(true)}
-            onBlur={() => setHovered(false)}
-            whileTap={{ scale: 0.96 }}
-            className={cn(
-              "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3 font-semibold",
-              isDark
-                ? "bg-primary text-primary-foreground shadow-neon-cyan"
-                : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop"
-            )}
-          >
-            <Code2 className="h-4 w-4" />
-            <span>Try me</span>
-            <AnimatePresence>
-              {hovered && (
-                <motion.span
-                  key="sheen"
-                  initial={{ x: "-120%" }}
-                  animate={{ x: "220%" }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                  className="absolute inset-y-0 w-1/2 bg-white/20 skew-x-[-20deg]"
-                />
+        <div className="mt-8 flex flex-wrap items-end gap-5">
+          <div className="relative">
+            {/* Outer pulse ring on hover */}
+            <motion.div
+              className={cn(
+                "pointer-events-none absolute -inset-3 rounded-2xl",
+                isDark ? "bg-primary/15" : "bg-primary/10"
               )}
-            </AnimatePresence>
-          </motion.button>
-          <span className="font-mono text-xs text-muted-foreground">
-            hovered = <span className="text-primary">{String(hovered)}</span>
-          </span>
+              animate={
+                prefersReduced
+                  ? {}
+                  : hovered
+                  ? { scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }
+                  : { scale: 1, opacity: 0 }
+              }
+              transition={
+                hovered
+                  ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 0.25 }
+              }
+            />
+            <motion.button
+              onHoverStart={() => setHovered(true)}
+              onHoverEnd={() => setHovered(false)}
+              onFocus={() => setHovered(true)}
+              onBlur={() => setHovered(false)}
+              whileHover={prefersReduced ? {} : { scale: 1.04, y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              className={cn(
+                "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3 font-semibold transition-shadow",
+                isDark
+                  ? "bg-primary text-primary-foreground shadow-neon-cyan hover:shadow-[0_0_28px_rgba(34,229,255,0.55)]"
+                  : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop hover:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]"
+              )}
+            >
+              <motion.span
+                animate={hovered && !prefersReduced ? { rotate: [0, -8, 8, 0] } : {}}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <Code2 className="h-4 w-4" />
+              </motion.span>
+              <span>Try me</span>
+              <AnimatePresence>
+                {hovered && (
+                  <motion.span
+                    key="sheen"
+                    initial={{ x: "-120%" }}
+                    animate={{ x: "220%" }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.7, ease: "easeInOut" }}
+                    className="absolute inset-y-0 w-1/2 bg-white/25 skew-x-[-20deg]"
+                  />
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </div>
+
+          {/* Live meter — reacts to hover */}
+          <div
+            className={cn(
+              "flex h-14 items-end gap-1 rounded-xl border px-3 py-2",
+              isDark
+                ? "border-primary/30 bg-card/50 backdrop-blur"
+                : "border-foreground/20 bg-muted/40"
+            )}
+            aria-hidden
+          >
+            {barPattern.map((amp, i) => (
+              <motion.div
+                key={i}
+                className={cn(
+                  "w-1.5 rounded-full",
+                  isDark ? "bg-primary" : "bg-foreground"
+                )}
+                initial={false}
+                animate={{
+                  height: prefersReduced
+                    ? 10
+                    : hovered
+                    ? 8 + amp * 32
+                    : 6 + amp * 6,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: hovered ? 420 : 200,
+                  damping: hovered ? 14 : 22,
+                  delay: prefersReduced ? 0 : i * 0.03,
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -259,11 +321,9 @@ function LiveCodeDemo() {
           )}
         >
 {`<motion.button
-  onHoverStart={() => setHovered(true)}
-  onHoverEnd={() => setHovered(false)}
+  whileHover={{ scale: 1.04, y: -3 }}
   whileTap={{ scale: 0.96 }}
-  className="rounded-xl px-6 py-3
-             shadow-neon-cyan"
+  className="rounded-xl px-6 py-3 shadow-neon-cyan"
 >
   Try me
 </motion.button>`}

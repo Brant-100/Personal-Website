@@ -64,6 +64,49 @@ const EVENT_TEMPLATES = [
       status: "completed",
     },
   },
+  {
+    id: "deploy.succeeded",
+    label: "deploy.succeeded",
+    method: "POST",
+    path: "/webhooks/github",
+    statusColor: "text-green-500",
+    payload: {
+      repo: "acme/api",
+      ref: "refs/heads/main",
+      commit: "a4f2c91",
+      environment: "production",
+      url: "https://api.acme.app",
+      duration_s: 48,
+    },
+  },
+  {
+    id: "integration.synced",
+    label: "integration.synced",
+    method: "POST",
+    path: "/webhooks/integrations",
+    statusColor: "text-secondary",
+    payload: {
+      connector: "salesforce",
+      run_id: "sync_9c4e21",
+      records_upserted: 1842,
+      conflicts: 0,
+      finished_at: "2026-04-22T15:02:11Z",
+    },
+  },
+  {
+    id: "alert.triggered",
+    label: "alert.triggered",
+    method: "POST",
+    path: "/webhooks/pagerduty",
+    statusColor: "text-accent",
+    payload: {
+      incident_key: "pd_8k2m",
+      severity: "critical",
+      service: "api-prod",
+      summary: "Error rate > 5% for 3m",
+      dedup_key: "err_rate_us_east",
+    },
+  },
 ];
 
 function makeEvent(template) {

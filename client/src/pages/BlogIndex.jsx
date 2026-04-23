@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.DEV ? "http://localhost:8000" : "");
+  (import.meta.env.DEV ? "http://localhost:8765" : "");
 
 export function BlogIndex() {
   const { theme } = useTheme();

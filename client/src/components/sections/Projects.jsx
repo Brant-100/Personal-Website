@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, ExternalLink, Lock, Sparkles, Activity, Eye, Calendar, ArrowRight } from "lucide-react";
+import {
+  Github,
+  ExternalLink,
+  Lock,
+  Sparkles,
+  Activity,
+  Eye,
+  Calendar,
+  ArrowRight,
+  ChevronDown,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -283,7 +293,7 @@ export function Projects() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={spring.soft}
-          className="grid gap-6 md:grid-cols-2"
+          className="grid items-start gap-4 md:grid-cols-2 md:gap-5"
         >
           {filtered.map((p, i) => (
             <ProjectCard key={p.id || p.title} project={p} index={i} isDark={isDark} />
@@ -295,9 +305,14 @@ export function Projects() {
 }
 
 function ProjectCard({ project, index, isDark }) {
+  const [expanded, setExpanded] = useState(false);
   const accentKey = project.accent_theme || "default";
   const a = getAccent(accentKey);
   const Icon = a.Icon;
+  const panelId = `project-expanded-${project.id || project.title}`;
+  const tech = project.tech || [];
+  const techPreview = tech.slice(0, 3);
+  const techExtra = Math.max(0, tech.length - techPreview.length);
 
   const cardBase = isDark
     ? "bg-card/70 backdrop-blur border-border"
@@ -310,11 +325,11 @@ function ProjectCard({ project, index, isDark }) {
       viewport={{ once: true, amount: 0.15 }}
       transition={{ ...spring.soft, delay: index * 0.07 }}
       whileHover={{ y: -4 }}
-      className="group relative"
+      className="group relative h-fit min-h-0"
     >
       <Card
         className={cn(
-          "relative h-full overflow-hidden transition-all duration-300",
+          "relative flex h-fit min-h-0 flex-col overflow-hidden transition-all duration-300",
           cardBase,
           isDark ? a.cardDark : a.cardLight
         )}
@@ -335,17 +350,18 @@ function ProjectCard({ project, index, isDark }) {
           )}
         />
 
-        <CardHeader className="relative z-10">
+        <CardHeader className={cn("relative z-10", expanded ? "pb-4" : "space-y-1 pb-3")}>
           <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 flex-wrap items-center gap-2">
               {Icon && (
                 <span
                   className={cn(
-                    "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl",
+                    "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg md:h-10 md:w-10 md:rounded-xl",
+                    expanded && "h-11 w-11 rounded-xl",
                     isDark ? a.iconWrapDark : a.iconWrapLight
                   )}
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className={cn("h-4 w-4", expanded && "h-5 w-5")} />
                 </span>
               )}
               <Badge
@@ -359,12 +375,13 @@ function ProjectCard({ project, index, isDark }) {
                 {project.year || "2026"}
               </Badge>
 
-              {/* last_updated stamp */}
               {project.last_updated && (
-                <span className={cn(
-                  "inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px]",
-                  isDark ? "bg-muted/60 text-muted-foreground" : "bg-muted text-muted-foreground"
-                )}>
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px]",
+                    isDark ? "bg-muted/60 text-muted-foreground" : "bg-muted text-muted-foreground"
+                  )}
+                >
                   <Calendar className="h-2.5 w-2.5" />
                   {project.last_updated}
                 </span>
@@ -378,13 +395,25 @@ function ProjectCard({ project, index, isDark }) {
                 </span>
               ) : (
                 project.repo_url && (
-                  <a href={project.repo_url} aria-label="Repository" target="_blank" rel="noreferrer" className="rounded-md p-1 hover:bg-muted">
+                  <a
+                    href={project.repo_url}
+                    aria-label="Repository"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-md p-1 hover:bg-muted"
+                  >
                     <Github className="h-4 w-4 hover:text-primary" />
                   </a>
                 )
               )}
               {project.live_url && (
-                <a href={project.live_url} aria-label="Live" target="_blank" rel="noreferrer" className="rounded-md p-1 hover:bg-muted">
+                <a
+                  href={project.live_url}
+                  aria-label="Live"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-md p-1 hover:bg-muted"
+                >
                   <ExternalLink className="h-4 w-4 hover:text-primary" />
                 </a>
               )}
@@ -393,92 +422,32 @@ function ProjectCard({ project, index, isDark }) {
 
           <CardTitle
             className={cn(
-              "mt-3 text-2xl md:text-3xl font-extrabold tracking-tight",
+              "font-extrabold tracking-tight",
+              expanded
+                ? "mt-3 text-2xl md:text-3xl"
+                : "mt-2 text-lg md:text-xl",
               isDark ? a.titleDark : a.titleLight || "text-foreground"
             )}
           >
             {project.title}
           </CardTitle>
-          <CardDescription className="text-base leading-relaxed">
+          <CardDescription
+            className={cn(
+              "leading-relaxed",
+              expanded ? "text-base" : "text-sm line-clamp-2"
+            )}
+          >
             {project.tagline}
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="relative z-10">
-          <p className="mb-4 text-sm text-muted-foreground leading-relaxed">
-            {project.description}
-          </p>
-
-          {(project.features || []).length > 0 && (
-            <ul className="mb-5 space-y-2.5 text-sm text-foreground/90">
-              {(project.features || []).slice(0, 5).map((line) => (
-                <li
-                  key={line.slice(0, 48)}
-                  className={cn(isDark ? a.bulletDark : a.bulletLight)}
-                >
-                  {line}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {/* MITRE ATT&CK badges */}
-          {(project.mitre_techniques || []).length > 0 && (
-            <div className="mb-4">
-              <div className={cn(
-                "mb-1.5 font-mono text-[10px] uppercase tracking-[0.2em]",
-                isDark ? "text-accent" : "text-muted-foreground"
-              )}>
-                MITRE ATT&CK
-              </div>
-              <div className="flex flex-wrap gap-1">
-                {(project.mitre_techniques || []).slice(0, 9).map((t) => (
-                  <a
-                    key={t}
-                    href={`https://attack.mitre.org/techniques/${t.replace(".", "/")}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={cn(
-                      "rounded px-1.5 py-0.5 font-mono text-[10px] transition-colors",
-                      isDark
-                        ? "bg-accent/15 text-accent hover:bg-accent/30 ring-1 ring-accent/30"
-                        : "bg-foreground/10 text-foreground hover:bg-foreground/20"
-                    )}
-                  >
-                    {t}
-                  </a>
-                ))}
-                {(project.mitre_techniques || []).length > 9 && (
-                  <span className={cn(
-                    "rounded px-1.5 py-0.5 font-mono text-[10px]",
-                    isDark ? "text-muted-foreground" : "text-muted-foreground"
-                  )}>
-                    +{project.mitre_techniques.length - 9} more
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Visibility note for private projects */}
-          {project.visibility_note && (
-            <div className={cn(
-              "mb-4 flex items-start gap-2 rounded-lg p-3 text-xs leading-relaxed",
-              isDark
-                ? "border border-primary/20 bg-primary/5 text-primary"
-                : "border border-foreground/20 bg-muted/60 text-muted-foreground"
-            )}>
-              <Eye className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-              {project.visibility_note}
-            </div>
-          )}
-
-          <div className="mb-4 flex flex-wrap gap-2">
-            {(project.tech || []).map((t) => (
+        {!expanded && techPreview.length > 0 && (
+          <div className="relative z-10 flex flex-wrap gap-1.5 px-6 pb-1">
+            {techPreview.map((t) => (
               <span
                 key={t}
                 className={cn(
-                  "relative rounded-md px-2 py-1 font-mono text-xs",
+                  "rounded px-1.5 py-0.5 font-mono text-[10px]",
                   accentKey === "skillswap" && isDark && "bg-violet-950/80 text-cyan-300 ring-1 ring-violet-500/30",
                   accentKey === "skillswap" && !isDark && "bg-violet-100 text-violet-900 ring-1 ring-violet-300",
                   accentKey === "healthhive" && isDark && "bg-emerald-950/60 text-amber-200 ring-1 ring-emerald-500/30",
@@ -494,34 +463,182 @@ function ProjectCard({ project, index, isDark }) {
                 {t}
               </span>
             ))}
-          </div>
-
-          {project.tags && (
-            <div className="mb-4 flex flex-wrap gap-1.5">
-              {project.tags.map((t) => (
-                <span
-                  key={t}
-                  className="text-[10px] uppercase tracking-widest text-muted-foreground"
-                >
-                  #{t}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Detail page CTA */}
-          <Link
-            to={`/projects/${project.id}`}
-            className={cn(
-              "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] transition-all",
-              isDark
-                ? "border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
-                : "border-2 border-foreground text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary"
+            {techExtra > 0 && (
+              <span className="self-center font-mono text-[10px] text-muted-foreground">
+                +{techExtra}
+              </span>
             )}
-          >
-            view details <ArrowRight className="h-3 w-3" />
-          </Link>
-        </CardContent>
+          </div>
+        )}
+
+        <div
+          id={panelId}
+          role="region"
+          aria-hidden={!expanded}
+          aria-label={expanded ? `${project.title} full summary` : undefined}
+          className="relative z-10"
+        >
+          <AnimatePresence initial={false}>
+            {expanded && (
+              <motion.div
+                key="expanded"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={spring.soft}
+                className="overflow-hidden"
+              >
+                <CardContent className="pt-0">
+                <p className="mb-4 text-sm text-muted-foreground leading-relaxed">
+                  {project.description}
+                </p>
+
+                {(project.features || []).length > 0 && (
+                  <ul className="mb-5 space-y-2.5 text-sm text-foreground/90">
+                    {(project.features || []).slice(0, 5).map((line) => (
+                      <li
+                        key={line.slice(0, 48)}
+                        className={cn(isDark ? a.bulletDark : a.bulletLight)}
+                      >
+                        {line}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {(project.mitre_techniques || []).length > 0 && (
+                  <div className="mb-4">
+                    <div
+                      className={cn(
+                        "mb-1.5 font-mono text-[10px] uppercase tracking-[0.2em]",
+                        isDark ? "text-accent" : "text-muted-foreground"
+                      )}
+                    >
+                      MITRE ATT&CK
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {(project.mitre_techniques || []).slice(0, 9).map((t) => (
+                        <a
+                          key={t}
+                          href={`https://attack.mitre.org/techniques/${t.replace(".", "/")}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={cn(
+                            "rounded px-1.5 py-0.5 font-mono text-[10px] transition-colors",
+                            isDark
+                              ? "bg-accent/15 text-accent hover:bg-accent/30 ring-1 ring-accent/30"
+                              : "bg-foreground/10 text-foreground hover:bg-foreground/20"
+                          )}
+                        >
+                          {t}
+                        </a>
+                      ))}
+                      {(project.mitre_techniques || []).length > 9 && (
+                        <span
+                          className={cn(
+                            "rounded px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground"
+                          )}
+                        >
+                          +{project.mitre_techniques.length - 9} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {project.visibility_note && (
+                  <div
+                    className={cn(
+                      "mb-4 flex items-start gap-2 rounded-lg p-3 text-xs leading-relaxed",
+                      isDark
+                        ? "border border-primary/20 bg-primary/5 text-primary"
+                        : "border border-foreground/20 bg-muted/60 text-muted-foreground"
+                    )}
+                  >
+                    <Eye className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                    {project.visibility_note}
+                  </div>
+                )}
+
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {(project.tech || []).map((t) => (
+                    <span
+                      key={t}
+                      className={cn(
+                        "relative rounded-md px-2 py-1 font-mono text-xs",
+                        accentKey === "skillswap" && isDark && "bg-violet-950/80 text-cyan-300 ring-1 ring-violet-500/30",
+                        accentKey === "skillswap" && !isDark && "bg-violet-100 text-violet-900 ring-1 ring-violet-300",
+                        accentKey === "healthhive" && isDark && "bg-emerald-950/60 text-amber-200 ring-1 ring-emerald-500/30",
+                        accentKey === "healthhive" && !isDark && "bg-amber-50 text-emerald-900 ring-1 ring-amber-300",
+                        (accentKey === "cyber" || accentKey === "default") &&
+                          isDark &&
+                          "bg-muted text-primary",
+                        (accentKey === "cyber" || accentKey === "default") &&
+                          !isDark &&
+                          "bg-accent/40 text-foreground"
+                      )}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {project.tags && (
+                  <div className="mb-4 flex flex-wrap gap-1.5">
+                    {project.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[10px] uppercase tracking-widest text-muted-foreground"
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                </CardContent>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div
+          className={cn(
+            "relative z-10 mt-auto flex flex-col gap-3 border-t px-6 py-3",
+            isDark ? "border-border/80" : "border-foreground/15"
+          )}
+        >
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <Link
+              to={`/projects/${project.id}`}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] transition-all",
+                isDark
+                  ? "border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
+                  : "border-2 border-foreground text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary"
+              )}
+            >
+              view details <ArrowRight className="h-3 w-3" />
+            </Link>
+            <button
+              type="button"
+              aria-expanded={expanded}
+              aria-controls={panelId}
+              onClick={() => setExpanded((v) => !v)}
+              className={cn(
+                "inline-flex items-center gap-1 rounded-md px-2 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.16em] transition-colors",
+                isDark
+                  ? "text-muted-foreground hover:bg-muted hover:text-primary"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              )}
+            >
+              {expanded ? "Less" : "Expand"}
+              <ChevronDown
+                className={cn("h-4 w-4 shrink-0 transition-transform duration-200", expanded && "rotate-180")}
+                aria-hidden
+              />
+            </button>
+          </div>
+        </div>
 
         {/* Cyber-style sheen; SkillSwap / HealthHive get their own mesh above */}
         {isDark && (accentKey === "cyber" || accentKey === "default") && (

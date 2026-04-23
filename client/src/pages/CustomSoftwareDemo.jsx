@@ -37,9 +37,9 @@ export function CustomSoftwareDemo() {
         <PipelineDemo />
       </div>
       <SoftwareCaseStudy />
-      <FAQAccordion />
       <SoftwarePricingCard />
       <CTAInquiryForm source="custom-software-solutions" />
+      <FAQAccordion />
       <OtherServicesNav current="software" />
     </ServicePageLayout>
   );
@@ -209,19 +209,31 @@ function FakeApiDemo() {
   );
 }
 
-const LOG_LINES = [
+function randInt(min, max) {
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
+
+/** String or builder — builders run per line so ms / counts vary each run */
+const PIPELINE_STEPS = [
   "[boot] pipeline.start, run_id=run_9f81a2",
   "[fetch] GET https://api.vendor.example/v2/orders?since=2026-04-20",
-  "[fetch] 200 OK · 318 records in 412ms",
+  () =>
+    `[fetch] 200 OK · ${randInt(285, 352)} records in ${randInt(260, 620)}ms`,
   "[transform] normalizing currencies → USD",
   "[transform] dropping duplicate order_ids (4)",
   "[validate] schema ok · 0 rejected",
-  "[enrich] joining customers.csv (rows=12,984)",
+  () =>
+    `[enrich] joining customers.csv (rows=${randInt(11_200, 14_100).toLocaleString("en-US")})`,
   "[persist] writing to postgres://prod/orders",
-  "[persist] committed 314 rows in 173ms",
+  () =>
+    `[persist] committed ${randInt(286, 336)} rows in ${randInt(64, 420)}ms`,
   "[notify] slack → #ops-etl",
-  "[done] pipeline ok · elapsed 2.4s",
+  () => `[done] pipeline ok · elapsed ${(randInt(17, 42) / 10).toFixed(1)}s`,
 ];
+
+function resolvePipelineLine(step) {
+  return typeof step === "function" ? step() : step;
+}
 
 function PipelineDemo() {
   const { theme } = useTheme();
@@ -229,28 +241,47 @@ function PipelineDemo() {
   const [running, setRunning] = useState(false);
   const [lines, setLines] = useState([]);
   const timer = useRef(null);
+  const lineIndex = useRef(0);
 
   const start = () => {
     if (running) return;
+    if (timer.current) {
+      clearInterval(timer.current);
+      timer.current = null;
+    }
+    lineIndex.current = 0;
     setLines([]);
     setRunning(true);
-    let i = 0;
     timer.current = setInterval(() => {
-      setLines((prev) => [...prev, LOG_LINES[i]]);
-      i += 1;
-      if (i >= LOG_LINES.length) {
-        clearInterval(timer.current);
+      const i = lineIndex.current;
+      if (i >= PIPELINE_STEPS.length) {
+        if (timer.current) clearInterval(timer.current);
+        timer.current = null;
+        setRunning(false);
+        return;
+      }
+      const next = resolvePipelineLine(PIPELINE_STEPS[i]);
+      lineIndex.current = i + 1;
+      setLines((prev) => [...prev, next]);
+      if (i + 1 >= PIPELINE_STEPS.length) {
+        if (timer.current) clearInterval(timer.current);
+        timer.current = null;
         setRunning(false);
       }
     }, 380);
   };
 
   const stop = () => {
-    if (timer.current) clearInterval(timer.current);
+    if (timer.current) {
+      clearInterval(timer.current);
+      timer.current = null;
+    }
     setRunning(false);
   };
 
-  useEffect(() => () => timer.current && clearInterval(timer.current), []);
+  useEffect(() => () => {
+    if (timer.current) clearInterval(timer.current);
+  }, []);
 
   return (
     <div>
@@ -261,6 +292,7 @@ function PipelineDemo() {
         </div>
         <div className="flex gap-2">
           <button
+            type="button"
             onClick={start}
             disabled={running}
             className={cn(
@@ -275,6 +307,7 @@ function PipelineDemo() {
             <Play className="h-4 w-4" /> Run
           </button>
           <button
+            type="button"
             onClick={stop}
             disabled={!running}
             className={cn(
@@ -309,25 +342,18 @@ function PipelineDemo() {
             </span>
           )}
           {lines.map((l, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.18 }}
+            <div
+              key={`${i}-${l.slice(0, 24)}`}
               className={cn(
                 l.startsWith("[done]") && "text-accent",
                 l.startsWith("[boot]") && "text-primary"
               )}
             >
               {l}
-            </motion.div>
+            </div>
           ))}
           {running && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="inline-block terminal-cursor"
-            />
+            <span className="inline-block terminal-cursor" aria-hidden />
           )}
         </div>
       </div>

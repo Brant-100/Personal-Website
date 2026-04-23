@@ -1,90 +1,155 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
+/* Curves here are chosen to *not* duplicate Design system tokens → Motion (soft / snap / bouncy springs, ease-out, ease-in-out). */
 const CURVES = [
   {
     name: "linear",
     label: "Linear",
-    ease: { ease: "linear", duration: 0.6 },
-    code: "transition={{ ease: 'linear', duration: 0.6 }}",
-    note: "Constant velocity — feels mechanical.",
+    ease: { type: "tween", ease: "linear", duration: 0.75 },
+    code: `transition={{
+  type: 'tween',
+  ease: 'linear',
+  duration: 0.75,
+}}`,
+    note: "Constant speed — scrubbers, loaders, anything that should feel neutral.",
   },
   {
     name: "ease-in",
     label: "Ease In",
-    ease: { ease: "easeIn", duration: 0.6 },
-    code: "transition={{ ease: 'easeIn', duration: 0.6 }}",
-    note: "Starts slow, accelerates — good for exits.",
+    ease: { type: "tween", ease: "easeIn", duration: 0.7 },
+    code: `transition={{
+  type: 'tween',
+  ease: 'easeIn',
+  duration: 0.7,
+}}`,
+    note: "Creeps in, then accelerates — common for things leaving focus.",
   },
   {
-    name: "ease-out",
-    label: "Ease Out",
-    ease: { ease: "easeOut", duration: 0.5 },
-    code: "transition={{ ease: 'easeOut', duration: 0.5 }}",
-    note: "Decelerates to rest — natural entrances.",
+    name: "circ-out",
+    label: "Circ Out",
+    ease: { type: "tween", ease: [0, 0, 0.55, 1], duration: 0.65 },
+    code: `transition={{
+  type: 'tween',
+  ease: [0, 0, 0.55, 1],
+  duration: 0.65,
+}}`,
+    note: "Circular deceleration — long, soft landing.",
   },
   {
-    name: "ease-in-out",
-    label: "Ease In-Out",
-    ease: { ease: "easeInOut", duration: 0.6 },
-    code: "transition={{ ease: 'easeInOut', duration: 0.6 }}",
-    note: "Accelerates then decelerates — polished.",
+    name: "back-out",
+    label: "Back Out",
+    ease: { type: "tween", ease: [0.175, 0.885, 0.32, 1.275], duration: 0.65 },
+    code: `transition={{
+  type: 'tween',
+  ease: [0.175, 0.885, 0.32, 1.275],
+  duration: 0.65,
+}}`,
+    note: "Passes the end value slightly, then settles — overshoot without a physics spring.",
   },
   {
-    name: "spring-soft",
-    label: "Spring (soft)",
-    ease: { type: "spring", stiffness: 120, damping: 20 },
-    code: "transition={{ type: 'spring', stiffness: 120, damping: 20 }}",
-    note: "Gentle spring — smooth, airy feel.",
+    name: "anticipate",
+    label: "Anticipate",
+    ease: { type: "tween", ease: [0.36, 0, 0.66, -0.56], duration: 0.55 },
+    code: `transition={{
+  type: 'tween',
+  ease: [0.36, 0, 0.66, -0.56],
+  duration: 0.55,
+}}`,
+    note: "Bezier dips below zero — wind-up before the main move (anticipate-style).",
   },
   {
-    name: "spring-snap",
-    label: "Spring (snap)",
-    ease: { type: "spring", stiffness: 380, damping: 26 },
-    code: "transition={{ type: 'spring', stiffness: 380, damping: 26 }}",
-    note: "Fast, crisp spring — UI feels responsive.",
+    name: "emphasized",
+    label: "Emphasized (Material)",
+    ease: { type: "tween", ease: [0.2, 0, 0, 1], duration: 0.55 },
+    code: `transition={{
+  type: 'tween',
+  ease: [0.2, 0, 0, 1],
+  duration: 0.55,
+}}`,
+    note: "Standard expressive decel — familiar from Material-style motion.",
   },
   {
-    name: "spring-bouncy",
-    label: "Spring (bouncy)",
-    ease: { type: "spring", stiffness: 260, damping: 14 },
-    code: "transition={{ type: 'spring', stiffness: 260, damping: 14 }}",
-    note: "Overshoots — playful and expressive.",
+    name: "expo-out",
+    label: "Expo Out",
+    ease: { type: "tween", ease: [0.16, 1, 0.3, 1], duration: 0.55 },
+    code: `transition={{
+  type: 'tween',
+  ease: [0.16, 1, 0.3, 1],
+  duration: 0.55,
+}}`,
+    note: "Snappy start, very soft finish — common in iOS-feeling transitions.",
   },
   {
-    name: "cubic",
-    label: "Custom Cubic",
-    ease: { ease: [0.34, 1.56, 0.64, 1], duration: 0.5 },
-    code: "transition={{ ease: [0.34, 1.56, 0.64, 1], duration: 0.5 }}",
-    note: "Custom cubic-bezier with overshoot.",
+    name: "cubic-overshoot",
+    label: "Cubic Overshoot",
+    ease: { type: "tween", ease: [0.34, 1.56, 0.64, 1], duration: 0.55 },
+    code: `transition={{
+  type: 'tween',
+  ease: [0.34, 1.56, 0.64, 1],
+  duration: 0.55,
+}}`,
+    note: "Bezier pushes past 1 on the graph — playful, cartoony settle.",
   },
 ];
 
+const TRACK_GUTTER_PX = 8;
+const DOT_PX = 16;
+
 function BallTrack({ curve, isHovered, prefersReduced, isDark }) {
+  const trackRef = useRef(null);
+  const [travelPx, setTravelPx] = useState(0);
+
+  useLayoutEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const measure = () => {
+      const w = el.getBoundingClientRect().width;
+      setTravelPx(Math.max(0, w - 2 * TRACK_GUTTER_PX - DOT_PX));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const active = !prefersReduced && isHovered && travelPx > 0;
+
   return (
-    <div className="relative h-6 w-full overflow-visible">
-      <div className={cn(
-        "absolute top-1/2 left-2 right-2 h-px -translate-y-1/2",
-        isDark ? "bg-border" : "bg-border"
-      )} />
-      <motion.div
+    <div
+      ref={trackRef}
+      className="relative h-6 w-full overflow-hidden rounded-full"
+    >
+      <div
         className={cn(
-          "absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full",
-          isDark ? "bg-primary shadow-neon-cyan" : "bg-foreground"
+          "absolute left-2 right-2 top-1/2 h-px -translate-y-1/2",
+          isDark ? "bg-border" : "bg-border"
         )}
-        style={{ left: 8 }}
-        animate={!prefersReduced && isHovered
-          ? { left: ["8px", "calc(100% - 24px)", "8px"] }
-          : { left: "8px" }
-        }
-        transition={!prefersReduced && isHovered
-          ? { ...curve.ease, repeat: Infinity, repeatDelay: 0.3 }
-          : {}
-        }
       />
+      {/* Wrapper keeps vertical centering: Framer's `x` overwrites transform on the motion node */}
+      <div className="absolute left-2 top-1/2 -translate-y-1/2">
+        <motion.div
+          className={cn(
+            "block h-4 w-4 rounded-full will-change-transform",
+            isDark ? "bg-primary shadow-neon-cyan" : "bg-foreground"
+          )}
+          initial={false}
+          animate={active ? { x: [0, travelPx] } : { x: 0 }}
+          transition={
+            active
+              ? {
+                  ...curve.ease,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  repeatDelay: 0.35,
+                }
+              : { duration: 0.15 }
+          }
+        />
+      </div>
     </div>
   );
 }
@@ -126,7 +191,7 @@ export function MotionCurvePreview() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className={cn(
-                    "mt-3 overflow-x-auto rounded-lg p-2 font-mono text-[10px] leading-5",
+                    "mt-3 max-w-full rounded-lg p-2 font-mono text-[10px] leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]",
                     isDark ? "bg-muted/40" : "bg-muted/60"
                   )}
                 >

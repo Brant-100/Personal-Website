@@ -14,11 +14,11 @@ pip install -r requirements.txt
 ## Run
 
 ```powershell
-uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --host 127.0.0.1 --port 8765
 ```
 
-- Interactive docs: http://localhost:8000/docs
-- OpenAPI spec:    http://localhost:8000/openapi.json
+- Interactive docs: http://localhost:8765/docs
+- OpenAPI spec:    http://localhost:8765/openapi.json
 
 ## Endpoints
 

@@ -155,6 +155,7 @@ function useTerminal() {
 
   const onKeyDown = (e) => {
     if (e.key === "Enter") {
+      e.preventDefault();
       run(input);
       setInput("");
     } else if (e.key === "ArrowUp") {
@@ -181,11 +182,14 @@ export function CliTerminalEmulator() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const { lines, input, setInput, onKeyDown, reset } = useTerminal();
-  const bottomRef = useRef(null);
+  const outputRef = useRef(null);
   const inputRef = useRef(null);
 
+  /* scrollIntoView() walks ancestors and can scroll the whole page — only scroll this panel */
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = outputRef.current;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
   }, [lines]);
 
   return (
@@ -212,7 +216,10 @@ export function CliTerminalEmulator() {
         </div>
 
         {/* Output */}
-        <div className="h-72 overflow-y-auto p-4 font-mono text-xs leading-6">
+        <div
+          ref={outputRef}
+          className="h-72 overflow-y-auto p-4 font-mono text-xs leading-6"
+        >
           <AnimatePresence initial={false}>
             {lines.map((line) => (
               <motion.div
@@ -231,7 +238,6 @@ export function CliTerminalEmulator() {
               </motion.div>
             ))}
           </AnimatePresence>
-          <div ref={bottomRef} />
         </div>
 
         {/* Input row */}

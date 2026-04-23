@@ -102,20 +102,22 @@ export function IntegrationCatalog() {
     <DemoSection
       eyebrow="integrations"
       heading="Services I connect to"
-      description="Click any integration to see the kind of code I'd write for it."
-      onReset={() => { setFilter("All"); setSelected(null); }}
+      description="APIs and platforms that tend to surface in the builds I ship — not a vendor list, just recurring touchpoints."
     >
-      {/* Filter tabs */}
-      <div className="mb-5 flex flex-wrap gap-1">
+      {/* Filter tabs — low-key grouping, not the main story */}
+      <div className="mb-4 flex flex-wrap gap-1">
         {CATEGORIES.map((cat) => (
           <button
             key={cat}
+            type="button"
             onClick={() => setFilter(cat)}
             className={cn(
-              "rounded-full px-3 py-1 text-xs font-medium transition-colors",
+              "rounded-full px-2.5 py-0.5 text-[11px] font-medium transition-colors",
               filter === cat
-                ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
-                : "border border-border text-muted-foreground hover:text-foreground"
+                ? isDark
+                  ? "bg-primary/20 text-primary"
+                  : "bg-foreground/10 text-foreground"
+                : "text-muted-foreground/80 hover:bg-muted/40 hover:text-muted-foreground"
             )}
           >
             {cat}
@@ -138,8 +140,10 @@ export function IntegrationCatalog() {
               className={cn(
                 "rounded-2xl border p-4 text-center transition-all",
                 selected === intg.name
-                  ? isDark ? "border-primary/50 bg-primary/10" : "border-foreground bg-accent/20"
-                  : isDark ? "border-border bg-card/60 hover:border-primary/30" : "border-border bg-card hover:border-foreground"
+                  ? isDark ? "border-primary/40 bg-primary/5" : "border-foreground/40 bg-accent/10"
+                  : isDark
+                    ? "border-border/80 bg-card/40 hover:border-border hover:bg-card/60"
+                    : "border-border bg-card/80 hover:border-foreground/25"
               )}
             >
               <div
@@ -149,7 +153,9 @@ export function IntegrationCatalog() {
                 {intg.name.slice(0, 2)}
               </div>
               <div className="text-xs font-semibold">{intg.name}</div>
-              <div className="mt-0.5 text-[10px] text-muted-foreground">{intg.category}</div>
+              <div className="mt-1 text-[9px] uppercase tracking-wider text-muted-foreground/55">
+                {intg.category}
+              </div>
             </motion.button>
           ))}
         </AnimatePresence>
@@ -166,7 +172,7 @@ export function IntegrationCatalog() {
             transition={{ type: "spring", stiffness: 280, damping: 26 }}
             className={cn(
               "mt-4 overflow-hidden rounded-2xl",
-              isDark ? "border border-primary/30 bg-card/70 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+              isDark ? "border border-border bg-card/60 backdrop-blur" : "border border-foreground/20 bg-card"
             )}
           >
             <div className="flex items-center justify-between border-b border-border px-5 py-3">
@@ -187,7 +193,7 @@ export function IntegrationCatalog() {
             <div className="px-5 py-3 text-sm text-muted-foreground border-b border-border/50">
               {active.useCase}
             </div>
-            <pre className="overflow-x-auto p-5 font-mono text-xs leading-6 text-foreground/80">
+            <pre className="whitespace-pre-wrap break-words p-5 font-mono text-xs leading-6 text-foreground/80 [overflow-wrap:anywhere]">
               {active.snippet}
             </pre>
           </motion.div>

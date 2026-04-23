@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  animate,
+  useMotionValue,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
 import { useTheme } from "@/hooks/useTheme";
@@ -106,30 +113,54 @@ const CATEGORIES = [
     id: "motion",
     label: "Motion",
     tokens: [
-      { name: "soft",   ease: { type: "spring", stiffness: 120, damping: 20 } },
-      { name: "snap",   ease: { type: "spring", stiffness: 380, damping: 26 } },
-      { name: "bouncy", ease: { type: "spring", stiffness: 260, damping: 14 } },
-      { name: "ease-out",  ease: { ease: "easeOut", duration: 0.4 } },
-      { name: "ease-in-out", ease: { ease: "easeInOut", duration: 0.4 } },
+      /* Widen spring presets so hover demos read clearly; tweens need type: "tween" or FM defaults to spring. */
+      { name: "soft",   ease: { type: "spring", stiffness: 72, damping: 18, mass: 1.15 } },
+      { name: "snap",   ease: { type: "spring", stiffness: 520, damping: 36 } },
+      /* Enough bounce to read vs snap/soft, but damping high enough that x overshoot stays inside the track */
+      { name: "bouncy", ease: { type: "spring", stiffness: 300, damping: 14 } },
+      { name: "ease-out", ease: { type: "tween", ease: "easeOut", duration: 0.55 } },
+      { name: "ease-in-out", ease: { type: "tween", ease: [0.65, 0, 0.35, 1], duration: 0.65 } },
     ],
     render: (token) => <MotionToken token={token} />,
   },
 ];
 
+/* w-32 (128px) − left-1 (4px) − dot (16px); leave slack for spring overshoot */
+const MOTION_TRAVEL = 86;
+
 function MotionToken({ token }) {
   const [playing, setPlaying] = useState(false);
+  const prefersReduced = useReducedMotion();
+  const x = useMotionValue(0);
+  /* Springs can undershoot past 0 on the way back — clamp so the knob never crosses the left gutter */
+  const xDraw = useTransform(x, (v) => Math.max(0, v));
+
+  const transition = useMemo(() => {
+    const e = token.ease;
+    if (e.type === "tween") return e;
+    if (e.type === "spring") return e;
+    return { type: "tween", ease: "easeOut", duration: 0.4 };
+  }, [token]);
+
+  useEffect(() => {
+    if (prefersReduced) {
+      x.set(playing ? MOTION_TRAVEL : 0);
+      return;
+    }
+    const ctrl = animate(x, playing ? MOTION_TRAVEL : 0, transition);
+    return () => ctrl.stop();
+  }, [playing, prefersReduced, transition, x]);
 
   return (
     <div className="flex items-center gap-3">
       <div
-        className="relative h-6 w-32 shrink-0 overflow-hidden rounded-full bg-muted"
+        className="relative h-6 w-32 shrink-0 overflow-hidden rounded-full bg-muted [contain:paint]"
         onMouseEnter={() => setPlaying(true)}
         onMouseLeave={() => setPlaying(false)}
       >
         <motion.div
           className="absolute left-1 top-1 h-4 w-4 rounded-full bg-primary"
-          animate={playing ? { x: 104 } : { x: 0 }}
-          transition={token.ease}
+          style={{ x: xDraw }}
         />
       </div>
       <span className="text-xs font-semibold">{token.name}</span>
@@ -148,7 +179,7 @@ export function DesignSystemTokensView() {
     <DemoSection
       eyebrow="design tokens"
       heading="The system behind the site"
-      description="Every color, space, radius, shadow, and motion curve you see on this page — live."
+      description="Color, spacing, radius, shadow, and motion—the token stack behind most modern UIs."
     >
       <div className="space-y-2">
         {CATEGORIES.map((cat) => {

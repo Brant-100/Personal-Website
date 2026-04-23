@@ -235,12 +235,26 @@ export function AutomationRecipeBuilder() {
               isDark ? "border border-border bg-card/70" : "border-2 border-foreground bg-card shadow-pop"
             )}
           >
-            <div className="flex items-center justify-between border-b border-border px-5 py-3">
+            <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3">
               <span className="font-mono text-xs text-muted-foreground">generated python · fastapi</span>
-              <button onClick={copy} className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors">
-                {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
-                {copied ? "copied!" : "copy"}
-              </button>
+              <div className="flex shrink-0 items-center gap-1">
+                <button
+                  type="button"
+                  onClick={copy}
+                  className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {copied ? <Check className="h-3.5 w-3.5 text-green-500" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copied ? "copied!" : "copy"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowCode(false)}
+                  className="rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+                  aria-label="Close code panel"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
             </div>
             <pre className="overflow-x-auto p-5 font-mono text-xs leading-6 text-foreground/80">
               {code}

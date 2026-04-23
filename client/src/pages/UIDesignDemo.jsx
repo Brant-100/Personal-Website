@@ -37,9 +37,9 @@ export function UIDesignDemo() {
       <LayoutSkeletonTransitions />
       <MotionCurvePreview />
       <UIUXCaseStudy />
-      <FAQAccordion />
       <UIUXPricingCard />
       <CTAInquiryForm source="ui-ux-design" />
+      <FAQAccordion />
       <OtherServicesNav current="uiux" />
     </ServicePageLayout>
   );
