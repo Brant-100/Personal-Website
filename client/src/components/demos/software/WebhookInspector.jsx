@@ -244,14 +244,14 @@ export function WebhookInspector() {
                         className="overflow-hidden"
                       >
                         <div className="border-b border-border/50 bg-muted/20 px-4 py-3 font-mono text-xs">
-                          <div className="mb-2 text-muted-foreground">// headers</div>
+                          <div className="mb-2 text-muted-foreground">{"// headers"}</div>
                           {Object.entries(ev.headers).map(([k, v]) => (
                             <div key={k} className="flex gap-2">
                               <span className="text-primary shrink-0">{k}:</span>
                               <span className="truncate text-foreground/70">{v}</span>
                             </div>
                           ))}
-                          <div className="mt-3 mb-1 text-muted-foreground">// payload</div>
+                          <div className="mt-3 mb-1 text-muted-foreground">{"// payload"}</div>
                           <pre className="whitespace-pre-wrap text-foreground/80">
                             {JSON.stringify(ev.payload, null, 2)}
                           </pre>

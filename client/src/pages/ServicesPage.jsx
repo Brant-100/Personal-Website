@@ -205,9 +205,9 @@ export function ServicesPage() {
               asChild
               className="shrink-0"
             >
-              <a href="mailto:brant@brantsimpson.com" className="inline-flex items-center gap-2">
+              <Link to="/#contact" className="inline-flex items-center gap-2">
                 <Mail className="h-4 w-4" /> Get in touch
-              </a>
+              </Link>
             </Button>
           </div>
         </motion.div>

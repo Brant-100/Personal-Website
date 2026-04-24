@@ -11,13 +11,7 @@ export function FAQAccordion({ items = [] }) {
   const [open, setOpen] = useState(null);
 
   return (
-    <div className="mt-16">
-      <div className="mb-6">
-        <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">faq</div>
-        <h2 className="text-2xl font-bold">Common questions</h2>
-      </div>
-
-      <div className="space-y-2">
+    <div className="space-y-2">
         {items.map((item, i) => {
           const isOpen = open === i;
           return (
@@ -71,7 +65,6 @@ export function FAQAccordion({ items = [] }) {
             </div>
           );
         })}
-      </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/context/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BackToTop } from "@/components/layout/BackToTop";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { HomePage } from "@/pages/HomePage";
@@ -26,6 +27,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <AppShell>
         <div className="relative min-h-screen">
           <Navbar />

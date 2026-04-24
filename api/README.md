@@ -44,6 +44,10 @@ Set `TURNSTILE_BYPASS=1` locally (or in pytest) to test the inquiry endpoint wit
 | POST   | `/api/contact`       | Legacy contact form endpoint (kept for compat)    |
 | POST   | `/api/inquiry`       | Full inquiry form — rate-limited, Turnstile, email |
 
+### `POST /api/inquiry`
+
+JSON body: `name`, `email`, `service` (enum), optional `budget` / `timeline`, `message`, empty `website` (honeypot), `turnstileToken`. Validates with Pydantic, enforces **5 submissions per IP per hour** (`slowapi`), verifies the Turnstile token with Cloudflare **server-side**, then sends a **notification** to `CONTACT_TO_EMAIL` (Resend, `reply_to` = submitter) and a **confirmation** to the submitter. Returns `{ "success": true, "message": "..." }` on success; `400` if Turnstile fails; `422` on validation/honeypot; `429` when rate-limited; `500` with a safe message if email send fails.
+
 ## Editing data
 
 All seed content lives in [`api/data/`](./data/):

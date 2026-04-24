@@ -12,7 +12,7 @@ import { WebCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
 import { WebPricingCard } from "@/components/demos/shared/PricingCard";
 import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { WEB_DEV_FAQS } from "@/data/faqs";
+import { WEB_DEV_FAQS, WORDPRESS_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -55,6 +55,19 @@ export function WebDevDemo() {
           <h2 className="text-2xl font-bold">Web development questions</h2>
         </div>
         <FAQAccordion items={WEB_DEV_FAQS} />
+      </div>
+      <div className="mt-12">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">
+            wordpress track
+          </div>
+          <h3 className="text-xl font-bold">Thinking WordPress instead?</h3>
+          <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+            WordPress is one of the ways I deliver web-dev work — fastest path for small sites and
+            anyone who wants to edit content themselves.
+          </p>
+        </div>
+        <FAQAccordion items={WORDPRESS_FAQS} />
       </div>
       <OtherServicesNav current="web" />
     </ServicePageLayout>

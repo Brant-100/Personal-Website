@@ -41,6 +41,7 @@ The API will be available at `http://localhost:8765` with endpoints:
 - `GET /api/services`
 - `GET /api/credentials`
 - `GET /api/experience`
+- `POST /api/inquiry` — contact/inquiry form (Turnstile + rate limit + Resend emails; see [api/README.md](api/README.md))
 
 ### 2. Frontend (Vite)
 

@@ -17,6 +17,12 @@ import {
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY || "";
 
+/** Explicit option colors so native dropdown lists stay readable (esp. Windows + dark theme). */
+const optionStyle = {
+  backgroundColor: "hsl(var(--card))",
+  color: "hsl(var(--card-foreground))",
+};
+
 /**
  * Shared contact/inquiry form used everywhere on the site.
  *
@@ -95,7 +101,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
         </div>
         <h3 className="text-xl font-bold">Got it.</h3>
         <p className="mt-2 text-muted-foreground">
-          I'll reply within 48 hours, usually much faster. Check your inbox for
+          I&apos;ll reply within 48 hours, usually much faster. Check your inbox for
           a confirmation email.
         </p>
         <button
@@ -152,9 +158,9 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       </div>
 
       <Field label="What do you need?" error={errors.service?.message} isDark={isDark}>
-        <select {...register("service")} className={inputCls(isDark)}>
+        <select {...register("service")} className={selectCls(isDark)}>
           {Object.entries(inquiryServiceLabels).map(([value, label]) => (
-            <option key={value} value={value}>
+            <option key={value} value={value} style={optionStyle}>
               {label}
             </option>
           ))}
@@ -164,20 +170,24 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       {!compact && (
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Budget (optional)" isDark={isDark}>
-            <select {...register("budget")} className={inputCls(isDark)}>
-              <option value="">Select a range</option>
+            <select {...register("budget")} className={selectCls(isDark)}>
+              <option value="" style={optionStyle}>
+                Select a range
+              </option>
               {Object.entries(budgetLabels).map(([value, label]) => (
-                <option key={value} value={value}>
+                <option key={value} value={value} style={optionStyle}>
                   {label}
                 </option>
               ))}
             </select>
           </Field>
           <Field label="Timeline (optional)" isDark={isDark}>
-            <select {...register("timeline")} className={inputCls(isDark)}>
-              <option value="">Select a timeline</option>
+            <select {...register("timeline")} className={selectCls(isDark)}>
+              <option value="" style={optionStyle}>
+                Select a timeline
+              </option>
               {Object.entries(timelineLabels).map(([value, label]) => (
-                <option key={value} value={value}>
+                <option key={value} value={value} style={optionStyle}>
                   {label}
                 </option>
               ))}
@@ -285,5 +295,15 @@ function inputCls(isDark) {
     isDark
       ? "border-border focus:border-primary"
       : "border-2 border-foreground bg-background focus:border-primary"
+  );
+}
+
+function selectCls(isDark) {
+  return cn(
+    "block w-full rounded-xl border px-3 py-2.5 text-sm outline-none transition-colors",
+    "text-foreground",
+    isDark
+      ? "border-border bg-card focus:border-primary [color-scheme:dark]"
+      : "border-2 border-foreground bg-background focus:border-primary [color-scheme:light]"
   );
 }

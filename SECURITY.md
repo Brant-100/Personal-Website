@@ -4,7 +4,7 @@
 
 If you discover a vulnerability in this portfolio site or its API, please report it responsibly rather than publicly disclosing it.
 
-**Contact:** brantsimpson100@gmail.com  
+**Contact:** brant@brantsimpson.com  
 **Subject line:** `[SECURITY] brantsimpson.com: <brief description>`
 
 ## What to include
