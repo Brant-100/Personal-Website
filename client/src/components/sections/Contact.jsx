@@ -1,14 +1,11 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Github, Linkedin, Award, ArrowUpRight, Send, Download, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Github, Linkedin, Award, ArrowUpRight, Download } from "lucide-react";
 import { Section, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { CONTACT_EMAIL, CONTACT_HREF } from "@/lib/contact";
+import { ContactForm } from "@/components/forms/ContactForm";
 
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.DEV ? "http://localhost:8765" : "");
 
 export const CONTACT_LINKS = [
   {
@@ -53,40 +50,6 @@ export function Contact() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
-  const [form, setForm] = useState({ name: "", email: "", message: "", website: "" });
-  const [status, setStatus] = useState("idle"); // idle | sending | success | error
-
-  const handleChange = (e) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("sending");
-    try {
-      const res = await fetch(`${BASE_URL}/api/contact`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        setStatus("success");
-        setForm({ name: "", email: "", message: "", website: "" });
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  const inputClass = cn(
-    "w-full rounded-xl px-4 py-3 text-sm transition-all outline-none",
-    isDark
-      ? "border border-border bg-card/60 text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:ring-1 focus:ring-primary"
-      : "border-2 border-foreground bg-card text-foreground placeholder:text-muted-foreground/60 focus:border-primary shadow-pop"
-  );
-
   return (
     <Section id="contact" className="container">
       <Reveal className="mb-4">
@@ -112,123 +75,29 @@ export function Contact() {
           )}
         </h2>
         <p className="mt-4 text-muted-foreground text-lg">
-          Open to contract work, technical conversations, and mentorship. I usually reply within 48 hours.
+          The fastest way to reach me — I reply within 48 hours.
         </p>
       </Reveal>
 
       {/* Contact form */}
+      <Reveal className="mb-10">
+        <ContactForm />
+      </Reveal>
+
+      {/* Resume download */}
       <Reveal className="mb-14">
-        <form
-          onSubmit={handleSubmit}
+        <a
+          href="/Brant_Simpson_Resume.pdf"
+          download
           className={cn(
-            "relative rounded-2xl p-6 md:p-8",
+            "inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all",
             isDark
-              ? "border border-border bg-card/70 backdrop-blur"
-              : "border-2 border-foreground bg-card shadow-pop"
+              ? "border border-border text-muted-foreground hover:border-primary hover:text-primary"
+              : "border-2 border-foreground text-foreground hover:bg-muted"
           )}
         >
-          <div className="grid gap-5 md:grid-cols-2">
-            <div>
-              <label className={cn("mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em]", isDark ? "text-primary" : "text-muted-foreground")}>
-                Name
-              </label>
-              <input
-                name="name"
-                type="text"
-                required
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Your name"
-                className={inputClass}
-              />
-            </div>
-            <div>
-              <label className={cn("mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em]", isDark ? "text-primary" : "text-muted-foreground")}>
-                Email
-              </label>
-              <input
-                name="email"
-                type="email"
-                required
-                value={form.email}
-                onChange={handleChange}
-                placeholder="your@email.com"
-                className={inputClass}
-              />
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <label className={cn("mb-1.5 block font-mono text-[10px] uppercase tracking-[0.2em]", isDark ? "text-primary" : "text-muted-foreground")}>
-              Message
-            </label>
-            <textarea
-              name="message"
-              required
-              rows={5}
-              value={form.message}
-              onChange={handleChange}
-              placeholder="What are you working on?"
-              className={cn(inputClass, "resize-none")}
-            />
-          </div>
-
-          {/* Honeypot (hidden from real users; bots fill it) */}
-          <input
-            name="website"
-            type="text"
-            value={form.website}
-            onChange={handleChange}
-            tabIndex={-1}
-            aria-hidden="true"
-            className="absolute -left-[9999px] opacity-0 pointer-events-none"
-          />
-
-          <div className="mt-6 flex flex-wrap items-center gap-4">
-            <motion.button
-              type="submit"
-              disabled={status === "sending" || status === "success"}
-              whileHover={{ scale: status === "idle" ? 1.02 : 1 }}
-              whileTap={{ scale: 0.98 }}
-              transition={spring.snap}
-              className={cn(
-                "inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold transition-all",
-                isDark
-                  ? "bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
-                  : "border-2 border-foreground bg-primary text-primary-foreground shadow-pop hover:bg-primary/90 disabled:opacity-60"
-              )}
-            >
-              {status === "sending" ? (
-                <>Sending…</>
-              ) : status === "success" ? (
-                <><CheckCircle className="h-4 w-4" /> Sent!</>
-              ) : (
-                <><Send className="h-4 w-4" /> Send message</>
-              )}
-            </motion.button>
-
-            {/* Resume download */}
-            <a
-              href="/Brant_Simpson_Resume.pdf"
-              download
-              className={cn(
-                "inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all",
-                isDark
-                  ? "border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                  : "border-2 border-foreground text-foreground hover:bg-muted"
-              )}
-            >
-              <Download className="h-4 w-4" /> Download Resume
-            </a>
-
-            {status === "error" && (
-              <span className="inline-flex items-center gap-1.5 text-sm text-destructive">
-                <AlertCircle className="h-4 w-4" />
-                Something went wrong. Try emailing directly.
-              </span>
-            )}
-          </div>
-        </form>
+          <Download className="h-4 w-4" /> Download Resume
+        </a>
       </Reveal>
 
       {/* Contact cards */}

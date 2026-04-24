@@ -10,6 +10,7 @@ Serves JSON data for the portfolio frontend:
     - GET  /api/posts
     - GET  /api/posts/{slug}
     - POST /api/contact
+    - POST /api/inquiry
 
 Run locally:
     uvicorn main:app --reload --host 127.0.0.1 --port 8765
@@ -22,9 +23,18 @@ import pathlib
 from typing import Any, Dict, List, Optional
 
 import frontmatter as fm
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, EmailStr, Field
+from slowapi import Limiter
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.util import get_remote_address
+
+from schemas import InquiryIn, InquiryOut
+from turnstile import verify_turnstile_token
+from email_sender import send_inquiry_notification, send_confirmation_to_user
 
 logger = logging.getLogger("brantsimpson-api")
 
@@ -134,26 +144,29 @@ class ContactResponse(BaseModel):
     message: str
 
 
-class InquiryPayload(BaseModel):
-    name: str
-    email: EmailStr
-    message: str
-    source: Optional[str] = None  # which service page the form was submitted from
-
-
-class InquiryResponse(BaseModel):
-    ok: bool
-    message: str
-
 
 # ---------------------------------------------------------------------------
 # App + CORS
 # ---------------------------------------------------------------------------
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(
     title="brantsimpson.com API",
     description="Portfolio data service for brantsimpson.com",
     version="0.1.0",
 )
+
+app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
+
+
+@app.exception_handler(RateLimitExceeded)
+async def _rate_limit_handler(request: Request, exc: RateLimitExceeded) -> JSONResponse:
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Too many submissions. Please try again in an hour."},
+    )
+
 
 # Local dev (Vite :5173 / preview :4173). \*.vercel.app is allowed by regex for preview deploys.
 # Production custom domain is listed here so CORS works even if Railway env is mis-set; add
@@ -272,7 +285,7 @@ async def contact(req: ContactRequest) -> ContactResponse:
         return ContactResponse(ok=True, message="Message received.")
 
     resend_key = os.environ.get("RESEND_API_KEY")
-    to_email = os.environ.get("CONTACT_TO_EMAIL", "brantsimpson100@gmail.com")
+    to_email = os.environ.get("CONTACT_TO_EMAIL", "brant@brantsimpson.com")
 
     if resend_key:
         try:
@@ -305,43 +318,40 @@ async def contact(req: ContactRequest) -> ContactResponse:
     return ContactResponse(ok=True, message="Message received. I usually reply within 48 hours.")
 
 
-@app.post("/api/inquiry", response_model=InquiryResponse, tags=["contact"])
-async def inquiry(req: InquiryPayload) -> InquiryResponse:
-    source_label = f" [{req.source}]" if req.source else ""
-
-    resend_key = os.environ.get("RESEND_API_KEY")
-    to_email = os.environ.get("CONTACT_TO_EMAIL", "brantsimpson100@gmail.com")
-
-    if resend_key:
-        try:
-            import httpx
-            async with httpx.AsyncClient() as client:
-                r = await client.post(
-                    "https://api.resend.com/emails",
-                    headers={"Authorization": f"Bearer {resend_key}"},
-                    json={
-                        "from": f"Portfolio Inquiry <contact@brantsimpson.com>",
-                        "to": [to_email],
-                        "subject": f"Service inquiry{source_label} from {req.name}",
-                        "text": f"From: {req.name} <{req.email}>\nSource: {req.source or 'unknown'}\n\n{req.message}",
-                        "reply_to": req.email,
-                    },
-                    timeout=10.0,
-                )
-                if r.status_code >= 400:
-                    logger.error("Resend error %s: %s", r.status_code, r.text)
-        except Exception as exc:
-            logger.error("Resend inquiry send failed: %s", exc)
-    else:
-        logger.info(
-            "Inquiry form (no RESEND_API_KEY); from=%s <%s> source=%s msg=%s",
-            req.name,
-            req.email,
-            req.source,
-            req.message[:120],
+@app.post("/api/inquiry", response_model=InquiryOut, tags=["contact"])
+@limiter.limit("5/hour")
+async def inquiry(request: Request, data: InquiryIn) -> InquiryOut:
+    # Honeypot is enforced by InquiryIn.honeypot_must_be_empty validator (422 on fill).
+    # Verify Turnstile token server-side.
+    client_ip = request.client.host if request.client else None
+    if not await verify_turnstile_token(data.turnstileToken, client_ip):
+        raise HTTPException(
+            status_code=400,
+            detail="Verification failed. Please refresh the page and try again.",
         )
 
-    return InquiryResponse(ok=True, message="Got it — I'll reply within 48 hours.")
+    # Notify Brant.
+    ok, err = await send_inquiry_notification(
+        name=data.name,
+        email=data.email,
+        service=data.service,
+        budget=data.budget,
+        timeline=data.timeline,
+        message=data.message,
+    )
+    if not ok:
+        logger.error("inquiry: notification send failed: %s", err)
+        raise HTTPException(
+            status_code=500,
+            detail="Couldn't send your message right now. Please email me directly at brant@brantsimpson.com.",
+        )
+
+    # Best-effort confirmation to submitter — don't fail the request if this errors.
+    ok2, err2 = await send_confirmation_to_user(data.name, data.email)
+    if not ok2:
+        logger.warning("inquiry: confirmation send failed: %s", err2)
+
+    return InquiryOut(success=True, message="Inquiry received.")
 
 
 @app.get("/", include_in_schema=False)

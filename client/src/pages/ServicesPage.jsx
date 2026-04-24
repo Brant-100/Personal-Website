@@ -205,7 +205,7 @@ export function ServicesPage() {
               asChild
               className="shrink-0"
             >
-              <a href="mailto:brantsimpson100@gmail.com" className="inline-flex items-center gap-2">
+              <a href="mailto:brant@brantsimpson.com" className="inline-flex items-center gap-2">
                 <Mail className="h-4 w-4" /> Get in touch
               </a>
             </Button>

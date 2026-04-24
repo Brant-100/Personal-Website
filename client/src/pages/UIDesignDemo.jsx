@@ -11,7 +11,8 @@ import { MotionCurvePreview } from "@/components/demos/uiux/MotionCurvePreview";
 import { UIUXCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
 import { UIUXPricingCard } from "@/components/demos/shared/PricingCard";
 import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
-import { CTAInquiryForm } from "@/components/demos/shared/CTAInquiryForm";
+import { ContactForm } from "@/components/forms/ContactForm";
+import { UI_UX_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -38,8 +39,23 @@ export function UIDesignDemo() {
       <MotionCurvePreview />
       <UIUXCaseStudy />
       <UIUXPricingCard />
-      <CTAInquiryForm source="ui-ux-design" />
-      <FAQAccordion />
+      <section id="inquiry" className="mt-16 scroll-mt-20">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
+          <h2 className="text-2xl font-bold">Let&apos;s design something</h2>
+          <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+            Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
+          </p>
+        </div>
+        <ContactForm defaultService="ui-ux-design" />
+      </section>
+      <div className="mt-16">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">faq</div>
+          <h2 className="text-2xl font-bold">UI / UX design questions</h2>
+        </div>
+        <FAQAccordion items={UI_UX_FAQS} />
+      </div>
       <OtherServicesNav current="uiux" />
     </ServicePageLayout>
   );

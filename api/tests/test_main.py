@@ -148,3 +148,98 @@ async def test_contact_honeypot(client):
     assert r.status_code == 200
     body = r.json()
     assert body["ok"] is True  # silently accepted, not forwarded
+
+
+# ---------------------------------------------------------------------------
+# /api/inquiry tests
+# ---------------------------------------------------------------------------
+
+_VALID_INQUIRY = {
+    "name": "Test User",
+    "email": "test@example.com",
+    "service": "web-development",
+    "budget": "500-1500",
+    "timeline": "1-month",
+    "message": "This is a test inquiry message with enough characters.",
+    "website": "",
+    "turnstileToken": "bypass-token",
+}
+
+
+@pytest.fixture(autouse=False)
+def bypass_turnstile(monkeypatch):
+    """Make verify_turnstile_token always return True for unit tests."""
+    import turnstile
+    monkeypatch.setattr(turnstile, "_BYPASS", True)
+
+
+@pytest.mark.asyncio
+async def test_inquiry_success(client, bypass_turnstile):
+    r = await client.post("/api/inquiry", json=_VALID_INQUIRY)
+    assert r.status_code == 200
+    body = r.json()
+    assert body["success"] is True
+
+
+@pytest.mark.asyncio
+async def test_inquiry_missing_name(client, bypass_turnstile):
+    payload = {**_VALID_INQUIRY, "name": "X"}  # too short (min_length=2 is fine, use 1 char)
+    payload["name"] = "A"
+    r = await client.post("/api/inquiry", json=payload)
+    # Pydantic min_length=2 → 422
+    assert r.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_inquiry_invalid_email(client, bypass_turnstile):
+    payload = {**_VALID_INQUIRY, "email": "not-an-email"}
+    r = await client.post("/api/inquiry", json=payload)
+    assert r.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_inquiry_message_too_short(client, bypass_turnstile):
+    payload = {**_VALID_INQUIRY, "message": "short"}
+    r = await client.post("/api/inquiry", json=payload)
+    assert r.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_inquiry_honeypot_filled(client, bypass_turnstile):
+    """A filled honeypot field causes a 422 (validator rejects it)."""
+    payload = {**_VALID_INQUIRY, "website": "https://spam.example.com"}
+    r = await client.post("/api/inquiry", json=payload)
+    assert r.status_code == 422
+
+
+@pytest.mark.asyncio
+async def test_inquiry_bad_turnstile(client, monkeypatch):
+    """A failed Turnstile verification returns 400."""
+    import turnstile
+    monkeypatch.setattr(turnstile, "_BYPASS", False)
+    monkeypatch.setattr("turnstile.TURNSTILE_SECRET_KEY", "fake-key")
+
+    async def _always_false(token, remote_ip=None):
+        return False
+
+    monkeypatch.setattr(turnstile, "verify_turnstile_token", _always_false)
+
+    r = await client.post("/api/inquiry", json=_VALID_INQUIRY)
+    assert r.status_code == 400
+    assert "erification" in r.json()["detail"]
+
+
+@pytest.mark.asyncio
+async def test_inquiry_rate_limit(client, bypass_turnstile):
+    """After enough submissions from the same IP the limiter must return 429.
+
+    We don't assume the counter starts at zero (other tests may have already
+    consumed some of the 5/hour quota), so we just send enough requests to
+    exhaust the limit and verify we eventually receive 429.
+    """
+    statuses = []
+    for _ in range(7):
+        r = await client.post("/api/inquiry", json=_VALID_INQUIRY)
+        statuses.append(r.status_code)
+
+    assert 429 in statuses, f"Expected a 429 somewhere in {statuses}"

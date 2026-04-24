@@ -72,10 +72,10 @@ export function Footer() {
             </div>
             <div className="flex flex-col gap-3 text-sm">
               <a
-                href="mailto:brantsimpson100@gmail.com"
+                href="mailto:brant@brantsimpson.com"
                 className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground"
               >
-                <Mail className="h-4 w-4" /> brantsimpson100@gmail.com
+                <Mail className="h-4 w-4" /> brant@brantsimpson.com
               </a>
               <a
                 href="https://github.com/Brant-100"

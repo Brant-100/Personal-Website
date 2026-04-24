@@ -4,30 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
-export const DEFAULT_FAQ = [
-  {
-    q: "How long will it take?",
-    a: "Most projects land in 3–5 weeks from kick-off to launch. Simple sites can ship faster; larger apps with complex backend work take longer. I'll give you a realistic estimate after our first call — no fluff.",
-  },
-  {
-    q: "What if I need changes after launch?",
-    a: "The first 30 days are covered — bugs and minor tweaks are on me. After that I offer flexible hourly rates or a monthly retainer if you want ongoing support. Either way, you'll never be left hanging.",
-  },
-  {
-    q: "Do you work with existing codebases or only new projects?",
-    a: "Both. I'm comfortable jumping into an existing repo, getting oriented, and shipping improvements — whether that's refactoring a messy component, wiring up a new feature, or adding tests to code that doesn't have any.",
-  },
-  {
-    q: "Do I own the code?",
-    a: "Yes — fully. On project completion you own every line. I deliver the full source, remove myself from any shared accounts, and you take it wherever you want. No lock-in.",
-  },
-  {
-    q: "How do we communicate during the project?",
-    a: "However works for you. Most clients prefer a shared Slack or Discord channel for async updates plus a brief weekly check-in call. I send a written progress update every few days so you always know where things stand.",
-  },
-];
-
-export function FAQAccordion({ items = DEFAULT_FAQ }) {
+export function FAQAccordion({ items = [] }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const prefersReduced = useReducedMotion();
@@ -45,7 +22,7 @@ export function FAQAccordion({ items = DEFAULT_FAQ }) {
           const isOpen = open === i;
           return (
             <div
-              key={i}
+              key={item.id ?? i}
               className={cn(
                 "overflow-hidden rounded-2xl border transition-colors",
                 isOpen
@@ -63,7 +40,7 @@ export function FAQAccordion({ items = DEFAULT_FAQ }) {
                     : "bg-card/60 hover:bg-muted/40"
                 )}
               >
-                <span className="font-medium">{item.q}</span>
+                <span className="font-medium">{item.question ?? item.q}</span>
                 <motion.div
                   animate={{ rotate: isOpen ? 180 : 0 }}
                   transition={{ type: "spring", stiffness: 300, damping: 24 }}
@@ -83,7 +60,10 @@ export function FAQAccordion({ items = DEFAULT_FAQ }) {
                     className="overflow-hidden"
                   >
                     <p className="px-5 pb-4 pt-1 text-sm text-muted-foreground leading-relaxed">
-                      {item.a}
+                      {item.answer ?? item.a}
+                      {item.needs_review && import.meta.env.DEV && (
+                        <span className="ml-2 font-mono text-[10px] text-destructive">[review]</span>
+                      )}
                     </p>
                   </motion.div>
                 )}

@@ -11,7 +11,8 @@ import { AutomationRecipeBuilder } from "@/components/demos/software/AutomationR
 import { SoftwareCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
 import { SoftwarePricingCard } from "@/components/demos/shared/PricingCard";
 import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
-import { CTAInquiryForm } from "@/components/demos/shared/CTAInquiryForm";
+import { ContactForm } from "@/components/forms/ContactForm";
+import { CUSTOM_SOFTWARE_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -38,8 +39,23 @@ export function CustomSoftwareDemo() {
       </div>
       <SoftwareCaseStudy />
       <SoftwarePricingCard />
-      <CTAInquiryForm source="custom-software-solutions" />
-      <FAQAccordion />
+      <section id="inquiry" className="mt-16 scroll-mt-20">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
+          <h2 className="text-2xl font-bold">Let&apos;s build something</h2>
+          <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+            Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
+          </p>
+        </div>
+        <ContactForm defaultService="custom-software" />
+      </section>
+      <div className="mt-16">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">faq</div>
+          <h2 className="text-2xl font-bold">Custom software questions</h2>
+        </div>
+        <FAQAccordion items={CUSTOM_SOFTWARE_FAQS} />
+      </div>
       <OtherServicesNav current="software" />
     </ServicePageLayout>
   );
