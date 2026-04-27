@@ -152,9 +152,11 @@ PROJECTS = [
         "accent_theme": "cyber",
         "repo_url": "https://github.com/Brant-100/Personal-Website/tree/main/projects/network-scanner",
         "live_url": None,
-        "architecture_diagram_url": "/projects/network-scanner/architecture.svg",
+        "architecture_diagram_url": "/projects/network-scanner/architecture.png",
         "screenshots": [
-            {"url": "/projects/network-scanner/screenshot-1.svg", "caption": "CLI scan output, port scan with banner grabs"},
+            {"url": "/projects/network-scanner/screenshot-1.png", "caption": "CLI scan output, port scan with banner grabs"},
+            {"url": "/projects/network-scanner/screenshot-2.png", "caption": "Larger sweep (1024 ports): live open ports and full scan report"},
+            {"url": "/projects/network-scanner/screenshot-3.png", "caption": "JSON output for scripting and tooling (--format json)"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [
@@ -225,9 +227,9 @@ PROJECTS = [
         "accent_theme": "skillswap",
         "repo_url": None,
         "live_url": None,
-        "architecture_diagram_url": "/projects/skillswap/architecture.svg",
+        "architecture_diagram_url": "/projects/skillswap/architecture.png",
         "screenshots": [
-            {"url": "/projects/skillswap/screenshot-1.svg", "caption": "Session booking flow, skill match view"},
+            {"url": "/projects/skillswap/dashbored.png", "caption": "Landing page and dashboard overview"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [],
@@ -287,8 +289,17 @@ PROJECTS = [
         "accent_theme": "healthhive",
         "repo_url": None,
         "live_url": None,
-        "architecture_diagram_url": "/projects/healthhive/architecture.svg",
-        "screenshots": [],
+        "architecture_diagram_url": "/projects/healthhive/architecture.png",
+        "screenshots": [
+            {
+                "url": "/projects/healthhive/screenshot-overview.png",
+                "caption": "Dashboard: quick stats, teams, and activity entry points",
+            },
+            {
+                "url": "/projects/healthhive/screenshot-badges.png",
+                "caption": "Badges: personal vs team achievements and unlock progression",
+            },
+        ],
         "demo_video_url": None,
         "mitre_techniques": [],
         "visibility_note": None,
