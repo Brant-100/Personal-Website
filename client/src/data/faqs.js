@@ -19,7 +19,7 @@ export const GLOBAL_FAQS = [
     id: "communication",
     question: "How do we communicate during the project?",
     answer:
-      "Calls and texts by default. Once we kick off, we'll figure out what cadence works best for you — whether that's a quick weekly check-in, async text updates, or something else. I'd rather over-communicate than let you wonder what's happening.",
+      "Calls and texts by default. Once we kick off, we'll figure out what works best for you — whether that's a quick weekly check-in, text updates, or something else. I'd rather over-communicate than let you wonder what's happening.",
   },
   {
     id: "payments",
