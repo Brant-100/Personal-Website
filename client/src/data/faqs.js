@@ -43,7 +43,7 @@ export const GLOBAL_FAQS = [
     id: "support",
     question: "What happens after launch?",
     answer:
-      "Every project includes 30 days of post-launch support for bug fixes (14 days for WordPress). After that, ongoing work is billed hourly or as a small monthly retainer if you want a predictable arrangement. You're never locked in.",
+      "Every project includes 30 days of post-launch support for bug fixes (14 days for WordPress). After that, ongoing work is billed hourly and/or a small monthly retainer.",
   },
 ];
 
