@@ -25,7 +25,7 @@ export const GLOBAL_FAQS = [
     id: "payments",
     question: "How do payments work?",
     answer:
-      "Stripe invoice as the default (credit card, ACH, also accepts most digital wallets) or Zelle for smaller jobs. For projects under $500, full payment upfront. $500–$2,000: 50% deposit to start, 50% on delivery. Over $2,000: 50% deposit, 25% at midpoint, 25% on final delivery. Everything gets a proper invoice for your records.",
+      "Invoices are the default — every payment comes with a proper invoice for your records. Methods are flexible: usually Stripe (credit card, ACH, most digital wallets) or Zelle for smaller jobs. Deposit and milestone splits depend on scope; we agree on what makes sense before work starts.",
   },
   {
     id: "ownership",
