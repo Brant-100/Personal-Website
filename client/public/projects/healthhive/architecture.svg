@@ -2,7 +2,7 @@
   <rect width="980" height="760" fill="#0c1220"/>
   <foreignObject x="0" y="0" width="980" height="760">
     <div xmlns="http://www.w3.org/1999/xhtml" style="margin:0;padding:16px;background:#0c1220;box-sizing:border-box;min-height:760px;display:flex;justify-content:center;align-items:flex-start">
-      <pre style="margin:0;font-family:ui-monospace,'JetBrains Mono','Consolas',monospace;font-size:10px;line-height:1.2;color:#a7f3d0;white-space:pre;text-shadow:0 0 12px rgba(52,211,153,0.15)">+-------------------------------------------------+
+      <pre style="margin:0;font-family:ui-monospace,'JetBrains Mono','Consolas',monospace;font-size:10px;line-height:1.2;color:#a7f3d0;white-space:pre;text-shadow:0 0 12px rgba(52,211,153,0.15)">                  +-------------------------------------------------+
                   |                 Client Layer                    |
                   |                                                 |
                   |  +-------------------------------------------+  |
