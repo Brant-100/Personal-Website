@@ -105,7 +105,7 @@ function yearBadgeVariant(accentKey, isDark) {
 
 const FILTER_TAGS = [
   { id: "all", label: "All" },
-  { id: "offensive-security", label: "Security" },
+  { id: "offensive-cyber", label: "Security" },
   { id: "web", label: "Web" },
   { id: "full-stack", label: "Full-Stack" },
 ];
@@ -129,7 +129,7 @@ const FALLBACK = [
       "GitHub Actions CI pipeline, Docker Compose deployment",
     ],
     tech: ["Python", "FastAPI", "SQLite (WAL)", "AES-GCM", "Docker", "JWT", "pytest"],
-    tags: ["offensive-security", "infrastructure", "red-team", "python"],
+    tags: ["offensive-cyber", "infrastructure", "red-team", "python"],
     status: "private",
     year: "2026",
     last_updated: "April 2026",
@@ -159,7 +159,7 @@ const FALLBACK = [
       "pytest test suite: closed port, open port, sorted results, empty input",
     ],
     tech: ["Python", "socket", "threading", "argparse", "pytest"],
-    tags: ["offensive-security", "recon", "cli", "python"],
+    tags: ["recon", "cli", "python", "networking"],
     status: "public",
     year: "2026",
     last_updated: "April 2026",

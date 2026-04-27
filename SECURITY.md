@@ -32,4 +32,4 @@ Out of scope:
 
 ## Notes
 
-All offensive security work shown on this site is against systems I own or am explicitly authorized to test. Nothing on this site constitutes authorization to test any production infrastructure.
+All security testing and tooling demos shown on this site are against systems I own or am explicitly authorized to test. Nothing on this site constitutes authorization to test any production infrastructure.

@@ -33,10 +33,10 @@ Fifteen atomic commits on `develop` covering a comprehensive overhaul of the sit
 **About section** (`client/src/components/sections/About.jsx`)
 - Three-paragraph narrative: who/what I build, current focus (Nexus, security track), quiet 1B4X1 context.
 - Six Sigma Black Belt → DMAIC bridge callout block.
-- Skills self-assessment grid with animated progress bars (Python, React, FastAPI, Docker, SQL, TypeScript, Tailwind, Offensive Security).
+- Skills self-assessment grid with animated progress bars (Python, React, FastAPI, Docker, SQL, TypeScript, Tailwind, Cybersecurity).
 - "Open to" chip row: contract dev, mentorship, operator conversations.
 - Ohio · EST location note.
-- Ethics statement: "All offensive work is against systems I own or am explicitly authorized to test."
+- Ethics statement: "All security testing and tooling demos are against systems I own or am explicitly authorized to test."
 - Placeholder monogram avatar at `client/public/brant-avatar.svg`.
 - Added `#about` to Navbar and Footer navigation.
 

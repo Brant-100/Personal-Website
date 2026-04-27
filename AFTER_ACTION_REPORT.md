@@ -40,7 +40,7 @@
 ### Commit 5: `feat(about): About section with narrative, ethics, Six Sigma, skills, open-to, avatar placeholder`
 **Files:** `About.jsx`, `HomePage.jsx`, `Navbar.jsx`, `Footer.jsx`, `brant-avatar.svg`  
 **What:** Three-paragraph narrative: who/what/why. Six Sigma Black Belt → DMAIC engineering callout. Skills self-assessment grid with Framer Motion animated progress bars. "Open to" chip row. Ohio, EST location. Ethics statement. Monogram avatar placeholder (replace with headshot). Added `#about` to Navbar and Footer.  
-**Why:** The site previously had no "who is this person" section. Three unconnected signals (offensive security operator, available for hire, web dev services) read as unfocused without a bridge. About ties them together.
+**Why:** The site previously had no "who is this person" section. Three unconnected signals (security engineering, available for hire, web dev services) read as unfocused without a bridge. About ties them together.
 
 ---
 

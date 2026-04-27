@@ -14,7 +14,7 @@ const SKILLS = [
   { name: "TypeScript",         icon: Code2,    category: "frontend" },
   { name: "Docker",             icon: Server,   category: "infra"    },
   { name: "SQL / SQLite",       icon: Database, category: "backend"  },
-  { name: "Offensive Security", icon: Shield,   category: "security" },
+  { name: "Cybersecurity", icon: Shield,   category: "security" },
 ];
 
 export function AboutPage() {
@@ -107,8 +107,8 @@ export function AboutPage() {
                     command-and-control framework I built from first principles rather than wrapping an existing tool.
                     Nexus has 18 MITRE ATT&CK techniques mapped, a full FastAPI operator server,
                     AES-GCM encrypted implant comms, and a GitHub Actions CI pipeline, all written from scratch.
-                    Understanding how offensive tooling works is, in my view, the only reliable path to building
-                    meaningful defenses against it.
+                    Understanding offensive cyber through Nexus—how C2 and implant stacks actually behave—is,
+                    in my view, the only reliable path to building meaningful defenses against that class of threat.
                   </p>
                 </Reveal>
 
@@ -163,7 +163,7 @@ export function AboutPage() {
                 )}>
                   <Shield className="mt-0.5 h-4 w-4 shrink-0" />
                   <span>
-                    All offensive work shown on this site is against systems I own or am explicitly authorized to test.
+                    All security testing and tooling demos on this site are against systems I own or am explicitly authorized to test.
                   </span>
                 </div>
               </Reveal>
