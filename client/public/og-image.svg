@@ -21,7 +21,7 @@
   <line x1="80" y1="310" x2="700" y2="310" stroke="#00ffff" stroke-width="1" stroke-opacity="0.3"/>
   <!-- Chips -->
   <rect x="80" y="335" width="130" height="32" rx="6" fill="#00ffff" fill-opacity="0.12" stroke="#00ffff" stroke-opacity="0.4" stroke-width="1"/>
-  <text x="145" y="357" fill="#00ffff" font-size="13" text-anchor="middle">React ù FastAPI</text>
+  <text x="145" y="357" fill="#00ffff" font-size="13" text-anchor="middle">React &#183; FastAPI</text>
   <rect x="224" y="335" width="130" height="32" rx="6" fill="#a855f7" fill-opacity="0.12" stroke="#a855f7" stroke-opacity="0.4" stroke-width="1"/>
   <text x="289" y="357" fill="#a855f7" font-size="13" text-anchor="middle">Security+</text>
   <rect x="368" y="335" width="180" height="32" rx="6" fill="#22c55e" fill-opacity="0.12" stroke="#22c55e" stroke-opacity="0.4" stroke-width="1"/>

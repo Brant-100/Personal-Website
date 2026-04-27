@@ -286,6 +286,7 @@ async def contact(req: ContactRequest) -> ContactResponse:
 
     resend_key = os.environ.get("RESEND_API_KEY")
     to_email = os.environ.get("CONTACT_TO_EMAIL", "brant@brantsimpson.com")
+    from_email = os.environ.get("CONTACT_FROM_EMAIL", "contact@brantsimpson.com")
 
     if resend_key:
         try:
@@ -295,7 +296,7 @@ async def contact(req: ContactRequest) -> ContactResponse:
                     "https://api.resend.com/emails",
                     headers={"Authorization": f"Bearer {resend_key}"},
                     json={
-                        "from": f"Portfolio Contact <contact@brantsimpson.com>",
+                        "from": f"Portfolio Contact <{from_email}>",
                         "to": [to_email],
                         "subject": f"Portfolio contact from {req.name}",
                         "text": f"From: {req.name} <{req.email}>\n\n{req.message}",
