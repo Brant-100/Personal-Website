@@ -2,6 +2,18 @@
 
 Use this before and after deploying the inquiry flow to production (`brantsimpson.com` + Railway API + Vercel frontend).
 
+## How email is split (read this once)
+
+Three different paths are involved; mixing them up is the usual source of confusion.
+
+| Channel | Role |
+|--------|------|
+| **Cloudflare Email Routing** | **Inbound only.** Someone emails `you@yourdomain.com` → forwarded to Gmail (or another inbox). It does **not** let you send new mail or change the **From** address in Gmail by itself. |
+| **Resend (API)** | **Outbound from the website.** The FastAPI app sends the inquiry notification and the auto-reply using `CONTACT_FROM_EMAIL` (e.g. `contact@…`). You do not use your personal Gmail for those. |
+| **Your mail client (Gmail, etc.)** | **Manual replies and new threads.** If you want messages you type to show **From** `brant@brantsimpson.com`, you must configure **Send mail as** (below) with SMTP—usually Resend SMTP on the same verified domain. |
+
+**Replying to a form notification:** The API sets `reply_to` to the submitter’s address, so **Reply** in your inbox targets them. Whether your reply shows as `@gmail.com` or `@brantsimpson.com` depends on **Send mail as** and which identity Gmail uses for that message.
+
 ## Third-party setup
 
 ### Resend
@@ -21,8 +33,47 @@ Use this before and after deploying the inquiry flow to production (`brantsimpso
 
 ### Cloudflare Email Routing
 
-- [ ] Route `brant@brantsimpson.com` → your Gmail (or inbox of choice)
-- [ ] Send a test to `brant@brantsimpson.com` and confirm delivery
+- [ ] Cloudflare Dashboard → **Email** → **Email Routing** → enable routing for the zone
+- [ ] Create a **rule**: custom address `brant@brantsimpson.com` (or catch-all, if you prefer) → **Send to an email** → your Gmail (or inbox of choice)
+- [ ] Complete any DNS / activation steps Cloudflare shows for the domain
+- [ ] Send a test **to** `brant@brantsimpson.com` from an external account and confirm it arrives in your real inbox
+
+### Send and reply as your domain from Gmail (optional but recommended)
+
+Use this so **new mail** and **replies** you write show **From** `brant@brantsimpson.com` (or another address on the same domain), not your `@gmail.com` address. You already verified the domain in **Resend** for the API; Resend can also act as the **SMTP server** for Gmail.
+
+**Prerequisites**
+
+- [ ] Domain verified in Resend (same as API setup)
+- [ ] The address you want to send as (e.g. `brant@brantsimpson.com`) is allowed by Resend for that domain (create/enable it in Resend if required)
+
+**Resend SMTP (for Gmail “Send mail as”)**
+
+- [ ] In [Resend](https://resend.com): use your existing API key, or create a dedicated key for SMTP if you prefer
+- [ ] SMTP settings (see Resend docs for any updates): host `smtp.resend.com`, port **465** (SSL) or **587** (STARTTLS), username `resend`, password = your **Resend API key**
+
+**Gmail**
+
+- [ ] Gmail → **Settings** (gear) → **See all settings** → **Accounts and Import**
+- [ ] **Send mail as** → **Add another email address**
+- [ ] Enter the name you want recipients to see and `brant@brantsimpson.com` (or your chosen address)
+- [ ] Choose **Treat as an alias** (typical for same domain)
+- [ ] When Gmail asks for SMTP: **SMTP Server** `smtp.resend.com`, **Port** `465`, **Username** `resend`, **Password** your Resend API key, **Secured connection** SSL
+- [ ] Complete verification (Gmail may send a code **to** `brant@…`; with Email Routing, that code lands in the same Gmail inbox)
+- [ ] Set **brant@brantsimpson.com** as the default **Send mail as** address if you want every outgoing message to use it by default
+
+**Check**
+
+- [ ] Compose a new message **From** `brant@brantsimpson.com` to a test address; confirm delivery and that headers look correct
+- [ ] Reply to a real inquiry notification; confirm the reply goes to the submitter and the **From** address is what you expect
+
+**Other clients**
+
+- [ ] Apple Mail, Outlook, etc. can use the same Resend SMTP settings for an account/identity on your domain
+
+**Alternative: Google Workspace (or Microsoft 365)**
+
+- [ ] If you pay for **Google Workspace** on `brantsimpson.com`, you get a real hosted mailbox for `brant@…`; you sign in to Gmail with that account (or use MX records for Google) and do **not** need Resend SMTP for day-to-day sending. You can still use **Cloudflare Email Routing** *or* Workspace—not both for the same address without careful DNS planning; for Workspace, follow Google’s MX setup and skip forward-to-Gmail routing for that mailbox.
 
 ## Environment variables
 

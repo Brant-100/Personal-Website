@@ -15,6 +15,9 @@ TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverif
 # TURNSTILE_BYPASS=1 to skip verification rather than always failing.
 _BYPASS = os.environ.get("TURNSTILE_BYPASS", "") == "1"
 
+# Must match client/src/components/forms/ContactForm.jsx when VITE_TURNSTILE_SITE_KEY is unset.
+_DEV_PLACEHOLDER_TOKEN = "dev-bypass"
+
 
 async def verify_turnstile_token(token: str, remote_ip: str | None = None) -> bool:
     """Return True if the Turnstile token is valid.
@@ -27,6 +30,15 @@ async def verify_turnstile_token(token: str, remote_ip: str | None = None) -> bo
         return True
 
     if not TURNSTILE_SECRET_KEY:
+        # Frontend sends this placeholder when no site key (local Vite dev). Production must set
+        # TURNSTILE_SECRET_KEY so real tokens are verified; without a secret, only this placeholder
+        # is accepted (misconfigured prod would already reject real widget tokens).
+        if token == _DEV_PLACEHOLDER_TOKEN:
+            logger.warning(
+                "Turnstile: accepting dev placeholder (no TURNSTILE_SECRET_KEY). "
+                "Set the secret in production."
+            )
+            return True
         logger.warning("TURNSTILE_SECRET_KEY not set; rejecting submission")
         return False
 
