@@ -106,7 +106,6 @@ function yearBadgeVariant(accentKey, isDark) {
 const FILTER_TAGS = [
   { id: "all", label: "All" },
   { id: "offensive-cyber", label: "Security" },
-  { id: "web", label: "Web" },
   { id: "full-stack", label: "Full-Stack" },
 ];
 
@@ -304,7 +303,7 @@ export function Projects() {
   );
 }
 
-function ProjectCard({ project, index, isDark }) {
+export function ProjectCard({ project, index, isDark }) {
   const [expanded, setExpanded] = useState(false);
   const accentKey = project.accent_theme || "default";
   const a = getAccent(accentKey);

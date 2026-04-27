@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   Github,
@@ -13,6 +13,8 @@ import {
   Map,
   Cpu,
   AlertTriangle,
+  X,
+  ChevronLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +31,8 @@ export function ProjectDetail() {
   const isDark = theme === "dark";
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
+  // ── Lightbox state — must be declared before any early returns ─────────────
+  const [lightboxIdx, setLightboxIdx] = useState(null);
 
   useEffect(() => {
     const ctrl = new AbortController();
@@ -48,6 +52,37 @@ export function ProjectDetail() {
       });
     return () => ctrl.abort();
   }, [id]);
+
+  const lightboxOpen = lightboxIdx !== null;
+  const screenshots = project?.screenshots || [];
+  const allImages = [
+    ...(project?.architecture_diagram_url
+      ? [{ url: project.architecture_diagram_url, caption: `${project?.title} architecture diagram` }]
+      : []),
+    ...screenshots,
+  ];
+
+  const closeLightbox = useCallback(() => setLightboxIdx(null), []);
+  const prevImage = useCallback(() =>
+    setLightboxIdx((i) => (i - 1 + allImages.length) % allImages.length), [allImages.length]);
+  const nextImage = useCallback(() =>
+    setLightboxIdx((i) => (i + 1) % allImages.length), [allImages.length]);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") prevImage();
+      if (e.key === "ArrowRight") nextImage();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [lightboxOpen, closeLightbox, prevImage, nextImage]);
+  // ──────────────────────────────────────────────────────────────────────────
 
   if (loading) {
     return (
@@ -70,6 +105,10 @@ export function ProjectDetail() {
       </section>
     );
   }
+
+  const multiScreenshots = screenshots.length > 1;
+  const archLightboxIdx = project.architecture_diagram_url ? 0 : null;
+  const screenshotLightboxOffset = project.architecture_diagram_url ? 1 : 0;
 
   return (
     <motion.div
@@ -299,61 +338,111 @@ export function ProjectDetail() {
           {project.architecture_diagram_url && (
             <Reveal>
               <SectionBlock isDark={isDark} title="Architecture" icon={<Cpu className="h-4 w-4" />}>
-                <div
-                  className={cn(
-                    "overflow-hidden rounded-2xl bg-muted/20",
-                    isDark ? "border border-border" : "border-2 border-foreground shadow-pop"
-                  )}
-                >
-                  <img
-                    src={project.architecture_diagram_url}
-                    alt={`${project.title} architecture diagram`}
-                    className="h-auto w-full object-contain"
-                    width={1200}
-                    height={630}
-                    decoding="async"
-                    loading="lazy"
-                  />
+                <div className="mx-auto flex w-full max-w-5xl justify-center">
+                  <div
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setLightboxIdx(archLightboxIdx)}
+                    onKeyDown={(e) => e.key === "Enter" && setLightboxIdx(archLightboxIdx)}
+                    className={cn(
+                      "inline-block max-w-full overflow-hidden rounded-2xl",
+                      isDark ? "border border-border" : "border-2 border-foreground shadow-pop"
+                    )}
+                    aria-label="Expand architecture diagram"
+                  >
+                    <img
+                      src={project.architecture_diagram_url}
+                      alt={`${project.title} architecture diagram`}
+                      className="block h-auto w-auto max-w-full max-h-[min(90vh,52rem)]"
+                      width={1200}
+                      height={630}
+                      decoding="async"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
               </SectionBlock>
             </Reveal>
           )}
 
           {/* Screenshots */}
-          {(project.screenshots || []).length > 0 && (
+          {screenshots.length > 0 && (
             <Reveal>
               <SectionBlock isDark={isDark} title="Screenshots">
-                <div className="grid gap-6">
-                  {project.screenshots.map((s) => (
-                    <figure key={s.url}>
-                      <div className={cn(
-                        "overflow-hidden rounded-2xl bg-muted/20",
-                        isDark ? "border border-border" : "border-2 border-foreground shadow-pop"
-                      )}>
-                        <img
-                          src={s.url}
-                          alt={s.caption}
-                          className="h-auto w-full object-contain"
-                          width={1200}
-                          height={630}
-                          decoding="async"
-                          loading="lazy"
-                          onError={(e) => {
-                            const img = e.currentTarget;
-                            if (img.dataset.fallbackDone) return;
-                            img.dataset.fallbackDone = "1";
-                            if (s.url.endsWith(".png")) img.src = s.url.replace(/\.png$/i, ".svg");
-                            else if (s.url.endsWith(".svg")) img.src = s.url.replace(/\.svg$/i, ".png");
-                          }}
-                        />
+                <div
+                  className={cn(
+                    "grid",
+                    multiScreenshots
+                      ? "mx-auto w-full max-w-[min(100%,90rem)] items-start gap-5 sm:gap-6 md:grid-cols-2"
+                      : "mx-auto max-w-4xl gap-4"
+                  )}
+                >
+                  {screenshots.map((s, i) => {
+                    const n = screenshots.length;
+                    const isOrphan = multiScreenshots && i === n - 1 && n % 2 === 1;
+                    return (
+                    <figure
+                      key={s.url}
+                      className={cn(
+                        "flex w-full min-w-0 flex-col",
+                        isOrphan
+                          ? "md:col-span-2 items-center"
+                          : "items-center"
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "flex w-full justify-center",
+                          !multiScreenshots && "mx-auto w-full"
+                        )}
+                      >
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setLightboxIdx(screenshotLightboxOffset + i)}
+                          onKeyDown={(e) => e.key === "Enter" && setLightboxIdx(screenshotLightboxOffset + i)}
+                          aria-label={`Expand screenshot: ${s.caption || s.url}`}
+                          className={cn(
+                            "overflow-hidden rounded-2xl leading-none",
+                            isDark ? "border border-border" : "border-2 border-foreground shadow-pop",
+                            multiScreenshots
+                              ? isOrphan
+                                ? "mx-auto w-full max-w-4xl lg:max-w-5xl"
+                                : "w-full"
+                              : "inline-block max-w-full"
+                          )}
+                        >
+                          <img
+                            src={s.url}
+                            alt={s.caption}
+                            className={cn(
+                              "block h-auto max-h-[min(90vh,52rem)]",
+                              multiScreenshots
+                                ? "w-full"
+                                : "w-auto max-w-full"
+                            )}
+                            width={1200}
+                            height={630}
+                            decoding="async"
+                            loading="lazy"
+                            onError={(e) => {
+                              const img = e.currentTarget;
+                              if (img.dataset.fallbackDone) return;
+                              img.dataset.fallbackDone = "1";
+                              if (s.url.endsWith(".png")) img.src = s.url.replace(/\.png$/i, ".svg");
+                              else if (s.url.endsWith(".svg")) img.src = s.url.replace(/\.svg$/i, ".png");
+                            }}
+                          />
+                        </div>
                       </div>
                       {s.caption && (
-                        <figcaption className="mt-2 text-center text-xs text-muted-foreground">
+                        <figcaption className="mt-2 text-center text-xs text-muted-foreground sm:text-sm">
                           {s.caption}
                         </figcaption>
                       )}
                     </figure>
-                  ))}
+                    );
+                  })}
                 </div>
               </SectionBlock>
             </Reveal>
@@ -477,6 +566,88 @@ export function ProjectDetail() {
           </Reveal>
         </div>
       </div>
+
+      {/* ── Lightbox ── */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            key="lightbox"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+            onClick={closeLightbox}
+          >
+            {/* Close */}
+            <button
+              onClick={closeLightbox}
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Prev */}
+            {allImages.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); prevImage(); }}
+                className="absolute left-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+            )}
+
+            {/* Image */}
+            <motion.img
+              key={lightboxIdx}
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              src={allImages[lightboxIdx].url}
+              alt={allImages[lightboxIdx].caption}
+              className="max-h-[90vh] max-w-[92vw] rounded-xl object-contain shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+              onError={(e) => {
+                const img = e.currentTarget;
+                if (img.dataset.fallbackDone) return;
+                img.dataset.fallbackDone = "1";
+                const url = allImages[lightboxIdx].url;
+                if (url.endsWith(".png")) img.src = url.replace(/\.png$/i, ".svg");
+                else if (url.endsWith(".svg")) img.src = url.replace(/\.svg$/i, ".png");
+              }}
+            />
+
+            {/* Next */}
+            {allImages.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); nextImage(); }}
+                className="absolute right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/25"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            )}
+
+            {/* Caption + counter */}
+            {allImages[lightboxIdx].caption && (
+              <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center gap-1 px-4 text-center">
+                <p className="rounded-full bg-black/50 px-4 py-1.5 text-sm text-white/90">
+                  {allImages[lightboxIdx].caption}
+                </p>
+                {allImages.length > 1 && (
+                  <p className="font-mono text-xs text-white/50">
+                    {lightboxIdx + 1} / {allImages.length}
+                  </p>
+                )}
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </motion.div>
   );
 }
