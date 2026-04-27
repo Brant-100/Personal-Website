@@ -31,7 +31,7 @@ export const GLOBAL_FAQS = [
     id: "ownership",
     question: "Do I own the code when it's done?",
     answer:
-      "Yes. On final payment, you receive full ownership of everything I build specifically for you — source code, design files, credentials, and deployment access. The only thing I keep is the right to show the finished work in my portfolio (unless we've agreed otherwise in writing).",
+      "Yes. On final payment, you receive full ownership of everything I build specifically for you. I keep the right to show the finished work in my portfolio.",
   },
   {
     id: "existing-code",
