@@ -331,7 +331,7 @@ export function ProjectDetail() {
                         isDark ? "border border-border" : "border-2 border-foreground shadow-pop"
                       )}>
                         <img
-                          src={s.url.endsWith(".png") ? s.url.replace(".png", ".svg") : s.url}
+                          src={s.url}
                           alt={s.caption}
                           className="h-auto w-full object-contain"
                           width={1200}
@@ -342,7 +342,8 @@ export function ProjectDetail() {
                             const img = e.currentTarget;
                             if (img.dataset.fallbackDone) return;
                             img.dataset.fallbackDone = "1";
-                            if (s.url.endsWith(".png")) img.src = s.url;
+                            if (s.url.endsWith(".png")) img.src = s.url.replace(/\.png$/i, ".svg");
+                            else if (s.url.endsWith(".svg")) img.src = s.url.replace(/\.svg$/i, ".png");
                           }}
                         />
                       </div>

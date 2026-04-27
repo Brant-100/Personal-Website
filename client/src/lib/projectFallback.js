@@ -221,7 +221,10 @@ export const FALLBACK = [
     live_url: null,
     architecture_diagram_url: "/projects/healthhive/architecture.svg",
     screenshots: [
-      { url: "/projects/healthhive/screenshot-1.svg", caption: "Team dashboard, group activity feed" },
+      {
+        url: "/projects/healthhive/screenshot-1.png",
+        caption: "Team dashboard: metrics, weekly activity chart, and live activity feed (UI mockup).",
+      },
     ],
     mitre_techniques: [],
     visibility_note: null,
