@@ -16,18 +16,6 @@ export const GLOBAL_FAQS = [
       "US-based clients only. My schedule is flexible, but my work is currently limited to US clients by choice.",
   },
   {
-    id: "age",
-    question: "I see you're young — can I trust you with my project?",
-    answer:
-      "Fair question. I'm 17, and I know that's unusual for a freelancer. What it also means: I have time to obsess over your project, I'm hungry to do great work, and my portfolio is evidence that I can actually deliver. Judge me on the work — check my projects, read the code on GitHub, try the live demos. If the work holds up, the age shouldn't matter.",
-  },
-  {
-    id: "schedule",
-    question: "What happens if you get busy with school or have scheduling conflicts?",
-    answer:
-      "Before any project starts, I give you a realistic timeline based on my actual availability. If something comes up that could affect the schedule, you'll hear about it from me the same day — not the day a milestone slips. I plan buffer into every project so small delays don't cascade.",
-  },
-  {
     id: "communication",
     question: "How do we communicate during the project?",
     answer:
@@ -56,18 +44,6 @@ export const GLOBAL_FAQS = [
     question: "What happens after launch?",
     answer:
       "Every project includes 30 days of post-launch support for bug fixes (14 days for WordPress). After that, ongoing work is billed hourly or as a small monthly retainer if you want a predictable arrangement. You're never locked in.",
-  },
-  {
-    id: "contract",
-    question: "Do we sign a contract?",
-    answer:
-      "Yes. Every project gets a simple written agreement covering scope, timeline, deliverables, payment terms, and IP transfer. It protects both of us and keeps expectations clear. Usually one or two pages.",
-  },
-  {
-    id: "clearance",
-    question: "You mention a security track — does that affect how you work with clients?",
-    answer:
-      "Only in that I keep my work to US clients and maintain clean professional boundaries. For web and software work, you get a normal freelance engagement with normal deliverables.",
   },
 ];
 
