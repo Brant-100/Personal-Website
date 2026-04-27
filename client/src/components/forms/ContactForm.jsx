@@ -141,7 +141,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
           <input
             type="text"
             autoComplete="name"
-            placeholder="Brant Simpson"
+            placeholder="First name Last name"
             {...register("name")}
             className={inputCls(isDark)}
           />
