@@ -288,12 +288,7 @@ PROJECTS = [
         "repo_url": None,
         "live_url": None,
         "architecture_diagram_url": "/projects/healthhive/architecture.svg",
-        "screenshots": [
-            {
-                "url": "/projects/healthhive/screenshot-1.png",
-                "caption": "Team dashboard: metrics, weekly activity chart, and live activity feed (UI mockup).",
-            },
-        ],
+        "screenshots": [],
         "demo_video_url": None,
         "mitre_techniques": [],
         "visibility_note": None,
