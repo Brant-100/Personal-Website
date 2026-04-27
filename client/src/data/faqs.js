@@ -13,7 +13,7 @@ export const GLOBAL_FAQS = [
     id: "location",
     question: "Do you work with clients outside the US?",
     answer:
-      "US-based clients only. My schedule is flexible, but my work is currently limited to US clients by choice.",
+      "US-based clients only. My schedule is flexible, but my work is currently limited to US clients.",
   },
   {
     id: "communication",
