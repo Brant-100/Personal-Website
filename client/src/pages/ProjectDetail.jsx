@@ -209,7 +209,7 @@ export function ProjectDetail() {
               <div className={cn(
                 "rounded-2xl p-5",
                 isDark
-                  ? "border border-border bg-card/70 backdrop-blur"
+                  ? "border border-border bg-card/85"
                   : "border-2 border-foreground bg-card shadow-pop"
               )}>
                 <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
@@ -248,7 +248,7 @@ export function ProjectDetail() {
 
       {/* Body */}
       <div className="container py-16">
-        <div className="mx-auto max-w-4xl space-y-16">
+        <div className="mx-auto max-w-4xl space-y-16 overflow-anchor-none">
 
           {/* Problem */}
           {project.problem && (
@@ -299,14 +299,19 @@ export function ProjectDetail() {
           {project.architecture_diagram_url && (
             <Reveal>
               <SectionBlock isDark={isDark} title="Architecture" icon={<Cpu className="h-4 w-4" />}>
-                <div className={cn(
-                  "overflow-hidden rounded-2xl",
-                  isDark ? "border border-border" : "border-2 border-foreground shadow-pop"
-                )}>
+                <div
+                  className={cn(
+                    "overflow-hidden rounded-2xl bg-muted/20",
+                    isDark ? "border border-border" : "border-2 border-foreground shadow-pop"
+                  )}
+                >
                   <img
                     src={project.architecture_diagram_url}
                     alt={`${project.title} architecture diagram`}
-                    className="w-full"
+                    className="h-auto w-full object-contain"
+                    width={1200}
+                    height={630}
+                    decoding="async"
                     loading="lazy"
                   />
                 </div>
@@ -322,16 +327,22 @@ export function ProjectDetail() {
                   {project.screenshots.map((s) => (
                     <figure key={s.url}>
                       <div className={cn(
-                        "overflow-hidden rounded-2xl",
+                        "overflow-hidden rounded-2xl bg-muted/20",
                         isDark ? "border border-border" : "border-2 border-foreground shadow-pop"
                       )}>
                         <img
                           src={s.url.endsWith(".png") ? s.url.replace(".png", ".svg") : s.url}
                           alt={s.caption}
-                          className="w-full"
+                          className="h-auto w-full object-contain"
+                          width={1200}
+                          height={630}
+                          decoding="async"
                           loading="lazy"
                           onError={(e) => {
-                            e.target.src = s.url;
+                            const img = e.currentTarget;
+                            if (img.dataset.fallbackDone) return;
+                            img.dataset.fallbackDone = "1";
+                            if (s.url.endsWith(".png")) img.src = s.url;
                           }}
                         />
                       </div>

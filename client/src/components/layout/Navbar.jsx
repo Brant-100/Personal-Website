@@ -83,10 +83,11 @@ export function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 160, damping: 20 }}
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all",
+          /* Avoid transition-all + heavy backdrop-blur: both cause scroll jank on long pages */
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-200 ease-out",
           scrolled
-            ? "backdrop-blur-xl bg-background/70 border-b border-border"
-            : "bg-transparent"
+            ? "border-b border-border bg-background/92 dark:bg-background/95 supports-[backdrop-filter]:backdrop-blur-sm supports-[backdrop-filter]:bg-background/80"
+            : "border-b border-transparent bg-transparent"
         )}
       >
         <div className="container flex h-16 items-center justify-between">

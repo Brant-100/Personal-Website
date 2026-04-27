@@ -55,7 +55,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/project-nexus/architecture.svg",
         "screenshots": [
-            {"url": "/projects/project-nexus/screenshot-1.png", "caption": "Operator console, active session view"},
+            {"url": "/projects/project-nexus/screenshot-1.svg", "caption": "Operator console, active session view"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [
@@ -154,7 +154,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/network-scanner/architecture.svg",
         "screenshots": [
-            {"url": "/projects/network-scanner/screenshot-1.png", "caption": "CLI scan output, port scan with banner grabs"},
+            {"url": "/projects/network-scanner/screenshot-1.svg", "caption": "CLI scan output, port scan with banner grabs"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [
@@ -227,7 +227,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/skillswap/architecture.svg",
         "screenshots": [
-            {"url": "/projects/skillswap/screenshot-1.png", "caption": "Session booking flow, skill match view"},
+            {"url": "/projects/skillswap/screenshot-1.svg", "caption": "Session booking flow, skill match view"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [],
@@ -289,7 +289,7 @@ PROJECTS = [
         "live_url": None,
         "architecture_diagram_url": "/projects/healthhive/architecture.svg",
         "screenshots": [
-            {"url": "/projects/healthhive/screenshot-1.png", "caption": "Team dashboard, group activity feed"},
+            {"url": "/projects/healthhive/screenshot-1.svg", "caption": "Team dashboard, group activity feed"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [],

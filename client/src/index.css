@@ -196,6 +196,11 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Reduce scroll "jitter" when lazy media or layout shifts fight the browser's scroll anchoring */
+  .overflow-anchor-none {
+    overflow-anchor: none;
+  }
 }
 
 /* Print stylesheet: hides nav, animations, and contact cards; renders essential content */
