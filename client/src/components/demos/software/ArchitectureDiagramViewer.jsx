@@ -87,7 +87,7 @@ export function ArchitectureDiagramViewer() {
     >
       <div className={cn(
         "overflow-hidden rounded-2xl",
-        isDark ? "border border-border bg-card/70 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+        isDark ? "border border-border bg-card/70 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
       )}>
         <div className="grid lg:grid-cols-[minmax(0,1.35fr)_min(100%,280px)] lg:divide-x lg:divide-border">
           {/* Diagram */}

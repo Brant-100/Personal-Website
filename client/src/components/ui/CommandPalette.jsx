@@ -101,7 +101,7 @@ export function CommandPalette() {
               "fixed left-1/2 top-[20vh] z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-2xl shadow-2xl",
               isDark
                 ? "border border-border bg-card/95 backdrop-blur shadow-neon-cyan"
-                : "border-2 border-foreground bg-card shadow-pop"
+                : "border border-border bg-card/80 shadow-soft backdrop-blur-sm"
             )}
           >
             <Command

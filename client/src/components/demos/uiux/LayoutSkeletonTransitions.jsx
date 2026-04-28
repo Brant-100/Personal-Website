@@ -72,7 +72,7 @@ function HiFiCard({ isDark }) {
   return (
     <div className={cn(
       "overflow-hidden rounded-2xl",
-      isDark ? "border border-primary/30 bg-card shadow-neon-cyan" : "border-2 border-foreground bg-white shadow-pop"
+      isDark ? "border border-primary/30 bg-card shadow-neon-cyan" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
     )}>
       {/* Hero image */}
       <div className={cn(

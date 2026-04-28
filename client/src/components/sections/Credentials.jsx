@@ -1,35 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  ShieldCheck,
-  Award,
-  Network,
-  Globe,
-  BadgeCheck,
-  Cloud,
-  Code2,
-  BookOpen,
-  Sparkles,
-  Lightbulb,
-} from "lucide-react";
 import { Section, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
+import { CREDENTIAL_ICON_MAP } from "@/lib/credentialIcons";
+import { FALLBACK as CREDENTIAL_FALLBACK } from "@/lib/credentialFallback";
 
-const ICON_MAP = {
-  security: ShieldCheck,
-  management: Award,
-  network: Network,
-  web: Globe,
-  cybersecurity: ShieldCheck,
-  development: Code2,
-  ai: Sparkles,
-  cloud: Cloud,
-  foundations: Lightbulb,
-  literacy: BookOpen,
-  default: BadgeCheck,
-};
+const MotionLink = motion(Link);
 
 const GROUP_ORDER = ["comptia", "it-specialist", "process", "literacy"];
 const GROUP_LABELS = {
@@ -40,114 +20,6 @@ const GROUP_LABELS = {
 };
 
 /** Mirrors `api/data/credentials.py` when the API is offline. */
-const FALLBACK = [
-  {
-    id: "comptia-security-plus-sy0701",
-    name: "CompTIA Security+ ce (SY0-701)",
-    issuer: "CompTIA",
-    category: "security",
-    group: "comptia",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-artificial-intelligence",
-    name: "IT Specialist – Artificial Intelligence",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "ai",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-cloud-computing",
-    name: "IT Specialist – Cloud Computing",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "cloud",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-computational-thinking",
-    name: "IT Specialist – Computational Thinking",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "foundations",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-cybersecurity",
-    name: "IT Specialist – Cybersecurity",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "cybersecurity",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-databases",
-    name: "IT Specialist – Databases",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "development",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-html-css",
-    name: "IT Specialist – HTML and CSS",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "web",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-javascript",
-    name: "IT Specialist – JavaScript",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "development",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-networking",
-    name: "IT Specialist – Networking",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "network",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-network-security",
-    name: "IT Specialist – Network Security",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "cybersecurity",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "itsp-python",
-    name: "IT Specialist – Python",
-    issuer: "Certiport / Pearson VUE (IT Specialist Series)",
-    category: "development",
-    group: "it-specialist",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "lssbb-includes-belts",
-    name: "Lean Six Sigma Black Belt",
-    subtitle: "Includes prior White, Yellow, and Green Belts.",
-    issuer: "Council for Six Sigma Certification",
-    category: "management",
-    group: "process",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-  {
-    id: "ic3-digital-literacy-gs6-l1",
-    name: "IC3 Digital Literacy Certification GS6 Level 1",
-    issuer: "Certiport",
-    category: "literacy",
-    group: "literacy",
-    url: "https://www.credly.com/users/brant-simpson/badges",
-  },
-];
-
 function groupCredentials(items) {
   const map = new Map();
   for (const c of items) {
@@ -170,7 +42,7 @@ function groupCredentials(items) {
 export function Credentials({ embedded = false }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const [items, setItems] = useState(FALLBACK);
+  const [items, setItems] = useState(CREDENTIAL_FALLBACK);
 
   useEffect(() => {
     const ctrl = new AbortController();
@@ -185,21 +57,16 @@ export function Credentials({ embedded = false }) {
   return (
     <Section
       id="credentials"
-      className={cn(
-        embedded
-          ? "w-full max-w-none px-0 py-16 md:py-24"
-          : "container"
-      )}
+      className={cn(embedded ? "w-full max-w-none px-0 py-16 md:py-24" : "container")}
     >
       <Reveal className="mb-4">
+        {!isDark && <span className="section-accent-bar bg-pop-lime" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
           {isDark ? "// credentials" : "credentials ·"} vault
         </span>
       </Reveal>
       <Reveal className="mb-12 max-w-3xl">
-        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          Certifications & badges
-        </h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Certifications & badges</h2>
         <p className="mt-4 text-muted-foreground text-lg">
           Verified credentials across security, IT Specialist tracks, process improvement, and digital literacy.
         </p>
@@ -207,9 +74,7 @@ export function Credentials({ embedded = false }) {
 
       <div className="space-y-14">
         {grouped.map((section, sectionIdx) => {
-          const tileOffset = grouped
-            .slice(0, sectionIdx)
-            .reduce((n, s) => n + s.items.length, 0);
+          const tileOffset = grouped.slice(0, sectionIdx).reduce((n, s) => n + s.items.length, 0);
           return (
             <div key={section.id}>
               <Reveal className={cn("mb-6", sectionIdx === 0 && "mt-0")}>
@@ -225,12 +90,7 @@ export function Credentials({ embedded = false }) {
                 className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
               >
                 {section.items.map((cred, i) => (
-                  <CredentialTile
-                    key={cred.id || cred.name}
-                    cred={cred}
-                    colorIndex={tileOffset + i}
-                    isDark={isDark}
-                  />
+                  <CredentialTile key={cred.id || cred.name} cred={cred} colorIndex={tileOffset + i} isDark={isDark} />
                 ))}
               </motion.div>
             </div>
@@ -242,8 +102,8 @@ export function Credentials({ embedded = false }) {
 }
 
 function CredentialTile({ cred, colorIndex, isDark }) {
-  const Icon = ICON_MAP[cred.category] || ICON_MAP.default;
-  const href = cred.url || null;
+  const Icon = CREDENTIAL_ICON_MAP[cred.category] || CREDENTIAL_ICON_MAP.default;
+  const to = `/credentials/${cred.id}`;
 
   const inner = (
     <>
@@ -254,10 +114,10 @@ function CredentialTile({ cred, colorIndex, isDark }) {
             isDark
               ? "bg-primary/10 text-primary ring-1 ring-primary/30"
               : colorIndex % 3 === 0
-              ? "bg-primary text-primary-foreground"
-              : colorIndex % 3 === 1
-              ? "bg-secondary text-secondary-foreground"
-              : "bg-accent text-accent-foreground"
+                ? "bg-primary text-primary-foreground"
+                : colorIndex % 3 === 1
+                  ? "bg-secondary text-secondary-foreground"
+                  : "bg-accent text-accent-foreground"
           )}
         >
           <Icon className="h-6 w-6" />
@@ -266,17 +126,11 @@ function CredentialTile({ cred, colorIndex, isDark }) {
           <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
             {cred.issuer || "Credential"}
           </div>
-          <div className={cn("mt-1 text-base font-semibold leading-snug", isDark && "text-neon")}>
-            {cred.name}
-          </div>
+          <div className={cn("mt-1 text-base font-semibold leading-snug", isDark && "text-neon")}>{cred.name}</div>
           {cred.subtitle && (
-            <div className="mt-2 text-xs leading-relaxed text-muted-foreground">
-              {cred.subtitle}
-            </div>
+            <div className="mt-2 text-xs leading-relaxed text-muted-foreground">{cred.subtitle}</div>
           )}
-          {cred.year && (
-            <div className="mt-2 text-xs text-muted-foreground">Earned {cred.year}</div>
-          )}
+          {cred.year && <div className="mt-2 text-xs text-muted-foreground">Earned {cred.year}</div>}
         </div>
       </div>
 
@@ -286,10 +140,10 @@ function CredentialTile({ cred, colorIndex, isDark }) {
           isDark
             ? "bg-primary"
             : colorIndex % 3 === 0
-            ? "bg-primary"
-            : colorIndex % 3 === 1
-            ? "bg-secondary"
-            : "bg-accent"
+              ? "bg-primary"
+              : colorIndex % 3 === 1
+                ? "bg-secondary"
+                : "bg-accent"
         )}
       />
     </>
@@ -298,33 +152,19 @@ function CredentialTile({ cred, colorIndex, isDark }) {
   const tileClass = cn(
     "relative block overflow-hidden rounded-2xl p-5 transition-colors",
     isDark
-      ? "border border-border bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-      : "border-2 border-foreground bg-card shadow-pop",
-    href && "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/50 hover:shadow-neon-cyan"
+      : cn(
+          "border border-border bg-card/80 backdrop-blur-sm",
+          popBy(colorIndex, CARD_SHADOW),
+          popBy(colorIndex, CARD_HOVER_SHADOW)
+        ),
+    "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
   );
 
-  if (href) {
-    return (
-      <motion.a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`${cred.name}, open on Credly`}
-        variants={{
-          hidden: { opacity: 0, y: 16 },
-          show: { opacity: 1, y: 0, transition: spring.soft },
-        }}
-        whileHover={{ y: -4, rotate: isDark ? 0 : colorIndex % 2 === 0 ? 1.5 : -1.5 }}
-        transition={spring.snap}
-        className={tileClass}
-      >
-        {inner}
-      </motion.a>
-    );
-  }
-
   return (
-    <motion.div
+    <MotionLink
+      to={to}
+      aria-label={`${cred.name} — view details`}
       variants={{
         hidden: { opacity: 0, y: 16 },
         show: { opacity: 1, y: 0, transition: spring.soft },
@@ -334,6 +174,6 @@ function CredentialTile({ cred, colorIndex, isDark }) {
       className={tileClass}
     >
       {inner}
-    </motion.div>
+    </MotionLink>
   );
 }

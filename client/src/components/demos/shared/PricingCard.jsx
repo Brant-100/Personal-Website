@@ -35,7 +35,7 @@ export function PricingCard({ startsAt, engagementType, includes = [], excludes 
           "rounded-2xl",
           isDark
             ? "border border-border bg-card/70 backdrop-blur"
-            : "border-2 border-foreground bg-card shadow-pop"
+            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
         )}>
           {/* Header */}
           <div className={cn(
@@ -92,7 +92,7 @@ export function PricingCard({ startsAt, engagementType, includes = [], excludes 
           "flex flex-col items-center justify-center gap-4 rounded-2xl px-8 py-8 text-center",
           isDark
             ? "border border-primary/40 bg-primary/5"
-            : "border-2 border-foreground bg-foreground text-background shadow-pop"
+            : "border border-border bg-foreground text-background shadow-soft"
         )}>
           <div className={cn("text-base font-bold", !isDark && "text-background")}>
             Not sure what you need?

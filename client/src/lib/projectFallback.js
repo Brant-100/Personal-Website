@@ -10,23 +10,23 @@ export const FALLBACK = [
     title: "Project Nexus",
     tagline: "Custom C2 framework built from scratch. Every component explainable under pressure.",
     description:
-      "A modular, full-stack command-and-control framework built deliberately without off-the-shelf frameworks so every layer can be explained, modified, and defended against.",
+      "A modular, full stack command and control framework built deliberately without off the shelf frameworks so every layer can be explained, modified, and defended against.",
     problem:
       "Existing C2 frameworks abstract away the details that matter most for learning. The goal was to build one where I could stand in front of any component and answer 'why does this work this way?'",
     constraints: [
       "No existing C2 frameworks: build from primitive socket and crypto operations",
-      "Operator-safe logging: append-only JSONL hash chain, no plaintext secrets on disk",
+      "Operator safe logging: append only JSONL hash chain, no plaintext secrets on disk",
       "Portable: single Docker Compose up from a clean host",
       "All techniques explicitly mapped to MITRE ATT&CK before implementation",
     ],
     features: [
-      "FastAPI operator server with JWT-authenticated REST interface",
-      "WAL-mode SQLite persistence + append-only JSONL hash chain for log integrity",
-      "AES-GCM implant communications (per-session key negotiation)",
-      "Jittered beacon intervals with proxy-aware transport",
+      "FastAPI operator server with JWT authenticated REST interface",
+      "WAL mode SQLite persistence + append only JSONL hash chain for log integrity",
+      "AES-GCM implant communications (per session key negotiation)",
+      "Jittered beacon intervals with proxy aware transport",
       "Sandbox detection heuristics (timing, environment, artifact checks)",
       "Priority task queue with configurable concurrency",
-      "Rate limiting and per-implant session tracking",
+      "Rate limiting and per implant session tracking",
       "17 task handlers covering execution, persistence, enumeration, exfiltration",
       "18 MITRE ATT&CK techniques mapped across the kill chain",
       "GitHub Actions CI pipeline (lint + test on every push)",
@@ -43,10 +43,10 @@ export const FALLBACK = [
     architecture_diagram_url: "/projects/project-nexus/architecture.png",
     screenshots: [
       { url: "/projects/project-nexus/screenshot-architecture.png", caption: "Docker lab topology: c2-server, two implants, and bridge network on 10.10.0.0/24" },
-      { url: "/projects/project-nexus/screenshot-operator-cli.png", caption: "Operator CLI: 11-item interactive menu for managing agents, tasks, and sessions" },
+      { url: "/projects/project-nexus/screenshot-operator-cli.png", caption: "Operator CLI: 11 item interactive menu for managing agents, tasks, and sessions" },
       { url: "/projects/project-nexus/screenshot-agent-dashboard.png", caption: "Agent heartbeat dashboard: 12 registered implants with health status and queue depth" },
       { url: "/projects/project-nexus/screenshot-task-types.png", caption: "17 task handlers: shell execution, file transfer, sandbox checks, fs enumeration, and more" },
-      { url: "/projects/project-nexus/screenshot-mitre.png", caption: "Full MITRE ATT&CK Enterprise tactic-level coverage matrix across the kill chain" },
+      { url: "/projects/project-nexus/screenshot-mitre.png", caption: "Full MITRE ATT&CK Enterprise tactic level coverage matrix across the kill chain" },
     ],
     mitre_techniques: [
       "T1059.001", "T1071.001", "T1132.001", "T1573.001", "T1027", "T1082",
@@ -61,19 +61,19 @@ export const FALLBACK = [
         tradeoffs: "More implementation surface to audit; no free certificate validation.",
       },
       {
-        decision: "WAL-mode SQLite + JSONL hash chain",
+        decision: "WAL mode SQLite + JSONL hash chain",
         why: "WAL gives concurrent read performance. The hash chain means any tampered log entry is detectable.",
         tradeoffs: "More complex recovery path; JSONL files grow unbounded without rotation.",
       },
       {
         decision: "FastAPI over Flask for the operator server",
-        why: "Auto-generated OpenAPI docs, async request handling, Pydantic validation on every route.",
+        why: "Auto generated OpenAPI docs, async request handling, Pydantic validation on every route.",
         tradeoffs: "Heavier dependency tree; async context requires discipline to avoid blocking the event loop.",
       },
     ],
     lessons_learned: [
-      "Beacon jitter matters far more than sleep duration for evading time-based detections.",
-      "Sandbox detection via timing is unreliable on modern hypervisors; artifact-based checks are more durable.",
+      "Beacon jitter matters far more than sleep duration for evading time based detections.",
+      "Sandbox detection via timing is unreliable on modern hypervisors; artifact based checks are more durable.",
       "Operator UX is as important as implant capability.",
     ],
   },
@@ -89,13 +89,13 @@ export const FALLBACK = [
     constraints: [
       "Standard library only (no scapy, no nmap bindings)",
       "Must handle /16 CIDR ranges without exhausting thread count",
-      "Output compatible with both human-readable text and JSON ingestion",
+      "Output compatible with both human readable text and JSON ingestion",
       "Full pytest coverage for core scan logic",
     ],
     features: [
-      "CIDR ping sweep for host discovery (system ping, cross-platform)",
+      "CIDR ping sweep for host discovery (system ping, cross platform)",
       "Multithreaded TCP connect port scanning with configurable thread pool",
-      "Service banner grabbing with per-port timeout",
+      "Service banner grabbing with per port timeout",
       "Text and JSON report output (--json flag)",
       "argparse CLI with discover / scan / banner subcommands",
       "pytest test suite: closed port, open port, sorted results, empty input",
@@ -119,8 +119,8 @@ export const FALLBACK = [
     technical_decisions: [
       {
         decision: "threading.ThreadPoolExecutor over asyncio",
-        why: "TCP connect scans are I/O-bound but block on the OS connect(). A thread pool maps naturally without asyncio's complexity for a CLI tool.",
-        tradeoffs: "Higher memory overhead per worker; GIL is not a bottleneck since work is I/O-bound.",
+        why: "TCP connect scans are I/O bound but block on the OS connect(). A thread pool maps naturally without asyncio's complexity for a CLI tool.",
+        tradeoffs: "Higher memory overhead per worker; GIL is not a bottleneck since work is I/O bound.",
       },
       {
         decision: "System ping for host discovery instead of raw ICMP",
@@ -130,7 +130,7 @@ export const FALLBACK = [
     ],
     lessons_learned: [
       "TCP connect scan latency is dominated by refused connections; set timeouts aggressively.",
-      "Banner grabbing requires per-protocol delays; SSH sends immediately, HTTP needs a probe first.",
+      "Banner grabbing requires per protocol delays; SSH sends immediately, HTTP needs a probe first.",
       "Writing tests before refactoring caught two race conditions in result ordering.",
     ],
   },
@@ -138,21 +138,21 @@ export const FALLBACK = [
     id: "skillswap",
     sort_order: 3,
     title: "SkillSwap",
-    tagline: "Student talent exchange and peer-to-peer learning in a structured platform.",
+    tagline: "Student talent exchange and peer to peer learning in a structured platform.",
     description:
-      "Peer-to-peer learning web platform for sharing skills and booking sessions safely.",
+      "Peer to peer learning web platform for sharing skills and booking sessions safely.",
     problem:
-      "Campus tutoring is expensive and one-directional. SkillSwap turns every student into both a teacher and a learner, with an AI layer that matches skills and surfaces session ideas from resume data.",
+      "Campus tutoring is expensive and one directional. SkillSwap turns every student into both a teacher and a learner, with an AI layer that matches skills and surfaces session ideas from resume data.",
     constraints: [
-      "OAuth-only auth (no passwords stored) for safety on a student platform",
+      "OAuth only auth (no passwords stored) for safety on a student platform",
       "AI features must degrade gracefully when the OpenAI API is unavailable",
-      "Mobile-first layout for students on phones between classes",
+      "Mobile first layout for students on phones between classes",
     ],
     features: [
       "Peer learning: students offer specific skills and book sessions with each other",
       "AI resume scanner for instant skill extraction",
       "Skill matcher and session idea generator via OpenAI",
-      "5-star rating and review system for community trust",
+      "5 star rating and review system for community trust",
       "Gamification: badges, points, and tracked learning streaks",
     ],
     tech: ["Next.js 15", "React 19", "TypeScript", "Prisma", "PostgreSQL", "NextAuth.js", "Google OAuth", "GitHub OAuth", "OpenAI"],
@@ -172,7 +172,7 @@ export const FALLBACK = [
     technical_decisions: [
       {
         decision: "Prisma ORM over raw SQL",
-        why: "Type-safe queries eliminate an entire class of runtime errors in the booking and session data models.",
+        why: "Type safe queries eliminate an entire class of runtime errors in the booking and session data models.",
         tradeoffs: "Prisma's migration tooling adds friction for rapid schema iteration.",
       },
     ],
@@ -187,9 +187,9 @@ export const FALLBACK = [
     title: "HealthHive",
     tagline: "Team wellness tracker with group accountability inspired by the hive.",
     description:
-      "Team-centric wellness application that turns individual health tracking into a collaborative journey.",
+      "Team centric wellness application that turns individual health tracking into a collaborative journey.",
     problem:
-      "Individual wellness apps have high drop-off rates because they rely solely on self-motivation. Team accountability significantly improves habit retention.",
+      "Individual wellness apps have high drop off rates because they rely solely on self motivation. Team accountability significantly improves habit retention.",
     constraints: [
       "Django MVT architecture: no separate frontend SPA to keep deployment simple",
       "SQLite for portability (school server constraints)",
@@ -225,8 +225,8 @@ export const FALLBACK = [
     technical_decisions: [
       {
         decision: "Django MVT over a React SPA",
-        why: "Simpler deployment for a school-hosted project; Django's built-in auth and ORM reduced scope.",
-        tradeoffs: "Page-reload UX; adding real-time features later would require significant rework.",
+        why: "Simpler deployment for a school hosted project; Django's built in auth and ORM reduced scope.",
+        tradeoffs: "Page reload UX; adding real time features later would require significant rework.",
       },
     ],
     lessons_learned: [

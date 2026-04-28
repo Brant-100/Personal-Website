@@ -134,7 +134,7 @@ export function ProjectTimeline() {
                   "mt-4 rounded-2xl p-5",
                   isDark
                     ? "border border-primary/30 bg-primary/5 backdrop-blur"
-                    : "border-2 border-foreground bg-card shadow-pop"
+                    : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
                 )}
               >
                 <div className="flex items-start gap-3">
@@ -170,7 +170,7 @@ export function ProjectTimeline() {
                   isActive
                     ? isDark
                       ? "border border-primary/40 bg-primary/10"
-                      : "border-2 border-foreground bg-accent/30"
+                      : "border border-border bg-accent/30"
                     : "border border-border bg-card/60 hover:border-primary/30"
                 )}
               >

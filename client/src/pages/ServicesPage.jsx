@@ -5,6 +5,7 @@ import { Code2, Palette, Cpu, ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
 
 const SERVICES = [
   {
@@ -16,7 +17,7 @@ const SERVICES = [
     Icon: Code2,
     bullets: [
       "React + Vite + Tailwind + Framer Motion",
-      "Performance-first — Lighthouse scores that matter",
+      "Performance first — Lighthouse scores that matter",
       "Fully accessible (WCAG) out of the box",
       "Deployed on Vercel or your own infra",
     ],
@@ -33,7 +34,7 @@ const SERVICES = [
       "Design token systems that scale",
       "Accessible color and contrast (WCAG AA/AAA)",
       "Type scales, motion curves, component libraries",
-      "Handoff-ready or implemented by me",
+      "Handoff ready or implemented by me",
     ],
     accent: { dark: "text-secondary", bg: "bg-secondary/10", ring: "ring-secondary/30" },
   },
@@ -63,7 +64,7 @@ export function ServicesPage() {
   }, []);
 
   return (
-    <div className="relative overflow-hidden pt-28 md:pt-36">
+    <div className="relative pt-28 md:pt-36">
       {/* Backdrop */}
       <div className="pointer-events-none absolute inset-0 -z-0 overflow-hidden">
         {isDark ? (
@@ -88,12 +89,15 @@ export function ServicesPage() {
           transition={{ duration: 0.4 }}
           className="max-w-2xl"
         >
-          <div className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            freelance services
+          <div className="mb-3">
+            {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+              freelance services
+            </div>
           </div>
           <h1
             className={cn(
-              "text-4xl font-extrabold tracking-tight md:text-5xl",
+              "font-mono text-4xl font-extrabold tracking-tight md:text-5xl text-foreground",
               isDark && "text-neon"
             )}
           >
@@ -122,7 +126,11 @@ export function ServicesPage() {
                     "group block rounded-2xl border p-6 transition-all sm:p-8",
                     isDark
                       ? "border-border bg-card/60 backdrop-blur hover:border-primary/40 hover:bg-card/80"
-                      : "border-2 border-foreground bg-card shadow-pop hover:-translate-y-0.5"
+                      : cn(
+                          "border border-border bg-card/80 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5",
+                          popBy(i, CARD_SHADOW),
+                          popBy(i, CARD_HOVER_SHADOW)
+                        )
                   )}
                 >
                   <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
@@ -132,7 +140,11 @@ export function ServicesPage() {
                         "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ring-1 transition-colors",
                         isDark
                           ? `${svc.accent.bg} ${svc.accent.dark} ${svc.accent.ring}`
-                          : "bg-foreground text-background ring-0"
+                          : cn(
+                              svc.id === "web" && "bg-primary/18 text-primary ring-primary/35",
+                              svc.id === "uiux" && "bg-secondary/18 text-secondary ring-secondary/35",
+                              svc.id === "software" && "bg-pop-purple/22 text-pop-purple ring-pop-purple/40"
+                            )
                       )}
                     >
                       <Icon className="h-6 w-6" />
@@ -141,25 +153,46 @@ export function ServicesPage() {
                     {/* Body */}
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-baseline gap-3">
-                        <span className="font-mono text-[11px] text-muted-foreground/60">
+                        <span
+                          className={cn(
+                            "font-mono text-[11px]",
+                            isDark ? "text-muted-foreground/60" : "text-foreground/45"
+                          )}
+                        >
                           {svc.num}
                         </span>
                         <h2 className="text-xl font-extrabold leading-tight tracking-tight">
                           {svc.label}
                         </h2>
                       </div>
-                      <p className="mt-1.5 text-sm text-muted-foreground">{svc.tagline}</p>
+                      <p
+                        className={cn(
+                          "mt-1.5 text-sm font-semibold",
+                          isDark ? "text-muted-foreground" : "text-foreground/75"
+                        )}
+                      >
+                        {svc.tagline}
+                      </p>
 
                       <ul className="mt-4 grid gap-1.5 sm:grid-cols-2">
                         {svc.bullets.map((b) => (
                           <li
                             key={b}
-                            className="flex items-start gap-2 text-xs text-muted-foreground"
+                            className={cn(
+                              "flex items-start gap-2 text-xs font-semibold",
+                              isDark ? "text-muted-foreground" : "text-foreground/78"
+                            )}
                           >
                             <span
                               className={cn(
                                 "mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full",
-                                isDark ? svc.accent.dark.replace("text-", "bg-") : "bg-foreground/50"
+                                isDark
+                                  ? svc.accent.dark.replace("text-", "bg-")
+                                  : svc.id === "web"
+                                    ? "bg-primary"
+                                    : svc.id === "uiux"
+                                      ? "bg-secondary"
+                                      : "bg-pop-purple"
                               )}
                             />
                             {b}
@@ -189,7 +222,7 @@ export function ServicesPage() {
           transition={{ delay: 0.45, duration: 0.4 }}
           className={cn(
             "mt-12 rounded-2xl border p-7 sm:p-9",
-            isDark ? "border-border bg-card/50 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+            isDark ? "border-border bg-card/50 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">

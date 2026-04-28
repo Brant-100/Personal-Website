@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CHIP_BG, CHIP_RING, popBy } from "@/lib/popColors";
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
@@ -95,10 +96,10 @@ export function BlogPost() {
                 {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
               </span>
             )}
-            {(post.tags || []).map((t) => (
+            {(post.tags || []).map((t, ti) => (
               <span key={t} className={cn(
                 "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest",
-                isDark ? "bg-muted text-primary" : "bg-accent/40 text-foreground"
+                isDark ? "bg-muted text-primary" : cn("font-medium text-foreground ring-2 shadow-sm", popBy(ti, CHIP_BG), popBy(ti, CHIP_RING))
               )}>
                 <Tag className="h-2 w-2" />{t}
               </span>
@@ -121,8 +122,8 @@ export function BlogPost() {
             <div className={cn(
               "mt-12 rounded-2xl p-8",
               isDark
-                ? "border border-border bg-card/70 backdrop-blur"
-                : "border-2 border-foreground bg-card shadow-pop"
+                ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
+                : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
             )}>
               <div className={cn(
                 "prose max-w-none",

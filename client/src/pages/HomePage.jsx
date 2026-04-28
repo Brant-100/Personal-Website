@@ -5,7 +5,6 @@ import { Services } from "@/components/sections/Services";
 import { Projects } from "@/components/sections/Projects";
 import { CredentialHighlights } from "@/components/sections/CredentialHighlights";
 import { Experience } from "@/components/sections/Experience";
-import { FAQ } from "@/components/sections/FAQ";
 import { Contact } from "@/components/sections/Contact";
 
 export function HomePage() {
@@ -26,7 +25,6 @@ export function HomePage() {
       <Projects />
       <CredentialHighlights />
       <Experience />
-      <FAQ />
       <Contact />
     </>
   );

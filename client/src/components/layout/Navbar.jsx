@@ -87,7 +87,10 @@ export function Navbar() {
           /* Avoid transition-all + heavy backdrop-blur: both cause scroll jank on long pages */
           "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-200 ease-out",
           scrolled
-            ? "border-b border-border bg-background/92 dark:bg-background/95 supports-[backdrop-filter]:backdrop-blur-sm supports-[backdrop-filter]:bg-background/80"
+            ? cn(
+                "border-b border-border bg-background/92 dark:bg-background/95 supports-[backdrop-filter]:backdrop-blur-sm supports-[backdrop-filter]:bg-background/80",
+                isDark ? "shadow-presence-rest dark:border-primary/22" : "shadow-[0_12px_36px_-14px_rgb(0_0_0_/0.06)]"
+              )
             : "border-b border-transparent bg-transparent"
         )}
       >

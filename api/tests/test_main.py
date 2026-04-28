@@ -85,6 +85,12 @@ async def test_credentials(client):
 
 
 @pytest.mark.asyncio
+async def test_credly_assertion_invalid_badge_id(client):
+    r = await client.get("/api/credly/badges/not-a-uuid/assertion")
+    assert r.status_code == 400
+
+
+@pytest.mark.asyncio
 async def test_experience(client):
     r = await client.get("/api/experience")
     assert r.status_code == 200

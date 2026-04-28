@@ -214,7 +214,7 @@ export function ContrastChecker() {
     >
       <div className={cn(
         "rounded-2xl p-6",
-        isDark ? "border border-border bg-card/70 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+        isDark ? "border border-border bg-card/70 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
       )}>
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr_1fr]">
           {/* Color pickers */}

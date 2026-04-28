@@ -26,11 +26,11 @@ The scanner has four modules:
 
 ## Threading vs asyncio: the real tradeoff
 
-[Write a technically honest explanation of why you chose ThreadPoolExecutor over asyncio for this use case. TCP connect() blocks at the OS level. The GIL doesn't matter here because the work is I/O-bound and the threads mostly wait. asyncio would have been cleaner but required more care around socket event loops in the CLI context.]
+[Write a technically honest explanation of why you chose ThreadPoolExecutor over asyncio for this use case. TCP connect() blocks at the OS level. The GIL doesn't matter here because the work is I/O bound and the threads mostly wait. asyncio would have been cleaner but required more care around socket event loops in the CLI context.]
 
 ## How banner grabbing actually works
 
-[Write about the protocol-specific behavior: SSH sends a banner immediately on connection. HTTP requires you to send a request before the server responds. Some services (MySQL, FTP) send on connect; others require a probe. How did you handle this?]
+[Write about the protocol specific behavior: SSH sends a banner immediately on connection. HTTP requires you to send a request before the server responds. Some services (MySQL, FTP) send on connect; others require a probe. How did you handle this?]
 
 ## The test suite
 

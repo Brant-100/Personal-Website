@@ -166,7 +166,7 @@ export function MotionCurvePreview() {
       heading="Every curve, live"
       description="Hover a tile to see the animation — and the code that produces it."
     >
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 items-start">
         {CURVES.map((curve) => {
           const isHovered = hovered === curve.name;
           return (
@@ -175,29 +175,31 @@ export function MotionCurvePreview() {
               onMouseEnter={() => setHovered(curve.name)}
               onMouseLeave={() => setHovered(null)}
               className={cn(
-                "rounded-2xl border p-4 transition-colors cursor-default",
+                "flex flex-col rounded-2xl border p-3 transition-colors cursor-default",
                 isHovered
                   ? isDark ? "border-primary/50 bg-primary/5" : "border-foreground bg-accent/10"
                   : "border-border bg-card/60"
               )}
             >
-              <div className="mb-3">
+              <div className="mb-2 shrink-0">
                 <BallTrack curve={curve} isHovered={isHovered} prefersReduced={prefersReduced} isDark={isDark} />
               </div>
-              <div className="text-sm font-semibold">{curve.label}</div>
-              <div className="mt-1 text-xs text-muted-foreground">{curve.note}</div>
-              {isHovered && (
-                <motion.pre
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className={cn(
-                    "mt-3 max-w-full rounded-lg p-2 font-mono text-[10px] leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]",
-                    isDark ? "bg-muted/40" : "bg-muted/60"
-                  )}
-                >
-                  {curve.code}
-                </motion.pre>
-              )}
+              <div className="text-sm font-semibold leading-tight">{curve.label}</div>
+              <div className="mt-1 shrink-0 text-[11px] leading-snug text-muted-foreground">{curve.note}</div>
+              <div className="mt-2 shrink-0">
+                {isHovered && (
+                  <motion.pre
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className={cn(
+                      "max-h-[6rem] max-w-full overflow-y-auto overscroll-contain rounded-md p-1.5 font-mono text-[9px] leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]",
+                      isDark ? "bg-muted/40" : "bg-muted/60"
+                    )}
+                  >
+                    {curve.code}
+                  </motion.pre>
+                )}
+              </div>
             </div>
           );
         })}

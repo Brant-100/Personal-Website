@@ -29,7 +29,7 @@ export function BackToTop() {
             "fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full transition-all",
             isDark
               ? "bg-primary/20 text-primary ring-1 ring-primary/40 hover:bg-primary/30 hover:shadow-neon-cyan"
-              : "border-2 border-foreground bg-card text-foreground shadow-pop hover:bg-primary hover:text-primary-foreground hover:border-primary"
+              : "border border-border bg-card/80 text-foreground shadow-soft backdrop-blur-sm hover:border-primary hover:bg-primary hover:text-primary-foreground hover:shadow-soft-orange"
           )}
         >
           <ArrowUp className="h-4 w-4" />

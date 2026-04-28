@@ -37,7 +37,7 @@ Commercial C2 frameworks are better than Nexus for actual red team engagements: 
 
 ## Why this matters for 1B4X1
 
-[Brief context: understanding how offensive tools work at a component level is directly applicable to writing signatures, detections, and understanding adversary behavior. This is the dual-use argument.]
+[Brief context: understanding how offensive tools work at a component level is directly applicable to writing signatures, detections, and understanding adversary behavior. This is the dual use argument.]
 
 ---
 

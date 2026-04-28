@@ -11,6 +11,7 @@ export function About() {
   return (
     <Section id="about" className="container">
       <Reveal className="mb-4">
+        {!isDark && <span className="section-accent-bar bg-pop-pink" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
           {isDark ? "// 00" : "00 ·"} about
         </span>
@@ -22,7 +23,11 @@ export function About() {
           <Reveal className="mb-8">
             <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
               {isDark ? (
-                <>Who I <span className="text-neon">am</span>.</>
+                <>
+                  <span className="heading-face">Who I </span>
+                  <span className="text-neon">am</span>
+                  <span className="heading-face">.</span>
+                </>
               ) : (
                 <>
                   Who I{" "}
@@ -39,7 +44,7 @@ export function About() {
           <div className="space-y-4 max-w-xl">
             <Reveal>
               <p className="text-lg md:text-xl font-medium leading-snug">
-                I&apos;m a 17-year-old from{" "}
+                I&apos;m a 17 year old from{" "}
                 <span className={cn("inline-flex items-center gap-1", isDark ? "text-primary" : "text-primary")}>
                   <MapPin className="h-4 w-4" />Ohio
                 </span>{" "}
@@ -88,8 +93,8 @@ export function About() {
               <div className={cn(
                 "relative overflow-hidden rounded-2xl",
                 isDark
-                  ? "ring-2 ring-primary/40 bg-card/70"
-                  : "border-2 border-foreground/20 bg-card shadow-lg"
+                  ? "ring-2 ring-primary/40 bg-card/70 shadow-presence-rest transition-shadow duration-300"
+                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
               )}>
                 <img
                   src="/brant-avatar.svg"
@@ -108,7 +113,7 @@ export function About() {
                 "absolute -left-6 bottom-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium shadow-lg backdrop-blur-sm",
                 isDark
                   ? "bg-card/90 ring-1 ring-border text-foreground"
-                  : "bg-white border border-border text-foreground"
+                  : "bg-card border border-border text-foreground"
               )}>
                 <GraduationCap className="h-3.5 w-3.5 text-primary" />
                 MCCTC · &apos;26
@@ -119,7 +124,7 @@ export function About() {
                 "absolute -right-6 top-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium shadow-lg backdrop-blur-sm",
                 isDark
                   ? "bg-card/90 ring-1 ring-border text-foreground"
-                  : "bg-white border border-border text-foreground"
+                  : "bg-card border border-border text-foreground"
               )}>
                 <Code2 className="h-3.5 w-3.5 text-primary" />
                 Software Eng.

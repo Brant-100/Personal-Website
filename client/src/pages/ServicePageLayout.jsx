@@ -59,8 +59,11 @@ export function ServicePageLayout({
           transition={{ duration: 0.45 }}
           className="mt-6 max-w-3xl"
         >
-          <div className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            {eyebrow}
+          <div className="mb-4">
+            {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+              {eyebrow}
+            </div>
           </div>
           <h1
             className={cn(

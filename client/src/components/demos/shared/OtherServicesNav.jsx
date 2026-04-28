@@ -57,7 +57,7 @@ export function OtherServicesNav({ current }) {
                   "group flex items-start gap-4 rounded-2xl border p-5 transition-all",
                   isDark
                     ? "border-border bg-card/60 hover:border-primary/50 hover:shadow-neon-cyan hover:bg-primary/5"
-                    : "border-2 border-foreground bg-card shadow-pop hover:translate-y-[-2px]"
+                    : "border border-border bg-card/80 backdrop-blur-sm shadow-soft hover:translate-y-[-2px]"
                 )}
               >
                 <div className={cn(

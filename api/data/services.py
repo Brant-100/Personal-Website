@@ -36,7 +36,7 @@ SERVICES = [
         "title": "Custom Software Solutions",
         "blurb": (
             "Bespoke tooling, APIs, and internal platforms, from Python services "
-            "to full-stack applications."
+            "to full stack applications."
         ),
         "icon": "software",
         "bullets": [

@@ -63,7 +63,7 @@ export function WebDevDemo() {
           </div>
           <h3 className="text-xl font-bold">Thinking WordPress instead?</h3>
           <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-            WordPress is one of the ways I deliver web-dev work — fastest path for small sites and
+            WordPress is one of the ways I deliver web dev work — fastest path for small sites and
             anyone who wants to edit content themselves.
           </p>
         </div>
@@ -81,17 +81,17 @@ function FeatureGrid() {
   const items = [
     {
       icon: Zap,
-      title: "Lightning-fast",
-      body: "Vite + code splitting + tree-shaken animation. Every route chunk stays lean.",
+      title: "Lightning fast",
+      body: "Vite + code splitting + tree shaken animation. Every route chunk stays lean.",
     },
     {
       icon: Accessibility,
       title: "Accessible by default",
-      body: "Semantic HTML, focus-visible rings, keyboard navigation, prefers-reduced-motion.",
+      body: "Semantic HTML, focus visible rings, keyboard navigation, reduced motion respected.",
     },
     {
       icon: Layers,
-      title: "Design-system-ready",
+      title: "Design system ready",
       body: "Tokenized Tailwind + shadcn primitives so theming and scale stay effortless.",
     },
   ];
@@ -113,7 +113,7 @@ function FeatureGrid() {
                 "h-full transition-all",
                 isDark
                   ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border-2 border-foreground shadow-pop"
+                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
               )}
             >
               <CardHeader>
@@ -194,7 +194,7 @@ function DevicePreview() {
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
           className={cn(
             "relative overflow-hidden rounded-[22px] border-4",
-            isDark ? "border-border bg-muted/40" : "border-foreground bg-background shadow-pop",
+            isDark ? "border-border bg-muted/40" : "border-2 border-border bg-background/80 backdrop-blur-sm shadow-soft",
             sizes[device]
           )}
         >
@@ -275,7 +275,7 @@ function LiveCodeDemo() {
                 "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3 font-semibold transition-shadow",
                 isDark
                   ? "bg-primary text-primary-foreground shadow-neon-cyan hover:shadow-[0_0_28px_rgba(34,229,255,0.55)]"
-                  : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop hover:shadow-[0_8px_0_0_rgba(0,0,0,0.12)]"
+                  : "border border-border bg-accent text-accent-foreground shadow-soft hover:brightness-[1.05] hover:shadow-soft-orange"
               )}
             >
               <motion.span
@@ -293,7 +293,7 @@ function LiveCodeDemo() {
                     animate={{ x: "220%" }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.7, ease: "easeInOut" }}
-                    className="absolute inset-y-0 w-1/2 bg-white/25 skew-x-[-20deg]"
+                    className="absolute inset-y-0 w-1/2 bg-background/35 skew-x-[-20deg]"
                   />
                 )}
               </AnimatePresence>
@@ -346,7 +346,7 @@ function LiveCodeDemo() {
             "mt-2 overflow-x-auto rounded-2xl border p-5 font-mono text-xs leading-6",
             isDark
               ? "border-border bg-card/70 backdrop-blur"
-              : "border-2 border-foreground bg-card shadow-pop"
+              : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}
         >
 {`<motion.button

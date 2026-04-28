@@ -93,7 +93,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
           "rounded-2xl p-8 text-center",
           isDark
             ? "border border-primary/40 bg-primary/5 shadow-neon-cyan"
-            : "border-2 border-foreground bg-accent/20 shadow-pop"
+            : "border border-border bg-accent/25 backdrop-blur-sm shadow-soft"
         )}
       >
         <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/20 text-primary">
@@ -121,8 +121,8 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       className={cn(
         "space-y-4 rounded-2xl p-6 md:p-8",
         isDark
-          ? "border border-border bg-card/70 backdrop-blur"
-          : "border-2 border-foreground bg-card shadow-pop"
+          ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
+          : "gradient-border-card shadow-soft"
       )}
     >
       {/* Honeypot — visually hidden from real users */}
@@ -294,7 +294,7 @@ function inputCls(isDark) {
     "placeholder:text-muted-foreground/50",
     isDark
       ? "border-border focus:border-primary"
-      : "border-2 border-foreground bg-background focus:border-primary"
+      : "border border-border bg-background/80 backdrop-blur-sm focus:border-primary"
   );
 }
 
@@ -304,6 +304,6 @@ function selectCls(isDark) {
     "text-foreground",
     isDark
       ? "border-border bg-card focus:border-primary [color-scheme:dark]"
-      : "border-2 border-foreground bg-background focus:border-primary [color-scheme:light]"
+      : "border border-border bg-card/70 backdrop-blur-sm focus:border-primary [color-scheme:light]"
   );
 }

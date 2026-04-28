@@ -14,6 +14,7 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
 
 const SERVICE_ROUTES = {
   "web-development": "/services/web-development",
@@ -53,7 +54,7 @@ const FALLBACK = [
     id: "custom-software-solutions",
     title: "Custom Software Solutions",
     blurb:
-      "Bespoke tooling, APIs, and internal platforms, from Python services to full-stack apps.",
+      "Bespoke tooling, APIs, and internal platforms, from Python services to full stack apps.",
     icon: "software",
     bullets: ["FastAPI / Python services", "Automation & integrations", "CLI tooling"],
   },
@@ -75,6 +76,7 @@ export function Services() {
   return (
     <Section id="services" className="container">
       <Reveal className="mb-4 flex items-center gap-2">
+        {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
           {isDark ? "// 01" : "01 ·"} services
         </span>
@@ -84,9 +86,12 @@ export function Services() {
         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
           {isDark ? (
             <>
-              <span className="text-neon">Freelance</span> work for teams
+              <span className="text-neon">Freelance</span>
+              <span className="heading-face">{" "}work for teams</span>
               <br />
-              that want to <span className="text-accent">ship</span>.
+              <span className="heading-face">that want to </span>
+              <span className="text-accent">ship</span>
+              <span className="heading-face">.</span>
             </>
           ) : (
             <>
@@ -103,7 +108,7 @@ export function Services() {
         </h2>
       </Reveal>
 
-      <Reveal className="mb-12 max-w-2xl text-muted-foreground">
+      <Reveal className={cn("mb-12 max-w-2xl leading-relaxed", isDark ? "text-foreground/78" : "text-muted-foreground")}>
         Got something you want built? Let&apos;s make it happen.
       </Reveal>
 
@@ -120,7 +125,7 @@ function ServiceCard({ service, index, isDark }) {
   const Icon = ICONS[service.icon] || Sparkles;
   const route = SERVICE_ROUTES[service.id];
 
-  // Light mode: chunky pop-art card w/ tilt on hover.
+  // Light mode: frosted cards + soft colored shadows; featured card uses gradient border.
   // Dark mode: matte card with glowing border ring on hover.
   const CardWrapper = route ? Link : "div";
   const wrapperProps = route ? { to: route } : {};
@@ -140,8 +145,12 @@ function ServiceCard({ service, index, isDark }) {
           "relative h-full overflow-hidden transition-all",
           route && "cursor-pointer",
           isDark
-            ? "bg-card/60 backdrop-blur border-border hover:border-primary/60 hover:shadow-neon-cyan"
-            : "border-2 border-foreground shadow-pop hover:shadow-pop-primary"
+            ? "bg-card/60 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300 hover:border-primary/60 hover:shadow-neon-cyan"
+            : cn(
+                index === 0 ? "gradient-border-card" : "border border-border bg-card/80 backdrop-blur-sm",
+                popBy(index, CARD_SHADOW),
+                popBy(index, CARD_HOVER_SHADOW)
+              )
         )}
       >
         {/* Decorative top bar */}
@@ -169,7 +178,7 @@ function ServiceCard({ service, index, isDark }) {
           >
             <Icon className="h-6 w-6" />
           </div>
-          <CardTitle className="flex items-center justify-between text-2xl">
+          <CardTitle className={cn("flex items-center justify-between text-2xl", isDark && "heading-face")}>
             {service.title}
             <ArrowUpRight
               className={cn(

@@ -119,7 +119,7 @@ export function ComponentPlayground() {
         {/* Controls */}
         <div className={cn(
           "space-y-5 rounded-2xl p-5",
-          isDark ? "border border-border bg-card/60 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+          isDark ? "border border-border bg-card/60 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
         )}>
           <div>
             <label className="block text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1.5">Label</label>
@@ -225,7 +225,7 @@ export function ComponentPlayground() {
               <motion.span
                 animate={{ x: cfg.shadow ? 16 : 0 }}
                 transition={{ type: "spring", stiffness: 400, damping: 28 }}
-                className="absolute left-0.5 top-0.5 block h-4 w-4 rounded-full bg-white shadow"
+                className="absolute left-0.5 top-0.5 block h-4 w-4 rounded-full bg-background shadow ring-1 ring-border"
               />
             </button>
           </div>
@@ -236,7 +236,7 @@ export function ComponentPlayground() {
           {/* Preview box */}
           <div className={cn(
             "flex h-40 shrink-0 items-center justify-center rounded-2xl",
-            isDark ? "border border-border bg-card/60 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+            isDark ? "border border-border bg-card/60 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}>
             <motion.button
               key={JSON.stringify(cfg)}
@@ -254,7 +254,7 @@ export function ComponentPlayground() {
           {/* Generated code */}
           <div className={cn(
             "relative flex min-h-0 flex-col overflow-hidden rounded-2xl",
-            isDark ? "border border-border bg-card/70" : "border-2 border-foreground bg-card shadow-pop"
+            isDark ? "border border-border bg-card/70" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}>
             <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-2">
               <span className="font-mono text-xs text-muted-foreground">generated jsx</span>

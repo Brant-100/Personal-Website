@@ -66,7 +66,7 @@ function CapabilityGrid() {
   const isDark = theme === "dark";
   const items = [
     { icon: Cog, title: "Automations", body: "Replace repetitive manual work with Python scripts, schedulers, and webhooks." },
-    { icon: Cpu, title: "APIs & Services", body: "FastAPI backends with typed schemas, OpenAPI docs, and container-ready deploys." },
+    { icon: Cpu, title: "APIs & Services", body: "FastAPI backends with typed schemas, OpenAPI docs, and container ready deploys." },
     { icon: Database, title: "Data tooling", body: "ETL jobs, reporting pipelines, CLIs that stitch systems together cleanly." },
   ];
   return (
@@ -86,7 +86,7 @@ function CapabilityGrid() {
                 "h-full transition-all",
                 isDark
                   ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border-2 border-foreground shadow-pop"
+                  : "border border-border shadow-soft"
               )}
             >
               <CardHeader>
@@ -174,7 +174,7 @@ function FakeApiDemo() {
                   isActive
                     ? isDark
                       ? "border border-primary/50 bg-primary/10 shadow-neon-cyan"
-                      : "border-2 border-foreground bg-accent/40 shadow-pop"
+                      : "border border-border bg-accent/40 backdrop-blur-sm shadow-soft"
                     : "border border-border bg-card/60 hover:border-primary/40"
                 )}
               >
@@ -203,7 +203,7 @@ function FakeApiDemo() {
             "overflow-x-auto rounded-2xl p-5 font-mono text-xs leading-6",
             isDark
               ? "border border-border bg-card/70 backdrop-blur"
-              : "border-2 border-foreground bg-card shadow-pop"
+              : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}
         >
           <span className="text-muted-foreground">{`# ${active.method} ${active.path}`}</span>
@@ -317,7 +317,7 @@ function PipelineDemo() {
                 ? "cursor-not-allowed bg-muted text-muted-foreground"
                 : isDark
                 ? "bg-primary text-primary-foreground shadow-neon-cyan hover:brightness-110"
-                : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop"
+                : "border border-border bg-accent text-accent-foreground shadow-soft"
             )}
           >
             <Play className="h-4 w-4" /> Run
@@ -339,7 +339,7 @@ function PipelineDemo() {
 
       <div className={cn(
         "relative overflow-hidden rounded-2xl",
-        isDark ? "border border-border bg-card/80 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+        isDark ? "border border-border bg-card/80 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
       )}>
         <div className="flex items-center gap-2 border-b border-border bg-background/60 px-4 py-2">
           <Terminal className="h-4 w-4 text-primary" />

@@ -13,13 +13,13 @@ export const GLOBAL_FAQS = [
     id: "location",
     question: "Do you work with clients outside the US?",
     answer:
-      "US-based clients only. My schedule is flexible, but my work is currently limited to US clients.",
+      "US based clients only. My schedule is flexible, but my work is currently limited to US clients.",
   },
   {
     id: "communication",
     question: "How do we communicate during the project?",
     answer:
-      "Calls and texts by default. Once we kick off, we'll figure out what works best for you — whether that's a quick weekly check-in, text updates, or something else. I'd rather over-communicate than let you wonder what's happening.",
+      "Calls and texts by default. Once we kick off, we'll figure out what works best for you — whether that's a quick weekly check in, text updates, or something else. I'd rather over communicate than let you wonder what's happening.",
   },
   {
     id: "payments",
@@ -43,7 +43,7 @@ export const GLOBAL_FAQS = [
     id: "support",
     question: "What happens after launch?",
     answer:
-      "Every project includes 30 days of post-launch support for bug fixes (14 days for WordPress). After that, ongoing work is billed hourly and/or a small monthly retainer.",
+      "Every project includes 30 days of post launch support for bug fixes (14 days for WordPress). After that, ongoing work is billed hourly and/or a small monthly retainer.",
   },
 ];
 
@@ -73,7 +73,7 @@ export const WEB_DEV_FAQS = [
     id: "mobile",
     question: "Will my site work on mobile?",
     answer:
-      "Always. Every site I build is mobile-first and tested on real phones, not just devtools. This is non-negotiable — over half of web traffic is mobile in 2026.",
+      "Always. Every site I build is mobile first and tested on real phones, not just devtools. This is non negotiable — over half of web traffic is mobile in 2026.",
     needs_review: true,
   },
   {
@@ -87,14 +87,14 @@ export const WEB_DEV_FAQS = [
     id: "cms",
     question: "Can I edit the content myself after launch?",
     answer:
-      "Yes — we'll talk about what you want to be able to edit during discovery. For content-heavy sites I usually recommend either a headless CMS (Sanity, Contentful) or a hand-rolled admin panel if it's small.",
+      "Yes — we'll talk about what you want to be able to edit during discovery. For content heavy sites I usually recommend either a headless CMS (Sanity, Contentful) or a hand rolled admin panel if it's small.",
     needs_review: true,
   },
   {
     id: "analytics",
     question: "Do you set up analytics?",
     answer:
-      "I install privacy-friendly analytics (Plausible or Umami) by default — no cookie banner required. If you want Google Analytics specifically, I'll set that up too, with the consent banner it requires.",
+      "I install privacy friendly analytics (Plausible or Umami) by default — no cookie banner required. If you want Google Analytics specifically, I'll set that up too, with the consent banner it requires.",
     needs_review: true,
   },
 ];
@@ -104,7 +104,7 @@ export const UI_UX_FAQS = [
     id: "deliverables",
     question: "What do I actually get?",
     answer:
-      "A Figma file with hi-fi mockups for every screen we scoped, a small component library with the design tokens I used (colors, spacing, typography), light and dark variants if we discussed them, and a handoff walkthrough so you or your developer can actually use what I made.",
+      "A Figma file with hi fi mockups for every screen we scoped, a small component library with the design tokens I used (colors, spacing, typography), light and dark variants if we discussed them, and a handoff walkthrough so you or your developer can actually use what I made.",
     needs_review: true,
   },
   {
@@ -125,7 +125,7 @@ export const UI_UX_FAQS = [
     id: "design-system",
     question: "Can you build a full design system?",
     answer:
-      "Yes, but it's a larger scope than a single-site design project. Design systems get quoted individually based on the number of components, states, platforms, and documentation you need.",
+      "Yes, but it's a larger scope than a single site design project. Design systems get quoted individually based on the number of components, states, platforms, and documentation you need.",
     needs_review: true,
   },
   {
@@ -142,49 +142,49 @@ export const CUSTOM_SOFTWARE_FAQS = [
     id: "what-counts",
     question: "What counts as 'custom software'?",
     answer:
-      "Anything that isn't a public-facing website. APIs, CLIs, automation scripts, internal tools, data pipelines, integrations between two SaaS tools you already use. If you find yourself doing the same thing manually more than a few times a week, there's probably a custom-software solution for it.",
+      "Anything that isn't a public facing website. APIs, CLIs, automation scripts, internal tools, data pipelines, integrations between two SaaS tools you already use. If you find yourself doing the same thing manually more than a few times a week, there's probably a custom software solution for it.",
     needs_review: true,
   },
   {
     id: "languages",
     question: "What languages and frameworks do you use?",
     answer:
-      "Python-first for backend work — FastAPI for APIs, plain Python or Click for CLIs. JavaScript/TypeScript when the target is Node or a browser extension. Docker for anything that needs to run reliably on different machines.",
+      "Python first for backend work — FastAPI for APIs, plain Python or Click for CLIs. JavaScript/TypeScript when the target is Node or a browser extension. Docker for anything that needs to run reliably on different machines.",
     needs_review: true,
   },
   {
     id: "hosting",
     question: "Where will my software run?",
     answer:
-      "Whatever makes sense for the project. Railway, Render, or Fly.io for simple apps. DigitalOcean or AWS for more involved setups. On-premise or your own cloud account if you prefer control. I'll lay out options in the proposal with cost estimates.",
+      "Whatever makes sense for the project. Railway, Render, or Fly.io for simple apps. DigitalOcean or AWS for more involved setups. On premise or your own cloud account if you prefer control. I'll lay out options in the proposal with cost estimates.",
     needs_review: true,
   },
   {
     id: "security",
     question: "Is my data secure?",
     answer:
-      "Security is part of how I build, not a bolt-on. Parameterized queries, secrets in environment variables (never in code), input validation at every boundary, HTTPS everywhere, least-privilege access by default. For anything handling sensitive data I'll walk you through the threat model before we start.",
+      "Security is part of how I build, not a bolt on. Parameterized queries, secrets in environment variables (never in code), input validation at every boundary, HTTPS everywhere, least privilege access by default. For anything handling sensitive data I'll walk you through the threat model before we start.",
     needs_review: true,
   },
   {
     id: "maintenance",
     question: "What happens if something breaks after handoff?",
     answer:
-      "30 days of bug-fix support is included — if the software doesn't do what we agreed it would, I fix it. After that, ongoing work is hourly or on a small retainer.",
+      "30 days of bug fix support is included — if the software doesn't do what we agreed it would, I fix it. After that, ongoing work is hourly or on a small retainer.",
     needs_review: true,
   },
   {
     id: "integration",
     question: "Can you integrate with Stripe / Slack / Gmail / Airtable / other APIs?",
     answer:
-      "Most likely yes — most SaaS tools have well-documented APIs and I've worked with quite a few. Tell me the specific tool during discovery and I'll confirm feasibility before we scope it.",
+      "Most likely yes — most SaaS tools have well documented APIs and I've worked with quite a few. Tell me the specific tool during discovery and I'll confirm feasibility before we scope it.",
     needs_review: true,
   },
   {
     id: "ai",
-    question: "Do you build AI-powered features?",
+    question: "Do you build AI powered features?",
     answer:
-      "Yes, using OpenAI, Anthropic, or open-source models depending on what fits. I'll be direct about what AI can and can't do reliably — it's a tool, not magic, and I'd rather talk you out of an AI feature that won't work well than ship you one that disappoints.",
+      "Yes, using OpenAI, Anthropic, or open source models depending on what fits. I'll be direct about what AI can and can't do reliably — it's a tool, not magic, and I'd rather talk you out of an AI feature that won't work well than ship you one that disappoints.",
     needs_review: true,
   },
 ];

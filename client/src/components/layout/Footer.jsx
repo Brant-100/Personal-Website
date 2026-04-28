@@ -8,7 +8,7 @@ export function Footer() {
   const isDark = theme === "dark";
 
   return (
-    <footer className="relative border-t border-border">
+    <footer className="relative border-t border-border dark:border-primary/[0.18] dark:shadow-[inset_0_1px_0_0_hsl(var(--primary)/0.12)]">
       <div className="container py-16">
         <div className="grid gap-10 md:grid-cols-3">
           <div>

@@ -4,6 +4,7 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CHIP_BG, CHIP_RING, CARD_SHADOW, popBy } from "@/lib/popColors";
 
 /** Mirrors `api/data/experience.py` when the API is offline. */
 const FALLBACK = [
@@ -13,7 +14,7 @@ const FALLBACK = [
     org: "Business Professionals of America (BPA)",
     period: "2025 to present",
     summary:
-      "Shipped Health Hive as our Business Professionals of America competitive web application entry: a Django-based team wellness platform where groups log activities, collaborate on goals, and stay accountable with reminders and progress analytics. Contributed across templates and UX polish, coordinated delivery through Agile sprints, and integrated features with the team's data model and workflows.",
+      "Shipped Health Hive as our Business Professionals of America competitive web application entry: a Django based team wellness platform where groups log activities, collaborate on goals, and stay accountable with reminders and progress analytics. Contributed across templates and UX polish, coordinated delivery through Agile sprints, and integrated features with the team's data model and workflows.",
     tags: ["django", "ux", "teamwork", "competition"],
   },
   {
@@ -22,7 +23,7 @@ const FALLBACK = [
     org: "Independent",
     period: "2026",
     summary:
-      "Designed and built Project Nexus from scratch as a self-directed SaaS project: a modular command-and-control framework with a FastAPI operator server, AES-GCM encrypted implant comms, and a tamper-evident JSONL audit log. Every component — crypto, beacon scheduling, task queue, sandbox detection — was built without off-the-shelf C2 frameworks to ensure full understanding of the stack.",
+      "Designed and built Project Nexus from scratch as a self directed SaaS project: a modular command and control framework with a FastAPI operator server, AES-GCM encrypted implant comms, and a tamper evident JSONL audit log. Every component — crypto, beacon scheduling, task queue, sandbox detection — was built without off the shelf C2 frameworks to ensure full understanding of the stack.",
     tags: ["python", "fastapi", "security", "solo"],
   },
   {
@@ -31,7 +32,7 @@ const FALLBACK = [
     org: "Business Professionals of America (BPA)",
     period: "2026",
     summary:
-      "Co-developed SkillSwap as a BPA competitive web application entry: a peer-to-peer learning platform where students offer skills, book sessions, and earn trust through ratings and community reviews. Built on Next.js 15, React 19, TypeScript, Prisma, and PostgreSQL with Google and GitHub OAuth via NextAuth.js. Integrated an OpenAI layer for resume-based skill extraction and session recommendations, designed to degrade gracefully when the API is unavailable.",
+      "Co developed SkillSwap as a BPA competitive web application entry: a peer to peer learning platform where students offer skills, book sessions, and earn trust through ratings and community reviews. Built on Next.js 15, React 19, TypeScript, Prisma, and PostgreSQL with Google and GitHub OAuth via NextAuth.js. Integrated an OpenAI layer for resume based skill extraction and session recommendations, designed to degrade gracefully when the API is unavailable.",
     tags: ["next.js", "full-stack", "ai", "competition"],
   },
 ];
@@ -59,15 +60,21 @@ export function Experience() {
   return (
     <Section id="experience" className="container">
       <Reveal className="mb-4">
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+        {!isDark && <span className="section-accent-bar bg-primary" aria-hidden />}
+        <span
+          className={cn(
+            "font-mono text-xs uppercase tracking-[0.3em]",
+            isDark ? "text-primary" : "text-secondary"
+          )}
+        >
           {isDark ? "// 04" : "04 ·"} timeline
         </span>
       </Reveal>
       <Reveal className="mb-16 max-w-3xl">
-        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+        <h2 className={cn("text-4xl md:text-5xl font-extrabold tracking-tight", isDark && "heading-face")}>
           Experience
         </h2>
-        <p className="mt-4 text-muted-foreground text-lg">
+        <p className={cn("mt-4 text-lg", isDark ? "text-foreground/75" : "text-muted-foreground")}>
           Teamwork, competitions, and shipped products.
         </p>
       </Reveal>
@@ -120,7 +127,7 @@ function TimelineEntry({ entry, index, isDark }) {
           "absolute left-4 md:left-1/2 top-2 h-4 w-4 -translate-x-1/2 rounded-full border-2",
           isDark
             ? "bg-background border-primary shadow-neon-cyan"
-            : "bg-background border-foreground"
+            : "bg-background border-primary/40"
         )}
       >
         <div
@@ -141,8 +148,11 @@ function TimelineEntry({ entry, index, isDark }) {
           className={cn(
             "inline-block rounded-2xl p-6 text-left",
             isDark
-              ? "border border-border bg-card/70 backdrop-blur"
-              : "border-2 border-foreground bg-card shadow-pop"
+              ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
+              : cn(
+                  "border border-border bg-card/80 backdrop-blur-sm",
+                  popBy(index, CARD_SHADOW)
+                )
           )}
         >
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
@@ -157,14 +167,14 @@ function TimelineEntry({ entry, index, isDark }) {
           </p>
           {entry.tags && (
             <div className="mt-4 flex flex-wrap gap-1.5">
-              {entry.tags.map((t) => (
+              {entry.tags.map((t, ti) => (
                 <span
                   key={t}
                   className={cn(
                     "rounded-md px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest",
                     isDark
                       ? "bg-muted text-primary"
-                      : "bg-accent/40 text-foreground"
+                      : cn("font-medium text-foreground ring-2 shadow-sm", popBy(ti, CHIP_BG), popBy(ti, CHIP_RING))
                   )}
                 >
                   {t}

@@ -23,6 +23,7 @@ export const api = {
   projects: (opts) => request("/api/projects", opts),
   services: (opts) => request("/api/services", opts),
   credentials: (opts) => request("/api/credentials", opts),
+  credential: (id, opts) => request(`/api/credentials/${encodeURIComponent(id)}`, opts),
   experience: (opts) => request("/api/experience", opts),
 };
 

@@ -27,7 +27,7 @@ export function CaseStudySnapshot({ problem, approach, outcome, metric, label, a
           "overflow-hidden rounded-2xl",
           isDark
             ? "border border-border bg-card/70 backdrop-blur"
-            : "border-2 border-foreground bg-card shadow-pop"
+            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
         )}
       >
         {/* Metric hero */}
@@ -78,7 +78,7 @@ export function WebCaseStudy() {
       label="Redesign that converted"
       problem="A regional business had a template site with 3.2% conversion, slow load times, and no mobile layout to speak of."
       approach="Full redesign in Figma, rebuilt in React + Tailwind with lazy routes and image optimization. Shipped in 4 weeks."
-      outcome="Page load dropped from 5.8s to 0.9s. Conversion rate doubled to 6.7% in the first month post-launch."
+      outcome="Page load dropped from 5.8s to 0.9s. Conversion rate doubled to 6.7% in the first month post launch."
       metric={{ value: "2×", label: "conversion rate" }}
       accent="#22E5FF"
     />
@@ -90,7 +90,7 @@ export function UIUXCaseStudy() {
     <CaseStudySnapshot
       label="Design system that scaled"
       problem="A startup had 4 devs, 3 inconsistent button styles, no color system, and every new feature took a week just for the UI."
-      approach="Built a token-based design system in Figma + Tailwind with 30 components, dark/light modes, and written usage guidelines."
+      approach="Built a token based design system in Figma + Tailwind with 30 components, dark/light modes, and written usage guidelines."
       outcome="New feature UI time dropped from 5–7 days to under 1 day. Designers and devs work from the same source of truth."
       metric={{ value: "6×", label: "faster UI iteration" }}
       accent="#B678FF"
@@ -103,7 +103,7 @@ export function SoftwareCaseStudy() {
     <CaseStudySnapshot
       label="Automation that freed a team"
       problem="A small ops team spent 12+ hours a week manually pulling reports, reformatting data, and emailing CSV files."
-      approach="Built a Python pipeline: daily cron job, Postgres queries, Pandas transforms, and auto-email via Resend with styled HTML tables."
+      approach="Built a Python pipeline: daily cron job, Postgres queries, Pandas transforms, and auto email via Resend with styled HTML tables."
       outcome="The 12-hour manual process takes 4 minutes to run and requires zero human input. The team now focuses on analysis, not data wrangling."
       metric={{ value: "12 hrs", label: "saved per week" }}
       accent="#3BF475"

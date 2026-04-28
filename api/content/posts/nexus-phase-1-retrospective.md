@@ -2,7 +2,7 @@
 title: "Project Nexus Phase 1 Retrospective"
 date: "2026-04-22"
 tags: ["nexus", "security", "c2", "retrospective"]
-excerpt: "What I built, every design decision I made, and what I'd change. The story of building a command-and-control framework from scratch at 17."
+excerpt: "What I built, every design decision I made, and what I'd change. The story of building a command and control framework from scratch at 17."
 ---
 
 # Project Nexus Phase 1 Retrospective
@@ -22,7 +22,7 @@ The deliberate constraint: no Cobalt Strike, no Metasploit, no Sliver. Every com
 ## What I actually shipped
 
 - FastAPI operator server with JWT auth
-- WAL-mode SQLite + JSONL hash chain for log integrity
+- WAL mode SQLite + JSONL hash chain for log integrity
 - AES-GCM implant communications
 - Jittered beacon intervals
 - Sandbox detection heuristics
@@ -53,7 +53,7 @@ The deliberate constraint: no Cobalt Strike, no Metasploit, no Sliver. Every com
 
 ## What's next in Phase 2
 
-- Web-based operator dashboard
+- Web based operator dashboard
 - Process injection (T1055)
 - Encrypted key/value store for implant config
 - Dedicated nexus.brantsimpson.com when ready

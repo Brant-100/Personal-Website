@@ -6,6 +6,8 @@ Serves JSON data for the portfolio frontend:
     - GET  /api/projects/{id}
     - GET  /api/services
     - GET  /api/credentials
+    - GET  /api/credentials/{id}
+    - GET  /api/credly/badges/{uuid}/assertion
     - GET  /api/experience
     - GET  /api/posts
     - GET  /api/posts/{slug}
@@ -20,9 +22,11 @@ from __future__ import annotations
 import logging
 import os
 import pathlib
+import re
 from typing import Any, Dict, List, Optional
 
 import frontmatter as fm
+import httpx
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -41,6 +45,47 @@ logger = logging.getLogger("brantsimpson-api")
 from data import CREDENTIALS, EXPERIENCE, PROJECTS, SERVICES
 
 POSTS_DIR = pathlib.Path(__file__).parent / "content" / "posts"
+
+CREDLY_BADGE_UUID_RE = re.compile(
+    r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+    re.IGNORECASE,
+)
+_ACCLAIM_ASSERTION_BASE = "https://www.youracclaim.com/api/v1/obi/v2/badge_assertions"
+_ALLOWED_ACCLAIM_BADGE_PREFIX = "https://www.youracclaim.com/api/v1/obi/"
+
+
+def _fetch_credly_upstream_json(url: str) -> Dict[str, Any]:
+    """GET JSON from Credly/Acclaim OBI endpoints (server-side; avoids browser CORS)."""
+    try:
+        r = httpx.get(
+            url,
+            headers={
+                "Accept": "application/json",
+                "User-Agent": "brantsimpson-portfolio-api/1.0",
+            },
+            timeout=20.0,
+            follow_redirects=True,
+        )
+    except httpx.RequestError as exc:
+        logger.warning("Credly fetch failed %s: %s", url, exc)
+        raise HTTPException(status_code=502, detail="Could not reach badge host") from exc
+    if r.status_code == 404:
+        raise HTTPException(status_code=404, detail="Badge assertion not found")
+    if r.status_code != 200:
+        logger.warning("Credly %s returned HTTP %s", url, r.status_code)
+        raise HTTPException(status_code=502, detail="Badge host returned an error")
+    try:
+        parsed = r.json()
+    except ValueError as exc:
+        raise HTTPException(status_code=502, detail="Badge host returned non-JSON") from exc
+    if not isinstance(parsed, dict):
+        raise HTTPException(status_code=502, detail="Badge host returned unexpected JSON")
+    data = parsed
+    err = data.get("data")
+    if isinstance(err, dict) and err.get("message"):
+        logger.warning("Credly error payload for %s: %s", url, err.get("message"))
+        raise HTTPException(status_code=502, detail="Badge host could not serve this assertion")
+    return data
 
 
 # ---------------------------------------------------------------------------
@@ -93,6 +138,16 @@ class Service(BaseModel):
     tags: List[str] = Field(default_factory=list)
 
 
+class BeltEntry(BaseModel):
+    name: str
+    pdf_url: str
+    issue_date: str
+    credential_id: Optional[str] = None
+    openbadges_url: Optional[str] = None
+    credly_embed_badge_id: Optional[str] = None
+    credly_badge_image_url: Optional[str] = None
+
+
 class Credential(BaseModel):
     id: str
     name: str
@@ -102,6 +157,18 @@ class Credential(BaseModel):
     url: Optional[str] = None
     subtitle: Optional[str] = None
     group: Optional[str] = None
+    description: str = ""
+    skills: List[str] = Field(default_factory=list)
+    pdf_url: Optional[str] = None
+    credly_badge_url: Optional[str] = None
+    credly_embed_badge_id: Optional[str] = None
+    credly_badge_image_url: Optional[str] = None
+    openbadges_url: Optional[str] = None
+    issue_date: Optional[str] = None
+    expires_date: Optional[str] = None
+    credential_id: Optional[str] = None
+    verify_url: Optional[str] = None
+    belts: List[BeltEntry] = Field(default_factory=list)
 
 
 class ExperienceEntry(BaseModel):
@@ -236,6 +303,33 @@ def get_credentials() -> List[Credential]:
     return [Credential(**c) for c in CREDENTIALS]
 
 
+@app.get("/api/credentials/{credential_id}", response_model=Credential, tags=["portfolio"])
+def get_credential(credential_id: str) -> Credential:
+    for c in CREDENTIALS:
+        if c["id"] == credential_id:
+            return Credential(**c)
+    raise HTTPException(status_code=404, detail=f"Credential '{credential_id}' not found")
+
+
+@app.get("/api/credly/badges/{badge_id}/assertion", tags=["portfolio"])
+def credly_badge_assertion(badge_id: str) -> Dict[str, Any]:
+    """Return an Open Badges 2.0 assertion, with linked BadgeClass inlined when possible.
+
+    Uses Credly/Acclaim's public OBI endpoint (same UUID as embed and public_json URLs).
+    """
+    if not CREDLY_BADGE_UUID_RE.match(badge_id):
+        raise HTTPException(status_code=400, detail="Invalid badge id")
+    assertion_url = f"{_ACCLAIM_ASSERTION_BASE}/{badge_id}"
+    payload = _fetch_credly_upstream_json(assertion_url)
+    badge_ref = payload.get("badge")
+    if isinstance(badge_ref, str) and badge_ref.startswith(_ALLOWED_ACCLAIM_BADGE_PREFIX):
+        try:
+            payload["badge"] = _fetch_credly_upstream_json(badge_ref)
+        except HTTPException:
+            pass
+    return payload
+
+
 @app.get("/api/experience", response_model=List[ExperienceEntry], tags=["portfolio"])
 def get_experience() -> List[ExperienceEntry]:
     return [ExperienceEntry(**e) for e in EXPERIENCE]
@@ -365,6 +459,7 @@ def root() -> Dict[str, Any]:
             "/api/projects/{id}",
             "/api/services",
             "/api/credentials",
+            "/api/credentials/{id}",
             "/api/experience",
             "/api/posts",
             "/api/posts/{slug}",

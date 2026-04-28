@@ -56,7 +56,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Building">
                 <p className="text-muted-foreground leading-relaxed">
-                  Deep in <strong className={isDark ? "text-foreground" : "text-foreground"}>Project Nexus Phase 2</strong>, adding a web-based operator dashboard and process injection support. The core beacon and task handler infrastructure from Phase 1 is stable; Phase 2 is about operator UX and extending the technique coverage.
+                  Deep in <strong className={isDark ? "text-foreground" : "text-foreground"}>Project Nexus Phase 2</strong>, adding a web based operator dashboard and process injection support. The core beacon and task handler infrastructure from Phase 1 is stable; Phase 2 is about operator UX and extending the technique coverage.
                 </p>
               </NowSection>
             </Reveal>
@@ -64,7 +64,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Studying">
                 <p className="text-muted-foreground leading-relaxed">
-                  Security+ is done (SY0-701). Currently in the EDPT preparation pipeline for the 1B4X1 track. Side-reading: <em>The Web Application Hacker&apos;s Handbook</em> and malware analysis fundamentals.
+                  Security+ is done (SY0-701). Currently in the EDPT preparation pipeline for the 1B4X1 track. Side reading: <em>The Web Application Hacker&apos;s Handbook</em> and malware analysis fundamentals.
                 </p>
               </NowSection>
             </Reveal>
@@ -72,7 +72,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Available for">
                 <p className="text-muted-foreground leading-relaxed">
-                  Contract web and software development work while pre-enlistment. React + FastAPI + Tailwind. If you&apos;re building something and need a developer who also thinks about the security layer, let&apos;s talk.
+                  Contract web and software development work while pre enlistment. React + FastAPI + Tailwind. If you&apos;re building something and need a developer who also thinks about the security layer, let&apos;s talk.
                 </p>
               </NowSection>
             </Reveal>

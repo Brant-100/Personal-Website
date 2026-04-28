@@ -22,7 +22,7 @@ export function UIDesignDemo() {
     <ServicePageLayout
       eyebrow="02 · service / ui · ux design"
       title="UI / UX Design"
-      tagline="Interfaces with a point of view: bold typography, considered motion, accessible color, and scalable design-system thinking."
+      tagline="Interfaces with a point of view: bold typography, considered motion, accessible color, and scalable design system thinking."
       tags={["design systems", "accessibility", "color theory", "motion", "prototyping"]}
     >
       <PrinciplesGrid />
@@ -86,7 +86,7 @@ function PrinciplesGrid() {
                 "h-full transition-all",
                 isDark
                   ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border-2 border-foreground shadow-pop"
+                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
               )}
             >
               <CardHeader>
@@ -203,7 +203,7 @@ function PaletteStudio() {
             whileHover={{ y: -4 }}
             className={cn(
               "group relative flex aspect-[3/4] flex-col items-start justify-end overflow-hidden rounded-2xl p-4 text-left transition-shadow",
-              isDark ? "shadow-lg hover:shadow-neon-cyan" : "border-2 border-foreground shadow-pop"
+              isDark ? "shadow-lg hover:shadow-neon-cyan" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
             )}
             style={{ background: c.hex }}
           >
@@ -245,7 +245,7 @@ function TypographyShowcase() {
           "rounded-2xl p-8 md:p-10",
           isDark
             ? "border border-border bg-card/70 backdrop-blur"
-            : "border-2 border-foreground bg-card shadow-pop"
+            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
         )}
       >
         <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">

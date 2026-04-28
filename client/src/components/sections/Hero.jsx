@@ -41,6 +41,9 @@ export function Hero() {
           className="max-w-2xl"
         >
           <Reveal className="mb-6">
+            {!isDark && (
+              <span className="section-accent-bar bg-primary" aria-hidden />
+            )}
             <Badge
               variant={isDark ? "default" : "accent"}
               className="gap-2 px-3 py-1 text-[11px] uppercase tracking-[0.22em]"
@@ -100,7 +103,7 @@ export function Hero() {
               "inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs",
               isDark
                 ? "border border-accent/30 bg-accent/10 text-accent"
-                : "border-2 border-foreground bg-card text-foreground"
+                : "border border-border bg-card/80 backdrop-blur-sm text-foreground shadow-soft"
             )}>
               <Zap className={cn("h-3 w-3", isDark ? "text-accent" : "text-primary")} />
               <span>now building:</span>
@@ -260,9 +263,9 @@ function PopArtCard() {
       <motion.div
         whileHover={{ rotate: -2, y: -4 }}
         transition={spring.snap}
-        className="relative rounded-3xl border-2 border-foreground bg-card p-8 shadow-pop"
+        className="relative rounded-3xl gradient-border-card p-8 shadow-soft"
       >
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-foreground bg-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-accent/90 px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent-foreground shadow-sm">
           <Sparkles className="h-3 w-3" /> now building
         </div>
         <h3 className="text-3xl font-extrabold leading-tight">
@@ -272,7 +275,7 @@ function PopArtCard() {
         </h3>
         <p className="mt-4 text-sm text-muted-foreground">
           Shipping bold, accessible interfaces for startups and teams,
-          then stress-testing the infra behind them.
+          then stress testing the infra behind them.
         </p>
 
         <div className="mt-6 grid grid-cols-3 gap-3">
@@ -284,7 +287,7 @@ function PopArtCard() {
             <div
               key={b.label}
               className={cn(
-                "flex h-16 items-center justify-center rounded-xl border-2 border-foreground font-bold text-background",
+                "flex h-16 items-center justify-center rounded-xl border border-border/50 font-bold text-white shadow-sm",
                 b.color
               )}
             >

@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
-import { Mail, Github, Linkedin, Award, ArrowUpRight, Download } from "lucide-react";
+import { Mail, Github, Linkedin, Award, ArrowUpRight } from "lucide-react";
 import { Section, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
 import { CONTACT_EMAIL, CONTACT_HREF } from "@/lib/contact";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { FAQ } from "@/components/sections/FAQ";
 
 
 export const CONTACT_LINKS = [
@@ -53,6 +55,7 @@ export function Contact() {
   return (
     <Section id="contact" className="container">
       <Reveal className="mb-4">
+        {!isDark && <span className="section-accent-bar bg-pop-pink" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
           {isDark ? "// 05" : "05 ·"} contact
         </span>
@@ -61,7 +64,9 @@ export function Contact() {
         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
           {isDark ? (
             <>
-              Let&apos;s <span className="text-neon">connect</span>.
+              <span className="heading-face">Let&apos;s </span>
+              <span className="text-neon">connect</span>
+              <span className="heading-face">.</span>
             </>
           ) : (
             <>
@@ -74,7 +79,7 @@ export function Contact() {
             </>
           )}
         </h2>
-        <p className="mt-4 text-muted-foreground text-lg">
+        <p className={cn("mt-4 text-lg", isDark ? "text-foreground/75" : "text-muted-foreground")}>
           The fastest way to reach me — I reply within 48 hours.
         </p>
       </Reveal>
@@ -84,21 +89,7 @@ export function Contact() {
         <ContactForm />
       </Reveal>
 
-      {/* Resume download */}
-      <Reveal className="mb-14">
-        <a
-          href="/Brant_Simpson_Resume.pdf"
-          download
-          className={cn(
-            "inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all",
-            isDark
-              ? "border border-border text-muted-foreground hover:border-primary hover:text-primary"
-              : "border-2 border-foreground text-foreground hover:bg-muted"
-          )}
-        >
-          <Download className="h-4 w-4" /> Download Resume
-        </a>
-      </Reveal>
+      <FAQ embedded />
 
       {/* Contact cards */}
       <motion.div
@@ -142,8 +133,12 @@ function ContactCard({ link, index, isDark }) {
       className={cn(
         "group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl p-6 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         isDark
-          ? "border border-border bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-          : "border-2 border-foreground bg-card shadow-pop hover:shadow-pop-primary"
+          ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/50 hover:shadow-neon-cyan"
+          : cn(
+              "border border-border bg-card/80 backdrop-blur-sm",
+              popBy(index, CARD_SHADOW),
+              popBy(index, CARD_HOVER_SHADOW)
+            )
       )}
     >
       <div className="flex items-start justify-between">

@@ -2,7 +2,7 @@
 title: "CTF Walkthrough: [Machine Name] (TryHackMe / HackTheBox)"
 date: "2026-04-01"
 tags: ["ctf", "walkthrough", "security"]
-excerpt: "A step-by-step walkthrough of [machine name]: reconnaissance, initial access, privilege escalation, and lessons learned."
+excerpt: "A step by step walkthrough of [machine name]: reconnaissance, initial access, privilege escalation, and lessons learned."
 ---
 
 # CTF Walkthrough: [Machine Name]
@@ -51,7 +51,7 @@ root.txt: [hash]
 
 ## Detection notes
 
-[For each technique you used, write one sentence about what a defender would see. This is the blue team perspective that makes write-ups valuable beyond just "I solved the box."]
+[For each technique you used, write one sentence about what a defender would see. This is the blue team perspective that makes writeups valuable beyond just "I solved the box."]
 
 ---
 

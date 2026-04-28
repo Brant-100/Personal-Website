@@ -17,6 +17,7 @@ import { WebDevDemo } from "@/pages/WebDevDemo";
 import { UIDesignDemo } from "@/pages/UIDesignDemo";
 import { CustomSoftwareDemo } from "@/pages/CustomSoftwareDemo";
 import { AboutPage } from "@/pages/AboutPage";
+import { CredentialDetail } from "@/pages/CredentialDetail";
 import { NotFound } from "@/pages/NotFound";
 
 function AppShell({ children }) {
@@ -37,6 +38,7 @@ export default function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/:id" element={<ProjectDetail />} />
+              <Route path="/credentials/:id" element={<CredentialDetail />} />
               <Route path="/blog" element={<BlogIndex />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/about" element={<AboutPage />} />

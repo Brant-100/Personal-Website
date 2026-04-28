@@ -24,6 +24,7 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy, techChipLightClassName } from "@/lib/popColors";
 
 /** Per-project visual language, tuned for site light/dark, not generic inversion. */
 const ACCENT = {
@@ -70,7 +71,7 @@ const ACCENT = {
     iconWrapDark: "",
     iconWrapLight: "",
     cardDark: "hover:border-primary/50 hover:shadow-neon-cyan",
-    cardLight: "hover:shadow-pop-primary",
+    cardLight: "",
     titleDark: "text-neon",
     titleLight: "",
     meshDark: "from-primary/25 via-transparent to-secondary/20",
@@ -83,7 +84,7 @@ const ACCENT = {
     iconWrapDark: "",
     iconWrapLight: "",
     cardDark: "hover:border-primary/50 hover:shadow-neon-cyan",
-    cardLight: "hover:shadow-pop-primary",
+    cardLight: "",
     titleDark: "text-neon",
     titleLight: "",
     meshDark: "from-primary/25 via-transparent to-secondary/20",
@@ -106,7 +107,7 @@ function yearBadgeVariant(accentKey, isDark) {
 const FILTER_TAGS = [
   { id: "all", label: "All" },
   { id: "offensive-cyber", label: "Security" },
-  { id: "full-stack", label: "Full-Stack" },
+  { id: "full-stack", label: "Full Stack" },
 ];
 
 /** Mirrors `api/data/projects.py` so all four projects show even when the API is offline. */
@@ -117,12 +118,12 @@ const FALLBACK = [
     title: "Project Nexus",
     tagline: "Custom C2 framework built from scratch. Every component explainable under pressure.",
     description:
-      "A modular, full-stack command-and-control framework built deliberately without off-the-shelf frameworks so every layer can be explained, modified, and defended against.",
+      "A modular, full stack command and control framework built deliberately without off the shelf frameworks so every layer can be explained, modified, and defended against.",
     features: [
-      "FastAPI operator server with JWT-authenticated REST interface",
-      "WAL-mode SQLite + append-only JSONL hash chain for log integrity",
-      "AES-GCM implant communications (per-session key negotiation)",
-      "Jittered beacon intervals with proxy-aware transport",
+      "FastAPI operator server with JWT authenticated REST interface",
+      "WAL mode SQLite + append only JSONL hash chain for log integrity",
+      "AES-GCM implant communications (per session key negotiation)",
+      "Jittered beacon intervals with proxy aware transport",
       "Sandbox detection heuristics (timing, environment, artifact checks)",
       "17 task handlers, 18 MITRE ATT&CK techniques mapped",
       "GitHub Actions CI pipeline, Docker Compose deployment",
@@ -150,9 +151,9 @@ const FALLBACK = [
     description:
       "TCP network scanner: CIDR ping sweep, multithreaded TCP connect scans, service banner grabbing, argparse CLI, pytest suite.",
     features: [
-      "CIDR ping sweep for host discovery (cross-platform)",
+      "CIDR ping sweep for host discovery (cross platform)",
       "Multithreaded TCP connect port scanning with configurable thread pool",
-      "Service banner grabbing with per-port timeout",
+      "Service banner grabbing with per port timeout",
       "Text and JSON report output (--json flag)",
       "argparse CLI with discover / scan / banner subcommands",
       "pytest test suite: closed port, open port, sorted results, empty input",
@@ -172,9 +173,9 @@ const FALLBACK = [
     id: "skillswap",
     sort_order: 3,
     title: "SkillSwap",
-    tagline: "Student talent exchange and peer-to-peer learning in a structured platform.",
+    tagline: "Student talent exchange and peer to peer learning in a structured platform.",
     description:
-      "Peer-to-peer learning web platform for sharing skills and booking sessions safely.",
+      "Peer to peer learning web platform for sharing skills and booking sessions safely.",
     features: [
       "Peer learning sessions",
       "AI resume scanner, skill matcher, session ideas",
@@ -198,7 +199,7 @@ const FALLBACK = [
     title: "HealthHive",
     tagline: "Team wellness tracker with group accountability inspired by the hive.",
     description:
-      "Team-centric wellness app for activity logging, reminders, and group progress.",
+      "Team centric wellness app for activity logging, reminders, and group progress.",
     features: [
       "Activity tracking",
       "Team collaboration",
@@ -245,16 +246,22 @@ export function Projects() {
   return (
     <Section id="projects" className="container">
       <Reveal className="mb-4">
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+        {!isDark && <span className="section-accent-bar bg-pop-purple" aria-hidden />}
+        <span
+          className={cn(
+            "font-mono text-xs uppercase tracking-[0.3em]",
+            isDark ? "text-primary" : "text-secondary"
+          )}
+        >
           {isDark ? "// 02" : "02 ·"} selected work
         </span>
       </Reveal>
       <Reveal className="mb-8 max-w-3xl">
-        <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+        <h2 className={cn("text-4xl md:text-5xl font-extrabold tracking-tight", isDark && "heading-face")}>
           Projects
         </h2>
-        <p className="mt-4 text-muted-foreground text-lg">
-          Security-focused builds, product engineering, and wellness tooling, each with its own visual identity.
+        <p className={cn("mt-4 text-lg", isDark ? "text-foreground/75" : "text-muted-foreground")}>
+          Security focused builds, product engineering, and wellness tooling, each with its own visual identity.
         </p>
       </Reveal>
 
@@ -274,8 +281,8 @@ export function Projects() {
                       ? "bg-primary text-primary-foreground shadow-neon-cyan"
                       : "border border-border text-muted-foreground hover:border-primary/50 hover:text-primary"
                     : isActive
-                    ? "border-2 border-foreground bg-primary text-primary-foreground shadow-pop"
-                    : "border-2 border-foreground bg-card text-foreground hover:bg-primary/10"
+                    ? "border border-primary/50 bg-primary text-primary-foreground shadow-soft-orange"
+                    : "border border-border bg-card/80 backdrop-blur-sm text-foreground hover:bg-primary/10"
                 )}
               >
                 {f.label}
@@ -312,10 +319,17 @@ export function ProjectCard({ project, index, isDark }) {
   const tech = project.tech || [];
   const techPreview = tech.slice(0, 3);
   const techExtra = Math.max(0, tech.length - techPreview.length);
+  const isFeaturedNexus = project.id === "project-nexus";
 
   const cardBase = isDark
-    ? "bg-card/70 backdrop-blur border-border"
-    : "border-2 border-foreground bg-card shadow-pop";
+    ? "bg-card/70 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300"
+    : cn(
+        isFeaturedNexus
+          ? "gradient-border-card"
+          : "border border-border bg-card/80 backdrop-blur-sm",
+        popBy(index, CARD_SHADOW),
+        popBy(index, CARD_HOVER_SHADOW)
+      );
 
   return (
     <motion.div
@@ -330,7 +344,7 @@ export function ProjectCard({ project, index, isDark }) {
         className={cn(
           "relative flex h-fit min-h-0 flex-col overflow-hidden transition-all duration-300",
           cardBase,
-          isDark ? a.cardDark : a.cardLight
+          isDark ? a.cardDark : cn(a.cardLight, (accentKey === "cyber" || accentKey === "default") && popBy(index, CARD_HOVER_SHADOW))
         )}
       >
         {/* Theme-specific ambient mesh */}
@@ -368,7 +382,8 @@ export function ProjectCard({ project, index, isDark }) {
                 className={cn(
                   accentKey === "healthhive" &&
                     isDark &&
-                    "font-bold tabular-nums tracking-tight text-lime-50 [text-shadow:0_1px_2px_rgb(0_0_0_/_0.75),0_0_16px_hsl(var(--accent)/0.55)]"
+                    "font-bold tabular-nums tracking-tight text-lime-50 [text-shadow:0_1px_2px_rgb(0_0_0_/_0.75),0_0_16px_hsl(var(--accent)/0.55)]",
+                  !isDark && "border border-foreground/40 font-semibold tabular-nums text-foreground shadow-sm"
                 )}
               >
                 {project.year || "2026"}
@@ -378,7 +393,7 @@ export function ProjectCard({ project, index, isDark }) {
                 <span
                   className={cn(
                     "inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px]",
-                    isDark ? "bg-muted/60 text-muted-foreground" : "bg-muted text-muted-foreground"
+                    isDark ? "bg-muted/60 text-muted-foreground" : "border border-foreground/25 bg-background/80 text-foreground"
                   )}
                 >
                   <Calendar className="h-2.5 w-2.5" />
@@ -442,21 +457,14 @@ export function ProjectCard({ project, index, isDark }) {
 
         {!expanded && techPreview.length > 0 && (
           <div className="relative z-10 flex flex-wrap gap-1.5 px-6 pb-1">
-            {techPreview.map((t) => (
+            {techPreview.map((t, ti) => (
               <span
                 key={t}
                 className={cn(
-                  "rounded px-1.5 py-0.5 font-mono text-[10px]",
-                  accentKey === "skillswap" && isDark && "bg-violet-950/80 text-cyan-300 ring-1 ring-violet-500/30",
-                  accentKey === "skillswap" && !isDark && "bg-violet-100 text-violet-900 ring-1 ring-violet-300",
-                  accentKey === "healthhive" && isDark && "bg-emerald-950/60 text-amber-200 ring-1 ring-emerald-500/30",
-                  accentKey === "healthhive" && !isDark && "bg-amber-50 text-emerald-900 ring-1 ring-amber-300",
-                  (accentKey === "cyber" || accentKey === "default") &&
-                    isDark &&
-                    "bg-muted text-primary",
-                  (accentKey === "cyber" || accentKey === "default") &&
-                    !isDark &&
-                    "bg-accent/40 text-foreground"
+                  "px-2 py-0.5 font-mono text-[11px] leading-tight",
+                  isDark
+                    ? "rounded-md bg-muted text-primary ring-1 ring-primary/25"
+                    : techChipLightClassName(ti)
                 )}
               >
                 {t}
@@ -516,17 +524,17 @@ export function ProjectCard({ project, index, isDark }) {
                       MITRE ATT&CK
                     </div>
                     <div className="flex flex-wrap gap-1">
-                      {(project.mitre_techniques || []).slice(0, 9).map((t) => (
+                      {(project.mitre_techniques || []).slice(0, 9).map((t, ti) => (
                         <a
                           key={t}
                           href={`https://attack.mitre.org/techniques/${t.replace(".", "/")}`}
                           target="_blank"
                           rel="noreferrer"
                           className={cn(
-                            "rounded px-1.5 py-0.5 font-mono text-[10px] transition-colors",
+                            "font-mono text-[11px] transition-opacity",
                             isDark
-                              ? "bg-accent/15 text-accent hover:bg-accent/30 ring-1 ring-accent/30"
-                              : "bg-foreground/10 text-foreground hover:bg-foreground/20"
+                              ? "rounded px-2 py-0.5 bg-accent/15 text-accent ring-1 ring-accent/30 shadow-none hover:bg-accent/30"
+                              : cn(techChipLightClassName(ti), "px-2 py-0.5 hover:opacity-90")
                           )}
                         >
                           {t}
@@ -560,21 +568,14 @@ export function ProjectCard({ project, index, isDark }) {
                 )}
 
                 <div className="mb-4 flex flex-wrap gap-2">
-                  {(project.tech || []).map((t) => (
+                  {(project.tech || []).map((t, ti) => (
                     <span
                       key={t}
                       className={cn(
-                        "relative rounded-md px-2 py-1 font-mono text-xs",
-                        accentKey === "skillswap" && isDark && "bg-violet-950/80 text-cyan-300 ring-1 ring-violet-500/30",
-                        accentKey === "skillswap" && !isDark && "bg-violet-100 text-violet-900 ring-1 ring-violet-300",
-                        accentKey === "healthhive" && isDark && "bg-emerald-950/60 text-amber-200 ring-1 ring-emerald-500/30",
-                        accentKey === "healthhive" && !isDark && "bg-amber-50 text-emerald-900 ring-1 ring-amber-300",
-                        (accentKey === "cyber" || accentKey === "default") &&
-                          isDark &&
-                          "bg-muted text-primary",
-                        (accentKey === "cyber" || accentKey === "default") &&
-                          !isDark &&
-                          "bg-accent/40 text-foreground"
+                        "relative px-2 py-1 font-mono text-xs",
+                        isDark
+                          ? "rounded-md bg-muted text-primary ring-1 ring-primary/25"
+                          : techChipLightClassName(ti)
                       )}
                     >
                       {t}
@@ -613,7 +614,7 @@ export function ProjectCard({ project, index, isDark }) {
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] transition-all",
                 isDark
                   ? "border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
-                  : "border-2 border-foreground text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary"
+                  : "border border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-soft-orange"
               )}
             >
               view details <ArrowRight className="h-3 w-3" />

@@ -38,11 +38,11 @@ function FauxSiteAfter({ isDark }) {
   return (
     <div className={cn(
       "h-full w-full overflow-hidden font-sans",
-      isDark ? "bg-[#070B14] text-white" : "bg-white text-gray-900"
+      isDark ? "bg-[#070B14] text-white" : "bg-card text-foreground"
     )}>
       <div className={cn(
         "flex items-center justify-between px-4 py-2.5",
-        isDark ? "bg-[#0D1220]" : "bg-white border-b border-gray-100"
+        isDark ? "bg-[#0D1220]" : "bg-card border-b border-border"
       )}>
         <span className={cn("font-bold text-xs tracking-tight", isDark ? "text-cyan-400" : "text-indigo-600")}>
           yourco.
@@ -51,7 +51,7 @@ function FauxSiteAfter({ isDark }) {
           <span>Work</span><span>Services</span><span>Contact</span>
         </div>
       </div>
-      <div className={cn("px-4 pt-5 pb-4", isDark ? "bg-[#070B14]" : "bg-gradient-to-br from-indigo-50 to-white")}>
+      <div className={cn("px-4 pt-5 pb-4", isDark ? "bg-[#070B14]" : "bg-gradient-to-br from-indigo-50/95 to-background")}>
         <div className={cn("text-[10px] font-mono uppercase tracking-[0.2em] mb-1", isDark ? "text-cyan-400" : "text-indigo-400")}>
           available now
         </div>
@@ -128,7 +128,7 @@ export function BeforeAfterSlider() {
         ref={containerRef}
         className={cn(
           "relative select-none overflow-hidden rounded-2xl border",
-          isDark ? "border-border" : "border-2 border-foreground shadow-pop"
+          isDark ? "border-border" : "border border-border shadow-soft"
         )}
         style={{ height: 320, cursor: "col-resize" }}
         onPointerDown={onPointerDown}
@@ -150,7 +150,10 @@ export function BeforeAfterSlider() {
 
         {/* Divider line */}
         <div
-          className="absolute inset-y-0 w-0.5 bg-white/80 shadow-lg"
+          className={cn(
+            "absolute inset-y-0 w-0.5 shadow-lg",
+            isDark ? "bg-white/80" : "bg-foreground/25"
+          )}
           style={{ left: `${pct}%`, transform: "translateX(-50%)" }}
         />
 

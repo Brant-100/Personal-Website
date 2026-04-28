@@ -90,7 +90,7 @@ export function InteractiveTypeScale() {
     >
       <div className={cn(
         "rounded-2xl p-6",
-        isDark ? "border border-border bg-card/70 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+        isDark ? "border border-border bg-card/70 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
       )}>
         {/* Slider */}
         <div className="mb-8 flex flex-wrap items-center gap-4">

@@ -16,12 +16,20 @@ export function FAQ({
   faqs = GLOBAL_FAQS,
   title = "Common questions",
   eyebrow = "FAQ",
+  /** When true, omit outer `container` and reduce vertical padding (e.g. nested under contact). */
+  embedded = false,
 }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
+  const outerClass = embedded
+    ? "w-full pt-10 md:pt-14"
+    : "container py-14 md:py-20";
+
+  const Tag = embedded ? "div" : "section";
+
   return (
-    <section id="faq" className="container py-20 md:py-28">
+    <Tag id="faq" className={outerClass}>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -29,18 +37,26 @@ export function FAQ({
         transition={{ duration: 0.45 }}
         className="mx-auto max-w-3xl"
       >
-        <div
-          className={cn(
-            "mb-3 font-mono text-xs uppercase tracking-[0.3em]",
-            isDark ? "text-primary" : "text-primary"
-          )}
-        >
-          {eyebrow}
+        <div className="mb-2">
+          {!isDark && <span className="section-accent-bar bg-secondary" aria-hidden />}
+          <div
+            className={cn(
+              "font-mono text-xs uppercase tracking-[0.3em]",
+              isDark ? "text-primary" : "text-primary"
+            )}
+          >
+            {eyebrow}
+          </div>
         </div>
-        <h2 className="mb-6 text-3xl font-extrabold tracking-tight md:text-4xl">
+        <h2 className={cn("mb-4 text-3xl font-extrabold tracking-tight md:text-4xl", isDark && "heading-face")}>
           {title}
         </h2>
-        <p className="mb-10 text-lg text-muted-foreground">
+        <p
+          className={cn(
+            "mb-6 text-lg leading-relaxed",
+            isDark ? "text-muted-foreground" : "text-foreground/80"
+          )}
+        >
           What people usually want to know before we talk. Don&apos;t see your
           question?{" "}
           <a
@@ -54,6 +70,6 @@ export function FAQ({
 
         <FAQAccordion items={faqs} />
       </motion.div>
-    </section>
+    </Tag>
   );
 }

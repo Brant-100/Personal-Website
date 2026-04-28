@@ -5,6 +5,7 @@ import { Calendar, Tag, ArrowRight } from "lucide-react";
 import { Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { CHIP_BG, CHIP_RING, popBy } from "@/lib/popColors";
 
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
@@ -61,7 +62,7 @@ export function BlogIndex() {
           </h1>
         </Reveal>
         <Reveal className="mb-16 max-w-2xl text-muted-foreground text-lg">
-          Technical write-ups, security research notes, and retrospectives. One well-written post says more than ten credential badges.
+          Technical writeups, security research notes, and retrospectives. One well written post says more than ten credential badges.
         </Reveal>
 
         {loading ? (
@@ -74,7 +75,7 @@ export function BlogIndex() {
           <Reveal>
             <div className={cn(
               "rounded-2xl p-8 text-center",
-              isDark ? "border border-border bg-card/70" : "border-2 border-foreground bg-card shadow-pop"
+              isDark ? "border border-border bg-card/70 shadow-presence-rest" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
             )}>
               <p className="text-muted-foreground">
                 Posts are being written. Check back soon; the Nexus Phase 1 retrospective is up first.
@@ -113,8 +114,8 @@ function PostCard({ post, isDark }) {
         className={cn(
           "group flex flex-col gap-4 rounded-2xl p-6 transition-all sm:flex-row sm:items-start sm:justify-between",
           isDark
-            ? "border border-border bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-            : "border-2 border-foreground bg-card shadow-pop hover:shadow-pop-primary"
+            ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/50 hover:shadow-neon-cyan"
+            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft transition-shadow duration-300 hover:border-primary/40 hover:shadow-soft-orange"
         )}
       >
         <div className="flex-1">
@@ -128,10 +129,10 @@ function PostCard({ post, isDark }) {
                 {new Date(post.date).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
               </span>
             )}
-            {(post.tags || []).map((t) => (
+            {(post.tags || []).map((t, ti) => (
               <span key={t} className={cn(
                 "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest",
-                isDark ? "bg-muted text-primary" : "bg-accent/40 text-foreground"
+                isDark ? "bg-muted text-primary" : cn("font-medium text-foreground ring-2 shadow-sm", popBy(ti, CHIP_BG), popBy(ti, CHIP_RING))
               )}>
                 <Tag className="h-2 w-2" />
                 {t}

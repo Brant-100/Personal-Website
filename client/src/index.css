@@ -16,13 +16,17 @@
 @layer base {
   /* ---------- LIGHT (vibrant) ---------- */
   :root {
-    --background: 40 40% 98%;        /* warm off-white paper */
+    /* Warm paper — avoid 98–100% luminance “jet white”; keeps contrast vs UI chrome and body copy */
+    --background: 41 38% 96.4%;
     --foreground: 222 47% 11%;
 
-    --card: 0 0% 100%;
+    /* Warm near-white card; translucency + blur in components lets mesh show through */
+    --card: 40 60% 99%;
     --card-foreground: 222 47% 11%;
+    --card-elevated: 40 55% 97.5%;
 
-    --popover: 0 0% 100%;
+    /* Match card family — stepped from --card */
+    --popover: 40 58% 98.5%;
     --popover-foreground: 222 47% 11%;
 
     --primary: 20 95% 55%;           /* electric orange */
@@ -34,8 +38,9 @@
     --accent: 48 100% 58%;           /* vivid yellow */
     --accent-foreground: 222 47% 11%;
 
-    --muted: 220 25% 95%;
-    --muted-foreground: 222 15% 35%;
+    --muted: 220 23% 92.8%;
+    /* Darker than before so body copy / labels read clearly on warm card (was 222 15% 35%). */
+    --muted-foreground: 222 18% 28%;
 
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
@@ -44,10 +49,10 @@
     --input: 220 20% 88%;
     --ring: 20 95% 55%;
 
-    --pop-pink: 330 85% 62%;
-    --pop-lime: 140 70% 48%;
-    --pop-cyan: 190 90% 55%;
-    --pop-purple: 270 80% 60%;
+    --pop-pink: 330 90% 50%;
+    --pop-lime: 145 70% 40%;
+    --pop-cyan: 195 95% 45%;
+    --pop-purple: 270 80% 52%;
 
     --radius: 0.9rem;
 
@@ -108,8 +113,10 @@
 
   /* Theme-specific body backdrop: different vibe per theme, not an inversion */
   body {
-    background-image: theme('backgroundImage.vibrant-mesh');
-    background-attachment: fixed;
+    background-image:
+      theme("backgroundImage.vibrant-mesh"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-attachment: fixed, fixed;
   }
 
   .dark body {
@@ -165,10 +172,31 @@
       0 0 28px hsl(var(--primary) / 0.1);
   }
 
-  /* Thick stroked "pop" text used in light mode for headlines */
+  /*
+   * Section titles and lead words that are not full text-neon — adds forward
+   * presence without duplicating the brightest glow on every headline.
+   */
+  .heading-face {
+    text-shadow: none;
+  }
+
+  .dark .heading-face {
+    text-shadow:
+      0 0 36px hsl(var(--primary) / 0.22),
+      0 0 64px hsl(var(--primary) / 0.07),
+      0 1px 0 hsl(var(--foreground) / 0.14);
+  }
+
+  :root:not(.dark) .heading-face {
+    text-shadow:
+      0 1px 0 hsl(var(--foreground) / 0.1),
+      0 10px 26px hsl(var(--primary) / 0.16);
+  }
+
+  /* Legacy utility — kept minimal so it does not read as pop-art if used */
   .text-pop {
-    -webkit-text-stroke: 1px hsl(var(--foreground));
-    text-shadow: 4px 4px 0 hsl(var(--accent));
+    -webkit-text-stroke: 0 transparent;
+    text-shadow: 0 1px 0 hsl(var(--foreground) / 0.08);
   }
 
   /* Shimmer utility for skeletons / accent bars */
@@ -186,6 +214,7 @@
   .card-surface {
     @apply bg-card text-card-foreground border border-border rounded-2xl;
   }
+
 }
 
 @layer utilities {
@@ -200,6 +229,45 @@
   /* Reduce scroll "jitter" when lazy media or layout shifts fight the browser's scroll anchoring */
   .overflow-anchor-none {
     overflow-anchor: none;
+  }
+
+  /* ---------------------------------------------------------------
+   * Light-mode-only surface utilities.
+   * Each rule is scoped under :root:not(.dark) so dark mode is never
+   * affected — toggling the theme reverts to the regular treatment.
+   * ------------------------------------------------------------- */
+
+  :root:not(.dark) .bg-card-elevated {
+    background-color: hsl(var(--card-elevated));
+  }
+
+  /*
+   * Subtle gradient border for "featured" cards in light mode.
+   * Uses the padding-box / border-box trick so the inner background
+   * stays the warm card color while the border itself is a tri-stop
+   * gradient (primary -> pop-pink -> secondary).
+   */
+  :root:not(.dark) .gradient-border-card {
+    background:
+      linear-gradient(
+        hsl(var(--card) / 0.78),
+        hsl(var(--card) / 0.78)
+      ) padding-box,
+      linear-gradient(
+        135deg,
+        hsl(var(--primary)),
+        hsl(var(--pop-pink)),
+        hsl(var(--secondary))
+      ) border-box;
+    border: 2px solid transparent;
+  }
+
+  :root:not(.dark) .light-glass-surface {
+    @apply border border-border bg-card/80 backdrop-blur-sm;
+  }
+
+  :root:not(.dark) .section-accent-bar {
+    @apply mb-3 block h-[3px] w-[60px] rounded-full;
   }
 }
 
@@ -216,7 +284,7 @@
   }
 
   body {
-    background: white !important;
+    background: hsl(42 32% 97%) !important;
     color: black !important;
     font-size: 12pt;
     background-image: none !important;
@@ -243,12 +311,22 @@
   }
 
   .shadow-pop,
+  .shadow-soft,
+  .shadow-soft-pink,
+  .shadow-soft-cyan,
+  .shadow-soft-purple,
+  .shadow-soft-orange,
+  .shadow-soft-blue,
   .shadow-neon-cyan,
+  .shadow-presence-rest,
   .backdrop-blur,
-  .bg-card\/70 {
+  .backdrop-blur-sm,
+  .bg-card\/70,
+  .bg-card\/80,
+  .bg-card\/85 {
     box-shadow: none !important;
     backdrop-filter: none !important;
-    background: white !important;
+    background: hsl(42 35% 98%) !important;
     border: 1px solid #ccc !important;
   }
 }

@@ -5,7 +5,7 @@
       <stop offset="100%" stop-color="#a855f7" stop-opacity="0.2"/>
     </linearGradient>
   </defs>
-  <!-- Placeholder avatar  replace with a real headshot -->
+  <!-- Placeholder avatar; replace with a real headshot -->
   <circle cx="100" cy="100" r="98" fill="#1a2332" stroke="#00ffff" stroke-width="2"/>
   <circle cx="100" cy="80" r="34" fill="#2a3a52"/>
   <ellipse cx="100" cy="155" rx="52" ry="36" fill="#2a3a52"/>

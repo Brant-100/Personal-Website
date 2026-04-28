@@ -98,7 +98,7 @@ export function AutomationRecipeBuilder() {
                   className={cn(
                     "flex w-full items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm transition-all",
                     trigger === t.id
-                      ? isDark ? "border-primary/60 bg-primary/10 text-foreground" : "border-2 border-foreground bg-accent/30"
+                      ? isDark ? "border-primary/60 bg-primary/10 text-foreground" : "border border-border bg-accent/30"
                       : "border-border bg-card/60 text-muted-foreground hover:text-foreground hover:border-primary/30"
                   )}
                 >
@@ -141,7 +141,7 @@ export function AutomationRecipeBuilder() {
           <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-primary">3. Your recipe</div>
           <div className={cn(
             "min-h-[200px] rounded-2xl border p-4",
-            isDark ? "border-border bg-card/60" : "border-2 border-foreground bg-card shadow-pop"
+            isDark ? "border-border bg-card/60" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}>
             {!trigger && actions.length === 0 && (
               <div className="flex h-full min-h-[160px] items-center justify-center text-xs text-muted-foreground">
@@ -213,7 +213,7 @@ export function AutomationRecipeBuilder() {
               canGenerate
                 ? isDark
                   ? "bg-primary text-primary-foreground hover:brightness-110 shadow-neon-cyan"
-                  : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop"
+                  : "border border-border bg-accent text-accent-foreground shadow-soft"
                 : "cursor-not-allowed bg-muted text-muted-foreground"
             )}
           >
@@ -232,7 +232,7 @@ export function AutomationRecipeBuilder() {
             transition={{ type: "spring", stiffness: 280, damping: 26 }}
             className={cn(
               "mt-4 overflow-hidden rounded-2xl",
-              isDark ? "border border-border bg-card/70" : "border-2 border-foreground bg-card shadow-pop"
+              isDark ? "border border-border bg-card/70" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
             )}
           >
             <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3">

@@ -202,7 +202,7 @@ export function CliTerminalEmulator() {
       <div
         className={cn(
           "overflow-hidden rounded-2xl",
-          isDark ? "border border-border bg-card/80 backdrop-blur" : "border-2 border-foreground bg-card shadow-pop"
+          isDark ? "border border-border bg-card/80 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
         )}
         onClick={() => inputRef.current?.focus()}
       >
