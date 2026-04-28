@@ -251,7 +251,7 @@ export function Projects() {
       </Reveal>
       <Reveal className="mb-8 max-w-3xl">
         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          Projects & operations
+          Projects
         </h2>
         <p className="mt-4 text-muted-foreground text-lg">
           Security-focused builds, product engineering, and wellness tooling, each with its own visual identity.

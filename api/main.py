@@ -82,7 +82,6 @@ class Project(BaseModel):
     visibility_note: Optional[str] = None
     technical_decisions: List[TechnicalDecision] = Field(default_factory=list)
     lessons_learned: List[str] = Field(default_factory=list)
-    roadmap: List[str] = Field(default_factory=list)
 
 
 class Service(BaseModel):

@@ -65,7 +65,7 @@ export function ProjectsPage() {
           </Reveal>
           <Reveal className="max-w-3xl">
             <h1 className="text-4xl font-extrabold tracking-tight md:text-6xl">
-              Projects &amp; operations
+              Projects
             </h1>
             <p className="mt-4 max-w-xl text-lg text-muted-foreground">
               Security tools, full-stack platforms, and wellness software — each

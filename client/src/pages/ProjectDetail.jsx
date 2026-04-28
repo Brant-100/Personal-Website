@@ -10,7 +10,6 @@ import {
   Calendar,
   ChevronRight,
   Lightbulb,
-  Map,
   Cpu,
   AlertTriangle,
   X,
@@ -371,78 +370,49 @@ export function ProjectDetail() {
               <SectionBlock isDark={isDark} title="Screenshots">
                 <div
                   className={cn(
-                    "grid",
+                    "grid items-start gap-3",
                     multiScreenshots
-                      ? "mx-auto w-full max-w-[min(100%,90rem)] items-start gap-5 sm:gap-6 md:grid-cols-2"
-                      : "mx-auto max-w-4xl gap-4"
+                      ? "sm:grid-cols-2 lg:grid-cols-3"
+                      : "mx-auto max-w-2xl"
                   )}
                 >
-                  {screenshots.map((s, i) => {
-                    const n = screenshots.length;
-                    const isOrphan = multiScreenshots && i === n - 1 && n % 2 === 1;
-                    return (
-                    <figure
-                      key={s.url}
-                      className={cn(
-                        "flex w-full min-w-0 flex-col",
-                        isOrphan
-                          ? "md:col-span-2 items-center"
-                          : "items-center"
-                      )}
-                    >
+                  {screenshots.map((s, i) => (
+                    <figure key={s.url} className="flex flex-col">
                       <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setLightboxIdx(screenshotLightboxOffset + i)}
+                        onKeyDown={(e) => e.key === "Enter" && setLightboxIdx(screenshotLightboxOffset + i)}
+                        aria-label={`Expand screenshot: ${s.caption || s.url}`}
                         className={cn(
-                          "flex w-full justify-center",
-                          !multiScreenshots && "mx-auto w-full"
+                          "overflow-hidden rounded-lg leading-none cursor-pointer",
+                          isDark ? "border border-border/60" : "border border-foreground/20 shadow-sm"
                         )}
                       >
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setLightboxIdx(screenshotLightboxOffset + i)}
-                          onKeyDown={(e) => e.key === "Enter" && setLightboxIdx(screenshotLightboxOffset + i)}
-                          aria-label={`Expand screenshot: ${s.caption || s.url}`}
-                          className={cn(
-                            "overflow-hidden rounded-2xl leading-none",
-                            isDark ? "border border-border" : "border-2 border-foreground shadow-pop",
-                            multiScreenshots
-                              ? isOrphan
-                                ? "mx-auto w-full max-w-4xl lg:max-w-5xl"
-                                : "w-full"
-                              : "inline-block max-w-full"
-                          )}
-                        >
-                          <img
-                            src={s.url}
-                            alt={s.caption}
-                            className={cn(
-                              "block h-auto max-h-[min(90vh,52rem)]",
-                              multiScreenshots
-                                ? "w-full"
-                                : "w-auto max-w-full"
-                            )}
-                            width={1200}
-                            height={630}
-                            decoding="async"
-                            loading="lazy"
-                            onError={(e) => {
-                              const img = e.currentTarget;
-                              if (img.dataset.fallbackDone) return;
-                              img.dataset.fallbackDone = "1";
-                              if (s.url.endsWith(".png")) img.src = s.url.replace(/\.png$/i, ".svg");
-                              else if (s.url.endsWith(".svg")) img.src = s.url.replace(/\.svg$/i, ".png");
-                            }}
-                          />
-                        </div>
+                        <img
+                          src={s.url}
+                          alt={s.caption}
+                          className="block h-auto w-full max-h-48 object-cover object-top transition-opacity hover:opacity-90"
+                          width={800}
+                          height={450}
+                          decoding="async"
+                          loading="lazy"
+                          onError={(e) => {
+                            const img = e.currentTarget;
+                            if (img.dataset.fallbackDone) return;
+                            img.dataset.fallbackDone = "1";
+                            if (s.url.endsWith(".png")) img.src = s.url.replace(/\.png$/i, ".svg");
+                            else if (s.url.endsWith(".svg")) img.src = s.url.replace(/\.svg$/i, ".png");
+                          }}
+                        />
                       </div>
                       {s.caption && (
-                        <figcaption className="mt-2 text-center text-xs text-muted-foreground sm:text-sm">
+                        <figcaption className="mt-1.5 text-[11px] leading-snug text-muted-foreground/70">
                           {s.caption}
                         </figcaption>
                       )}
                     </figure>
-                    );
-                  })}
+                  ))}
                 </div>
               </SectionBlock>
             </Reveal>
@@ -528,27 +498,6 @@ export function ProjectDetail() {
                         : "border border-foreground/20 bg-muted/60 text-foreground/90"
                     )}>
                       {l}
-                    </li>
-                  ))}
-                </ul>
-              </SectionBlock>
-            </Reveal>
-          )}
-
-          {/* Roadmap */}
-          {(project.roadmap || []).length > 0 && (
-            <Reveal>
-              <SectionBlock isDark={isDark} title="Roadmap" icon={<Map className="h-4 w-4" />}>
-                <ul className="space-y-2">
-                  {project.roadmap.map((r) => (
-                    <li key={r.slice(0, 48)} className={cn(
-                      "flex items-start gap-3 text-sm text-muted-foreground",
-                    )}>
-                      <span className={cn(
-                        "mt-1.5 h-2 w-2 shrink-0 rounded-full",
-                        isDark ? "bg-primary" : "bg-foreground"
-                      )} />
-                      {r}
                     </li>
                   ))}
                 </ul>

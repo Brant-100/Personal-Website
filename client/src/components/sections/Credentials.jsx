@@ -167,7 +167,7 @@ function groupCredentials(items) {
   return ordered;
 }
 
-export function Credentials() {
+export function Credentials({ embedded = false }) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const [items, setItems] = useState(FALLBACK);
@@ -183,7 +183,14 @@ export function Credentials() {
   const grouped = useMemo(() => groupCredentials(items), [items]);
 
   return (
-    <Section id="credentials" className="container">
+    <Section
+      id="credentials"
+      className={cn(
+        embedded
+          ? "w-full max-w-none px-0 py-16 md:py-24"
+          : "container"
+      )}
+    >
       <Reveal className="mb-4">
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
           {isDark ? "// credentials" : "credentials ·"} vault
@@ -206,7 +213,7 @@ export function Credentials() {
           return (
             <div key={section.id}>
               <Reveal className={cn("mb-6", sectionIdx === 0 && "mt-0")}>
-                <h3 className="border-b border-border pb-3 font-mono text-sm font-semibold uppercase tracking-[0.22em] text-primary">
+                <h3 className="mb-4 font-mono text-sm font-semibold uppercase tracking-[0.22em] text-primary">
                   {section.label}
                 </h3>
               </Reveal>

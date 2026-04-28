@@ -25,7 +25,7 @@ export const GLOBAL_FAQS = [
     id: "payments",
     question: "How do payments work?",
     answer:
-      "Invoices are the default — every payment comes with a proper invoice for your records. Methods are flexible: Stripe (credit card, ACH, most digital wallets) or Zelle. Deposit and milestone splits depend on scope; we agree on what makes sense before work starts. I'm very flexible on payment structure — if you have a preference, we'll talk it through.",
+      "Payment is via Zelle. Deposit and milestone splits depend on scope; we agree on what makes sense before work starts. I'm very flexible on payment structure — if you have a preference, we'll talk it through.",
   },
   {
     id: "ownership",

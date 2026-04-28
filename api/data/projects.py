@@ -53,9 +53,13 @@ PROJECTS = [
         "accent_theme": "cyber",
         "repo_url": None,
         "live_url": None,
-        "architecture_diagram_url": "/projects/project-nexus/architecture.svg",
+        "architecture_diagram_url": "/projects/project-nexus/architecture.png",
         "screenshots": [
-            {"url": "/projects/project-nexus/screenshot-1.svg", "caption": "Operator console, active session view"},
+            {"url": "/projects/project-nexus/screenshot-architecture.png", "caption": "Docker lab topology: c2-server, two implants, and bridge network on 10.10.0.0/24"},
+            {"url": "/projects/project-nexus/screenshot-operator-cli.png", "caption": "Operator CLI: 11-item interactive menu for managing agents, tasks, and sessions"},
+            {"url": "/projects/project-nexus/screenshot-agent-dashboard.png", "caption": "Agent heartbeat dashboard: 12 registered implants with health status and queue depth"},
+            {"url": "/projects/project-nexus/screenshot-task-types.png", "caption": "17 task handlers: shell execution, file transfer, sandbox checks, fs enumeration, and more"},
+            {"url": "/projects/project-nexus/screenshot-mitre.png", "caption": "Full MITRE ATT&CK Enterprise tactic-level coverage matrix across the kill chain"},
         ],
         "demo_video_url": None,
         "mitre_techniques": [
@@ -100,12 +104,6 @@ PROJECTS = [
             "Beacon jitter matters far more than sleep duration for evading time-based detections.",
             "Sandbox detection via timing is unreliable on modern hypervisors; artifact-based checks are more durable.",
             "Operator UX (clear session state, typed commands, error messages) is as important as implant capability.",
-        ],
-        "roadmap": [
-            "Process injection module (T1055)",
-            "Encrypted key/value store for implant config",
-            "Web-based operator dashboard (React front-end)",
-            "Dedicated nexus.brantsimpson.com site when phase 2 ships",
         ],
     },
 
@@ -181,12 +179,6 @@ PROJECTS = [
             "Banner grabbing requires per-protocol delays; SSH sends a banner immediately, HTTP needs a probe first.",
             "Writing tests before refactoring the thread pool caught two race conditions in result ordering.",
         ],
-        "roadmap": [
-            "Extract to standalone Brant-100/network-scanner repo",
-            "Add UDP probe support",
-            "OS fingerprinting via TTL and window size heuristics",
-            "CI badge once extracted",
-        ],
     },
 
     # ------------------------------------------------------------------ #
@@ -244,11 +236,6 @@ PROJECTS = [
         "lessons_learned": [
             "AI feature graceful degradation needs to be designed in from day one, not retrofitted.",
             "Gamification points need a reset/decay mechanism or engagement collapses after initial novelty.",
-        ],
-        "roadmap": [
-            "Video session integration (Whereby / Daily.co embed)",
-            "Verified skill badges via quiz flow",
-            "Mobile app wrapper (React Native)",
         ],
     },
 
@@ -313,11 +300,6 @@ PROJECTS = [
         "lessons_learned": [
             "Team projects need a clear data model contract agreed on in week one; we refactored our activity schema twice.",
             "Django signals are powerful for reminders but hard to test; prefer explicit service layer calls.",
-        ],
-        "roadmap": [
-            "REST API backend for a potential mobile app",
-            "Streak freeze mechanic to reduce dropout",
-            "Weekly digest email with team highlights",
         ],
     },
 ]
