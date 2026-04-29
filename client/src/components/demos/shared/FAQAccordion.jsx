@@ -3,11 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import {
-  CARD_HOVER_SHADOW,
-  FAQ_STRIPE,
-  popBy,
-} from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD, FAQ_STRIPE, popBy } from "@/lib/popColors";
 
 export function FAQAccordion({ items = [] }) {
   const { theme } = useTheme();
@@ -32,10 +28,8 @@ export function FAQAccordion({ items = [] }) {
                 ),
               !isDark &&
                 cn(
-                  "border border-border bg-card/80 backdrop-blur-sm",
-                  isOpen
-                    ? "border-primary/35 shadow-soft"
-                    : cn("shadow-sm hover:border-primary/55", popBy(i, CARD_HOVER_SHADOW))
+                  LIGHT_SURFACE_CARD,
+                  isOpen ? "border-primary/35" : "hover:border-primary/40"
                 )
             )}
           >

@@ -17,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CHIP_BG, CHIP_RING, popBy } from "@/lib/popColors";
+import { stackChipLightClass } from "@/lib/popColors";
 import { CREDENTIAL_ICON_MAP } from "@/lib/credentialIcons";
 import { FALLBACK as CREDENTIAL_FALLBACK } from "@/lib/credentialFallback";
 import { CertificatePdfView } from "@/components/credentials/CertificatePdfView";
@@ -430,7 +430,7 @@ export function CredentialDetail() {
                     key={s}
                     className={cn(
                       "rounded-md px-2 py-1 font-mono text-xs",
-                      isDark ? "bg-muted/60 text-primary" : cn("font-medium text-foreground ring-2 shadow-sm", popBy(si, CHIP_BG), popBy(si, CHIP_RING))
+                      isDark ? "bg-muted/60 text-primary" : stackChipLightClass(s, si)
                     )}
                   >
                     {s}

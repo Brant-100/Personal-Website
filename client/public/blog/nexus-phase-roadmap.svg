@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" role="img" aria-labelledby="roadTitle">
+  <title id="roadTitle">Project Nexus phased capability roadmap</title>
+  <rect width="720" height="200" rx="12" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="360" y="30" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" font-weight="700" fill="#0f172a">Phased roadmap (snapshot)</text>
+  <g font-family="system-ui,sans-serif" font-size="10">
+    <rect x="24" y="52" width="120" height="44" rx="6" fill="#22c55e" fill-opacity=".35" stroke="#16a34a"/>
+    <text x="84" y="80" text-anchor="middle" font-weight="700" fill="#14532d">P1-2 Done</text>
+    <rect x="160" y="52" width="120" height="44" rx="6" fill="#eab308" fill-opacity=".35" stroke="#ca8a04"/>
+    <text x="220" y="80" text-anchor="middle" font-weight="700" fill="#713f12">P3 Active</text>
+    <rect x="296" y="52" width="120" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="356" y="80" text-anchor="middle" font-weight="600" fill="#334155">Phase 4</text>
+    <rect x="432" y="52" width="120" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="492" y="80" text-anchor="middle" font-weight="600" fill="#334155">Phase 5</text>
+    <rect x="568" y="52" width="128" height="44" rx="6" fill="#e2e8f0" stroke="#94a3b8"/>
+    <text x="632" y="80" text-anchor="middle" font-weight="600" fill="#334155">Commercial</text>
+  </g>
+  <line x1="84" y1="118" x2="632" y2="118" stroke="#94a3b8" stroke-width="2"/>
+  <circle cx="84" cy="118" r="6" fill="#16a34a"/>
+  <circle cx="220" cy="118" r="6" fill="#ca8a04"/>
+  <circle cx="356" cy="118" r="5" fill="#cbd5e1" stroke="#64748b"/>
+  <circle cx="492" cy="118" r="5" fill="#cbd5e1" stroke="#64748b"/>
+  <circle cx="632" cy="118" r="5" fill="#cbd5e1" stroke="#64748b"/>
+  <text x="360" y="158" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#475569">Dependency-driven releases: validate core, then expand routing, GUI, integrations, evasion, GTM</text>
+</svg>

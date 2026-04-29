@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
 import { useTheme } from "@/hooks/useTheme";
-import { cn } from "@/lib/utils";
 
 const SCORES = [
   { label: "Performance",     value: 100, color: "#22E5FF", detail: "Vite code-splitting, lazy routes, tree-shaken deps." },

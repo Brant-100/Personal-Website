@@ -4,7 +4,7 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CHIP_BG, CHIP_RING, CARD_SHADOW, popBy } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD, tagChipLightClass } from "@/lib/popColors";
 
 /** Mirrors `api/data/experience.py` when the API is offline. */
 const FALLBACK = [
@@ -150,8 +150,8 @@ function TimelineEntry({ entry, index, isDark }) {
             isDark
               ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
               : cn(
-                  "border border-border bg-card/80 backdrop-blur-sm",
-                  popBy(index, CARD_SHADOW)
+                  LIGHT_SURFACE_CARD,
+                  "transition-colors hover:border-primary/35"
                 )
           )}
         >
@@ -171,10 +171,10 @@ function TimelineEntry({ entry, index, isDark }) {
                 <span
                   key={t}
                   className={cn(
-                    "rounded-md px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest",
+                    "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest",
                     isDark
                       ? "bg-muted text-primary"
-                      : cn("font-medium text-foreground ring-2 shadow-sm", popBy(ti, CHIP_BG), popBy(ti, CHIP_RING))
+                      : tagChipLightClass(t, ti)
                   )}
                 >
                   {t}

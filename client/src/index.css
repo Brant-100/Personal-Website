@@ -30,6 +30,8 @@
     --popover-foreground: 222 47% 11%;
 
     --primary: 20 95% 55%;           /* electric orange */
+    /* Darker orange for primary-as-text on mesh gradient (headings / hero line) */
+    --primary-strong: 18 95% 42%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 95% 55%;        /* electric blue */
@@ -241,25 +243,13 @@
     background-color: hsl(var(--card-elevated));
   }
 
-  /*
-   * Subtle gradient border for "featured" cards in light mode.
-   * Uses the padding-box / border-box trick so the inner background
-   * stays the warm card color while the border itself is a tri-stop
-   * gradient (primary -> pop-pink -> secondary).
-   */
-  :root:not(.dark) .gradient-border-card {
-    background:
-      linear-gradient(
-        hsl(var(--card) / 0.78),
-        hsl(var(--card) / 0.78)
-      ) padding-box,
-      linear-gradient(
-        135deg,
-        hsl(var(--primary)),
-        hsl(var(--pop-pink)),
-        hsl(var(--secondary))
-      ) border-box;
-    border: 2px solid transparent;
+  /* Unified light card shell — matches LIGHT_SURFACE_CARD in popColors.js */
+  :root:not(.dark) .surface-card-standard {
+    border-radius: 1rem;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--card) / 0.75);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 8px 32px -8px hsl(var(--foreground) / 0.12);
   }
 
   :root:not(.dark) .light-glass-surface {

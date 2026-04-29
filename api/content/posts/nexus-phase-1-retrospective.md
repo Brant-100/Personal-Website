@@ -3,6 +3,8 @@ title: "Project Nexus Phase 1 Retrospective"
 date: "2026-04-22"
 tags: ["nexus", "security", "c2", "retrospective"]
 excerpt: "What I built, every design decision I made, and what I'd change. The story of building a command and control framework from scratch at 17."
+cover_image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&q=80"
+reading_time: "12 min"
 ---
 
 # Project Nexus Phase 1 Retrospective

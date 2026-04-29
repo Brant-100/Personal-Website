@@ -23,7 +23,7 @@ import logging
 import os
 import pathlib
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 import frontmatter as fm
 import httpx
@@ -43,6 +43,7 @@ from email_sender import send_inquiry_notification, send_confirmation_to_user
 logger = logging.getLogger("brantsimpson-api")
 
 from data import CREDENTIALS, EXPERIENCE, PROJECTS, SERVICES
+from data.external_posts import EXTERNAL_POSTS
 
 POSTS_DIR = pathlib.Path(__file__).parent / "content" / "posts"
 
@@ -192,6 +193,12 @@ class PostMeta(BaseModel):
     date: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
     excerpt: Optional[str] = None
+    kind: Literal["internal", "external"] = "internal"
+    url: Optional[str] = None
+    source: Optional[str] = None
+    author: Optional[str] = None
+    cover_image: Optional[str] = None
+    reading_time: Optional[str] = None
 
 
 class PostDetail(PostMeta):
@@ -335,31 +342,89 @@ def get_experience() -> List[ExperienceEntry]:
     return [ExperienceEntry(**e) for e in EXPERIENCE]
 
 
+def _meta_from_md_file(path: pathlib.Path) -> PostMeta:
+    """Frontmatter-only metadata for list endpoint (no body)."""
+    post = fm.load(str(path))
+    slug = path.stem
+    meta = post.metadata if isinstance(post.metadata, dict) else {}
+    rd = meta.get("reading_time")
+    if rd is not None and not isinstance(rd, str):
+        rd = str(rd)
+    return PostMeta(
+        slug=slug,
+        title=meta.get("title", slug),
+        date=str(meta.get("date", "")).strip() or None,
+        tags=meta.get("tags") or [],
+        excerpt=meta.get("excerpt"),
+        kind="internal",
+        url=None,
+        source=None,
+        author=None,
+        cover_image=meta.get("cover_image"),
+        reading_time=rd,
+    )
+
+
 def _load_post(path: pathlib.Path) -> PostDetail:
     """Parse a markdown file with YAML frontmatter into PostDetail."""
     post = fm.load(str(path))
     slug = path.stem
+    meta = post.metadata if isinstance(post.metadata, dict) else {}
+    rd = meta.get("reading_time")
+    if rd is not None and not isinstance(rd, str):
+        rd = str(rd)
     return PostDetail(
         slug=slug,
-        title=post.metadata.get("title", slug),
-        date=str(post.metadata.get("date", "")) or None,
-        tags=post.metadata.get("tags", []),
-        excerpt=post.metadata.get("excerpt"),
+        title=meta.get("title", slug),
+        date=str(meta.get("date", "")).strip() or None,
+        tags=meta.get("tags") or [],
+        excerpt=meta.get("excerpt"),
+        kind="internal",
+        url=None,
+        source=None,
+        author=None,
+        cover_image=meta.get("cover_image"),
+        reading_time=rd,
         content=post.content,
+    )
+
+
+def _external_row_to_meta(row: Dict[str, Any]) -> PostMeta:
+    """Normalize EXTERNAL_POSTS entry to PostMeta (slug from id)."""
+    source = row.get("source") or "other"
+    cid = row["id"]
+    return PostMeta(
+        slug=str(cid),
+        title=str(row["title"]),
+        date=str(row.get("date", "")).strip() or None,
+        tags=list(row.get("tags") or []),
+        excerpt=row.get("excerpt"),
+        kind="external",
+        url=str(row["url"]),
+        source=str(source),
+        author=row.get("author"),
+        cover_image=row.get("cover_image"),
+        reading_time=row.get("reading_time"),
     )
 
 
 @app.get("/api/posts", response_model=List[PostMeta], tags=["blog"])
 def get_posts() -> List[PostMeta]:
-    if not POSTS_DIR.exists():
-        return []
-    posts: List[PostDetail] = []
-    for md_file in POSTS_DIR.glob("*.md"):
+    posts: List[PostMeta] = []
+    if POSTS_DIR.exists():
+        for md_file in POSTS_DIR.glob("*.md"):
+            try:
+                posts.append(_meta_from_md_file(md_file))
+            except Exception as exc:
+                logger.warning("Could not parse %s: %s", md_file, exc)
+    for row in EXTERNAL_POSTS:
         try:
-            posts.append(_load_post(md_file))
+            posts.append(_external_row_to_meta(row))
         except Exception as exc:
-            logger.warning("Could not parse %s: %s", md_file, exc)
-    posts.sort(key=lambda p: p.date or "", reverse=True)
+            logger.warning("Could not normalize external post %s: %s", row.get("id"), exc)
+    # Newest date first; stable tie-break: slug ascending
+    posts.sort(key=lambda p: p.slug.lower())
+    posts.sort(key=lambda p: p.date or "0000-01-01", reverse=True)
     return posts
 
 

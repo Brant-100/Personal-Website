@@ -6,7 +6,6 @@ import {
   Lock,
   Sparkles,
   Activity,
-  Eye,
   Calendar,
   ArrowRight,
   ChevronDown,
@@ -24,7 +23,7 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy, techChipLightClassName } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD, stackChipLightClass, tagChipLightClass } from "@/lib/popColors";
 
 /** Per-project visual language, tuned for site light/dark, not generic inversion. */
 const ACCENT = {
@@ -36,8 +35,7 @@ const ACCENT = {
       "bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white shadow-md",
     cardDark:
       "border-violet-500/30 hover:border-cyan-400/55 hover:shadow-[0_0_36px_-10px_rgba(34,211,238,0.35)]",
-    cardLight:
-      "border-violet-600/90 shadow-[6px_6px_0_0_rgb(124,58,237)] hover:shadow-[4px_4px_0_0_rgb(6,182,212)]",
+    cardLight: "",
     titleDark:
       "text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-fuchsia-200 to-cyan-200",
     titleLight:
@@ -55,8 +53,7 @@ const ACCENT = {
       "bg-gradient-to-br from-amber-500 to-emerald-700 text-white shadow-md",
     cardDark:
       "border-amber-500/35 hover:border-emerald-400/50 hover:shadow-[0_0_36px_-10px_rgba(52,211,153,0.35)]",
-    cardLight:
-      "border-amber-700 shadow-[6px_6px_0_0_rgb(180,83,9)] hover:shadow-[4px_4px_0_0_rgb(5,150,105)]",
+    cardLight: "",
     titleDark:
       "text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-yellow-200 to-lime-300",
     titleLight:
@@ -141,7 +138,7 @@ const FALLBACK = [
       "T1083","T1057","T1016","T1033","T1105","T1041","T1070.004",
       "T1053.005","T1547.001","T1036","T1497","T1055",
     ],
-    visibility_note: "Source private for OPSEC; full technical walkthrough available on request.",
+    visibility_note: null,
   },
   {
     id: "network-scanner",
@@ -319,17 +316,10 @@ export function ProjectCard({ project, index, isDark }) {
   const tech = project.tech || [];
   const techPreview = tech.slice(0, 3);
   const techExtra = Math.max(0, tech.length - techPreview.length);
-  const isFeaturedNexus = project.id === "project-nexus";
 
   const cardBase = isDark
     ? "bg-card/70 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300"
-    : cn(
-        isFeaturedNexus
-          ? "gradient-border-card"
-          : "border border-border bg-card/80 backdrop-blur-sm",
-        popBy(index, CARD_SHADOW),
-        popBy(index, CARD_HOVER_SHADOW)
-      );
+    : LIGHT_SURFACE_CARD;
 
   return (
     <motion.div
@@ -344,7 +334,7 @@ export function ProjectCard({ project, index, isDark }) {
         className={cn(
           "relative flex h-fit min-h-0 flex-col overflow-hidden transition-all duration-300",
           cardBase,
-          isDark ? a.cardDark : cn(a.cardLight, (accentKey === "cyber" || accentKey === "default") && popBy(index, CARD_HOVER_SHADOW))
+          isDark ? a.cardDark : cn(a.cardLight)
         )}
       >
         {/* Theme-specific ambient mesh */}
@@ -383,7 +373,7 @@ export function ProjectCard({ project, index, isDark }) {
                   accentKey === "healthhive" &&
                     isDark &&
                     "font-bold tabular-nums tracking-tight text-lime-50 [text-shadow:0_1px_2px_rgb(0_0_0_/_0.75),0_0_16px_hsl(var(--accent)/0.55)]",
-                  !isDark && "border border-foreground/40 font-semibold tabular-nums text-foreground shadow-sm"
+                  !isDark && "border-transparent font-semibold tabular-nums"
                 )}
               >
                 {project.year || "2026"}
@@ -392,8 +382,8 @@ export function ProjectCard({ project, index, isDark }) {
               {project.last_updated && (
                 <span
                   className={cn(
-                    "inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-mono text-[10px]",
-                    isDark ? "bg-muted/60 text-muted-foreground" : "border border-foreground/25 bg-background/80 text-foreground"
+                    "inline-flex items-center gap-1 font-mono text-[10px]",
+                    isDark ? "rounded-md bg-muted/60 px-2 py-0.5 text-muted-foreground" : cn(tagChipLightClass("updated", 1), "py-0.5")
                   )}
                 >
                   <Calendar className="h-2.5 w-2.5" />
@@ -461,10 +451,10 @@ export function ProjectCard({ project, index, isDark }) {
               <span
                 key={t}
                 className={cn(
-                  "px-2 py-0.5 font-mono text-[11px] leading-tight",
+                  "font-mono text-[11px] leading-tight",
                   isDark
-                    ? "rounded-md bg-muted text-primary ring-1 ring-primary/25"
-                    : techChipLightClassName(ti)
+                    ? "rounded-md bg-muted px-2 py-0.5 text-primary ring-1 ring-primary/25"
+                    : stackChipLightClass(t, ti)
                 )}
               >
                 {t}
@@ -531,10 +521,10 @@ export function ProjectCard({ project, index, isDark }) {
                           target="_blank"
                           rel="noreferrer"
                           className={cn(
-                            "font-mono text-[11px] transition-opacity",
+                            "font-mono text-[11px] transition-opacity hover:opacity-90",
                             isDark
                               ? "rounded px-2 py-0.5 bg-accent/15 text-accent ring-1 ring-accent/30 shadow-none hover:bg-accent/30"
-                              : cn(techChipLightClassName(ti), "px-2 py-0.5 hover:opacity-90")
+                              : tagChipLightClass(t, ti)
                           )}
                         >
                           {t}
@@ -553,29 +543,15 @@ export function ProjectCard({ project, index, isDark }) {
                   </div>
                 )}
 
-                {project.visibility_note && (
-                  <div
-                    className={cn(
-                      "mb-4 flex items-start gap-2 rounded-lg p-3 text-xs leading-relaxed",
-                      isDark
-                        ? "border border-primary/20 bg-primary/5 text-primary"
-                        : "border border-foreground/20 bg-muted/60 text-muted-foreground"
-                    )}
-                  >
-                    <Eye className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-                    {project.visibility_note}
-                  </div>
-                )}
-
                 <div className="mb-4 flex flex-wrap gap-2">
                   {(project.tech || []).map((t, ti) => (
                     <span
                       key={t}
                       className={cn(
-                        "relative px-2 py-1 font-mono text-xs",
+                        "relative font-mono text-xs",
                         isDark
-                          ? "rounded-md bg-muted text-primary ring-1 ring-primary/25"
-                          : techChipLightClassName(ti)
+                          ? "rounded-md px-2 py-1 bg-muted text-primary ring-1 ring-primary/25"
+                          : stackChipLightClass(t, ti)
                       )}
                     >
                       {t}
@@ -585,10 +561,13 @@ export function ProjectCard({ project, index, isDark }) {
 
                 {project.tags && (
                   <div className="mb-4 flex flex-wrap gap-1.5">
-                    {project.tags.map((t) => (
+                    {project.tags.map((t, ti) => (
                       <span
                         key={t}
-                        className="text-[10px] uppercase tracking-widest text-muted-foreground"
+                        className={cn(
+                          "text-[10px] uppercase tracking-widest",
+                          isDark ? "text-muted-foreground" : tagChipLightClass(t, ti)
+                        )}
                       >
                         #{t}
                       </span>
@@ -614,7 +593,7 @@ export function ProjectCard({ project, index, isDark }) {
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] transition-all",
                 isDark
                   ? "border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
-                  : "border border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-soft-orange"
+                  : "border border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary"
               )}
             >
               view details <ArrowRight className="h-3 w-3" />

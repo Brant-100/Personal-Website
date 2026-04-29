@@ -81,7 +81,7 @@ function useTerminal() {
   const [lines, setLines] = useState([{ type: "output", text: 'type "help" to see available commands.' }]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState([]);
-  const [histIdx, setHistIdx] = useState(-1);
+  const [, setHistIdx] = useState(-1);
   const pendingLines = useRef([]);
   const streaming = useRef(false);
 
@@ -141,7 +141,7 @@ function useTerminal() {
     }
 
     if (cmd === "deploy") {
-      streamLines(DEPLOY_LINES.map((l, i) => l));
+      streamLines(DEPLOY_LINES.map((l) => l));
       return;
     }
 

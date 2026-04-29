@@ -4,9 +4,12 @@ import { motion } from "framer-motion";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { Credentials } from "@/components/sections/Credentials";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { ContactCard } from "@/components/sections/Contact";
+import { CONTACT_LINKS } from "@/data/contactLinks";
+import { HEADSHOT_PUBLIC_PATH, SHOW_HEADSHOT } from "@/lib/headshot";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CHIP_BG, CHIP_RING, CHIP_TEXT, popBy, CARD_SHADOW, CARD_HOVER_SHADOW } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD, stackChipLightClass } from "@/lib/popColors";
 
 const SKILLS = [
   { name: "Python",             icon: Terminal, category: "backend"  },
@@ -18,8 +21,6 @@ const SKILLS = [
   { name: "SQL / SQLite",       icon: Database, category: "backend"  },
   { name: "Cybersecurity", icon: Shield,   category: "security" },
 ];
-
-const avatarSrc = `${import.meta.env.BASE_URL}brant-avatar.svg`.replace(/\/{2,}/g, "/");
 
 export function AboutPage() {
   const { theme } = useTheme();
@@ -119,45 +120,42 @@ export function AboutPage() {
 
             </div>
 
-            {/* Right column: avatar + skills */}
+            {/* Right column: avatar (optional) + skills */}
             <div className="space-y-8 lg:sticky lg:top-28">
-              <Reveal>
-                <div className="flex justify-center lg:justify-start">
-                  <div className={cn(
-                    "relative overflow-hidden rounded-2xl",
-                    isDark
-                      ? "p-1 ring-2 ring-primary/40 bg-card/70"
-                      : cn(
-                          "border border-border bg-card/80 backdrop-blur-sm p-1",
-                          popBy(1, CARD_SHADOW)
-                        )
-                  )}>
-                    <img
-                      src={avatarSrc}
-                      alt="Brant Simpson"
-                      width={260}
-                      height={260}
-                      className="block h-[260px] w-[260px] rounded-xl object-cover"
-                      decoding="async"
-                    />
-                    {isDark && (
-                      <div className="absolute inset-0 pointer-events-none rounded-2xl bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10" />
-                    )}
+              {SHOW_HEADSHOT && (
+                <Reveal>
+                  <div className="flex justify-center lg:justify-start">
+                    <div
+                      className={cn(
+                        "relative overflow-hidden rounded-2xl",
+                        isDark
+                          ? "bg-card/70 p-1 ring-2 ring-primary/40"
+                          : cn(LIGHT_SURFACE_CARD, "p-4")
+                      )}
+                    >
+                      <img
+                        src={HEADSHOT_PUBLIC_PATH}
+                        alt="Brant Simpson"
+                        width={260}
+                        height={260}
+                        className="block h-[260px] w-[260px] rounded-xl"
+                        decoding="async"
+                      />
+                      {isDark && (
+                        <div className="absolute inset-0 pointer-events-none rounded-2xl bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10" />
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Reveal>
+                </Reveal>
+              )}
 
               <Reveal>
-                <div className={cn(
-                  "rounded-2xl p-6",
-                  isDark
-                    ? "border border-border bg-card/70 backdrop-blur"
-                    : cn(
-                        "border border-border bg-card/80 backdrop-blur-sm",
-                        popBy(0, CARD_SHADOW),
-                        popBy(0, CARD_HOVER_SHADOW)
-                      )
-                )}>
+                <div
+                  className={cn(
+                    "rounded-2xl p-6",
+                    isDark ? "border border-border bg-card/70 backdrop-blur" : LIGHT_SURFACE_CARD
+                  )}
+                >
                   <div className="mb-4">
                     <div className={cn("font-mono text-[11px] uppercase tracking-[0.25em]", isDark ? "text-primary" : "text-foreground/70")}>
                       Stack
@@ -186,20 +184,28 @@ export function AboutPage() {
                             show:   { opacity: 1, y: 0 },
                           }}
                           className={cn(
-                            "flex min-h-10 min-w-0 items-center gap-2 rounded-lg px-2.5 py-2 text-sm leading-snug",
+                            "flex min-h-10 min-w-0 items-center gap-2 text-sm leading-snug",
                             isDark
-                              ? "bg-muted/60 text-foreground/90"
-                              : cn("text-foreground ring-2 shadow-sm", popBy(i, CHIP_BG), popBy(i, CHIP_RING))
+                              ? "rounded-lg bg-muted/60 px-2.5 py-2 text-foreground/90"
+                              : ""
                           )}
                         >
-                          <Icon
-                            className={cn(
-                              "h-4 w-4 shrink-0 translate-y-px",
-                              isDark ? "text-primary" : popBy(i, CHIP_TEXT)
-                            )}
-                            aria-hidden
-                          />
-                          <span className="min-w-0 font-bold">{s.name}</span>
+                          {isDark ? (
+                            <>
+                              <Icon className="h-4 w-4 shrink-0 translate-y-px text-primary" aria-hidden />
+                              <span className="min-w-0 font-bold">{s.name}</span>
+                            </>
+                          ) : (
+                            <span
+                              className={cn(
+                                "inline-flex min-h-10 w-full min-w-0 max-w-full items-center gap-1.5",
+                                stackChipLightClass(s.name, i)
+                              )}
+                            >
+                              <Icon className="h-3.5 w-3.5 shrink-0 text-white opacity-95" aria-hidden />
+                              <span className="min-w-0 truncate font-semibold">{s.name}</span>
+                            </span>
+                          )}
                         </motion.li>
                       );
                     })}
@@ -212,9 +218,57 @@ export function AboutPage() {
           <Credentials embedded />
 
           <section
+            id="about-social"
+            aria-labelledby="about-social-heading"
+            className="mt-16 scroll-mt-24 md:mt-24"
+          >
+            <Reveal className="mb-4">
+              {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+                {isDark ? "// social" : "social ·"}
+              </span>
+            </Reveal>
+            <Reveal className="mb-8 max-w-3xl">
+              <h2
+                id="about-social-heading"
+                className="text-4xl font-extrabold tracking-tight md:text-5xl"
+              >
+                {isDark ? (
+                  <>
+                    Around the{" "}
+                    <span className="relative inline-block text-primary">
+                      web
+                      <span
+                        className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
+                        aria-hidden
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Around the{" "}
+                    <span className="relative inline-block text-primary">
+                      web
+                      <span className="absolute inset-x-0 -bottom-1 h-2 bg-accent/70 -z-10" />
+                    </span>
+                  </>
+                )}
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
+                Email and public profiles—tap a card to open the link.
+              </p>
+            </Reveal>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {CONTACT_LINKS.map((link, index) => (
+                <ContactCard key={link.id} link={link} index={index} isDark={isDark} />
+              ))}
+            </div>
+          </section>
+
+          <section
             id="about-contact"
             aria-labelledby="about-contact-heading"
-            className="mt-16 scroll-mt-24 pt-4 md:mt-24 md:pt-8"
+            className="mt-14 scroll-mt-24 pt-4 md:mt-20 md:pt-8"
           >
             <Reveal className="mb-4">
               {!isDark && <span className="section-accent-bar bg-pop-pink" aria-hidden />}

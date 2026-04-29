@@ -134,7 +134,6 @@ export function CredlyBadgeEmbed({
         className="block max-w-full border-0 bg-transparent"
         style={{ width, height }}
         scrolling="no"
-        allowTransparency
         frameBorder={0}
       />
     </div>

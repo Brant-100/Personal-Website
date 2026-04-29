@@ -5,15 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 /**
  * /now: a single paragraph updated monthly.
  * Inspired by nownownow.com. No database needed; just edit this file.
- * Last updated: April 2026
+ * Keep `lastUpdated` in sync whenever the sections below change.
  */
 export function Now() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+
+  // REMINDER: Update this date when the content below changes.
+  // A stale /now page is worse than no /now page.
+  const lastUpdated = "April 2026";
 
   return (
     <motion.div
@@ -48,7 +53,7 @@ export function Now() {
           </Reveal>
           <Reveal>
             <p className="mb-12 font-mono text-xs text-muted-foreground">
-              Last updated: April 2026 · Ohio · EST
+              Last updated: {lastUpdated} · Ohio · EST
             </p>
           </Reveal>
 
@@ -56,7 +61,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Building">
                 <p className="text-muted-foreground leading-relaxed">
-                  Deep in <strong className={isDark ? "text-foreground" : "text-foreground"}>Project Nexus Phase 2</strong>, adding a web based operator dashboard and process injection support. The core beacon and task handler infrastructure from Phase 1 is stable; Phase 2 is about operator UX and extending the technique coverage.
+                  Deep in Project Nexus Phase 2, adding a web based operator dashboard and process injection support. The core beacon and task handler infrastructure from Phase 1 is stable; Phase 2 is about operator UX and extending the technique coverage.
                 </p>
               </NowSection>
             </Reveal>
@@ -64,7 +69,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Studying">
                 <p className="text-muted-foreground leading-relaxed">
-                  Security+ is done (SY0-701). Currently in the EDPT preparation pipeline for the 1B4X1 track. Side reading: <em>The Web Application Hacker&apos;s Handbook</em> and malware analysis fundamentals.
+                  Currently in the EDPT preparation pipeline (the Air Force cyber aptitude test) for the 1B4X1 Cyber Warfare Operations track.
                 </p>
               </NowSection>
             </Reveal>
@@ -72,7 +77,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Available for">
                 <p className="text-muted-foreground leading-relaxed">
-                  Contract web and software development work while pre enlistment. React + FastAPI + Tailwind. If you&apos;re building something and need a developer who also thinks about the security layer, let&apos;s talk.
+                  Web, software development, cybersecurity work and more. If you&apos;re building something and need a developer who also thinks about the bigger picture, let&apos;s talk.
                 </p>
               </NowSection>
             </Reveal>
@@ -80,7 +85,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Writing">
                 <p className="text-muted-foreground leading-relaxed">
-                  Working on the Nexus Phase 1 retrospective, the &ldquo;why I built a C2 from scratch instead of using Cobalt Strike&rdquo; post. It&apos;s the most important piece of writing I can publish right now because it explains the deliberate constraint that makes the project meaningful.
+                  I&apos;m actually iterating on the blog page—working toward something more modular and scalable so posts, routing, and data sources stay easy to extend as content grows.
                 </p>
               </NowSection>
             </Reveal>
@@ -109,13 +114,19 @@ export function Now() {
   );
 }
 
+/** Dark /now sections: bordered panels that sit cleanly on the grid backdrop (not the light pop-card wash). */
+const DARK_SURFACE_CARD =
+  "rounded-2xl border border-border bg-card/60 backdrop-blur-sm shadow-presence-rest ring-1 ring-inset ring-primary/10";
+
 function NowSection({ isDark, title, children }) {
   return (
-    <div>
-      <h2 className={cn(
-        "mb-3 font-mono text-xs uppercase tracking-[0.3em]",
-        isDark ? "text-primary" : "text-foreground/60"
-      )}>
+    <div
+      className={cn(
+        "rounded-2xl p-6 md:p-8",
+        isDark ? DARK_SURFACE_CARD : LIGHT_SURFACE_CARD,
+      )}
+    >
+      <h2 className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
         {isDark ? `// ${title.toLowerCase()}` : `${title} ·`}
       </h2>
       {children}

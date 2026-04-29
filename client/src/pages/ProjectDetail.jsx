@@ -6,7 +6,6 @@ import {
   Github,
   ExternalLink,
   Lock,
-  Eye,
   Calendar,
   ChevronRight,
   Lightbulb,
@@ -20,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CARD_SHADOW, CARD_HOVER_SHADOW, CHIP_BG, CHIP_RING, popBy, techChipLightClassName } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD, stackChipLightClass, tagChipLightClass, FAQ_STRIPE, popBy } from "@/lib/popColors";
 
 /** Deterministic hue index for rotating pop-colors (badges / tag pills). */
 function popHueKey(str) {
@@ -170,7 +169,7 @@ export function ProjectDetail() {
             <span
               className={cn(
                 "max-w-[min(100%,14rem)] truncate sm:max-w-none",
-                isDark ? "text-primary" : "font-bold text-primary"
+                isDark ? "text-primary" : "font-bold text-[hsl(var(--primary-strong))]"
               )}
             >
               {project.title}
@@ -187,8 +186,8 @@ export function ProjectDetail() {
                     isDark
                       ? "border border-primary/30 bg-primary/10 text-primary"
                       : cn(
-                          "border border-border bg-card/80 backdrop-blur-sm font-semibold text-foreground",
-                          popBy(popHueKey(project.id ?? "x"), CARD_SHADOW)
+                          LIGHT_SURFACE_CARD,
+                          "!rounded-full font-semibold backdrop-blur-sm"
                         )
                   )}>
                     <Lock className="h-3 w-3" /> private repo
@@ -202,7 +201,10 @@ export function ProjectDetail() {
                       "inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs transition-colors",
                       isDark
                         ? "border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                        : "border border-border bg-card/80 backdrop-blur-sm font-semibold text-foreground transition-colors hover:border-primary hover:bg-primary/[0.12] hover:text-primary hover:shadow-soft-orange"
+                        : cn(
+                            LIGHT_SURFACE_CARD,
+                            "!rounded-full font-semibold backdrop-blur-sm transition-colors hover:border-primary hover:bg-primary/[0.08] hover:text-primary"
+                          )
                     )}
                   >
                     <Github className="h-3 w-3" /> view source
@@ -217,38 +219,29 @@ export function ProjectDetail() {
                       "inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs transition-colors",
                       isDark
                         ? "border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                        : "border border-border bg-card/80 backdrop-blur-sm font-semibold text-foreground transition-colors hover:border-secondary hover:bg-secondary/[0.12] hover:text-secondary hover:shadow-soft-blue"
+                        : cn(
+                            LIGHT_SURFACE_CARD,
+                            "!rounded-full font-semibold backdrop-blur-sm transition-colors hover:border-secondary hover:bg-secondary/[0.08] hover:text-secondary"
+                          )
                     )}
                   >
                     <ExternalLink className="h-3 w-3" /> live site
                   </a>
                 )}
-                {project.year && (
-                  <Badge
-                    variant={isDark ? "default" : "accent"}
-                    className={
-                      !isDark
-                        ? cn(
-                            "ring-2 ring-foreground/20",
-                            popBy(popHueKey(String(project.year)), CARD_SHADOW)
-                          )
-                        : undefined
-                    }
-                  >
-                    {project.year}
-                  </Badge>
-                )}
+                {project.year &&
+                  (isDark ? (
+                    <Badge variant="default">{project.year}</Badge>
+                  ) : (
+                    <span className={tagChipLightClass(String(project.year), popHueKey(project.id ?? "yr"))}>
+                      {project.year}
+                    </span>
+                  ))}
                 {project.last_updated && (
                   <span className={cn(
                     "inline-flex items-center gap-1 px-2.5 py-1 font-mono text-[10px] font-semibold",
                     isDark
                       ? "rounded-md bg-muted/60 text-muted-foreground"
-                      : cn(
-                          "rounded-full ring-2 shadow-sm transition-shadow hover:brightness-[1.02]",
-                          popBy(popHueKey(project.id ?? project.title) + 1, CHIP_BG),
-                          popBy(popHueKey(project.id ?? project.title) + 1, CHIP_RING),
-                          "text-foreground"
-                        )
+                      : cn(tagChipLightClass("updated", popHueKey(project.id ?? "u")), "gap-1 py-0.5 font-semibold")
                   )}>
                     <Calendar className="h-2.5 w-2.5 shrink-0" />
                     Updated {project.last_updated}
@@ -270,7 +263,7 @@ export function ProjectDetail() {
               <Reveal>
                 <p className={cn(
                   "mt-4 text-xl leading-relaxed",
-                  isDark ? "text-primary" : "font-semibold text-primary shadow-[0_1px_0_hsl(var(--foreground)/0.08)]"
+                  isDark ? "text-primary" : "font-bold text-[hsl(var(--primary-strong))] shadow-[0_1px_0_hsl(var(--foreground)/0.08)]"
                 )}
                 >
                   {!isDark && (
@@ -291,18 +284,6 @@ export function ProjectDetail() {
                 </p>
               </Reveal>
 
-              {/* Visibility note */}
-              {project.visibility_note && (
-                <Reveal className={cn(
-                  "mt-6 flex items-start gap-2 rounded-lg p-4 text-sm leading-relaxed",
-                  isDark
-                    ? "border border-primary/20 bg-primary/5 text-primary"
-                    : "border border-border bg-muted/50 backdrop-blur-sm text-muted-foreground"
-                )}>
-                  <Eye className="mt-0.5 h-4 w-4 shrink-0" />
-                  {project.visibility_note}
-                </Reveal>
-              )}
             </div>
 
             {/* Tech stack sidebar */}
@@ -312,13 +293,11 @@ export function ProjectDetail() {
                 isDark
                   ? "border border-border bg-card/85 hover:border-primary/35 hover:shadow-presence-rest"
                   : cn(
-                      "border border-border bg-card/80 backdrop-blur-sm transition-shadow duration-300",
-                      popBy(popHueKey(project.id ?? "x"), CARD_SHADOW),
-                      popBy(popHueKey(project.id ?? "x"), CARD_HOVER_SHADOW),
-                      "[filter:saturate(1.06)] hover:[filter:saturate(1.12)]"
+                      LIGHT_SURFACE_CARD,
+                      "backdrop-blur-sm transition-colors hover:border-primary/35"
                     )
               )}>
-                <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
+                <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--primary-strong))]">
                   Stack
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -326,8 +305,8 @@ export function ProjectDetail() {
                     <span
                       key={t}
                       className={cn(
-                        "px-2 py-1 font-mono text-xs",
-                        isDark ? "rounded-md bg-muted text-primary" : techChipLightClassName(ti)
+                        "font-mono text-xs",
+                        isDark ? "rounded-md bg-muted px-2 py-1 text-primary" : stackChipLightClass(t, ti)
                       )}
                     >
                       {t}
@@ -336,7 +315,7 @@ export function ProjectDetail() {
                 </div>
                 {(project.tags || []).length > 0 && (
                   <>
-                    <div className="mt-4 mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
+                    <div className="mt-4 mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--primary-strong))]">
                       Tags
                     </div>
                     <div className="flex flex-wrap gap-1.5">
@@ -344,14 +323,10 @@ export function ProjectDetail() {
                         <span
                           key={t}
                           className={cn(
-                            "inline-flex items-center rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest",
+                            "inline-flex items-center text-[10px] font-bold uppercase tracking-widest",
                             isDark
-                              ? "border border-accent/35 bg-accent/10 text-accent ring-1 ring-accent/35"
-                              : cn(
-                                  "rounded-full px-2.5 py-1 font-semibold uppercase tracking-widest shadow-sm ring-2 text-[10px]",
-                                  popBy(ti, CHIP_BG),
-                                  popBy(ti, CHIP_RING)
-                                )
+                              ? "rounded-full border border-accent/35 bg-accent/10 px-2.5 py-1 text-accent ring-1 ring-accent/35"
+                              : tagChipLightClass(t, ti)
                           )}
                         >
                           #{t}
@@ -373,7 +348,7 @@ export function ProjectDetail() {
           {/* Problem */}
           {project.problem && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="The problem" icon={<AlertTriangle className="h-4 w-4" />}>
+              <SectionBlock isDark={isDark} lightAnchorSurface title="The problem" icon={<AlertTriangle className="h-4 w-4" />}>
                 <p className="text-muted-foreground leading-relaxed">{project.problem}</p>
               </SectionBlock>
             </Reveal>
@@ -382,7 +357,7 @@ export function ProjectDetail() {
           {/* Constraints */}
           {(project.constraints || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="Constraints">
+              <SectionBlock isDark={isDark} lightAnchorSurface title="Constraints">
                 <ul className="space-y-2">
                   {project.constraints.map((c) => (
                     <li key={c.slice(0, 40)} className={cn(
@@ -398,16 +373,18 @@ export function ProjectDetail() {
           {/* Features */}
           {(project.features || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="What it does">
-                <ul className="grid gap-2 sm:grid-cols-2">
-                  {project.features.map((f) => (
-                    <li key={f.slice(0, 48)} className={cn(
-                      "rounded-lg p-3 text-sm",
-                      isDark
-                        ? "border border-border bg-card/60 text-foreground/90"
-                        : "border border-border bg-card/75 backdrop-blur-sm text-foreground/90"
-                    )}>
-                      {f}
+              <SectionBlock isDark={isDark} lightAnchorSurface title="What it does">
+                <ul className="space-y-3">
+                  {project.features.map((f, i) => (
+                    <li key={f.slice(0, 48)} className="flex gap-3 text-sm leading-relaxed">
+                      <span
+                        aria-hidden
+                        className={cn(
+                          "mt-2 h-2 w-2 shrink-0 rounded-full",
+                          isDark ? "bg-primary" : popBy(i, FAQ_STRIPE)
+                        )}
+                      />
+                      <span className={cn("text-muted-foreground", isDark && "text-foreground/90")}>{f}</span>
                     </li>
                   ))}
                 </ul>
@@ -427,7 +404,7 @@ export function ProjectDetail() {
                     onKeyDown={(e) => e.key === "Enter" && setLightboxIdx(archLightboxIdx)}
                     className={cn(
                       "inline-block max-w-full overflow-hidden rounded-2xl",
-                      isDark ? "border border-border" : "border border-border shadow-soft"
+                      isDark ? "border border-border" : cn(LIGHT_SURFACE_CARD, "backdrop-blur-sm")
                     )}
                     aria-label="Expand architecture diagram"
                   >
@@ -468,7 +445,7 @@ export function ProjectDetail() {
                         aria-label={`Expand screenshot: ${s.caption || s.url}`}
                         className={cn(
                           "overflow-hidden rounded-lg leading-none cursor-pointer",
-                          isDark ? "border border-border/60" : "border border-foreground/20 shadow-sm"
+                          isDark ? "border border-border/60" : "border border-border shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]"
                         )}
                       >
                         <img
@@ -503,7 +480,11 @@ export function ProjectDetail() {
           {/* MITRE ATT&CK */}
           {(project.mitre_techniques || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} title={`MITRE ATT&CK: ${project.mitre_techniques.length} techniques mapped`}>
+              <SectionBlock
+                isDark={isDark}
+                lightAnchorSurface
+                title={`MITRE ATT&CK: ${project.mitre_techniques.length} techniques mapped`}
+              >
                 <div className="flex flex-wrap gap-2">
                   {project.mitre_techniques.map((t, ti) => (
                     <a
@@ -515,7 +496,7 @@ export function ProjectDetail() {
                         "font-mono text-xs transition-opacity",
                         isDark
                           ? "rounded-lg border border-accent/30 bg-accent/10 px-3 py-1.5 text-accent ring-transparent hover:bg-accent/20"
-                          : cn(techChipLightClassName(ti), "px-3 py-1.5 hover:opacity-90")
+                          : cn(tagChipLightClass(t, ti), "hover:opacity-90")
                       )}
                     >
                       {t}
@@ -537,19 +518,14 @@ export function ProjectDetail() {
             <Reveal>
               <SectionBlock isDark={isDark} title="Key technical decisions">
                 <div className="space-y-6">
-                  {project.technical_decisions.map((d, di) => (
+                  {project.technical_decisions.map((d) => (
                     <div
                       key={d.decision.slice(0, 40)}
                       className={cn(
                         "rounded-2xl p-5 transition-all duration-300",
                         isDark
                           ? "border border-border bg-card/70"
-                          : cn(
-                              "border border-border backdrop-blur-sm transition-all duration-300",
-                              di % 2 === 1 ? "bg-card/70" : "bg-card/80",
-                              popBy(di, CARD_SHADOW),
-                              popBy(di, CARD_HOVER_SHADOW)
-                            )
+                          : cn(LIGHT_SURFACE_CARD, "backdrop-blur-sm")
                       )}
                     >
                       <div className={cn("mb-1 font-semibold", isDark && "text-neon")}>{d.decision}</div>
@@ -582,7 +558,7 @@ export function ProjectDetail() {
                       "rounded-lg p-3 text-sm leading-relaxed",
                       isDark
                         ? "border border-secondary/20 bg-secondary/5 text-foreground/90"
-                        : "border border-border bg-card/70 backdrop-blur-sm text-foreground/90"
+                        : cn(LIGHT_SURFACE_CARD, "!rounded-xl backdrop-blur-sm text-foreground/90")
                     )}>
                       {l}
                     </li>
@@ -688,25 +664,45 @@ export function ProjectDetail() {
   );
 }
 
-function SectionBlock({ isDark, title, icon, children }) {
+function SectionBlock({ isDark, title, icon, children, lightAnchorSurface }) {
+  const heading = (
+    <h2
+      className={cn(
+        "mb-6 flex items-center gap-2 text-2xl font-extrabold tracking-tight",
+        isDark && "text-neon"
+      )}
+    >
+      {icon && (
+        <span
+          className={cn(
+            "flex h-8 w-8 items-center justify-center rounded-lg",
+            isDark
+              ? "bg-primary/10 text-primary"
+              : cn(
+                  "border border-border bg-muted/60",
+                  lightAnchorSurface ? "text-primary" : "text-[hsl(var(--primary-strong))]"
+                )
+          )}
+        >
+          {icon}
+        </span>
+      )}
+      {title}
+    </h2>
+  );
+
+  if (!isDark && lightAnchorSurface) {
+    return (
+      <div className={cn(LIGHT_SURFACE_CARD, "p-6 backdrop-blur-sm")}>
+        {heading}
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h2
-        className={cn(
-          "mb-6 flex items-center gap-2 text-2xl font-extrabold tracking-tight",
-          isDark && "text-neon"
-        )}
-      >
-        {icon && (
-          <span className={cn(
-            "flex h-8 w-8 items-center justify-center rounded-lg",
-            isDark ? "bg-primary/10 text-primary" : "bg-foreground text-background"
-          )}>
-            {icon}
-          </span>
-        )}
-        {title}
-      </h2>
+      {heading}
       {children}
     </div>
   );

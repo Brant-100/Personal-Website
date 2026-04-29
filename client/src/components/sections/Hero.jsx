@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Mail, Terminal, Shield, Code2, Sparkles, Download, Zap, ShieldCheck, Flag, BookOpen } from "lucide-react";
+import { ArrowRight, Mail, Terminal, Code2, Sparkles, Download, Zap, ShieldCheck, Flag, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
 import { AnimatedHeadline, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { cn } from "@/lib/utils";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 const ROLES = [
   { label: "Software Development", icon: Code2 },
@@ -103,7 +104,7 @@ export function Hero() {
               "inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs",
               isDark
                 ? "border border-accent/30 bg-accent/10 text-accent"
-                : "border border-border bg-card/80 backdrop-blur-sm text-foreground shadow-soft"
+                : "border border-border bg-card/75 text-foreground shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)] backdrop-blur-sm"
             )}>
               <Zap className={cn("h-3 w-3", isDark ? "text-accent" : "text-primary")} />
               <span>now building:</span>
@@ -263,7 +264,7 @@ function PopArtCard() {
       <motion.div
         whileHover={{ rotate: -2, y: -4 }}
         transition={spring.snap}
-        className="relative rounded-3xl gradient-border-card p-8 shadow-soft"
+        className={cn("relative p-8", LIGHT_SURFACE_CARD)}
       >
         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-accent/90 px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent-foreground shadow-sm">
           <Sparkles className="h-3 w-3" /> now building

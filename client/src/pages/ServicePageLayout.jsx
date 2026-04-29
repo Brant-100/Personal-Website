@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { tagChipLightClass } from "@/lib/popColors";
 
 export function ServicePageLayout({
   eyebrow,
@@ -77,11 +78,17 @@ export function ServicePageLayout({
 
           {tags.length > 0 && (
             <div className="mt-6 flex flex-wrap gap-2">
-              {tags.map((t) => (
-                <Badge key={t} variant={isDark ? "default" : "outline"}>
-                  {t}
-                </Badge>
-              ))}
+              {tags.map((t, ti) =>
+                isDark ? (
+                  <Badge key={t} variant="default">
+                    {t}
+                  </Badge>
+                ) : (
+                  <span key={t} className={tagChipLightClass(t, ti)}>
+                    {t}
+                  </span>
+                )
+              )}
             </div>
           )}
 

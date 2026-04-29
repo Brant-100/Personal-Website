@@ -6,7 +6,7 @@ Contact: brantsimpson.com/contact
 /* TECHNOLOGY COLOPHON */
 Frontend: React 18, Vite 5, Tailwind CSS, Framer Motion, shadcn/ui
 Backend: FastAPI (Python), SQLite
-Hosting: Vercel (frontend), Railway (API)
+Hosting: Static assets at edge · Railway (API)
 Fonts: Inter, JetBrains Mono, Space Grotesk via Google Fonts
 Icons: Lucide React
 

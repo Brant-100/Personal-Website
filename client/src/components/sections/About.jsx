@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Section, Reveal } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { HEADSHOT_PUBLIC_PATH, SHOW_HEADSHOT } from "@/lib/headshot";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 export function About() {
   const { theme } = useTheme();
@@ -17,7 +19,12 @@ export function About() {
         </span>
       </Reveal>
 
-      <div className="grid gap-12 lg:grid-cols-[1fr_320px] items-center">
+      <div
+        className={cn(
+          "grid gap-12 items-center",
+          SHOW_HEADSHOT && "lg:grid-cols-[1fr_320px]"
+        )}
+      >
         {/* Left: short personal bio */}
         <div>
           <Reveal className="mb-8">
@@ -74,65 +81,71 @@ export function About() {
           </Reveal>
         </div>
 
-        {/* Right: avatar */}
-        <Reveal>
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative">
+        {SHOW_HEADSHOT && (
+          <Reveal>
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative">
 
-              {/* Decorative background blob */}
-              <div className={cn(
-                "absolute -inset-4 rounded-3xl blur-2xl opacity-40",
-                isDark ? "bg-primary/30" : "bg-primary/20"
-              )} />
+                {/* Decorative background blob */}
+                <div className={cn(
+                  "absolute -inset-4 rounded-3xl blur-2xl opacity-40",
+                  isDark ? "bg-primary/30" : "bg-primary/20"
+                )} />
 
-              {/* Corner ticks */}
-              <div className={cn("absolute -left-2 -top-2 h-5 w-5 border-l-2 border-t-2", isDark ? "border-primary" : "border-foreground")} />
-              <div className={cn("absolute -right-2 -bottom-2 h-5 w-5 border-r-2 border-b-2", isDark ? "border-primary" : "border-foreground")} />
-
-              {/* Image frame */}
-              <div className={cn(
-                "relative overflow-hidden rounded-2xl",
-                isDark
-                  ? "ring-2 ring-primary/40 bg-card/70 shadow-presence-rest transition-shadow duration-300"
-                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
-              )}>
-                <img
-                  src="/brant-avatar.svg"
-                  alt="Brant Simpson"
-                  width="260"
-                  height="260"
-                  className="rounded-2xl block"
-                />
                 {isDark && (
-                  <div className="absolute inset-0 pointer-events-none rounded-2xl bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10" />
+                  <>
+                    <div className="absolute -left-2 -top-2 h-5 w-5 border-l-2 border-t-2 border-primary" />
+                    <div className="absolute -right-2 -bottom-2 h-5 w-5 border-r-2 border-b-2 border-primary" />
+                  </>
                 )}
-              </div>
 
-              {/* Floating badge — school */}
-              <div className={cn(
-                "absolute -left-6 bottom-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium shadow-lg backdrop-blur-sm",
-                isDark
-                  ? "bg-card/90 ring-1 ring-border text-foreground"
-                  : "bg-card border border-border text-foreground"
-              )}>
-                <GraduationCap className="h-3.5 w-3.5 text-primary" />
-                MCCTC · &apos;26
-              </div>
+                {/* Image frame */}
+                <div
+                  className={cn(
+                    "relative overflow-hidden rounded-2xl",
+                    isDark
+                      ? "ring-2 ring-primary/40 bg-card/70 shadow-presence-rest transition-shadow duration-300"
+                      : cn(LIGHT_SURFACE_CARD, "p-4")
+                  )}
+                >
+                  <img
+                    src={HEADSHOT_PUBLIC_PATH}
+                    alt="Brant Simpson"
+                    width="260"
+                    height="260"
+                    className="block rounded-xl"
+                  />
+                  {isDark && (
+                    <div className="absolute inset-0 pointer-events-none rounded-2xl bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10" />
+                  )}
+                </div>
 
-              {/* Floating badge — role */}
-              <div className={cn(
-                "absolute -right-6 top-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium shadow-lg backdrop-blur-sm",
-                isDark
-                  ? "bg-card/90 ring-1 ring-border text-foreground"
-                  : "bg-card border border-border text-foreground"
-              )}>
-                <Code2 className="h-3.5 w-3.5 text-primary" />
-                Software Eng.
-              </div>
+                {/* Floating badge — school */}
+                <div className={cn(
+                  "absolute -left-6 bottom-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium backdrop-blur-sm",
+                  isDark
+                    ? "bg-card/90 ring-1 ring-border text-foreground shadow-lg"
+                    : "border border-border bg-card/75 text-foreground shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]"
+                )}>
+                  <GraduationCap className="h-3.5 w-3.5 text-primary" />
+                  MCCTC · &apos;26
+                </div>
 
+                {/* Floating badge — role */}
+                <div className={cn(
+                  "absolute -right-6 top-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium backdrop-blur-sm",
+                  isDark
+                    ? "bg-card/90 ring-1 ring-border text-foreground shadow-lg"
+                    : "border border-border bg-card/75 text-foreground shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]"
+                )}>
+                  <Code2 className="h-3.5 w-3.5 text-primary" />
+                  Software Eng.
+                </div>
+
+              </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        )}
       </div>
     </Section>
   );

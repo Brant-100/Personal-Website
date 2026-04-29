@@ -5,7 +5,7 @@ import { Code2, Palette, Cpu, ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 const SERVICES = [
   {
@@ -127,9 +127,8 @@ export function ServicesPage() {
                     isDark
                       ? "border-border bg-card/60 backdrop-blur hover:border-primary/40 hover:bg-card/80"
                       : cn(
-                          "border border-border bg-card/80 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5",
-                          popBy(i, CARD_SHADOW),
-                          popBy(i, CARD_HOVER_SHADOW)
+                          LIGHT_SURFACE_CARD,
+                          "transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/35"
                         )
                   )}
                 >

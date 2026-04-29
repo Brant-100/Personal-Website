@@ -69,17 +69,59 @@ export function popBy(i, arr) {
   return arr[idx];
 }
 
+/** Unified light-mode card shell (surface treatment only). Use on light branches (`!isDark`). */
+export const LIGHT_SURFACE_CARD =
+  "rounded-2xl border border-border bg-card/75 backdrop-blur-sm shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]";
+
+/** Pop hue indices into CHIP_LIGHT_TECH_STACK / CHIP_LIGHT_TAG_OUTLINE (length 6). */
+export function popHueIndexFromLabel(label, fallbackIndex = 0) {
+  const s = String(label || "").toLowerCase();
+  if (/python|fastapi|django|pytest|socket|sqlite|wal|jwt|aes|bash|\bcli\b|c\+\+|\bc#\b/.test(s))
+    return 1;
+  if (/react|next|tailwind|vite|framer|vue|svelte|webpack/.test(s)) return 0;
+  if (/docker|kubernetes|prisma|postgres|redis|nginx|\bsql\b|mongodb/.test(s)) return 2;
+  if (/typescript|\bts\b|node\.?js|eslint|pnpm|yarn/.test(s)) return 5;
+  if (/security|cyber|offensive|mitre|\bred\b|malware|networking|\bnmap\b/.test(s)) return 4;
+  if (/html|css|javascript|jquery|\bui\b|ux|design|figma/.test(s)) return 0;
+  return ((fallbackIndex % 6) + 6) % 6;
+}
+
 /**
- * Light-theme project/stack pills: saturated fill + white label.
+ * STACK chips — saturated filled pills (light theme).
+ * Full literal strings for Tailwind JIT.
  */
-export const CHIP_LIGHT_TECH_PILL = [
-  "rounded-full border-0 bg-pop-pink text-white font-semibold shadow-none",
-  "rounded-full border-0 bg-pop-cyan text-white font-semibold shadow-none",
-  "rounded-full border-0 bg-pop-purple text-white font-semibold shadow-none",
-  "rounded-full border-0 bg-pop-lime text-white font-semibold shadow-none",
-  "rounded-full border-0 bg-primary text-primary-foreground font-semibold shadow-none",
+export const CHIP_LIGHT_TECH_STACK = [
+  "inline-flex items-center rounded-full border-0 bg-pop-pink px-3 py-1 font-mono text-xs font-semibold text-white shadow-none",
+  "inline-flex items-center rounded-full border-0 bg-pop-cyan px-3 py-1 font-mono text-xs font-semibold text-white shadow-none",
+  "inline-flex items-center rounded-full border-0 bg-pop-purple px-3 py-1 font-mono text-xs font-semibold text-white shadow-none",
+  "inline-flex items-center rounded-full border-0 bg-pop-lime px-3 py-1 font-mono text-xs font-semibold text-white shadow-none",
+  "inline-flex items-center rounded-full border-0 bg-primary px-3 py-1 font-mono text-xs font-semibold text-primary-foreground shadow-none",
+  "inline-flex items-center rounded-full border-0 bg-secondary px-3 py-1 font-mono text-xs font-semibold text-secondary-foreground shadow-none",
 ];
 
+/**
+ * TAG chips — outlined rings (light theme).
+ */
+export const CHIP_LIGHT_TAG_OUTLINE = [
+  "inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-xs text-pop-pink ring-2 ring-pop-pink",
+  "inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-xs text-pop-cyan ring-2 ring-pop-cyan",
+  "inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-xs text-pop-purple ring-2 ring-pop-purple",
+  "inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-xs text-pop-lime ring-2 ring-pop-lime",
+  "inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-xs text-primary ring-2 ring-primary",
+  "inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-xs text-secondary ring-2 ring-secondary",
+];
+
+export function stackChipLightClass(label, ti = 0) {
+  const idx = popHueIndexFromLabel(label, ti);
+  return popBy(idx, CHIP_LIGHT_TECH_STACK) || "";
+}
+
+export function tagChipLightClass(label, ti = 0) {
+  const idx = popHueIndexFromLabel(label, ti);
+  return popBy(idx, CHIP_LIGHT_TAG_OUTLINE) || "";
+}
+
+/** @deprecated Prefer stackChipLightClass(label, ti) */
 export function techChipLightClassName(ti) {
-  return popBy(ti, CHIP_LIGHT_TECH_PILL) || "";
+  return stackChipLightClass("", ti);
 }

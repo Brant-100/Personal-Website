@@ -53,7 +53,7 @@ export const FALLBACK = [
       "T1083", "T1057", "T1016", "T1033", "T1105", "T1041", "T1070.004",
       "T1053.005", "T1547.001", "T1036", "T1497", "T1055",
     ],
-    visibility_note: "Source private for OPSEC; full technical walkthrough available on request.",
+    visibility_note: null,
     technical_decisions: [
       {
         decision: "AES-GCM for implant comms instead of TLS",

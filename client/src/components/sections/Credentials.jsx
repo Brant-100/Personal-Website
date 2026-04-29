@@ -5,7 +5,7 @@ import { Section, Reveal, spring, staggerContainer } from "@/components/motion/M
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 import { CREDENTIAL_ICON_MAP } from "@/lib/credentialIcons";
 import { FALLBACK as CREDENTIAL_FALLBACK } from "@/lib/credentialFallback";
 
@@ -14,7 +14,7 @@ const MotionLink = motion(Link);
 const GROUP_ORDER = ["comptia", "it-specialist", "process", "literacy"];
 const GROUP_LABELS = {
   comptia: "CompTIA",
-  "it-specialist": "Certiport / Pearson VUE (IT Specialist Series)",
+  "it-specialist": "IT Specialist Series",
   process: "Process Improvement & Management",
   literacy: "Digital Literacy",
 };
@@ -78,19 +78,39 @@ export function Credentials({ embedded = false }) {
           return (
             <div key={section.id}>
               <Reveal className={cn("mb-6", sectionIdx === 0 && "mt-0")}>
-                <h3 className="mb-4 font-mono text-sm font-semibold uppercase tracking-[0.22em] text-primary">
+                <h3
+                  className={cn(
+                    "font-mono text-sm font-semibold uppercase tracking-[0.22em] text-primary",
+                    section.id === "it-specialist" ? "mb-1" : "mb-4"
+                  )}
+                >
                   {section.label}
                 </h3>
+                {section.id === "it-specialist" && (
+                  <p className="text-sm text-muted-foreground">
+                    Certiport / Pearson VUE — {section.items.length} credential
+                    {section.items.length === 1 ? "" : "s"}
+                  </p>
+                )}
               </Reveal>
               <motion.div
                 variants={staggerContainer(0.06)}
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.08 }}
-                className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+                className={cn(
+                  "grid gap-4 sm:grid-cols-2",
+                  section.id === "it-specialist" ? "lg:grid-cols-4" : "lg:grid-cols-3"
+                )}
               >
                 {section.items.map((cred, i) => (
-                  <CredentialTile key={cred.id || cred.name} cred={cred} colorIndex={tileOffset + i} isDark={isDark} />
+                  <CredentialTile
+                    key={cred.id || cred.name}
+                    cred={cred}
+                    colorIndex={tileOffset + i}
+                    isDark={isDark}
+                    groupId={section.id}
+                  />
                 ))}
               </motion.div>
             </div>
@@ -101,7 +121,7 @@ export function Credentials({ embedded = false }) {
   );
 }
 
-function CredentialTile({ cred, colorIndex, isDark }) {
+function CredentialTile({ cred, colorIndex, isDark, groupId }) {
   const Icon = CREDENTIAL_ICON_MAP[cred.category] || CREDENTIAL_ICON_MAP.default;
   const to = `/credentials/${cred.id}`;
 
@@ -123,10 +143,20 @@ function CredentialTile({ cred, colorIndex, isDark }) {
           <Icon className="h-6 w-6" />
         </div>
         <div className="min-w-0">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-            {cred.issuer || "Credential"}
+          {groupId !== "it-specialist" && (
+            <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              {cred.issuer || "Credential"}
+            </div>
+          )}
+          <div
+            className={cn(
+              "text-base font-semibold leading-snug",
+              isDark && "text-neon",
+              groupId !== "it-specialist" && "mt-1"
+            )}
+          >
+            {cred.name}
           </div>
-          <div className={cn("mt-1 text-base font-semibold leading-snug", isDark && "text-neon")}>{cred.name}</div>
           {cred.subtitle && (
             <div className="mt-2 text-xs leading-relaxed text-muted-foreground">{cred.subtitle}</div>
           )}
@@ -137,27 +167,18 @@ function CredentialTile({ cred, colorIndex, isDark }) {
       <div
         className={cn(
           "absolute -right-6 -bottom-6 h-20 w-20 rounded-full opacity-20",
-          isDark
-            ? "bg-primary"
-            : colorIndex % 3 === 0
-              ? "bg-primary"
-              : colorIndex % 3 === 1
-                ? "bg-secondary"
-                : "bg-accent"
+          isDark ? "bg-primary" : "hidden"
         )}
       />
     </>
   );
 
   const tileClass = cn(
-    "relative block overflow-hidden rounded-2xl p-5 transition-colors",
+    "relative block overflow-hidden rounded-2xl transition-colors",
+    groupId === "it-specialist" ? "p-4" : "p-5",
     isDark
       ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/50 hover:shadow-neon-cyan"
-      : cn(
-          "border border-border bg-card/80 backdrop-blur-sm",
-          popBy(colorIndex, CARD_SHADOW),
-          popBy(colorIndex, CARD_HOVER_SHADOW)
-        ),
+      : cn(LIGHT_SURFACE_CARD, "hover:border-primary/35"),
     "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
   );
 

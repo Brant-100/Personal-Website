@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Section, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 const MotionLink = motion(Link);
 
@@ -104,11 +104,7 @@ export function CredentialHighlights() {
                 "relative overflow-hidden rounded-2xl p-6 block transition-colors",
                 isDark
                   ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/50 hover:shadow-neon-cyan"
-                  : cn(
-                      "border border-border bg-card/80 backdrop-blur-sm",
-                      popBy(i, CARD_SHADOW),
-                      popBy(i, CARD_HOVER_SHADOW)
-                    )
+                  : cn(LIGHT_SURFACE_CARD, "hover:border-primary/35")
               )}
             >
               <div className="flex items-start gap-4">

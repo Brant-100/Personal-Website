@@ -7,6 +7,7 @@ import { Send, Check, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 import { BASE_URL } from "@/lib/api";
 import {
   inquirySchema,
@@ -93,7 +94,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
           "rounded-2xl p-8 text-center",
           isDark
             ? "border border-primary/40 bg-primary/5 shadow-neon-cyan"
-            : "border border-border bg-accent/25 backdrop-blur-sm shadow-soft"
+            : LIGHT_SURFACE_CARD
         )}
       >
         <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/20 text-primary">
@@ -119,10 +120,10 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       onSubmit={handleSubmit(onSubmit)}
       noValidate
       className={cn(
-        "space-y-4 rounded-2xl p-6 md:p-8",
+        "space-y-4 p-6 md:p-8",
         isDark
-          ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
-          : "gradient-border-card shadow-soft"
+          ? "rounded-2xl border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
+          : LIGHT_SURFACE_CARD
       )}
     >
       {/* Honeypot — visually hidden from real users */}

@@ -6,14 +6,24 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/projects", label: "Projects" },
-  { href: "/services", label: "Services" },
-  { href: "/blog", label: "Blog" },
-  { href: "/now", label: "Now" },
+/** Ordered groups flattened into `NAV_LINKS` below (keeps edit intent in one place). */
+const NAV_CLUSTERS = [
+  [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+  ],
+  [
+    { href: "/projects", label: "Projects" },
+    { href: "/services", label: "Services" },
+  ],
+  [
+    { href: "/blog", label: "Blog" },
+    { href: "/now", label: "Now" },
+  ],
 ];
+
+/** Nav link order preserved. */
+const NAV_LINKS = NAV_CLUSTERS.flat();
 
 const SECTIONS = [
   { id: "about", label: "About" },
@@ -111,13 +121,13 @@ export function Navbar() {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
             {NAV_LINKS.map((l) => (
               <Link
                 key={l.href}
                 to={l.href}
                 className={cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "rounded-lg px-2.5 py-2 text-sm font-medium transition-colors lg:px-3",
                   location.pathname === l.href
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"

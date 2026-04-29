@@ -13,6 +13,7 @@ import pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
 from main import app  # noqa: E402
+from data.external_posts import EXTERNAL_POSTS  # noqa: E402
 
 
 @pytest_asyncio.fixture
@@ -52,7 +53,7 @@ async def test_project_detail_nexus(client):
     p = r.json()
     assert p["id"] == "project-nexus"
     assert len(p["mitre_techniques"]) >= 18
-    assert p["visibility_note"] is not None
+    assert p["visibility_note"] is None
     assert len(p["technical_decisions"]) >= 1
 
 
@@ -105,11 +106,19 @@ async def test_posts_list(client):
     assert r.status_code == 200
     data = r.json()
     assert isinstance(data, list)
-    # We seeded 6 posts
-    assert len(data) >= 6
+    # Internal markdown posts + curated external entries
+    assert len(data) >= 6 + len(EXTERNAL_POSTS)
     slugs = [p["slug"] for p in data]
     assert "nexus-phase-1-retrospective" in slugs
     assert "why-i-built-c2-from-scratch" in slugs
+    kinds = {p.get("kind", "internal") for p in data}
+    assert "external" in kinds
+    assert "internal" in kinds
+    ext = [p for p in data if p.get("kind") == "external"]
+    assert ext
+    assert all(p.get("url") for p in ext)
+    # List rows are meta-only (no article body)
+    assert all("content" not in p for p in data)
 
 
 @pytest.mark.asyncio
@@ -119,8 +128,16 @@ async def test_post_detail(client):
     p = r.json()
     assert p["slug"] == "nexus-phase-1-retrospective"
     assert p["title"] is not None
+    assert p.get("kind") == "internal"
     assert isinstance(p["content"], str)
     assert len(p["content"]) > 0
+
+
+@pytest.mark.asyncio
+async def test_post_external_slug_not_in_detail_route(client):
+    """External curated ids never serve JSON from GET /api/posts/{slug}."""
+    r = await client.get("/api/posts/fastapi-official-first-steps")
+    assert r.status_code == 404
 
 
 @pytest.mark.asyncio

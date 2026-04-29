@@ -82,7 +82,7 @@ PROJECTS = [
             "T1497",      # Virtualization / Sandbox Evasion
             "T1055",      # Process Injection (planned)
         ],
-        "visibility_note": "Source private for OPSEC; full technical walkthrough available on request.",
+        "visibility_note": None,
         "technical_decisions": [
             {
                 "decision": "AES-GCM for implant comms instead of TLS",

@@ -2,15 +2,44 @@ import { Github, Linkedin, Mail, Award, Terminal } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { FooterFastApiLogo, FooterReactLogo } from "@/components/layout/BrandStack";
+
+/** First column — home section anchors (4). */
+const FOOTER_NAV_LEFT = [
+  { label: "Services", href: "/#services" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Credentials", href: "/#credentials" },
+  { label: "Experience", href: "/#experience" },
+];
+
+/** Second column — Contact plus pages (4). */
+const FOOTER_NAV_RIGHT = [
+  { label: "Contact", href: "/#contact" },
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Now", href: "/now" },
+];
+
+const NAV_HEADING_STYLE =
+  "mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary";
 
 export function Footer() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
 
+  const buildStamp =
+    typeof __BUILD_DATE__ !== "undefined"
+      ? new Date(__BUILD_DATE__).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })
+      : "local dev";
+
   return (
     <footer className="relative border-t border-border dark:border-primary/[0.18] dark:shadow-[inset_0_1px_0_0_hsl(var(--primary)/0.12)]">
-      <div className="container py-16">
-        <div className="grid gap-10 md:grid-cols-3">
+      <div className="container py-14">
+        <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1fr)]">
           <div>
             <div className="flex items-center gap-2">
               <span
@@ -33,43 +62,42 @@ export function Footer() {
             </p>
           </div>
 
-          <div>
-            <div className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
+          <nav aria-labelledby="footer-nav-heading">
+            <p id="footer-nav-heading" className={NAV_HEADING_STYLE}>
               Navigate
+            </p>
+            <div className="grid grid-cols-2 gap-x-8 text-sm md:gap-x-10 lg:gap-x-12">
+              <ul className="space-y-2">
+                {FOOTER_NAV_LEFT.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <ul className="space-y-2">
+                {FOOTER_NAV_RIGHT.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="space-y-2 text-sm">
-              {["Services", "Projects", "Credentials", "Experience", "Contact"].map((l) => (
-                <li key={l}>
-                  <a
-                    href={`/#${l.toLowerCase()}`}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {l}
-                  </a>
-                </li>
-              ))}
-              <li>
-                <a href="/about" className="text-muted-foreground transition-colors hover:text-foreground">
-                  About
-                </a>
-              </li>
-              <li>
-                <a href="/blog" className="text-muted-foreground transition-colors hover:text-foreground">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="/now" className="text-muted-foreground transition-colors hover:text-foreground">
-                  Now
-                </a>
-              </li>
-            </ul>
-          </div>
+          </nav>
 
-          <div>
-            <div className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary">
+          <div role="group" aria-labelledby="footer-elsewhere-heading">
+            <p id="footer-elsewhere-heading" className={NAV_HEADING_STYLE}>
               Elsewhere
-            </div>
+            </p>
             <div className="flex flex-col gap-3 text-sm">
               <a
                 href="/#contact"
@@ -105,25 +133,26 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-10" />
+        <Separator className="my-8" />
 
         <div className="flex flex-col items-start justify-between gap-4 text-xs text-muted-foreground md:flex-row md:items-center">
           <span className="font-mono">
             © {new Date().getFullYear()} Brant Simpson. All rights reserved.
           </span>
-          <span className="font-mono">
-            {isDark ? (
-              <>
-                built with React + FastAPI · deployed on Vercel ·{" "}
-                <span className="text-primary/60">
-                  {typeof __BUILD_DATE__ !== "undefined"
-                    ? new Date(__BUILD_DATE__).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
-                    : "local dev"}
-                </span>
-              </>
-            ) : (
-              <>built with React + FastAPI · deployed on Vercel</>
-            )}
+          <span
+            className="font-mono inline-flex max-w-full flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground"
+            aria-label={`Built with React and FastAPI. Build date ${buildStamp}.`}
+          >
+            <span aria-hidden="true" className="inline-flex items-center gap-2">
+              <span className="text-muted-foreground/90">Built with</span>
+              <span className="inline-flex items-center gap-1">
+                <FooterReactLogo className="h-4 w-4 shrink-0" />
+                <span className="text-muted-foreground/55">+</span>
+                <FooterFastApiLogo className="h-4 w-4 shrink-0" />
+              </span>
+              <span className="text-muted-foreground/70">·</span>
+              <span className="text-primary/60">{buildStamp}</span>
+            </span>
           </span>
         </div>
       </div>

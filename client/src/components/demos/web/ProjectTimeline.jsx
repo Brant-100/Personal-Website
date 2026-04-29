@@ -81,7 +81,7 @@ export function ProjectTimeline() {
           {/* Connecting line */}
           <div className="absolute left-0 right-0 top-5 h-px bg-border" />
 
-          {PHASES.map((phase, i) => {
+          {PHASES.map((phase) => {
             const Icon = phase.icon;
             const isActive = active === phase.id;
             return (

@@ -14,7 +14,7 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CARD_SHADOW, CARD_HOVER_SHADOW, popBy } from "@/lib/popColors";
+import { LIGHT_SURFACE_CARD, tagChipLightClass } from "@/lib/popColors";
 
 const SERVICE_ROUTES = {
   "web-development": "/services/web-development",
@@ -125,7 +125,7 @@ function ServiceCard({ service, index, isDark }) {
   const Icon = ICONS[service.icon] || Sparkles;
   const route = SERVICE_ROUTES[service.id];
 
-  // Light mode: frosted cards + soft colored shadows; featured card uses gradient border.
+  // Light mode: unified translucent card + thin top accent per column.
   // Dark mode: matte card with glowing border ring on hover.
   const CardWrapper = route ? Link : "div";
   const wrapperProps = route ? { to: route } : {};
@@ -147,9 +147,8 @@ function ServiceCard({ service, index, isDark }) {
           isDark
             ? "bg-card/60 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300 hover:border-primary/60 hover:shadow-neon-cyan"
             : cn(
-                index === 0 ? "gradient-border-card" : "border border-border bg-card/80 backdrop-blur-sm",
-                popBy(index, CARD_SHADOW),
-                popBy(index, CARD_HOVER_SHADOW)
+                LIGHT_SURFACE_CARD,
+                "transition-colors hover:border-primary/35"
               )
         )}
       >
@@ -159,7 +158,7 @@ function ServiceCard({ service, index, isDark }) {
             "absolute inset-x-0 top-0 h-1",
             index === 0 && "bg-primary",
             index === 1 && "bg-secondary",
-            index === 2 && "bg-accent"
+            index === 2 && "bg-pop-purple"
           )}
         />
 
@@ -173,7 +172,7 @@ function ServiceCard({ service, index, isDark }) {
                 ? "bg-primary text-primary-foreground"
                 : index === 1
                 ? "bg-secondary text-secondary-foreground"
-                : "bg-accent text-accent-foreground"
+                : "bg-pop-purple text-white"
             )}
           >
             <Icon className="h-6 w-6" />
@@ -213,11 +212,17 @@ function ServiceCard({ service, index, isDark }) {
 
           {service.tags && (
             <div className="mt-6 flex flex-wrap gap-2">
-              {service.tags.map((t) => (
-                <Badge key={t} variant={isDark ? "default" : "outline"}>
-                  {t}
-                </Badge>
-              ))}
+              {service.tags.map((t, ti) =>
+                isDark ? (
+                  <Badge key={t} variant="default">
+                    {t}
+                  </Badge>
+                ) : (
+                  <span key={t} className={tagChipLightClass(t, ti)}>
+                    {t}
+                  </span>
+                )
+              )}
             </div>
           )}
         </CardContent>
