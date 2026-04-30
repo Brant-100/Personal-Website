@@ -1,7 +1,7 @@
 """
 scanner/discovery.py
 
-Host discovery — sweep a subnet and find which IP addresses
+Host discovery: sweep a subnet and find which IP addresses
 have live machines on them before we start port scanning.
 
 Why this matters:
@@ -15,7 +15,7 @@ How we detect a live host (without ICMP ping):
     Instead, we probe a handful of common TCP ports. If ANY of
     them respond (open or actively refused), the host is up.
     An active refusal (connection refused) still proves the
-    machine exists — a dead host wouldn't refuse anything.
+    machine exists: a dead host wouldn't refuse anything.
 """
 
 import socket
@@ -29,15 +29,15 @@ from typing import Optional
 #  PROBE PORTS
 #
 #  We try these ports to check if a host is alive.
-#  We don't care if they're open or closed — we just need
+#  We don't care if they're open or closed: we just need
 #  any response to prove the machine is there.
 #
 #  These are chosen because they're open on a wide variety
 #  of different machine types:
-#    80/443  — almost any web server or router
-#    22      — Linux servers, network equipment
-#    445     — Windows machines
-#    3389    — Windows with RDP enabled
+#    80/443 : almost any web server or router
+#    22     : Linux servers, network equipment
+#    445    : Windows machines
+#    3389   : Windows with RDP enabled
 # ─────────────────────────────────────────────────────────────
 
 PROBE_PORTS: list[int] = [80, 443, 22, 445, 3389, 8080]
@@ -47,7 +47,7 @@ PROBE_PORTS: list[int] = [80, 443, 22, 445, 3389, 8080]
 #  HostResult
 #
 #  Everything we learn about a single host during discovery.
-#  Similar to ScanResult in core.py — a clean typed container.
+#  Similar to ScanResult in core.py: a clean typed container.
 #  essentially it is a container for the host results which will be used in the report obviosly 
 # ─────────────────────────────────────────────────────────────
 
@@ -74,7 +74,7 @@ class HostResult:
 #       or errno 61 on macOS / 10061 on Windows
 #       → Port is closed BUT the machine actively sent a RST
 #          packet to refuse the connection. A dead host can't
-#          send RST packets — so the machine is alive, just
+#          send RST packets: so the machine is alive, just
 #          not running that service.
 #
 #  If all ports time out → host is down or heavily firewalled.
@@ -106,15 +106,15 @@ def probe_host(ip: str, timeout: float = 1.0) -> HostResult:
             # Anything else     = timeout or unreachable = keep trying
             if response in (0, 111, 61, 10061):
                 result.is_up = True
-                break  # No need to try more ports — we know it's alive
+                break  # No need to try more ports: we know it's alive
 
         except OSError:
-            # Network error on this probe — try the next port
+            # Network error on this probe: try the next port
             continue
 
     # If the host is up, attempt a reverse DNS lookup to get its hostname.
-    # This turns "192.168.1.1" into something like "router.local" — useful
-    # context in the report. We ignore failures — not every IP has a PTR record.
+    # This turns "192.168.1.1" into something like "router.local": useful
+    # context in the report. We ignore failures: not every IP has a PTR record.
     if result.is_up:
         result.hostname = _reverse_dns(ip)
 
@@ -131,7 +131,7 @@ def probe_host(ip: str, timeout: float = 1.0) -> HostResult:
 #    2. Probes each one in parallel using a thread pool
 #    3. Returns only the ones that responded
 #
-#  The threading model is identical to core.py — I/O bound
+#  The threading model is identical to core.py: I/O bound
 #  work runs much faster in parallel because we're mostly
 #  waiting for timeouts on dead hosts.
 # ─────────────────────────────────────────────────────────────
@@ -167,7 +167,7 @@ def sweep_network(
     except ValueError as e:
         raise ValueError(f"Invalid network address '{cidr}': {e}") from e
 
-    # .hosts() returns all usable IPs — excludes network address (.0)
+    # .hosts() returns all usable IPs: excludes network address (.0)
     # and broadcast address (.255)
     host_ips = [str(ip) for ip in network.hosts()]
     total = len(host_ips)
@@ -206,7 +206,7 @@ def sweep_network(
 #  This is called a PTR record lookup or reverse DNS.
 #  e.g. "192.168.1.1" → "router.local"
 #
-#  Many IPs won't have a PTR record — that's completely normal.
+#  Many IPs won't have a PTR record: that's completely normal.
 #  We return None silently rather than raising an error.
 # ─────────────────────────────────────────────────────────────
 
@@ -222,7 +222,7 @@ def _reverse_dns(ip: str) -> Optional[str]:
     """
     try:
         # gethostbyaddr returns (hostname, aliases, addresses)
-        # We only want the hostname — index [0]
+        # We only want the hostname: index [0]
         hostname, _, _ = socket.gethostbyaddr(ip)
         return hostname
     except (socket.herror, socket.gaierror, OSError):

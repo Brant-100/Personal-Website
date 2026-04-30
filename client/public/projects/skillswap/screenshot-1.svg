@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="font-family:Inter,sans-serif">
+  <rect width="800" height="450" fill="#f9f8f6"/>
+  <rect x="0" y="0" width="800" height="56" fill="#fff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="40" y="34" fill="#7c3aed" font-size="18" font-weight="bold">SkillSwap</text>
+  <text x="400" y="120" fill="#374151" font-size="18" font-weight="bold" text-anchor="middle">Find your perfect skill match</text>
+  <rect x="200" y="160" width="400" height="44" rx="8" fill="#fff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="250" y="189" fill="#9ca3af" font-size="13">Search skills (e.g. Python, Guitar, React&)</text>
+  <rect x="60" y="250" width="200" height="120" rx="10" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="160" y="280" fill="#7c3aed" font-size="12" text-anchor="middle" font-weight="bold">React Development</text>
+  <text x="160" y="298" fill="#6b7280" font-size="10" text-anchor="middle">by @alexchen ·  4.9</text>
+  <rect x="300" y="250" width="200" height="120" rx="10" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="400" y="280" fill="#0ea5e9" font-size="12" text-anchor="middle" font-weight="bold">Machine Learning</text>
+  <text x="400" y="298" fill="#6b7280" font-size="10" text-anchor="middle">by @sarah_ml ·  4.7</text>
+  <rect x="540" y="250" width="200" height="120" rx="10" fill="#fff" stroke="#e5e7eb" stroke-width="1.5"/>
+  <text x="640" y="280" fill="#f97316" font-size="12" text-anchor="middle" font-weight="bold">UI/UX Design</text>
+  <text x="640" y="298" fill="#6b7280" font-size="10" text-anchor="middle">by @designpro ·  5.0</text>
+  <text x="400" y="420" fill="#9ca3af" font-size="10" text-anchor="middle">[ PLACEHOLDER  replace with real SkillSwap screenshot ]</text>
+</svg>

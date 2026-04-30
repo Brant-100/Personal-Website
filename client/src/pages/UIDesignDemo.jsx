@@ -2,25 +2,61 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Palette, Type, Eye, Check } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ContrastChecker } from "@/components/demos/uiux/ContrastChecker";
+import { InteractiveTypeScale } from "@/components/demos/uiux/InteractiveTypeScale";
+import { DesignSystemTokensView } from "@/components/demos/uiux/DesignSystemTokensView";
+import { LayoutSkeletonTransitions } from "@/components/demos/uiux/LayoutSkeletonTransitions";
+import { MotionCurvePreview } from "@/components/demos/uiux/MotionCurvePreview";
+import { UIUXCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
+import { UIUXPricingCard } from "@/components/demos/shared/PricingCard";
+import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
+import { ContactForm } from "@/components/forms/ContactForm";
+import { UI_UX_FAQS } from "@/data/faqs";
+import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function UIDesignDemo() {
   return (
     <ServicePageLayout
-      eyebrow="02 — service / ui · ux design"
+      eyebrow="02 · service / ui · ux design"
       title="UI / UX Design"
-      tagline="Interfaces with a point of view — bold typography, considered motion, accessible color, and scalable design-system thinking."
+      tagline="Interfaces with a point of view: bold typography, considered motion, accessible color, and scalable design system thinking."
       tags={["design systems", "accessibility", "color theory", "motion", "prototyping"]}
     >
       <PrinciplesGrid />
       <div className="mt-16">
         <PaletteStudio />
       </div>
+      <ContrastChecker />
+      <InteractiveTypeScale />
       <div className="mt-16">
         <TypographyShowcase />
       </div>
+      <DesignSystemTokensView />
+      <LayoutSkeletonTransitions />
+      <MotionCurvePreview />
+      <UIUXCaseStudy />
+      <UIUXPricingCard />
+      <section id="inquiry" className="mt-16 scroll-mt-20">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
+          <h2 className="text-2xl font-bold">Let&apos;s design something</h2>
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
+            Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
+          </p>
+        </div>
+        <ContactForm defaultService="ui-ux-design" />
+      </section>
+      <div className="mt-16">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">faq</div>
+          <h2 className="text-2xl font-bold">UI / UX design questions</h2>
+        </div>
+        <FAQAccordion items={UI_UX_FAQS} />
+      </div>
+      <OtherServicesNav current="uiux" />
     </ServicePageLayout>
   );
 }
@@ -29,7 +65,7 @@ function PrinciplesGrid() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const items = [
-    { icon: Palette, title: "Color with intent", body: "Every hue carries a role — hierarchy, state, emotion. No color used twice for different meaning." },
+    { icon: Palette, title: "Color with intent", body: "Every hue carries a role: hierarchy, state, emotion. No color used twice for different meaning." },
     { icon: Type, title: "Typography as system", body: "Modular scale, consistent rhythm. Headings earn weight; body breathes." },
     { icon: Eye, title: "Motion with restraint", body: "Animation reinforces structure. Springs feel physical, not decorative." },
   ];
@@ -50,7 +86,7 @@ function PrinciplesGrid() {
                 "h-full transition-all",
                 isDark
                   ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border-2 border-foreground shadow-pop"
+                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
               )}
             >
               <CardHeader>
@@ -127,9 +163,7 @@ function PaletteStudio() {
       await navigator.clipboard.writeText(hex);
       setCopied(hex);
       setTimeout(() => setCopied(null), 1200);
-    } catch {
-      /* no-op */
-    }
+    } catch { /* no-op */ }
   };
 
   return (
@@ -146,9 +180,7 @@ function PaletteStudio() {
                 className={cn(
                   "rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
                   isActive
-                    ? isDark
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-foreground text-background"
+                    ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -171,7 +203,7 @@ function PaletteStudio() {
             whileHover={{ y: -4 }}
             className={cn(
               "group relative flex aspect-[3/4] flex-col items-start justify-end overflow-hidden rounded-2xl p-4 text-left transition-shadow",
-              isDark ? "shadow-lg hover:shadow-neon-cyan" : "border-2 border-foreground shadow-pop"
+              isDark ? "shadow-lg hover:shadow-neon-cyan" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
             )}
             style={{ background: c.hex }}
           >
@@ -213,7 +245,7 @@ function TypographyShowcase() {
           "rounded-2xl p-8 md:p-10",
           isDark
             ? "border border-border bg-card/70 backdrop-blur"
-            : "border-2 border-foreground bg-card shadow-pop"
+            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
         )}
       >
         <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
@@ -227,7 +259,7 @@ function TypographyShowcase() {
           body / 18
         </div>
         <p className="mt-2 max-w-2xl text-lg leading-relaxed text-foreground/80">
-          A typography system is just permissions and constraints —
+          A typography system is just permissions and constraints:
           permission to be loud where it matters, constraint everywhere else.
           That&apos;s how rhythm happens.
         </p>
@@ -247,7 +279,6 @@ function TypographyShowcase() {
   );
 }
 
-/* Pick black or white text for best contrast on arbitrary hex */
 function contrastText(hex) {
   const h = hex.replace("#", "");
   const r = parseInt(h.slice(0, 2), 16);

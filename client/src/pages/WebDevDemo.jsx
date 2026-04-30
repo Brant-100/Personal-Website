@@ -1,26 +1,75 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Code2, Zap, Accessibility, Layers, Monitor, Smartphone, Tablet } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { BeforeAfterSlider } from "@/components/demos/web/BeforeAfterSlider";
+import { PerformanceScoreCard } from "@/components/demos/web/PerformanceScoreCard";
+import { ProjectTimeline } from "@/components/demos/web/ProjectTimeline";
+import { TechStackGalaxy } from "@/components/demos/web/TechStackGalaxy";
+import { ComponentPlayground } from "@/components/demos/web/ComponentPlayground";
+import { WebCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
+import { WebPricingCard } from "@/components/demos/shared/PricingCard";
+import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
+import { ContactForm } from "@/components/forms/ContactForm";
+import { WEB_DEV_FAQS, WORDPRESS_FAQS } from "@/data/faqs";
+import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function WebDevDemo() {
   return (
     <ServicePageLayout
-      eyebrow="01 — service / web development"
+      eyebrow="01 · service / web development"
       title="Web Development"
-      tagline="Fast, accessible, beautifully animated websites and web apps — built with React, Vite, Tailwind, and shipped with care."
+      tagline="Fast, accessible, beautifully animated websites and web apps, built with React, Vite, Tailwind, and shipped with care."
       tags={["React", "Vite", "Tailwind", "Framer Motion", "shadcn/ui", "accessibility"]}
     >
       <FeatureGrid />
+      <BeforeAfterSlider />
       <div className="mt-16">
         <DevicePreview />
       </div>
+      <PerformanceScoreCard />
       <div className="mt-16">
         <LiveCodeDemo />
       </div>
+      <TechStackGalaxy />
+      <ComponentPlayground />
+      <ProjectTimeline />
+      <WebCaseStudy />
+      <WebPricingCard />
+      <section id="inquiry" className="mt-16 scroll-mt-20">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
+          <h2 className="text-2xl font-bold">Let&apos;s build something</h2>
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
+            Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
+          </p>
+        </div>
+        <ContactForm defaultService="web-development" />
+      </section>
+      <div className="mt-16">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">faq</div>
+          <h2 className="text-2xl font-bold">Web development questions</h2>
+        </div>
+        <FAQAccordion items={WEB_DEV_FAQS} />
+      </div>
+      <div className="mt-12">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">
+            wordpress track
+          </div>
+          <h3 className="text-xl font-bold">Thinking WordPress instead?</h3>
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
+            WordPress is one of the ways I deliver web dev work (fastest path for small sites and
+            anyone who wants to edit content themselves).
+          </p>
+        </div>
+        <FAQAccordion items={WORDPRESS_FAQS} />
+      </div>
+      <OtherServicesNav current="web" />
     </ServicePageLayout>
   );
 }
@@ -32,17 +81,17 @@ function FeatureGrid() {
   const items = [
     {
       icon: Zap,
-      title: "Lightning-fast",
-      body: "Vite + code splitting + tree-shaken animation. Every route chunk stays lean.",
+      title: "Lightning fast",
+      body: "Vite + code splitting + tree shaken animation. Every route chunk stays lean.",
     },
     {
       icon: Accessibility,
       title: "Accessible by default",
-      body: "Semantic HTML, focus-visible rings, keyboard navigation, prefers-reduced-motion.",
+      body: "Semantic HTML, focus visible rings, keyboard navigation, reduced motion respected.",
     },
     {
       icon: Layers,
-      title: "Design-system-ready",
+      title: "Design system ready",
       body: "Tokenized Tailwind + shadcn primitives so theming and scale stay effortless.",
     },
   ];
@@ -64,7 +113,7 @@ function FeatureGrid() {
                 "h-full transition-all",
                 isDark
                   ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border-2 border-foreground shadow-pop"
+                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
               )}
             >
               <CardHeader>
@@ -145,11 +194,10 @@ function DevicePreview() {
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
           className={cn(
             "relative overflow-hidden rounded-[22px] border-4",
-            isDark ? "border-border bg-muted/40" : "border-foreground bg-background shadow-pop",
+            isDark ? "border-border bg-muted/40" : "border-2 border-border bg-background/80 backdrop-blur-sm shadow-soft",
             sizes[device]
           )}
         >
-          {/* Faux UI */}
           <div className="flex items-center gap-1.5 border-b border-border bg-background/80 px-3 py-2">
             <span className="h-2.5 w-2.5 rounded-full bg-destructive/70" />
             <span className="h-2.5 w-2.5 rounded-full bg-accent/80" />
@@ -178,7 +226,10 @@ function DevicePreview() {
 function LiveCodeDemo() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const prefersReduced = useReducedMotion();
   const [hovered, setHovered] = useState(false);
+
+  const barPattern = [0.35, 0.85, 0.5, 1, 0.45, 0.92, 0.6];
 
   return (
     <div className="grid gap-8 lg:grid-cols-2">
@@ -188,42 +239,101 @@ function LiveCodeDemo() {
         </div>
         <h3 className="mt-2 text-2xl font-bold">Hover the button →</h3>
         <p className="mt-3 text-muted-foreground">
-          A tiny demo of spring-based interaction: state drives animation,
-          motion drives feel, Tailwind drives the look.
+          Spring motion, light sweep, and a tiny live meter. No debug flags, just
+          feedback you can feel.
         </p>
 
-        <div className="mt-8 flex items-center gap-4">
-          <motion.button
-            onHoverStart={() => setHovered(true)}
-            onHoverEnd={() => setHovered(false)}
-            onFocus={() => setHovered(true)}
-            onBlur={() => setHovered(false)}
-            whileTap={{ scale: 0.96 }}
-            className={cn(
-              "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3 font-semibold",
-              isDark
-                ? "bg-primary text-primary-foreground shadow-neon-cyan"
-                : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop"
-            )}
-          >
-            <Code2 className="h-4 w-4" />
-            <span>Try me</span>
-            <AnimatePresence>
-              {hovered && (
-                <motion.span
-                  key="sheen"
-                  initial={{ x: "-120%" }}
-                  animate={{ x: "220%" }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.7, ease: "easeInOut" }}
-                  className="absolute inset-y-0 w-1/2 bg-white/20 skew-x-[-20deg]"
-                />
+        <div className="mt-8 flex flex-wrap items-end gap-5">
+          <div className="relative">
+            {/* Outer pulse ring on hover */}
+            <motion.div
+              className={cn(
+                "pointer-events-none absolute -inset-3 rounded-2xl",
+                isDark ? "bg-primary/15" : "bg-primary/10"
               )}
-            </AnimatePresence>
-          </motion.button>
-          <span className="font-mono text-xs text-muted-foreground">
-            hovered = <span className="text-primary">{String(hovered)}</span>
-          </span>
+              animate={
+                prefersReduced
+                  ? {}
+                  : hovered
+                  ? { scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }
+                  : { scale: 1, opacity: 0 }
+              }
+              transition={
+                hovered
+                  ? { duration: 1.2, repeat: Infinity, ease: "easeInOut" }
+                  : { duration: 0.25 }
+              }
+            />
+            <motion.button
+              onHoverStart={() => setHovered(true)}
+              onHoverEnd={() => setHovered(false)}
+              onFocus={() => setHovered(true)}
+              onBlur={() => setHovered(false)}
+              whileHover={prefersReduced ? {} : { scale: 1.04, y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              className={cn(
+                "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3 font-semibold transition-shadow",
+                isDark
+                  ? "bg-primary text-primary-foreground shadow-neon-cyan hover:shadow-[0_0_28px_rgba(34,229,255,0.55)]"
+                  : "border border-border bg-accent text-accent-foreground shadow-soft hover:brightness-[1.05] hover:shadow-soft-orange"
+              )}
+            >
+              <motion.span
+                animate={hovered && !prefersReduced ? { rotate: [0, -8, 8, 0] } : {}}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              >
+                <Code2 className="h-4 w-4" />
+              </motion.span>
+              <span>Try me</span>
+              <AnimatePresence>
+                {hovered && (
+                  <motion.span
+                    key="sheen"
+                    initial={{ x: "-120%" }}
+                    animate={{ x: "220%" }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.7, ease: "easeInOut" }}
+                    className="absolute inset-y-0 w-1/2 bg-background/35 skew-x-[-20deg]"
+                  />
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </div>
+
+          {/* Live meter: reacts to hover */}
+          <div
+            className={cn(
+              "flex h-14 items-end gap-1 rounded-xl border px-3 py-2",
+              isDark
+                ? "border-primary/30 bg-card/50 backdrop-blur"
+                : "border-foreground/20 bg-muted/40"
+            )}
+            aria-hidden
+          >
+            {barPattern.map((amp, i) => (
+              <motion.div
+                key={i}
+                className={cn(
+                  "w-1.5 rounded-full",
+                  isDark ? "bg-primary" : "bg-foreground"
+                )}
+                initial={false}
+                animate={{
+                  height: prefersReduced
+                    ? 10
+                    : hovered
+                    ? 8 + amp * 32
+                    : 6 + amp * 6,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: hovered ? 420 : 200,
+                  damping: hovered ? 14 : 22,
+                  delay: prefersReduced ? 0 : i * 0.03,
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -236,15 +346,13 @@ function LiveCodeDemo() {
             "mt-2 overflow-x-auto rounded-2xl border p-5 font-mono text-xs leading-6",
             isDark
               ? "border-border bg-card/70 backdrop-blur"
-              : "border-2 border-foreground bg-card shadow-pop"
+              : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}
         >
 {`<motion.button
-  onHoverStart={() => setHovered(true)}
-  onHoverEnd={() => setHovered(false)}
+  whileHover={{ scale: 1.04, y: -3 }}
   whileTap={{ scale: 0.96 }}
-  className="rounded-xl px-6 py-3
-             shadow-neon-cyan"
+  className="rounded-xl px-6 py-3 shadow-neon-cyan"
 >
   Try me
 </motion.button>`}

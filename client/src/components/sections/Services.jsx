@@ -14,6 +14,7 @@ import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { LIGHT_SURFACE_CARD, tagChipLightClass } from "@/lib/popColors";
 
 const SERVICE_ROUTES = {
   "web-development": "/services/web-development",
@@ -37,7 +38,7 @@ const FALLBACK = [
     id: "web-development",
     title: "Web Development",
     blurb:
-      "Fast, accessible, beautifully animated websites and web apps — built with React, Vite, and Tailwind.",
+      "Fast, accessible, beautifully animated websites and web apps, built with React, Vite, and Tailwind.",
     icon: "web",
     bullets: ["Marketing sites", "Dashboards & portals", "Framer Motion animations"],
   },
@@ -45,7 +46,7 @@ const FALLBACK = [
     id: "ui-ux-design",
     title: "UI / UX Design",
     blurb:
-      "Interface design with a point of view — bold typography, considered motion, and accessible color.",
+      "Interface design with a point of view: bold typography, considered motion, and accessible color.",
     icon: "design",
     bullets: ["Design systems", "Product UX audits", "Prototyping"],
   },
@@ -53,7 +54,7 @@ const FALLBACK = [
     id: "custom-software-solutions",
     title: "Custom Software Solutions",
     blurb:
-      "Bespoke tooling, APIs, and internal platforms — from Python services to full-stack apps.",
+      "Bespoke tooling, APIs, and internal platforms, from Python services to full stack apps.",
     icon: "software",
     bullets: ["FastAPI / Python services", "Automation & integrations", "CLI tooling"],
   },
@@ -75,8 +76,9 @@ export function Services() {
   return (
     <Section id="services" className="container">
       <Reveal className="mb-4 flex items-center gap-2">
+        {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 01" : "01 —"} services
+          {isDark ? "// 01" : "01 ·"} services
         </span>
       </Reveal>
 
@@ -84,9 +86,12 @@ export function Services() {
         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
           {isDark ? (
             <>
-              <span className="text-neon">Freelance</span> work for teams
+              <span className="text-neon">Freelance</span>
+              <span className="heading-face">{" "}work for teams</span>
               <br />
-              that want to <span className="text-accent">ship</span>.
+              <span className="heading-face">that want to </span>
+              <span className="text-accent">ship</span>
+              <span className="heading-face">.</span>
             </>
           ) : (
             <>
@@ -103,8 +108,8 @@ export function Services() {
         </h2>
       </Reveal>
 
-      <Reveal className="mb-12 max-w-2xl text-muted-foreground">
-        Three focused offerings. Each one animated, accessible, and built to last.
+      <Reveal className={cn("mb-12 max-w-2xl leading-relaxed", isDark ? "text-foreground/78" : "text-muted-foreground")}>
+        Got something you want built? Let&apos;s make it happen.
       </Reveal>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -120,7 +125,7 @@ function ServiceCard({ service, index, isDark }) {
   const Icon = ICONS[service.icon] || Sparkles;
   const route = SERVICE_ROUTES[service.id];
 
-  // Light mode: chunky pop-art card w/ tilt on hover.
+  // Light mode: unified translucent card + thin top accent per column.
   // Dark mode: matte card with glowing border ring on hover.
   const CardWrapper = route ? Link : "div";
   const wrapperProps = route ? { to: route } : {};
@@ -140,8 +145,11 @@ function ServiceCard({ service, index, isDark }) {
           "relative h-full overflow-hidden transition-all",
           route && "cursor-pointer",
           isDark
-            ? "bg-card/60 backdrop-blur border-border hover:border-primary/60 hover:shadow-neon-cyan"
-            : "border-2 border-foreground shadow-pop hover:shadow-pop-primary"
+            ? "bg-card/60 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300 hover:border-primary/60 hover:shadow-neon-cyan"
+            : cn(
+                LIGHT_SURFACE_CARD,
+                "transition-colors hover:border-primary/35"
+              )
         )}
       >
         {/* Decorative top bar */}
@@ -150,7 +158,7 @@ function ServiceCard({ service, index, isDark }) {
             "absolute inset-x-0 top-0 h-1",
             index === 0 && "bg-primary",
             index === 1 && "bg-secondary",
-            index === 2 && "bg-accent"
+            index === 2 && "bg-pop-purple"
           )}
         />
 
@@ -164,12 +172,12 @@ function ServiceCard({ service, index, isDark }) {
                 ? "bg-primary text-primary-foreground"
                 : index === 1
                 ? "bg-secondary text-secondary-foreground"
-                : "bg-accent text-accent-foreground"
+                : "bg-pop-purple text-white"
             )}
           >
             <Icon className="h-6 w-6" />
           </div>
-          <CardTitle className="flex items-center justify-between text-2xl">
+          <CardTitle className={cn("flex items-center justify-between text-2xl", isDark && "heading-face")}>
             {service.title}
             <ArrowUpRight
               className={cn(
@@ -204,11 +212,17 @@ function ServiceCard({ service, index, isDark }) {
 
           {service.tags && (
             <div className="mt-6 flex flex-wrap gap-2">
-              {service.tags.map((t) => (
-                <Badge key={t} variant={isDark ? "default" : "outline"}>
-                  {t}
-                </Badge>
-              ))}
+              {service.tags.map((t, ti) =>
+                isDark ? (
+                  <Badge key={t} variant="default">
+                    {t}
+                  </Badge>
+                ) : (
+                  <span key={t} className={tagChipLightClass(t, ti)}>
+                    {t}
+                  </span>
+                )
+              )}
             </div>
           )}
         </CardContent>

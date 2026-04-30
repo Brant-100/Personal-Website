@@ -49,7 +49,7 @@ export const letterStagger = {
 };
 
 /* -----------------------------------------------------------
- * Section wrapper — handles whileInView stagger + scroll-based
+ * Section wrapper: whileInView stagger + scroll-based
  * reveal for any page section.
  * --------------------------------------------------------- */
 export function Section({

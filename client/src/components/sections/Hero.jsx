@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Mail, Terminal, Shield, Code2, Sparkles } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Mail, Terminal, Code2, Sparkles, Download, Zap, ShieldCheck, Flag, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
 import { AnimatedHeadline, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { cn } from "@/lib/utils";
+import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 const ROLES = [
   { label: "Software Development", icon: Code2 },
-  { label: "Offensive Cyber Operations", icon: Shield },
+  { label: "Cybersecurity", icon: ShieldCheck },
+  { label: "Military Enlistment", icon: Flag },
+  { label: "Continuous Learning", icon: BookOpen },
 ];
 
 export function Hero() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const prefersReduced = useReducedMotion();
 
   const [roleIdx, setRoleIdx] = useState(0);
   useEffect(() => {
@@ -30,7 +34,7 @@ export function Hero() {
       <ThemeBackdrop isDark={isDark} />
 
       <div className="container relative z-10 grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-        {/* Left column — headline + CTAs */}
+        {/* Left column: headline + CTAs */}
         <motion.div
           initial="hidden"
           animate="show"
@@ -38,12 +42,15 @@ export function Hero() {
           className="max-w-2xl"
         >
           <Reveal className="mb-6">
+            {!isDark && (
+              <span className="section-accent-bar bg-primary" aria-hidden />
+            )}
             <Badge
               variant={isDark ? "default" : "accent"}
               className="gap-2 px-3 py-1 text-[11px] uppercase tracking-[0.22em]"
             >
               <Sparkles className="h-3 w-3" />
-              {isDark ? "// online // available for work" : "available for hire — 2026"}
+              {isDark ? "// online // available for work" : "available for hire · 2026"}
             </Badge>
           </Reveal>
 
@@ -56,7 +63,7 @@ export function Hero() {
           />
 
           <AnimatedHeadline
-            text="builds things & breaks things."
+            text="builds things that matter"
             className={cn(
               "mt-3 text-4xl md:text-6xl font-extrabold leading-[1.05] tracking-tight",
               isDark ? "text-primary" : "text-primary"
@@ -87,11 +94,27 @@ export function Hero() {
           </Reveal>
 
           <Reveal className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
-            Full-stack engineer and offensive security operator. I design crisp product
-            experiences, ship production software, and red-team the systems behind them.
+            I write software, dig into security, and am working toward serving in the military.
+            Still early in the journey, but I show up, I learn fast, and I get things done.
           </Reveal>
 
-          <Reveal className="mt-10 flex flex-wrap items-center gap-4">
+          {/* Now-building chip */}
+          <Reveal className="mt-5">
+            <div className={cn(
+              "inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs",
+              isDark
+                ? "border border-accent/30 bg-accent/10 text-accent"
+                : "border border-border bg-card/75 text-foreground shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)] backdrop-blur-sm"
+            )}>
+              <Zap className={cn("h-3 w-3", isDark ? "text-accent" : "text-primary")} />
+              <span>now building:</span>
+              <span className={isDark ? "text-foreground" : "text-primary"}>
+                Nexus Phase 2 · EDPT
+              </span>
+            </div>
+          </Reveal>
+
+          <Reveal className="mt-7 flex flex-wrap items-center gap-4">
             <Button size="lg" variant={isDark ? "default" : "pop"} asChild>
               <a href="#projects" className="inline-flex items-center gap-2">
                 View Work <ArrowRight className="h-4 w-4" />
@@ -103,38 +126,37 @@ export function Hero() {
                 Get in touch
               </a>
             </Button>
+            <Button size="lg" variant="outline" asChild>
+              <a
+                href={isDark ? "/Brant_Simpson_Resume_Dark.pdf" : "/Brant_Simpson_Resume_Light.pdf"}
+                download
+                className="inline-flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Resume
+              </a>
+            </Button>
           </Reveal>
 
-          <Reveal className="mt-10 flex flex-wrap items-center gap-2 text-xs font-mono text-muted-foreground">
-            <span className="text-foreground/60">stack::</span>
-            {["React", "FastAPI", "Python", "Docker", "Tailwind", "Framer Motion"].map((t) => (
-              <span
-                key={t}
-                className="rounded-md border border-border bg-muted/60 px-2 py-1"
-              >
-                {t}
-              </span>
-            ))}
-          </Reveal>
         </motion.div>
 
-        {/* Right column — theme-dependent visual */}
+        {/* Right column: theme-dependent visual */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: prefersReduced ? 0 : 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ ...spring.soft, delay: 0.25 }}
+          transition={{ ...spring.soft, delay: prefersReduced ? 0 : 0.25 }}
           className="relative"
         >
           <AnimatePresence mode="wait">
             {isDark ? (
               <motion.div
                 key="terminal"
-                initial={{ opacity: 0, scale: 0.96 }}
+                initial={{ opacity: 0, scale: prefersReduced ? 1 : 0.96 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
+                exit={{ opacity: 0, scale: prefersReduced ? 1 : 0.96 }}
                 transition={spring.snap}
               >
-                <TerminalCard />
+                <TerminalCard prefersReduced={prefersReduced} />
               </motion.div>
             ) : (
               <motion.div
@@ -158,7 +180,7 @@ export function Hero() {
 /* Theme-dependent right-side visuals                          */
 /* ============================================================ */
 
-function TerminalCard() {
+function TerminalCard({ prefersReduced = false }) {
   const lines = [
     { prompt: "~$", text: "whoami" },
     { prompt: ">", text: "brant.simpson", accent: true },
@@ -188,9 +210,9 @@ function TerminalCard() {
           {lines.map((l, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, x: -8 }}
+              initial={{ opacity: prefersReduced ? 1 : 0, x: prefersReduced ? 0 : -8 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 + i * 0.12, ...spring.soft }}
+              transition={{ delay: prefersReduced ? 0 : 0.4 + i * 0.12, ...spring.soft }}
               className={cn(
                 "flex gap-2",
                 l.accent ? "text-accent" : "text-foreground/90"
@@ -203,10 +225,12 @@ function TerminalCard() {
             </motion.div>
           ))}
 
-          {/* scanline sheen */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute inset-x-0 h-24 bg-gradient-to-b from-primary/0 via-primary/10 to-primary/0 animate-scanline" />
-          </div>
+          {/* scanline sheen (skipped when prefers-reduced-motion) */}
+          {!prefersReduced && (
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="absolute inset-x-0 h-24 bg-gradient-to-b from-primary/0 via-primary/10 to-primary/0 animate-scanline" />
+            </div>
+          )}
         </div>
       </div>
 
@@ -240,9 +264,9 @@ function PopArtCard() {
       <motion.div
         whileHover={{ rotate: -2, y: -4 }}
         transition={spring.snap}
-        className="relative rounded-3xl border-2 border-foreground bg-card p-8 shadow-pop"
+        className={cn("relative p-8", LIGHT_SURFACE_CARD)}
       >
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-foreground bg-accent px-3 py-1 text-xs font-bold uppercase tracking-widest">
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-accent/90 px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent-foreground shadow-sm">
           <Sparkles className="h-3 w-3" /> now building
         </div>
         <h3 className="text-3xl font-extrabold leading-tight">
@@ -251,8 +275,8 @@ function PopArtCard() {
           systems that <span className="text-secondary">hold</span>.
         </h3>
         <p className="mt-4 text-sm text-muted-foreground">
-          Shipping bold, accessible interfaces for startups & teams —
-          then stress-testing the infra behind them.
+          Shipping bold, accessible interfaces for startups and teams,
+          then stress testing the infra behind them.
         </p>
 
         <div className="mt-6 grid grid-cols-3 gap-3">
@@ -264,7 +288,7 @@ function PopArtCard() {
             <div
               key={b.label}
               className={cn(
-                "flex h-16 items-center justify-center rounded-xl border-2 border-foreground font-bold text-background",
+                "flex h-16 items-center justify-center rounded-xl border border-border/50 font-bold text-white shadow-sm",
                 b.color
               )}
             >

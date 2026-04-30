@@ -10,7 +10,7 @@ export function NotFound() {
   return (
     <section className="container flex min-h-[80vh] flex-col items-center justify-center py-24 text-center">
       <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-        404 — off the grid
+        404 · off the grid
       </div>
       <h1
         className={cn(

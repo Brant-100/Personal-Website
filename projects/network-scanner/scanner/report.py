@@ -1,12 +1,12 @@
 """
 scanner/report.py
 
-All output lives here — terminal printing, color coding,
+All output lives here: terminal printing, color coding,
 progress display, and saving results to a file.
 
 Design principle:
     Nothing else in the scanner prints directly to the terminal.
-    core.py, banner.py, and discovery.py are pure logic — they
+    core.py, banner.py, and discovery.py are pure logic: they
     return data. This file is the only place that decides how
     that data looks to the user.
 
@@ -30,7 +30,7 @@ from scanner.discovery import HostResult
 #  text color. \033[ starts the sequence, the number picks the
 #  color, and m ends it. \033[0m resets back to default.
 #
-#  We check sys.stdout.isatty() before using them — if output
+#  We check sys.stdout.isatty() before using them: if output
 #  is being piped to a file or another program, color codes
 #  would show up as garbage characters, so we disable them.
 # ─────────────────────────────────────────────────────────────
@@ -56,7 +56,7 @@ class Color:
 # ─────────────────────────────────────────────────────────────
 #  BANNER
 #
-#  Printed once at startup. Purely cosmetic — but it makes
+#  Printed once at startup. Purely cosmetic: but it makes
 #  the tool look professional and signals what mode it's in.
 # ─────────────────────────────────────────────────────────────
 
@@ -69,7 +69,7 @@ BANNER = f"""
   ██║ ╚████║███████╗   ██║   ███████║╚██████╗██║  ██║██║ ╚████║
   ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝
 {Color.RESET}{Color.DIM}  Reconnaissance Phase Tool  |  Cybersecurity Portfolio
-  For authorized use only — never scan systems you don't own :)
+  For authorized use only: never scan systems you don't own :)
 {Color.RESET}"""
 
 
@@ -105,7 +105,7 @@ def print_scan_end(open_count: int, total_ports: int, elapsed: float) -> None:
 #  LIVE PORT RESULT
 #
 #  Called by the on_open callback in core.py immediately when
-#  a port is found open — so results stream to the terminal
+#  a port is found open: so results stream to the terminal
 #  in real time rather than waiting for the full scan to finish.
 # ─────────────────────────────────────────────────────────────
 
@@ -190,7 +190,7 @@ def print_discovery_end(live_count: int, total: int, elapsed: float) -> None:
 # ─────────────────────────────────────────────────────────────
 #  FULL SCAN REPORT (terminal)
 #
-#  Printed after the scan is complete — a clean summary table
+#  Printed after the scan is complete: a clean summary table
 #  of all open ports. Complements the live output above.
 # ─────────────────────────────────────────────────────────────
 
@@ -212,7 +212,7 @@ def print_report(
     divider = f"{Color.DIM}{'─' * 56}{Color.RESET}"
 
     print(f"\n{divider}")
-    print(f"  {Color.BOLD}SCAN REPORT{Color.RESET}  {Color.DIM}—  {target}{Color.RESET}")
+    print(f"  {Color.BOLD}SCAN REPORT{Color.RESET}  {Color.DIM}|  {target}{Color.RESET}")
     print(divider)
     print(f"  Duration   : {elapsed:.2f}s")
     print(f"  Ports      : {total_ports} scanned")
@@ -242,7 +242,7 @@ def print_report(
 #  SAVE TO FILE
 #
 #  Writes a plain text version of the report to disk.
-#  No ANSI color codes in the file — they'd show as garbage
+#  No ANSI color codes in the file: they'd show as garbage
 #  in a text editor. Plain text is readable anywhere.
 # ─────────────────────────────────────────────────────────────
 
