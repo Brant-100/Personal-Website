@@ -16,7 +16,7 @@ export function ThemeToggle({ className }) {
         "relative inline-flex h-10 w-[72px] items-center rounded-full border border-border",
         "bg-background/60 backdrop-blur transition-colors",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        isDark ? "shadow-neon-cyan" : "shadow-pop-primary",
+        isDark ? "shadow-neon-cyan" : "shadow-soft-orange",
         className
       )}
     >

@@ -78,7 +78,7 @@ class ScanResult:
 #  Look up a port number and return a human-readable name.
 #  First checks our local SERVICE_MAP (fast, no network).
 #  Falls back to socket.getservbyport() for anything not in
-#  our map — this queries the OS's /etc/services file.
+#  our map: this queries the OS's /etc/services file.
 # ─────────────────────────────────────────────────────────────
  
 def get_service(port: int) -> str:
@@ -98,14 +98,14 @@ def get_service(port: int) -> str:
 #
 #  How the TCP connect scan actually works:
 #    1. Make a socket (IPv4 + TCP).
-#    2. Use connect_ex() to poke the port — this fires off a SYN:
+#    2. Use connect_ex() to poke the port: this fires off a SYN:
 #         - Our computer sends SYN →
 #         - If the target replies with SYN-ACK, it means the port is open.
 #         - RST = closed. 
 #         - We finish the handshake (ACK) only if it’s open.
 #    3. connect_ex returns 0 if handshake succeeded (port open),
 #       anything else if closed, filtered, or just not reachable.
-#    4. No matter what, close the socket right after — just checking, not staying.
+#    4. No matter what, close the socket right after: just checking, not staying.
 #
 #  Why connect_ex and not connect?
 #    connect() would raise exceptions everywhere.
@@ -137,7 +137,7 @@ def scan_port(
         # Create a new TCP socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
  
-        # Don't wait forever — if nothing responds in `timeout` seconds, move on
+        # Don't wait forever: if nothing responds in `timeout` seconds, move on
         sock.settimeout(timeout)
  
         # Attempt the TCP handshake
@@ -145,7 +145,7 @@ def scan_port(
         response = sock.connect_ex((ip, port))
  
         if response == 0:
-            # Port is open — connection succeeded
+            # Port is open: connection succeeded
             result.state = "open"
  
             if grab_banner:
@@ -158,7 +158,7 @@ def scan_port(
             sock.close()
  
     except socket.timeout:
-        # connect_ex timed out — port is likely filtered by a firewall
+        # connect_ex timed out: port is likely filtered by a firewall
         pass
     except OSError:
         # Socket-level error (e.g. network unreachable)
@@ -209,7 +209,7 @@ def scan_target(
  
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
  
-        # Submit all jobs at once — executor queues them and runs up to
+        # Submit all jobs at once: executor queues them and runs up to
         # `threads` simultaneously. Each future maps to one port.
         future_to_port = {
             executor.submit(scan_port, ip, port, timeout, grab_banners): port
@@ -217,8 +217,7 @@ def scan_target(
         }
  
         # as_completed() yields each future the moment its thread finishes.
-        # This means we process results as they come in, not in order —
-        # that's fine because we sort at the end.
+        # Results finish out of order; we sort before returning.
 
         for future in concurrent.futures.as_completed(future_to_port):
             scanned += 1
@@ -241,7 +240,7 @@ def scan_target(
 #
 #  Converts a hostname like "scanme.nmap.org" to an IP address.
 #  We resolve once upfront so every scan_port() call gets a raw
-#  IP — faster than re-resolving on every connection attempt.
+#  IP: faster than re-resolving on every connection attempt.
 # ─────────────────────────────────────────────────────────────
  
 def resolve_target(target: str) -> tuple[str, str]:

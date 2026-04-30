@@ -16,16 +16,22 @@
 @layer base {
   /* ---------- LIGHT (vibrant) ---------- */
   :root {
-    --background: 40 40% 98%;        /* warm off-white paper */
+    /* Warm paper: avoid 98 to 100% luminance “jet white”; keeps contrast vs UI chrome and body copy */
+    --background: 41 38% 96.4%;
     --foreground: 222 47% 11%;
 
-    --card: 0 0% 100%;
+    /* Warm near-white card; translucency + blur in components lets mesh show through */
+    --card: 40 60% 99%;
     --card-foreground: 222 47% 11%;
+    --card-elevated: 40 55% 97.5%;
 
-    --popover: 0 0% 100%;
+    /* Match card family (stepped from --card) */
+    --popover: 40 58% 98.5%;
     --popover-foreground: 222 47% 11%;
 
     --primary: 20 95% 55%;           /* electric orange */
+    /* Darker orange for primary-as-text on mesh gradient (headings / hero line) */
+    --primary-strong: 18 95% 42%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 215 95% 55%;        /* electric blue */
@@ -34,8 +40,9 @@
     --accent: 48 100% 58%;           /* vivid yellow */
     --accent-foreground: 222 47% 11%;
 
-    --muted: 220 25% 95%;
-    --muted-foreground: 222 15% 35%;
+    --muted: 220 23% 92.8%;
+    /* Darker than before so body copy / labels read clearly on warm card (was 222 15% 35%). */
+    --muted-foreground: 222 18% 28%;
 
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
@@ -44,10 +51,10 @@
     --input: 220 20% 88%;
     --ring: 20 95% 55%;
 
-    --pop-pink: 330 85% 62%;
-    --pop-lime: 140 70% 48%;
-    --pop-cyan: 190 90% 55%;
-    --pop-purple: 270 80% 60%;
+    --pop-pink: 330 90% 50%;
+    --pop-lime: 145 70% 40%;
+    --pop-cyan: 195 95% 45%;
+    --pop-purple: 270 80% 52%;
 
     --radius: 0.9rem;
 
@@ -106,10 +113,12 @@
     transition: background-color 400ms ease, color 400ms ease;
   }
 
-  /* Theme-specific body backdrop — different vibe per theme, not an inversion */
+  /* Theme-specific body backdrop: different vibe per theme, not an inversion */
   body {
-    background-image: theme('backgroundImage.vibrant-mesh');
-    background-attachment: fixed;
+    background-image:
+      theme("backgroundImage.vibrant-mesh"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-attachment: fixed, fixed;
   }
 
   .dark body {
@@ -150,17 +159,46 @@
     animation: blink 1.1s steps(2, start) infinite;
   }
 
-  /* Neon text glow — used sparingly in dark mode */
+  /* Neon text glow (used sparingly in dark mode) */
   .text-neon {
     text-shadow:
       0 0 8px hsl(var(--primary) / 0.55),
       0 0 20px hsl(var(--primary) / 0.25);
   }
 
-  /* Thick stroked "pop" text used in light mode for headlines */
+  /* Softer primary glow for labels / small accent text */
+  .text-neon-subtle {
+    text-shadow:
+      0 0 8px hsl(var(--primary) / 0.42),
+      0 0 18px hsl(var(--primary) / 0.22),
+      0 0 28px hsl(var(--primary) / 0.1);
+  }
+
+  /*
+   * Section titles and lead words that are not full text-neon: adds forward
+   * presence without duplicating the brightest glow on every headline.
+   */
+  .heading-face {
+    text-shadow: none;
+  }
+
+  .dark .heading-face {
+    text-shadow:
+      0 0 36px hsl(var(--primary) / 0.22),
+      0 0 64px hsl(var(--primary) / 0.07),
+      0 1px 0 hsl(var(--foreground) / 0.14);
+  }
+
+  :root:not(.dark) .heading-face {
+    text-shadow:
+      0 1px 0 hsl(var(--foreground) / 0.1),
+      0 10px 26px hsl(var(--primary) / 0.16);
+  }
+
+  /* Legacy utility: kept minimal so it does not read as pop-art if used */
   .text-pop {
-    -webkit-text-stroke: 1px hsl(var(--foreground));
-    text-shadow: 4px 4px 0 hsl(var(--accent));
+    -webkit-text-stroke: 0 transparent;
+    text-shadow: 0 1px 0 hsl(var(--foreground) / 0.08);
   }
 
   /* Shimmer utility for skeletons / accent bars */
@@ -178,6 +216,7 @@
   .card-surface {
     @apply bg-card text-card-foreground border border-border rounded-2xl;
   }
+
 }
 
 @layer utilities {
@@ -187,5 +226,97 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Reduce scroll "jitter" when lazy media or layout shifts fight the browser's scroll anchoring */
+  .overflow-anchor-none {
+    overflow-anchor: none;
+  }
+
+  /* ---------------------------------------------------------------
+   * Light-mode-only surface utilities.
+   * Each rule is scoped under :root:not(.dark) so dark mode is never
+   * affected; toggling the theme reverts to the regular treatment.
+   * ------------------------------------------------------------- */
+
+  :root:not(.dark) .bg-card-elevated {
+    background-color: hsl(var(--card-elevated));
+  }
+
+  /* Unified light card shell: matches LIGHT_SURFACE_CARD in popColors.js */
+  :root:not(.dark) .surface-card-standard {
+    border-radius: 1rem;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--card) / 0.75);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 8px 32px -8px hsl(var(--foreground) / 0.12);
+  }
+
+  :root:not(.dark) .light-glass-surface {
+    @apply border border-border bg-card/80 backdrop-blur-sm;
+  }
+
+  :root:not(.dark) .section-accent-bar {
+    @apply mb-3 block h-[3px] w-[60px] rounded-full;
+  }
+}
+
+/* Print stylesheet: hides nav, animations, and contact cards; renders essential content */
+@media print {
+  header,
+  footer,
+  nav,
+  .no-print,
+  [aria-hidden="true"],
+  button[aria-label="Back to top"],
+  .animate-scanline {
+    display: none !important;
+  }
+
+  body {
+    background: hsl(42 32% 97%) !important;
+    color: black !important;
+    font-size: 12pt;
+    background-image: none !important;
+  }
+
+  .dark body {
+    background-image: none !important;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #555;
+  }
+
+  section {
+    page-break-inside: avoid;
+    padding: 1rem 0;
+  }
+
+  h1, h2, h3 {
+    color: black !important;
+    text-shadow: none !important;
+  }
+
+  .shadow-pop,
+  .shadow-soft,
+  .shadow-soft-pink,
+  .shadow-soft-cyan,
+  .shadow-soft-purple,
+  .shadow-soft-orange,
+  .shadow-soft-blue,
+  .shadow-neon-cyan,
+  .shadow-presence-rest,
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .bg-card\/70,
+  .bg-card\/80,
+  .bg-card\/85 {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    background: hsl(42 35% 98%) !important;
+    border: 1px solid #ccc !important;
   }
 }

@@ -1,26 +1,62 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Cpu, Cog, Database, Play, Square, Terminal } from "lucide-react";
 import { ServicePageLayout } from "@/pages/ServicePageLayout";
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { CliTerminalEmulator } from "@/components/demos/software/CliTerminalEmulator";
+import { WebhookInspector } from "@/components/demos/software/WebhookInspector";
+import { ArchitectureDiagramViewer } from "@/components/demos/software/ArchitectureDiagramViewer";
+import { IntegrationCatalog } from "@/components/demos/software/IntegrationCatalog";
+import { AutomationRecipeBuilder } from "@/components/demos/software/AutomationRecipeBuilder";
+import { SoftwareCaseStudy } from "@/components/demos/shared/CaseStudySnapshot";
+import { SoftwarePricingCard } from "@/components/demos/shared/PricingCard";
+import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
+import { ContactForm } from "@/components/forms/ContactForm";
+import { CUSTOM_SOFTWARE_FAQS } from "@/data/faqs";
+import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function CustomSoftwareDemo() {
   return (
     <ServicePageLayout
-      eyebrow="03 — service / custom software"
+      eyebrow="03 · service / custom software"
       title="Custom Software Solutions"
-      tagline="Bespoke tooling, APIs, automations, and internal platforms — from FastAPI services to CLIs and ETL jobs."
+      tagline="Bespoke tooling, APIs, automations, and internal platforms, from FastAPI services to CLIs and ETL jobs."
       tags={["Python", "FastAPI", "CLI tools", "automation", "APIs", "integrations"]}
     >
       <CapabilityGrid />
       <div className="mt-16">
         <FakeApiDemo />
       </div>
+      <CliTerminalEmulator />
+      <ArchitectureDiagramViewer />
+      <WebhookInspector />
+      <IntegrationCatalog />
+      <AutomationRecipeBuilder />
       <div className="mt-16">
         <PipelineDemo />
       </div>
+      <SoftwareCaseStudy />
+      <SoftwarePricingCard />
+      <section id="inquiry" className="mt-16 scroll-mt-20">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
+          <h2 className="text-2xl font-bold">Let&apos;s build something</h2>
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
+            Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
+          </p>
+        </div>
+        <ContactForm defaultService="custom-software" />
+      </section>
+      <div className="mt-16">
+        <div className="mb-6">
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">faq</div>
+          <h2 className="text-2xl font-bold">Custom software questions</h2>
+        </div>
+        <FAQAccordion items={CUSTOM_SOFTWARE_FAQS} />
+      </div>
+      <OtherServicesNav current="software" />
     </ServicePageLayout>
   );
 }
@@ -30,7 +66,7 @@ function CapabilityGrid() {
   const isDark = theme === "dark";
   const items = [
     { icon: Cog, title: "Automations", body: "Replace repetitive manual work with Python scripts, schedulers, and webhooks." },
-    { icon: Cpu, title: "APIs & Services", body: "FastAPI backends with typed schemas, OpenAPI docs, and container-ready deploys." },
+    { icon: Cpu, title: "APIs & Services", body: "FastAPI backends with typed schemas, OpenAPI docs, and container ready deploys." },
     { icon: Database, title: "Data tooling", body: "ETL jobs, reporting pipelines, CLIs that stitch systems together cleanly." },
   ];
   return (
@@ -50,7 +86,7 @@ function CapabilityGrid() {
                 "h-full transition-all",
                 isDark
                   ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border-2 border-foreground shadow-pop"
+                  : "border border-border shadow-soft"
               )}
             >
               <CardHeader>
@@ -79,8 +115,6 @@ function CapabilityGrid() {
   );
 }
 
-/* ---------- Fake API demo: tap endpoints, see response ---------- */
-
 const ENDPOINTS = [
   {
     id: "port-scan",
@@ -91,9 +125,9 @@ const ENDPOINTS = [
       target: "10.0.0.5",
       scanned_ports: 1024,
       open: [
-        { port: 22,   service: "ssh",   banner: "OpenSSH_9.2" },
-        { port: 80,   service: "http",  banner: "nginx/1.25" },
-        { port: 443,  service: "https", banner: "nginx/1.25" },
+        { port: 22,  service: "ssh",   banner: "OpenSSH_9.2" },
+        { port: 80,  service: "http",  banner: "nginx/1.25" },
+        { port: 443, service: "https", banner: "nginx/1.25" },
       ],
       elapsed_ms: 2847,
     },
@@ -103,11 +137,7 @@ const ENDPOINTS = [
     method: "POST",
     path: "/api/v1/automation/ingest",
     body: { source: "stripe", event: "invoice.paid", id: "evt_abc123" },
-    response: {
-      queued: true,
-      job_id: "bg_82fe11",
-      eta_ms: 80,
-    },
+    response: { queued: true, job_id: "bg_82fe11", eta_ms: 80 },
   },
   {
     id: "user-report",
@@ -144,7 +174,7 @@ function FakeApiDemo() {
                   isActive
                     ? isDark
                       ? "border border-primary/50 bg-primary/10 shadow-neon-cyan"
-                      : "border-2 border-foreground bg-accent/40 shadow-pop"
+                      : "border border-border bg-accent/40 backdrop-blur-sm shadow-soft"
                     : "border border-border bg-card/60 hover:border-primary/40"
                 )}
               >
@@ -173,12 +203,10 @@ function FakeApiDemo() {
             "overflow-x-auto rounded-2xl p-5 font-mono text-xs leading-6",
             isDark
               ? "border border-border bg-card/70 backdrop-blur"
-              : "border-2 border-foreground bg-card shadow-pop"
+              : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
           )}
         >
-          <span className="text-muted-foreground">
-            {`# ${active.method} ${active.path}`}
-          </span>
+          <span className="text-muted-foreground">{`# ${active.method} ${active.path}`}</span>
           {"\n"}
           {active.body && (
             <>
@@ -197,21 +225,31 @@ function FakeApiDemo() {
   );
 }
 
-/* ---------- Mini pipeline demo: start/stop a live-scrolling job log ---------- */
+function randInt(min, max) {
+  return min + Math.floor(Math.random() * (max - min + 1));
+}
 
-const LOG_LINES = [
-  "[boot] pipeline.start — run_id=run_9f81a2",
+/** String or builder: builders run per line so ms / counts vary each run */
+const PIPELINE_STEPS = [
+  "[boot] pipeline.start, run_id=run_9f81a2",
   "[fetch] GET https://api.vendor.example/v2/orders?since=2026-04-20",
-  "[fetch] 200 OK · 318 records in 412ms",
+  () =>
+    `[fetch] 200 OK · ${randInt(285, 352)} records in ${randInt(260, 620)}ms`,
   "[transform] normalizing currencies → USD",
   "[transform] dropping duplicate order_ids (4)",
   "[validate] schema ok · 0 rejected",
-  "[enrich] joining customers.csv (rows=12,984)",
+  () =>
+    `[enrich] joining customers.csv (rows=${randInt(11_200, 14_100).toLocaleString("en-US")})`,
   "[persist] writing to postgres://prod/orders",
-  "[persist] committed 314 rows in 173ms",
+  () =>
+    `[persist] committed ${randInt(286, 336)} rows in ${randInt(64, 420)}ms`,
   "[notify] slack → #ops-etl",
-  "[done] pipeline ok · elapsed 2.4s",
+  () => `[done] pipeline ok · elapsed ${(randInt(17, 42) / 10).toFixed(1)}s`,
 ];
+
+function resolvePipelineLine(step) {
+  return typeof step === "function" ? step() : step;
+}
 
 function PipelineDemo() {
   const { theme } = useTheme();
@@ -219,40 +257,58 @@ function PipelineDemo() {
   const [running, setRunning] = useState(false);
   const [lines, setLines] = useState([]);
   const timer = useRef(null);
+  const lineIndex = useRef(0);
 
   const start = () => {
     if (running) return;
+    if (timer.current) {
+      clearInterval(timer.current);
+      timer.current = null;
+    }
+    lineIndex.current = 0;
     setLines([]);
     setRunning(true);
-    let i = 0;
     timer.current = setInterval(() => {
-      setLines((prev) => [...prev, LOG_LINES[i]]);
-      i += 1;
-      if (i >= LOG_LINES.length) {
-        clearInterval(timer.current);
+      const i = lineIndex.current;
+      if (i >= PIPELINE_STEPS.length) {
+        if (timer.current) clearInterval(timer.current);
+        timer.current = null;
+        setRunning(false);
+        return;
+      }
+      const next = resolvePipelineLine(PIPELINE_STEPS[i]);
+      lineIndex.current = i + 1;
+      setLines((prev) => [...prev, next]);
+      if (i + 1 >= PIPELINE_STEPS.length) {
+        if (timer.current) clearInterval(timer.current);
+        timer.current = null;
         setRunning(false);
       }
     }, 380);
   };
 
   const stop = () => {
-    if (timer.current) clearInterval(timer.current);
+    if (timer.current) {
+      clearInterval(timer.current);
+      timer.current = null;
+    }
     setRunning(false);
   };
 
-  useEffect(() => () => timer.current && clearInterval(timer.current), []);
+  useEffect(() => () => {
+    if (timer.current) clearInterval(timer.current);
+  }, []);
 
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            live demo
-          </div>
+          <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">live demo</div>
           <h2 className="mt-1 text-2xl font-bold">Run a sample ETL pipeline</h2>
         </div>
         <div className="flex gap-2">
           <button
+            type="button"
             onClick={start}
             disabled={running}
             className={cn(
@@ -261,13 +317,13 @@ function PipelineDemo() {
                 ? "cursor-not-allowed bg-muted text-muted-foreground"
                 : isDark
                 ? "bg-primary text-primary-foreground shadow-neon-cyan hover:brightness-110"
-                : "border-2 border-foreground bg-accent text-accent-foreground shadow-pop"
+                : "border border-border bg-accent text-accent-foreground shadow-soft"
             )}
           >
-            <Play className="h-4 w-4" />
-            Run
+            <Play className="h-4 w-4" /> Run
           </button>
           <button
+            type="button"
             onClick={stop}
             disabled={!running}
             className={cn(
@@ -276,33 +332,22 @@ function PipelineDemo() {
               !running && "opacity-50"
             )}
           >
-            <Square className="h-4 w-4" />
-            Stop
+            <Square className="h-4 w-4" /> Stop
           </button>
         </div>
       </div>
 
-      <div
-        className={cn(
-          "relative overflow-hidden rounded-2xl",
-          isDark
-            ? "border border-border bg-card/80 backdrop-blur"
-            : "border-2 border-foreground bg-card shadow-pop"
-        )}
-      >
+      <div className={cn(
+        "relative overflow-hidden rounded-2xl",
+        isDark ? "border border-border bg-card/80 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+      )}>
         <div className="flex items-center gap-2 border-b border-border bg-background/60 px-4 py-2">
           <Terminal className="h-4 w-4 text-primary" />
-          <span className="font-mono text-xs text-muted-foreground">
-            pipeline.log
-          </span>
-          <span
-            className={cn(
-              "ml-auto rounded-full px-2 py-0.5 font-mono text-[10px] font-bold",
-              running
-                ? "bg-accent/30 text-accent"
-                : "bg-muted text-muted-foreground"
-            )}
-          >
+          <span className="font-mono text-xs text-muted-foreground">pipeline.log</span>
+          <span className={cn(
+            "ml-auto rounded-full px-2 py-0.5 font-mono text-[10px] font-bold",
+            running ? "bg-accent/30 text-accent" : "bg-muted text-muted-foreground"
+          )}>
             {running ? "● running" : "idle"}
           </span>
         </div>
@@ -313,25 +358,18 @@ function PipelineDemo() {
             </span>
           )}
           {lines.map((l, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.18 }}
+            <div
+              key={`${i}-${l.slice(0, 24)}`}
               className={cn(
                 l.startsWith("[done]") && "text-accent",
                 l.startsWith("[boot]") && "text-primary"
               )}
             >
               {l}
-            </motion.div>
+            </div>
           ))}
           {running && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="inline-block terminal-cursor"
-            />
+            <span className="inline-block terminal-cursor" aria-hidden />
           )}
         </div>
       </div>

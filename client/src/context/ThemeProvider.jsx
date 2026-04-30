@@ -14,7 +14,7 @@ function getInitialTheme() {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;
   } catch {
-    // ignore — private mode, etc.
+    // ignore (private mode, etc.)
   }
   const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
   return prefersDark ? "dark" : "light";

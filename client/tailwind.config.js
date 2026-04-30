@@ -64,16 +64,29 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        "neon-cyan": "0 0 20px hsl(var(--primary) / 0.35), 0 0 40px hsl(var(--primary) / 0.15)",
-        "neon-purple": "0 0 20px hsl(var(--secondary) / 0.35), 0 0 40px hsl(var(--secondary) / 0.15)",
+        /* Glow + drop depth so cards and buttons read “forward” toward the viewer */
+        "neon-cyan":
+          "0 20px 50px -14px rgb(0 0 0 / 0.55), 0 0 0 1px hsl(var(--primary) / 0.22), 0 0 20px hsl(var(--primary) / 0.38), 0 0 42px hsl(var(--primary) / 0.14)",
+        "neon-purple":
+          "0 20px 50px -14px rgb(0 0 0 / 0.5), 0 0 0 1px hsl(var(--secondary) / 0.2), 0 0 20px hsl(var(--secondary) / 0.35), 0 0 42px hsl(var(--secondary) / 0.12)",
+        /** Resting matte cards in dark mode: float off the page without full neon */
+        "presence-rest":
+          "0 18px 46px -14px rgb(0 0 0 / 0.52), 0 0 0 1px hsl(var(--primary) / 0.14), 0 0 26px -10px hsl(var(--primary) / 0.2)",
         "pop": "6px 6px 0 0 hsl(var(--foreground))",
         "pop-primary": "6px 6px 0 0 hsl(var(--primary))",
+        "soft": "0 8px 32px -8px hsl(var(--foreground) / 0.15)",
+        "soft-pink": "0 8px 32px -8px hsl(var(--pop-pink) / 0.30)",
+        "soft-cyan": "0 8px 32px -8px hsl(var(--pop-cyan) / 0.30)",
+        "soft-purple": "0 8px 32px -8px hsl(var(--pop-purple) / 0.30)",
+        "soft-orange": "0 8px 32px -8px hsl(var(--primary) / 0.30)",
+        "soft-blue": "0 8px 32px -8px hsl(var(--secondary) / 0.30)",
       },
       backgroundImage: {
         "cyber-grid":
           "linear-gradient(hsl(var(--primary) / 0.08) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary) / 0.08) 1px, transparent 1px)",
+        // Strengthened mesh: alpha 0.18 -> 0.28, plus a fourth pop-pink point so coverage is even.
         "vibrant-mesh":
-          "radial-gradient(at 15% 20%, hsl(var(--primary) / 0.18) 0px, transparent 55%), radial-gradient(at 85% 15%, hsl(var(--secondary) / 0.18) 0px, transparent 55%), radial-gradient(at 50% 90%, hsl(var(--accent) / 0.18) 0px, transparent 55%)",
+          "radial-gradient(at 15% 20%, hsl(var(--primary) / 0.35) 0px, transparent 50%), radial-gradient(at 85% 15%, hsl(var(--secondary) / 0.30) 0px, transparent 50%), radial-gradient(at 50% 90%, hsl(var(--accent) / 0.28) 0px, transparent 55%), radial-gradient(at 75% 60%, hsl(var(--pop-pink) / 0.22) 0px, transparent 50%)",
       },
       backgroundSize: {
         "grid-32": "32px 32px",

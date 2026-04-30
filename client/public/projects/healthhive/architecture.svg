@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 760" width="980" height="760">
+  <rect width="980" height="760" fill="#0c1220"/>
+  <foreignObject x="0" y="0" width="980" height="760">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="margin:0;padding:16px;background:#0c1220;box-sizing:border-box;min-height:760px;display:flex;justify-content:center;align-items:flex-start">
+      <pre style="margin:0;font-family:ui-monospace,'JetBrains Mono','Consolas',monospace;font-size:10px;line-height:1.2;color:#a7f3d0;white-space:pre;text-shadow:0 0 12px rgba(52,211,153,0.15)">                  +-------------------------------------------------+
+                  |                 Client Layer                    |
+                  |                                                 |
+                  |  +-------------------------------------------+  |
+                  |  |               Web Browser                 |  |
+                  |  |  (Responsive UI for Mobile &amp; Desktop)     |  |
+                  |  +-------------------------------------------+  |
+                  |  | - HTML5, CSS3, JavaScript                 |  |
+                  |  | - React.js / Django Templates             |  |
+                  |  | - Bootstrap (Styling)                     |  |
+                  |  | - Chart.js (Data Visualization)           |  |
+                  |  +-------------------------------------------+  |
+                  +-----------------------+-------------------------+
+                                          |
+                                    HTTP / REST API 
+                                   (JWT Authentication)
+                                          |
+                  +-----------------------v-------------------------+
+                  |               Application Layer                 |
+                  |                 (Web Server)                    |
+                  |                                                 |
+                  |  +-------------------------------------------+  |
+                  |  |             Django (Python)               |  |
+                  |  |                                           |  |
+                  |  |  +----------------+  +-----------------+  |  |
+                  |  |  | Auth Service   |  | Health Metrics  |  |  |
+                  |  |  | (Signup/Login) |  | Tracking Logic  |  |  |
+                  |  |  +----------------+  +-----------------+  |  |
+                  |  |                                           |  |
+                  |  |  +-------------------------------------+  |  |
+                  |  |  |            Django ORM               |  |  |
+                  |  |  +-------------------------------------+  |  |
+                  |  +--------------------+----------------------+  |
+                  |                       |                         |
+                  |             +---------v---------+               |
+                  |             | OpenAI API Client |--------------&gt;| [ External ]
+                  |             +-------------------+               | [ OpenAI API ]
+                  +-----------------------+-------------------------+
+                                          |
+                                  SQL Connections
+                                  (mysqlclient)
+                                          |
+                  +-----------------------v-------------------------+
+                  |                 Database Layer                  |
+                  |                                                 |
+                  |  +-------------------------------------------+  |
+                  |  |              MySQL Database               |  |
+                  |  |                                           |  |
+                  |  |  - User Profiles &amp; Credentials            |  |
+                  |  |  - Health Data (Weight, Steps, Calories)  |  |
+                  |  +-------------------------------------------+  |
+                  +-------------------------------------------------+</pre>
+    </div>
+  </foreignObject>
+</svg>

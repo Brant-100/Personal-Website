@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Mail } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { tagChipLightClass } from "@/lib/popColors";
 
 export function ServicePageLayout({
   eyebrow,
@@ -23,7 +24,7 @@ export function ServicePageLayout({
 
   return (
     <div className="relative overflow-hidden pt-28 md:pt-36">
-      {/* Backdrop — differs per theme */}
+      {/* Backdrop (differs per theme) */}
       <div className="pointer-events-none absolute inset-0 -z-0 overflow-hidden">
         {isDark ? (
           <>
@@ -59,8 +60,11 @@ export function ServicePageLayout({
           transition={{ duration: 0.45 }}
           className="mt-6 max-w-3xl"
         >
-          <div className="mb-4 font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            {eyebrow}
+          <div className="mb-4">
+            {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
+            <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+              {eyebrow}
+            </div>
           </div>
           <h1
             className={cn(
@@ -74,22 +78,30 @@ export function ServicePageLayout({
 
           {tags.length > 0 && (
             <div className="mt-6 flex flex-wrap gap-2">
-              {tags.map((t) => (
-                <Badge key={t} variant={isDark ? "default" : "outline"}>
-                  {t}
-                </Badge>
-              ))}
+              {tags.map((t, ti) =>
+                isDark ? (
+                  <Badge key={t} variant="default">
+                    {t}
+                  </Badge>
+                ) : (
+                  <span key={t} className={tagChipLightClass(t, ti)}>
+                    {t}
+                  </span>
+                )
+              )}
             </div>
           )}
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button size="lg" variant={isDark ? "default" : "pop"} asChild>
-              <a
-                href="mailto:brantsimpson100@gmail.com"
-                className="inline-flex items-center gap-2"
-              >
-                <Mail className="h-4 w-4" /> Start a project
-              </a>
+            <Button
+              size="lg"
+              variant={isDark ? "default" : "pop"}
+              onClick={() => {
+                const el = document.getElementById("inquiry");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              Start a project
             </Button>
             <Button size="lg" variant="outline" asChild>
               <Link to="/#contact">Other ways to reach me</Link>

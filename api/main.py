@@ -1,44 +1,133 @@
 """FastAPI entrypoint for brantsimpson.com.
 
 Serves JSON data for the portfolio frontend:
-    - GET /api/health
-    - GET /api/projects
-    - GET /api/services
-    - GET /api/credentials
-    - GET /api/experience
+    - GET  /api/health
+    - GET  /api/projects
+    - GET  /api/projects/{id}
+    - GET  /api/services
+    - GET  /api/credentials
+    - GET  /api/credentials/{id}
+    - GET  /api/credly/badges/{uuid}/assertion
+    - GET  /api/experience
+    - GET  /api/posts
+    - GET  /api/posts/{slug}
+    - POST /api/contact
+    - POST /api/inquiry
 
 Run locally:
-    uvicorn main:app --reload --port 8000
+    uvicorn main:app --reload --host 127.0.0.1 --port 8765
 """
 from __future__ import annotations
 
+import logging
 import os
-from typing import List, Optional
+import pathlib
+import re
+from typing import Any, Dict, List, Literal, Optional
 
-from fastapi import FastAPI
+import frontmatter as fm
+import httpx
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, EmailStr, Field
+from slowapi import Limiter
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from slowapi.util import get_remote_address
+
+from schemas import InquiryIn, InquiryOut
+from turnstile import verify_turnstile_token
+from email_sender import send_inquiry_notification, send_confirmation_to_user
+
+logger = logging.getLogger("brantsimpson-api")
 
 from data import CREDENTIALS, EXPERIENCE, PROJECTS, SERVICES
+from data.external_posts import EXTERNAL_POSTS
+
+POSTS_DIR = pathlib.Path(__file__).parent / "content" / "posts"
+
+CREDLY_BADGE_UUID_RE = re.compile(
+    r"^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+    re.IGNORECASE,
+)
+_ACCLAIM_ASSERTION_BASE = "https://www.youracclaim.com/api/v1/obi/v2/badge_assertions"
+_ALLOWED_ACCLAIM_BADGE_PREFIX = "https://www.youracclaim.com/api/v1/obi/"
+
+
+def _fetch_credly_upstream_json(url: str) -> Dict[str, Any]:
+    """GET JSON from Credly/Acclaim OBI endpoints (server-side; avoids browser CORS)."""
+    try:
+        r = httpx.get(
+            url,
+            headers={
+                "Accept": "application/json",
+                "User-Agent": "brantsimpson-portfolio-api/1.0",
+            },
+            timeout=20.0,
+            follow_redirects=True,
+        )
+    except httpx.RequestError as exc:
+        logger.warning("Credly fetch failed %s: %s", url, exc)
+        raise HTTPException(status_code=502, detail="Could not reach badge host") from exc
+    if r.status_code == 404:
+        raise HTTPException(status_code=404, detail="Badge assertion not found")
+    if r.status_code != 200:
+        logger.warning("Credly %s returned HTTP %s", url, r.status_code)
+        raise HTTPException(status_code=502, detail="Badge host returned an error")
+    try:
+        parsed = r.json()
+    except ValueError as exc:
+        raise HTTPException(status_code=502, detail="Badge host returned non-JSON") from exc
+    if not isinstance(parsed, dict):
+        raise HTTPException(status_code=502, detail="Badge host returned unexpected JSON")
+    data = parsed
+    err = data.get("data")
+    if isinstance(err, dict) and err.get("message"):
+        logger.warning("Credly error payload for %s: %s", url, err.get("message"))
+        raise HTTPException(status_code=502, detail="Badge host could not serve this assertion")
+    return data
 
 
 # ---------------------------------------------------------------------------
 # Pydantic models
 # ---------------------------------------------------------------------------
+class TechnicalDecision(BaseModel):
+    decision: str
+    why: str
+    tradeoffs: str
+
+
+class Screenshot(BaseModel):
+    url: str
+    caption: str
+
+
 class Project(BaseModel):
     id: str
+    sort_order: int = 99
     title: str
     tagline: str
     description: str
+    problem: Optional[str] = None
+    constraints: List[str] = Field(default_factory=list)
     features: List[str] = Field(default_factory=list)
     tech: List[str] = Field(default_factory=list)
     tags: List[str] = Field(default_factory=list)
     status: str = "public"
     year: Optional[str] = None
+    last_updated: Optional[str] = None
     repo_url: Optional[str] = None
     live_url: Optional[str] = None
     # Frontend maps this to card chrome: skillswap | healthhive | cyber | default
     accent_theme: str = "default"
+    architecture_diagram_url: Optional[str] = None
+    screenshots: List[Screenshot] = Field(default_factory=list)
+    demo_video_url: Optional[str] = None
+    mitre_techniques: List[str] = Field(default_factory=list)
+    visibility_note: Optional[str] = None
+    technical_decisions: List[TechnicalDecision] = Field(default_factory=list)
+    lessons_learned: List[str] = Field(default_factory=list)
 
 
 class Service(BaseModel):
@@ -50,6 +139,16 @@ class Service(BaseModel):
     tags: List[str] = Field(default_factory=list)
 
 
+class BeltEntry(BaseModel):
+    name: str
+    pdf_url: str
+    issue_date: str
+    credential_id: Optional[str] = None
+    openbadges_url: Optional[str] = None
+    credly_embed_badge_id: Optional[str] = None
+    credly_badge_image_url: Optional[str] = None
+
+
 class Credential(BaseModel):
     id: str
     name: str
@@ -59,6 +158,18 @@ class Credential(BaseModel):
     url: Optional[str] = None
     subtitle: Optional[str] = None
     group: Optional[str] = None
+    description: str = ""
+    skills: List[str] = Field(default_factory=list)
+    pdf_url: Optional[str] = None
+    credly_badge_url: Optional[str] = None
+    credly_embed_badge_id: Optional[str] = None
+    credly_badge_image_url: Optional[str] = None
+    openbadges_url: Optional[str] = None
+    issue_date: Optional[str] = None
+    expires_date: Optional[str] = None
+    credential_id: Optional[str] = None
+    verify_url: Optional[str] = None
+    belts: List[BeltEntry] = Field(default_factory=list)
 
 
 class ExperienceEntry(BaseModel):
@@ -76,14 +187,59 @@ class Health(BaseModel):
     version: str = "0.1.0"
 
 
+class PostMeta(BaseModel):
+    slug: str
+    title: str
+    date: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
+    excerpt: Optional[str] = None
+    kind: Literal["internal", "external"] = "internal"
+    url: Optional[str] = None
+    source: Optional[str] = None
+    author: Optional[str] = None
+    cover_image: Optional[str] = None
+    reading_time: Optional[str] = None
+
+
+class PostDetail(PostMeta):
+    content: str
+
+
+class ContactRequest(BaseModel):
+    name: str
+    email: EmailStr
+    message: str
+    website: str = ""  # honeypot field
+
+
+class ContactResponse(BaseModel):
+    ok: bool
+    message: str
+
+
+
 # ---------------------------------------------------------------------------
 # App + CORS
 # ---------------------------------------------------------------------------
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI(
     title="brantsimpson.com API",
     description="Portfolio data service for brantsimpson.com",
     version="0.1.0",
 )
+
+app.state.limiter = limiter
+app.add_middleware(SlowAPIMiddleware)
+
+
+@app.exception_handler(RateLimitExceeded)
+async def _rate_limit_handler(request: Request, exc: RateLimitExceeded) -> JSONResponse:
+    return JSONResponse(
+        status_code=429,
+        content={"detail": "Too many submissions. Please try again in an hour."},
+    )
+
 
 # Local dev (Vite :5173 / preview :4173). \*.vercel.app is allowed by regex for preview deploys.
 # Production custom domain is listed here so CORS works even if Railway env is mis-set; add
@@ -116,7 +272,7 @@ app.add_middleware(
     allow_origins=ALLOWED_ORIGINS,
     allow_origin_regex=_CORS_ORIGIN_REGEX,
     allow_credentials=True,
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -131,7 +287,17 @@ def health() -> Health:
 
 @app.get("/api/projects", response_model=List[Project], tags=["portfolio"])
 def get_projects() -> List[Project]:
-    return [Project(**p) for p in PROJECTS]
+    items = [Project(**p) for p in PROJECTS]
+    items.sort(key=lambda p: p.sort_order)
+    return items
+
+
+@app.get("/api/projects/{project_id}", response_model=Project, tags=["portfolio"])
+def get_project(project_id: str) -> Project:
+    for p in PROJECTS:
+        if p["id"] == project_id:
+            return Project(**p)
+    raise HTTPException(status_code=404, detail=f"Project '{project_id}' not found")
 
 
 @app.get("/api/services", response_model=List[Service], tags=["portfolio"])
@@ -144,21 +310,225 @@ def get_credentials() -> List[Credential]:
     return [Credential(**c) for c in CREDENTIALS]
 
 
+@app.get("/api/credentials/{credential_id}", response_model=Credential, tags=["portfolio"])
+def get_credential(credential_id: str) -> Credential:
+    for c in CREDENTIALS:
+        if c["id"] == credential_id:
+            return Credential(**c)
+    raise HTTPException(status_code=404, detail=f"Credential '{credential_id}' not found")
+
+
+@app.get("/api/credly/badges/{badge_id}/assertion", tags=["portfolio"])
+def credly_badge_assertion(badge_id: str) -> Dict[str, Any]:
+    """Return an Open Badges 2.0 assertion, with linked BadgeClass inlined when possible.
+
+    Uses Credly/Acclaim's public OBI endpoint (same UUID as embed and public_json URLs).
+    """
+    if not CREDLY_BADGE_UUID_RE.match(badge_id):
+        raise HTTPException(status_code=400, detail="Invalid badge id")
+    assertion_url = f"{_ACCLAIM_ASSERTION_BASE}/{badge_id}"
+    payload = _fetch_credly_upstream_json(assertion_url)
+    badge_ref = payload.get("badge")
+    if isinstance(badge_ref, str) and badge_ref.startswith(_ALLOWED_ACCLAIM_BADGE_PREFIX):
+        try:
+            payload["badge"] = _fetch_credly_upstream_json(badge_ref)
+        except HTTPException:
+            pass
+    return payload
+
+
 @app.get("/api/experience", response_model=List[ExperienceEntry], tags=["portfolio"])
 def get_experience() -> List[ExperienceEntry]:
     return [ExperienceEntry(**e) for e in EXPERIENCE]
 
 
+def _meta_from_md_file(path: pathlib.Path) -> PostMeta:
+    """Frontmatter-only metadata for list endpoint (no body)."""
+    post = fm.load(str(path))
+    slug = path.stem
+    meta = post.metadata if isinstance(post.metadata, dict) else {}
+    rd = meta.get("reading_time")
+    if rd is not None and not isinstance(rd, str):
+        rd = str(rd)
+    return PostMeta(
+        slug=slug,
+        title=meta.get("title", slug),
+        date=str(meta.get("date", "")).strip() or None,
+        tags=meta.get("tags") or [],
+        excerpt=meta.get("excerpt"),
+        kind="internal",
+        url=None,
+        source=None,
+        author=None,
+        cover_image=meta.get("cover_image"),
+        reading_time=rd,
+    )
+
+
+def _load_post(path: pathlib.Path) -> PostDetail:
+    """Parse a markdown file with YAML frontmatter into PostDetail."""
+    post = fm.load(str(path))
+    slug = path.stem
+    meta = post.metadata if isinstance(post.metadata, dict) else {}
+    rd = meta.get("reading_time")
+    if rd is not None and not isinstance(rd, str):
+        rd = str(rd)
+    return PostDetail(
+        slug=slug,
+        title=meta.get("title", slug),
+        date=str(meta.get("date", "")).strip() or None,
+        tags=meta.get("tags") or [],
+        excerpt=meta.get("excerpt"),
+        kind="internal",
+        url=None,
+        source=None,
+        author=None,
+        cover_image=meta.get("cover_image"),
+        reading_time=rd,
+        content=post.content,
+    )
+
+
+def _external_row_to_meta(row: Dict[str, Any]) -> PostMeta:
+    """Normalize EXTERNAL_POSTS entry to PostMeta (slug from id)."""
+    source = row.get("source") or "other"
+    cid = row["id"]
+    return PostMeta(
+        slug=str(cid),
+        title=str(row["title"]),
+        date=str(row.get("date", "")).strip() or None,
+        tags=list(row.get("tags") or []),
+        excerpt=row.get("excerpt"),
+        kind="external",
+        url=str(row["url"]),
+        source=str(source),
+        author=row.get("author"),
+        cover_image=row.get("cover_image"),
+        reading_time=row.get("reading_time"),
+    )
+
+
+@app.get("/api/posts", response_model=List[PostMeta], tags=["blog"])
+def get_posts() -> List[PostMeta]:
+    posts: List[PostMeta] = []
+    if POSTS_DIR.exists():
+        for md_file in POSTS_DIR.glob("*.md"):
+            try:
+                posts.append(_meta_from_md_file(md_file))
+            except Exception as exc:
+                logger.warning("Could not parse %s: %s", md_file, exc)
+    for row in EXTERNAL_POSTS:
+        try:
+            posts.append(_external_row_to_meta(row))
+        except Exception as exc:
+            logger.warning("Could not normalize external post %s: %s", row.get("id"), exc)
+    # Newest date first; stable tie-break: slug ascending
+    posts.sort(key=lambda p: p.slug.lower())
+    posts.sort(key=lambda p: p.date or "0000-01-01", reverse=True)
+    return posts
+
+
+@app.get("/api/posts/{slug}", response_model=PostDetail, tags=["blog"])
+def get_post(slug: str) -> PostDetail:
+    md_file = POSTS_DIR / f"{slug}.md"
+    if not md_file.exists():
+        raise HTTPException(status_code=404, detail=f"Post '{slug}' not found")
+    return _load_post(md_file)
+
+
+@app.post("/api/contact", response_model=ContactResponse, tags=["contact"])
+async def contact(req: ContactRequest) -> ContactResponse:
+    # Discard honeypot-filled submissions silently
+    if req.website:
+        return ContactResponse(ok=True, message="Message received.")
+
+    resend_key = os.environ.get("RESEND_API_KEY")
+    to_email = os.environ.get("CONTACT_TO_EMAIL", "brant@brantsimpson.com")
+    from_email = os.environ.get("CONTACT_FROM_EMAIL", "contact@brantsimpson.com")
+
+    if resend_key:
+        try:
+            import httpx
+            async with httpx.AsyncClient() as client:
+                r = await client.post(
+                    "https://api.resend.com/emails",
+                    headers={"Authorization": f"Bearer {resend_key}"},
+                    json={
+                        "from": f"Portfolio Contact <{from_email}>",
+                        "to": [to_email],
+                        "subject": f"Portfolio contact from {req.name}",
+                        "text": f"From: {req.name} <{req.email}>\n\n{req.message}",
+                        "reply_to": req.email,
+                    },
+                    timeout=10.0,
+                )
+                if r.status_code >= 400:
+                    logger.error("Resend error %s: %s", r.status_code, r.text)
+        except Exception as exc:
+            logger.error("Resend send failed: %s", exc)
+    else:
+        logger.info(
+            "Contact form (no RESEND_API_KEY); from=%s <%s> msg=%s",
+            req.name,
+            req.email,
+            req.message[:120],
+        )
+
+    return ContactResponse(ok=True, message="Message received. I usually reply within 48 hours.")
+
+
+@app.post("/api/inquiry", response_model=InquiryOut, tags=["contact"])
+@limiter.limit("5/hour")
+async def inquiry(request: Request, data: InquiryIn) -> InquiryOut:
+    # Honeypot is enforced by InquiryIn.honeypot_must_be_empty validator (422 on fill).
+    # Verify Turnstile token server-side.
+    client_ip = request.client.host if request.client else None
+    if not await verify_turnstile_token(data.turnstileToken, client_ip):
+        raise HTTPException(
+            status_code=400,
+            detail="Verification failed. Please refresh the page and try again.",
+        )
+
+    # Notify Brant.
+    ok, err = await send_inquiry_notification(
+        name=data.name,
+        email=data.email,
+        service=data.service,
+        budget=data.budget,
+        timeline=data.timeline,
+        message=data.message,
+    )
+    if not ok:
+        logger.error("inquiry: notification send failed: %s", err)
+        raise HTTPException(
+            status_code=500,
+            detail="Couldn't send your message right now. Please email me directly at brant@brantsimpson.com.",
+        )
+
+    # Best-effort confirmation to submitter; don't fail the request if this errors.
+    ok2, err2 = await send_confirmation_to_user(data.name, data.email)
+    if not ok2:
+        logger.warning("inquiry: confirmation send failed: %s", err2)
+
+    return InquiryOut(success=True, message="Inquiry received.")
+
+
 @app.get("/", include_in_schema=False)
-def root() -> dict:
+def root() -> Dict[str, Any]:
     return {
         "service": "brantsimpson-api",
         "docs": "/docs",
         "endpoints": [
             "/api/health",
             "/api/projects",
+            "/api/projects/{id}",
             "/api/services",
             "/api/credentials",
+            "/api/credentials/{id}",
             "/api/experience",
+            "/api/posts",
+            "/api/posts/{slug}",
+            "/api/contact",
+            "/api/inquiry",
         ],
     }

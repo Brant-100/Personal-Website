@@ -1,14 +1,16 @@
 # brantsimpson.com
 
-Personal portfolio for **Brant Simpson** — Software Developer & cybersecurity profeshional.
+[![CI](https://github.com/Brant-100/Personal-Website/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/Brant-100/Personal-Website/actions/workflows/ci.yml)
+
+Personal portfolio for **Brant Simpson**, Software Developer and cybersecurity professional.
 
 - **Frontend:** React + Vite + Tailwind CSS + Framer Motion + shadcn/ui
 - **Backend:** FastAPI (Python)
 
 The site ships with two visually distinct themes:
 
-- **Dark** — sleek cyber/hacker aesthetic (slate/black backgrounds, neon cyan/purple/matrix-green accents, monospaced code feel).
-- **Light** — bright and vibrant (electric orange, electric blue, vivid yellow accents on clean off-white).
+- **Dark:** sleek cyber/hacker aesthetic (slate/black backgrounds, neon cyan/purple/matrix-green accents, monospaced code feel).
+- **Light:** bright and vibrant (electric orange, electric blue, vivid yellow accents on clean off-white).
 
 ## Project layout
 
@@ -20,7 +22,7 @@ brantsimpson.com/
 
 ## Running locally
 
-You'll want two terminals — one for the API, one for the frontend.
+You'll want two terminals: one for the API, one for the frontend.
 
 ### 1. Backend (FastAPI)
 
@@ -29,16 +31,17 @@ cd api
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --host 127.0.0.1 --port 8765
 ```
 
-The API will be available at `http://localhost:8000` with endpoints:
+The API will be available at `http://localhost:8765` with endpoints:
 
 - `GET /api/health`
 - `GET /api/projects`
 - `GET /api/services`
 - `GET /api/credentials`
 - `GET /api/experience`
+- `POST /api/inquiry` — contact/inquiry form (Turnstile + rate limit + Resend emails; see [api/README.md](api/README.md))
 
 ### 2. Frontend (Vite)
 
@@ -50,7 +53,7 @@ npm run dev
 
 Dev server: `http://localhost:5173`.
 
-The frontend expects the API at `http://localhost:8000` (configurable via `VITE_API_BASE_URL` in a `.env` file).
+For local dev, `client/.env.development` points at `http://localhost:8765`. Override with `VITE_API_BASE_URL` in `client/.env` or `client/.env.local`.
 
 ## First-time setup
 
@@ -62,4 +65,4 @@ npx shadcn@latest init
 npx shadcn@latest add button card badge separator
 ```
 
-Everything else — Tailwind config, theme tokens, components — is pre-wired.
+Everything else (Tailwind config, theme tokens, components) is pre-wired.

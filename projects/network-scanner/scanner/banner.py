@@ -23,7 +23,7 @@ import socket
 #
 #  Most services wait for YOU to say something before they
 #  respond. But some services send a banner the moment you
-#  connect, without waiting for input — we call these
+#  connect, without waiting for input: we call these
 #  "banner-first" services.
 #
 # banner: a banner is the first thing that a service sends when you connect to it example: "SSH-2.0-OpenSSH_8.9p1 Ubuntu-3"
@@ -32,16 +32,16 @@ import socket
 # ─────────────────────────────────────────────────────────────
  
 BANNER_FIRST_PORTS: set[int] = {
-    21,   # FTP    — sends "220 Welcome" on connect
-    22,   # SSH    — sends protocol version on connect
-    25,   # SMTP   — sends "220 hostname ESMTP" on connect
-    110,  # POP3   — sends "+OK" on connect
-    143,  # IMAP   — sends "* OK" on connect
-    993,  # IMAPS  — sends "* OK" on connect
-    995,  # POP3S  — sends "+OK" on connect
+    21,   # FTP   : sends "220 Welcome" on connect
+    22,   # SSH   : sends protocol version on connect
+    25,   # SMTP  : sends "220 hostname ESMTP" on connect
+    110,  # POP3  : sends "+OK" on connect
+    143,  # IMAP  : sends "* OK" on connect
+    993,  # IMAPS : sends "* OK" on connect
+    995,  # POP3S : sends "+OK" on connect
 }
  
-# HTTP-based ports — we send a HEAD request to get the
+# HTTP-based ports: we send a HEAD request to get the
 # Server header back, which tells us the web server software
 HTTP_PORTS: set[int] = {80, 443, 8080, 8443, 8888}
  
@@ -57,7 +57,7 @@ HTTP_PORTS: set[int] = {80, 443, 8080, 8443, 8888}
 #    2. HTTP ports          → send HEAD request, read response
 #    3. Everything else     → send a newline nudge, then read
 #
-#  We always return a string or None — never raise exceptions
+#  We always return a string or None: never raise exceptions
 #  here because a failed banner grab shouldn't crash the scan.
 # ─────────────────────────────────────────────────────────────
  
@@ -70,7 +70,7 @@ def grab(sock: socket.socket, port: int, timeout: float = 2.0) -> str | None:
  
     Args:
         sock:    An open, connected TCP socket
-        port:    The port number — used to decide our approach
+        port:    The port number: used to decide our approach
         timeout: How long to wait for a response (default 2.0s)
  
     Returns:
@@ -86,23 +86,23 @@ def grab(sock: socket.socket, port: int, timeout: float = 2.0) -> str | None:
  
         elif port in HTTP_PORTS:
             # HTTP servers won't send anything until we make a request.
-            # HEAD asks for headers only (no body) — faster and lighter
+            # HEAD asks for headers only (no body): faster and lighter
             # than GET. The Server header tells us the web server name.
             request = b"HEAD / HTTP/1.0\r\nHost: target\r\n\r\n"
             sock.sendall(request)
             banner = _read(sock)
  
         else:
-            # Unknown service — send a blank line as a nudge.
+            # Unknown service: send a blank line as a nudge.
             # Some services respond to any input with their banner.
-            # Many won't respond at all — that's fine, we return None.
+            # Many won't respond at all: that's fine, we return None.
             sock.sendall(b"\r\n")
             banner = _read(sock)
  
         return _clean(banner)
  
     except (socket.timeout, OSError, UnicodeDecodeError):
-        # Timed out or connection dropped — not an error, just no banner
+        # Timed out or connection dropped: not an error, just no banner
         return None
     finally:
         # Always close the socket when we're done
@@ -114,7 +114,7 @@ def grab(sock: socket.socket, port: int, timeout: float = 2.0) -> str | None:
 #  _read
 #
 #  Reads raw bytes from the socket and decodes to a string.
-#  We read up to 1024 bytes — enough to capture any banner,
+#  We read up to 1024 bytes: enough to capture any banner,
 #  but not so much that a chatty service slows us down.
 # ─────────────────────────────────────────────────────────────
  
@@ -150,6 +150,6 @@ def _clean(banner: str) -> str | None:
     if not first_line:
         return None
  
-    # Truncate to 120 chars — some banners are very long
+    # Truncate to 120 chars: some banners are very long
     return first_line[:120]
  

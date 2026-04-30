@@ -2,98 +2,328 @@
 
 Grouped for display: CompTIA, Certiport IT Specialist, Process Improvement, Digital Literacy.
 Source: https://www.credly.com/users/brant-simpson/badges
+
+Fill credly_embed_badge_id (Credly share badge UUID), credly_badge_image_url (Credly CDN artwork;
+speeds up client without an extra API hop), credly_badge_url, and openbadges_url per badge when available.
 """
 
 CREDENTIALS = [
     # ----- CompTIA -----
     {
         "id": "comptia-security-plus-sy0701",
-        "name": "CompTIA Security+ ce (SY0-701)",
+        "name": "CompTIA Security+ (SY0-701)",
         "issuer": "CompTIA",
         "category": "security",
         "group": "comptia",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "CompTIA Security+ is a vendor neutral core certification covering general "
+            "security concepts, threats, architecture, operations, and governance. The "
+            "SY0-701 track emphasizes zero trust, hybrid environments, cloud and IoT "
+            "security, risk response, and secure coding and automation practices."
+        ),
+        "skills": [
+            "General security concepts (Confidentiality, Integrity, Availability, CIA)",
+            "Threat actors, motivations, and attack surfaces",
+            "Security controls and mitigation techniques",
+            "Enterprise security architecture and zero trust",
+            "Security operations (incident response, forensics awareness, automation)",
+            "Security program management, risk, compliance, and governance",
+        ],
+        "pdf_url": "/credentials/comptia-security-plus-sy0701.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "44b37ab4-ae91-4f12-a35e-22dd307ce64d",
+        "credly_badge_image_url": "https://images.credly.com/images/80d8a06a-c384-42bf-ad36-db81bce5adce/blob",
+        "openbadges_url": "https://www.credly.com/badges/44b37ab4-ae91-4f12-a35e-22dd307ce64d/public_json",
+        "issue_date": "2026-04-10",
+        "expires_date": "2029-04-10",
+        "credential_id": "COMP001023029207",
+        "verify_url": "https://www.comptia.org/certifications/verify",
     },
-    # ----- Certiport / Pearson VUE — IT Specialist Series -----
+    # ----- Certiport / Pearson VUE: IT Specialist Series -----
     {
         "id": "itsp-artificial-intelligence",
-        "name": "IT Specialist – Artificial Intelligence",
+        "name": "IT Specialist: Artificial Intelligence",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "ai",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "IT Specialist in Artificial Intelligence validates foundational knowledge of "
+            "AI concepts, machine learning workflows, data ethics, and practical use of "
+            "AI tools in business and technical contexts."
+        ),
+        "skills": [
+            "AI and ML terminology and use cases",
+            "Data for AI: quality, bias, and privacy considerations",
+            "Neural networks and model training at a conceptual level",
+            "Responsible AI and ethical guidelines",
+            "Integrating AI services in software workflows",
+        ],
+        "pdf_url": "/credentials/itsp-artificial-intelligence.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "8104732f-39f9-4163-9169-3e8745cdff57",
+        "credly_badge_image_url": "https://images.credly.com/images/e63cb7ac-9d3e-4da1-9bcb-23de37a0c6a3/ITS-Badges_Art-Intel.png",
+        "openbadges_url": "https://www.credly.com/badges/8104732f-39f9-4163-9169-3e8745cdff57/public_json",
+        "issue_date": "2026-04-17",
+        "expires_date": "2031-04-17",
+        "credential_id": "PvFw-uSKY",
+        "verify_url": None,
     },
     {
         "id": "itsp-cloud-computing",
-        "name": "IT Specialist – Cloud Computing",
+        "name": "IT Specialist: Cloud Computing",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "cloud",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Covers cloud service models (IaaS, PaaS, SaaS), deployment models, core "
+            "Azure/AWS style concepts, virtualization, storage, networking in the cloud, "
+            "and basic security and cost awareness."
+        ),
+        "skills": [
+            "Cloud concepts and service models",
+            "Virtualization and resource provisioning",
+            "Cloud storage, databases, and networking basics",
+            "Identity, access, and security fundamentals in cloud",
+            "High availability, scaling, and cost awareness",
+        ],
+        "pdf_url": "/credentials/itsp-cloud-computing.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "5f041126-adff-434e-9a21-eb24393a8d47",
+        "credly_badge_image_url": "https://images.credly.com/images/86bff777-939c-42c5-9a09-44b9bf635eba/_ITS-Badges-Cloud-Comput.png",
+        "openbadges_url": "https://www.credly.com/badges/5f041126-adff-434e-9a21-eb24393a8d47/public_json",
+        "issue_date": "2026-04-20",
+        "expires_date": "2031-04-20",
+        "credential_id": "yh3S-uTEB",
+        "verify_url": None,
     },
     {
         "id": "itsp-computational-thinking",
-        "name": "IT Specialist – Computational Thinking",
+        "name": "IT Specialist: Computational Thinking",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "foundations",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Demonstrates problem decomposition, pattern recognition, abstraction, and "
+            "algorithm design (skills that underpin programming and systems thinking)."
+        ),
+        "skills": [
+            "Decomposing problems into logical steps",
+            "Pattern recognition and generalization",
+            "Abstraction and modeling",
+            "Basic algorithms and pseudocode",
+            "Testing and refining solutions",
+        ],
+        "pdf_url": "/credentials/itsp-computational-thinking.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "8d8e4148-0785-48e3-9e4e-fb14b9b93e8f",
+        "credly_badge_image_url": "https://images.credly.com/images/34be5a4c-211c-4796-9983-34c46a3d1e8a/_ITS-Badges-Computational-Think.png",
+        "openbadges_url": "https://www.credly.com/badges/8d8e4148-0785-48e3-9e4e-fb14b9b93e8f/public_json",
+        "issue_date": "2026-04-20",
+        "expires_date": "2031-04-20",
+        "credential_id": "wYndH-2FvG",
+        "verify_url": None,
     },
     {
         "id": "itsp-cybersecurity",
-        "name": "IT Specialist – Cybersecurity",
+        "name": "IT Specialist: Cybersecurity",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "cybersecurity",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Foundational cybersecurity aligned to foundational security roles: threats, "
+            "vulnerabilities, identity, network defense, cryptography concepts, and "
+            "secure practices."
+        ),
+        "skills": [
+            "Threat and vulnerability concepts",
+            "Identity and access management basics",
+            "Network and host hardening concepts",
+            "Cryptography fundamentals (symmetric, asymmetric, hashing)",
+            "Security operations and awareness",
+        ],
+        "pdf_url": "/credentials/itsp-cybersecurity.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "7cea77b4-1aa5-4930-8b0d-b2fa2f383e5a",
+        "credly_badge_image_url": "https://images.credly.com/images/d05c40ff-0e15-4c1d-8c4f-6607e93eda24/ITS-Badges-Cybersecurity.png",
+        "openbadges_url": "https://www.credly.com/badges/7cea77b4-1aa5-4930-8b0d-b2fa2f383e5a/public_json",
+        "issue_date": "2026-04-16",
+        "expires_date": "2031-04-16",
+        "credential_id": "MBk8-s4UH",
+        "verify_url": None,
     },
     {
         "id": "itsp-databases",
-        "name": "IT Specialist – Databases",
+        "name": "IT Specialist: Databases",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "development",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Relational database concepts, SQL, normalization, indexing, transactions, "
+            "and basic database design and querying."
+        ),
+        "skills": [
+            "Relational model and ER thinking",
+            "SQL SELECT, INSERT, UPDATE, DELETE",
+            "Joins, subqueries, and aggregates",
+            "Normalization and keys",
+            "Transactions and data integrity basics",
+        ],
+        "pdf_url": "/credentials/itsp-databases.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "a7a7488b-f904-456e-bebc-21a62175b40d",
+        "credly_badge_image_url": "https://images.credly.com/images/49a492cd-5f72-4c9d-aafa-06649e4853fb/MicrosoftTeams-image__5_.png",
+        "openbadges_url": "https://www.credly.com/badges/a7a7488b-f904-456e-bebc-21a62175b40d/public_json",
+        "issue_date": "2026-04-20",
+        "expires_date": "2031-04-20",
+        "credential_id": "Mx4B-s4q9",
+        "verify_url": None,
     },
     {
         "id": "itsp-html-css",
-        "name": "IT Specialist – HTML and CSS",
+        "name": "IT Specialist: HTML and CSS",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "web",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Markup structure, semantics, forms, accessibility basics, and CSS layout "
+            "including flexbox, responsive design, and styling best practices."
+        ),
+        "skills": [
+            "Semantic HTML5 structure",
+            "Forms and user input",
+            "CSS selectors, cascade, and specificity",
+            "Layout (flexbox, grid) and responsive design",
+            "Basic accessibility and web standards",
+        ],
+        "pdf_url": "/credentials/itsp-html-css.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "3dc5ddc3-8c61-4eeb-a777-8d849a288c6d",
+        "credly_badge_image_url": "https://images.credly.com/images/e2dc688d-de61-44a5-81af-ee96f117a211/ITS-Badges_HTML-and-CSS_1200px.png",
+        "openbadges_url": "https://www.credly.com/badges/3dc5ddc3-8c61-4eeb-a777-8d849a288c6d/public_json",
+        "issue_date": "2026-04-16",
+        "expires_date": "2031-04-16",
+        "credential_id": "4Lkm-XM3V",
+        "verify_url": None,
     },
     {
         "id": "itsp-javascript",
-        "name": "IT Specialist – JavaScript",
+        "name": "IT Specialist: JavaScript",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "development",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "JavaScript syntax, control flow, functions, DOM interaction, events, ES6+ "
+            "features, and asynchronous patterns at an associate level."
+        ),
+        "skills": [
+            "Variables, types, operators, and control structures",
+            "Functions, scope, and closures (intro)",
+            "DOM manipulation and events",
+            "Arrays, objects, and JSON",
+            "Async programming (callbacks, promises basics)",
+        ],
+        # TODO: add client/public/credentials/itsp-javascript.pdf when available
+        "pdf_url": None,
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "7f97a355-239a-484c-a352-1823331c1aa4",
+        "credly_badge_image_url": "https://images.credly.com/images/ef99b79e-fd54-4eb5-b2a4-bf17e92a4837/ITS-Badges_JavaScript_1200px.png",
+        "openbadges_url": "https://www.credly.com/badges/7f97a355-239a-484c-a352-1823331c1aa4/public_json",
+        "issue_date": "2025-05-22",
+        "expires_date": None,
+        "credential_id": None,
+        "verify_url": None,
     },
     {
         "id": "itsp-networking",
-        "name": "IT Specialist – Networking",
+        "name": "IT Specialist: Networking",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "network",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Networking fundamentals: OSI/TCP/IP, IP addressing, DNS, DHCP, routing/switching "
+            "concepts, wireless, and troubleshooting at an IT specialist level."
+        ),
+        "skills": [
+            "Network models and protocols",
+            "IPv4/IPv6 addressing and subnetting concepts",
+            "DNS, DHCP, and common TCP/UDP ports",
+            "Switching and routing basics",
+            "Wireless and troubleshooting methodology",
+        ],
+        "pdf_url": "/credentials/itsp-networking.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "29bdc139-9734-4242-9959-bb36f72d0220",
+        "credly_badge_image_url": "https://images.credly.com/images/6713c2e4-0562-4a4f-ad1b-27a0069491d8/ITS-Badges_Networking_1200px.png",
+        "openbadges_url": "https://www.credly.com/badges/29bdc139-9734-4242-9959-bb36f72d0220/public_json",
+        "issue_date": "2026-04-20",
+        "expires_date": "2031-04-20",
+        "credential_id": "Mx2L-s4Ah",
+        "verify_url": None,
     },
     {
         "id": "itsp-network-security",
-        "name": "IT Specialist – Network Security",
+        "name": "IT Specialist: Network Security",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "cybersecurity",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Securing network infrastructure: firewalls, segmentation, VPNs, wireless "
+            "security, threat detection concepts, and secure network design."
+        ),
+        "skills": [
+            "Network threats and defense in depth",
+            "Firewalls, IDS/IPS concepts",
+            "VPNs and secure remote access",
+            "Wireless security",
+            "Network hardening and monitoring basics",
+        ],
+        "pdf_url": "/credentials/itsp-network-security.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "4607220f-154f-4ad3-9b1e-d3981d8b7f37",
+        "credly_badge_image_url": "https://images.credly.com/images/fa85b446-fcbf-44c0-991f-064d37ae7a6f/ITS-Badges_Network-Security_1200px.png",
+        "openbadges_url": "https://www.credly.com/badges/4607220f-154f-4ad3-9b1e-d3981d8b7f37/public_json",
+        "issue_date": "2026-04-16",
+        "expires_date": "2031-04-16",
+        "credential_id": "P9VG-uSPz",
+        "verify_url": None,
     },
     {
         "id": "itsp-python",
-        "name": "IT Specialist – Python",
+        "name": "IT Specialist: Python",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "development",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Python syntax, data structures, control flow, functions, file I/O, debugging, "
+            "and simple scripting and automation tasks."
+        ),
+        "skills": [
+            "Python syntax and indentation model",
+            "Lists, dictionaries, tuples, and strings",
+            "Control flow and functions",
+            "File and exception handling",
+            "Modules, packages, and basic debugging",
+        ],
+        "pdf_url": "/credentials/itsp-python.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "9b295eee-fdd5-4bb5-aafa-4b3100f97ca7",
+        "credly_badge_image_url": "https://images.credly.com/images/3c4602d8-832e-4a24-b42d-00359ce746f7/ITS-Badges_Python_1200px.png",
+        "openbadges_url": "https://www.credly.com/badges/9b295eee-fdd5-4bb5-aafa-4b3100f97ca7/public_json",
+        "issue_date": "2024-10-15",
+        "expires_date": "2029-10-15",
+        "credential_id": "5HUr-4wb2",
+        "verify_url": None,
     },
     # ----- Process Improvement & Management -----
     {
@@ -104,6 +334,56 @@ CREDENTIALS = [
         "category": "management",
         "group": "process",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "Lean Six Sigma progression from White through Black Belt: process thinking, "
+            "DMAIC, statistical and quality tools, root cause analysis, and leading "
+            "improvement projects. This credential reflects the full belt ladder culminating "
+            "in Black Belt certification."
+        ),
+        "skills": [
+            "DMAIC (Define, Measure, Analyze, Improve, Control)",
+            "Process mapping and value stream basics",
+            "Statistical thinking and data driven decisions",
+            "Root cause analysis (5 Whys, fishbone)",
+            "Project leadership and stakeholder communication",
+        ],
+        "pdf_url": None,
+        "credly_badge_url": None,
+        "openbadges_url": None,
+        "issue_date": "2025-02-20",
+        "expires_date": None,
+        "credential_id": "Y2EzOTA0MzMtMTk5MDA2",
+        "verify_url": None,
+        "belts": [
+            {
+                "name": "Black Belt",
+                "pdf_url": "/credentials/lssbb/black.pdf",
+                "issue_date": "2025-02-20",
+                "credential_id": "Y2EzOTA0MzMtMTk5MDA2",
+                "openbadges_url": None,
+            },
+            {
+                "name": "Green Belt",
+                "pdf_url": "/credentials/lssbb/green.pdf",
+                "issue_date": "2025-02-18",
+                "credential_id": "Y2EzOTA0MzMtMTk2MTgx",
+                "openbadges_url": None,
+            },
+            {
+                "name": "Yellow Belt",
+                "pdf_url": "/credentials/lssbb/yellow.pdf",
+                "issue_date": "2025-02-11",
+                "credential_id": "Y2EzOTA0MzMtMTk1NjM2",
+                "openbadges_url": None,
+            },
+            {
+                "name": "White Belt",
+                "pdf_url": "/credentials/lssbb/white.pdf",
+                "issue_date": "2025-02-11",
+                "credential_id": "Y2EzOTA0MzMtMTk1NjI2",
+                "openbadges_url": None,
+            },
+        ],
     },
     # ----- Digital Literacy -----
     {
@@ -113,5 +393,26 @@ CREDENTIALS = [
         "category": "literacy",
         "group": "literacy",
         "url": "https://www.credly.com/users/brant-simpson/badges",
+        "description": (
+            "IC3 Global Standard Six Level 1 validates essential digital literacy: computing "
+            "fundamentals, key applications, and living online (digital citizenship, safety, "
+            "and effective use of technology)."
+        ),
+        "skills": [
+            "Computer hardware, software, and OS basics",
+            "File management and productivity applications",
+            "Internet, email, and cloud collaboration basics",
+            "Digital citizenship, privacy, and security awareness",
+            "Troubleshooting common technology issues",
+        ],
+        "pdf_url": "/credentials/ic3-digital-literacy-gs6-l1.pdf",
+        "credly_badge_url": None,
+        "credly_embed_badge_id": "fafa545a-b985-4d16-a407-349f9ea9d666",
+        "credly_badge_image_url": "https://images.credly.com/images/29a6f7a3-2cf6-426c-969d-e432b44532e0/IC3_Digital_Literacy_Levels_1.png",
+        "openbadges_url": "https://www.credly.com/badges/fafa545a-b985-4d16-a407-349f9ea9d666/public_json",
+        "issue_date": "2026-03-18",
+        "expires_date": None,
+        "credential_id": "4kwe-XM77",
+        "verify_url": None,
     },
 ]

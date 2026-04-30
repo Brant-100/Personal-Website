@@ -43,7 +43,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(
         prog="network-scanner",
-        description="TCP network scanner — reconnaissance phase tool",
+        description="TCP network scanner: reconnaissance phase tool",
         epilog="Example: python main.py -t scanme.nmap.org -p top100 --banners",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -64,14 +64,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser.add_argument(
         "--banners",
-        action="store_true",       # flag only — no value, just True/False
+        action="store_true",       # flag only: no value, just True/False
         help="Attempt banner grabbing on open ports",
     )
 
     parser.add_argument(
         "--discover",
         action="store_true",
-        help="Host discovery mode — sweep a subnet for live hosts (use with CIDR target)",
+        help="Host discovery mode: sweep a subnet for live hosts (use with CIDR target)",
     )
 
     parser.add_argument(
@@ -140,7 +140,7 @@ def run_discovery(args: argparse.Namespace) -> None:
     # Save results if --output was specified
     if args.output and live_hosts:
         with open(args.output, "w") as f:
-            f.write(f"Host Discovery — {args.target}\n")
+            f.write(f"Host Discovery: {args.target}\n")
             f.write("=" * 40 + "\n")
             for host in live_hosts:
                 hostname = f"  ({host.hostname})" if host.hostname else ""
@@ -152,20 +152,20 @@ def run_discovery(args: argparse.Namespace) -> None:
 #  MODE: PORT SCAN
 #
 #  Scans ports on a single target host.
-#  This is the main mode — called when target is a hostname or IP.
+#  This is the main mode: called when target is a hostname or IP.
 # ─────────────────────────────────────────────────────────────
 
 def run_port_scan(args: argparse.Namespace) -> None:
     """Run a port scan on a single target."""
 
-    # Step 1 — resolve the target hostname to an IP address
+    # Step 1: resolve the target hostname to an IP address
     try:
         target, ip = resolve_target(args.target)
     except ValueError as e:
         report.print_error(str(e))
         sys.exit(1)
 
-    # Step 2 — parse the port specification into a list of ints
+    # Step 2: parse the port specification into a list of ints
     try:
         ports = parse_ports(args.ports)
     except ValueError as e:
@@ -174,13 +174,13 @@ def run_port_scan(args: argparse.Namespace) -> None:
 
     report.print_scan_start(target, ip, len(ports))
 
-    # Step 3 — run the scan
+    # Step 3: run the scan
     # We pass two callbacks:
     #   on_open     → print each open port immediately as it's found
     #   on_progress → update the progress bar after each port is checked
     #
     # The lambda for on_open clears the progress bar first, then prints
-    # the result — otherwise the open port line would appear on top of
+    # the result: otherwise the open port line would appear on top of
     # the progress bar and look garbled.
     start = time.perf_counter()
 
@@ -200,11 +200,11 @@ def run_port_scan(args: argparse.Namespace) -> None:
     report.print_progress_clear()
     elapsed = time.perf_counter() - start
 
-    # Step 4 — print the summary report
+    # Step 4: print the summary report
     report.print_scan_end(len(results), len(ports), elapsed)
     report.print_report(target, results, elapsed, len(ports))
 
-    # Step 5 — save to file if --output was specified
+    # Step 5: save to file if --output was specified
     if args.output:
         report.save_report(target, results, elapsed, len(ports), args.output)
 
@@ -212,7 +212,7 @@ def run_port_scan(args: argparse.Namespace) -> None:
 # ─────────────────────────────────────────────────────────────
 #  MAIN
 #
-#  Entry point — parse args, print the banner, then route to
+#  Entry point: parse args, print the banner, then route to
 #  the correct mode based on the flags the user provided.
 # ─────────────────────────────────────────────────────────────
 

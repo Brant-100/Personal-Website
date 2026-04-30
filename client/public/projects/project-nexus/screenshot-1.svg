@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" style="background:#0d1117;font-family:JetBrains Mono,monospace">
+  <rect width="800" height="450" fill="#0d1117"/>
+  <rect x="0" y="0" width="800" height="36" fill="#1a2332"/>
+  <circle cx="16" cy="18" r="6" fill="#ff5f57"/>
+  <circle cx="36" cy="18" r="6" fill="#febc2e"/>
+  <circle cx="56" cy="18" r="6" fill="#28c840"/>
+  <text x="400" y="22" fill="#888" font-size="11" text-anchor="middle">brant@nexus : ~/ops</text>
+  <text x="20" y="70" fill="#00ffff" font-size="12">~$ whoami</text>
+  <text x="20" y="92" fill="#22c55e" font-size="12">&gt; brant.simpson</text>
+  <text x="20" y="120" fill="#00ffff" font-size="12">~$ ./nexus --list-sessions</text>
+  <text x="20" y="142" fill="#a855f7" font-size="12">  [1] BEACON-A3F2  192.168.1.45  ACTIVE  last: 4s ago</text>
+  <text x="20" y="162" fill="#a855f7" font-size="12">  [2] BEACON-9C11  10.0.0.12     ACTIVE  last: 12s ago</text>
+  <text x="20" y="190" fill="#00ffff" font-size="12">~$ ./nexus --session 1 --exec "whoami"</text>
+  <text x="20" y="212" fill="#22c55e" font-size="12">  [+] Task queued  (AES-GCM)  id=0x4f2a</text>
+  <text x="20" y="232" fill="#22c55e" font-size="12">  [+] Result: nt authority\system</text>
+  <text x="20" y="270" fill="#888" font-size="10">[ PLACEHOLDER  replace with real operator console screenshot ]</text>
+</svg>
