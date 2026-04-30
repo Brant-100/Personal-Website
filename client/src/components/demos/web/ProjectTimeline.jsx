@@ -19,7 +19,7 @@ const PHASES = [
     id: "design",
     label: "Design",
     icon: Paintbrush,
-    duration: "~1–2 weeks",
+    duration: "~1 to 2 weeks",
     summary: "Layouts first, then full visuals you can react to.",
     detail:
       "Simple layouts come first so we can agree on structure. Then you see polished screens with real colours and type. Nothing is built until you sign off on the look.",
@@ -28,7 +28,7 @@ const PHASES = [
     id: "build",
     label: "Build",
     icon: Code2,
-    duration: "~2–4 weeks",
+    duration: "~2 to 4 weeks",
     summary: "The approved design becomes your real site.",
     detail:
       "I build the site from what you approved and share a private preview link so you can watch it take shape. Quick check-ins keep surprises out of the process.",
@@ -199,7 +199,7 @@ export function ProjectTimeline() {
                   >
                     <div className="space-y-2 px-4 py-3 text-sm leading-relaxed text-muted-foreground">
                       <p>{phase.detail}</p>
-                      <p className="text-xs italic text-muted-foreground/90">{phase.duration} — estimate only; your schedule may differ.</p>
+                      <p className="text-xs italic text-muted-foreground/90">{phase.duration}: estimate only; your schedule may differ.</p>
                     </div>
                   </motion.div>
                 )}

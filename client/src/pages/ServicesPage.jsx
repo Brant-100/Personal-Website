@@ -17,7 +17,7 @@ const SERVICES = [
     Icon: Code2,
     bullets: [
       "React + Vite + Tailwind + Framer Motion",
-      "Performance first — Lighthouse scores that matter",
+      "Performance first: Lighthouse scores that matter",
       "Fully accessible (WCAG) out of the box",
       "Deployed on Vercel or your own infra",
     ],
@@ -27,7 +27,7 @@ const SERVICES = [
     id: "uiux",
     num: "02",
     label: "UI / UX Design",
-    tagline: "Interfaces with a point of view — type, color, motion, systems.",
+    tagline: "Interfaces with a point of view: type, color, motion, systems.",
     href: "/services/ui-ux-design",
     Icon: Palette,
     bullets: [

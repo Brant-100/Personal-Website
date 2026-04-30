@@ -4,7 +4,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /**
- * PricingCard — engagement card with starting price + request-a-quote CTA.
+ * PricingCard: engagement card with starting price + request-a-quote CTA.
  * @param {{ startsAt, engagementType, includes, excludes, note }} props
  */
 export function PricingCard({ startsAt, engagementType, includes = [], excludes = [], note }) {
@@ -144,7 +144,7 @@ export function WebPricingCard() {
         "Custom backend / database (quoted separately)",
         "Ongoing maintenance after 30 days",
       ]}
-      note="Most sites land in the $800–$2,500 range. Larger apps or e-commerce quoted after a call."
+      note="Most sites land in the $800 to $2,500 range. Larger apps or e-commerce quoted after a call."
     />
   );
 }

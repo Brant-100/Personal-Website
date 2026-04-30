@@ -37,7 +37,7 @@ export function ProjectsPage() {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Full-height backdrop: same idea as Services page — blurred orbs bleed behind header + filters + grid so the mesh never visibly restarts */}
+      {/* Full-height backdrop: blurred orbs bleed behind header + filters + grid so the mesh never visibly restarts */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
         {isDark ? (
           <>
@@ -58,7 +58,7 @@ export function ProjectsPage() {
           <>
             <div className="absolute -left-16 top-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
             <div className="absolute right-10 top-32 h-64 w-64 rounded-full bg-secondary/20 blur-3xl" />
-            {/* Soft accent low in the layout — positioned by % of page so it overlaps filters + grid, not clipped at one band */}
+            {/* Soft accent low in the layout, positioned by % of page so it overlaps filters + grid, not clipped at one band */}
             <div className="absolute left-1/2 top-[45%] h-[28rem] w-[min(90vw,48rem)] -translate-x-1/2 rounded-full bg-pop-pink/[0.07] blur-3xl" />
             <div className="absolute -bottom-32 left-[15%] h-72 w-72 rounded-full bg-secondary/[0.12] blur-3xl" />
           </>
@@ -82,12 +82,12 @@ export function ProjectsPage() {
                 isDark ? "text-muted-foreground" : "text-foreground/82"
               )}
             >
-              Security tools, full stack platforms, and wellness software — each
+              Security tools, full stack platforms, and wellness software; each
               built end to end with a clear technical story.
             </p>
           </Reveal>
 
-          {/* Filter + grid — same scrolling column as headline (backdrop already full-page) */}
+          {/* Filter + grid: single scrolling column as headline (backdrop already full-page) */}
           <div className="mt-10 md:mt-14">
             {/* Filter pills */}
             <Reveal className="mb-10">
@@ -120,7 +120,7 @@ export function ProjectsPage() {
               </div>
             </Reveal>
 
-            {/* Project grid — same 2-col layout as homepage */}
+            {/* Project grid: same 2-col layout as homepage */}
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={activeFilter}

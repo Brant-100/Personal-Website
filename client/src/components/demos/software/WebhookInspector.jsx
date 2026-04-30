@@ -193,7 +193,7 @@ export function WebhookInspector() {
             {events.length === 0 && (
               <div className="flex h-full items-center justify-center">
                 <span className="font-mono text-xs text-muted-foreground">
-                  No events yet — trigger one →
+                  No events yet; trigger one →
                 </span>
               </div>
             )}

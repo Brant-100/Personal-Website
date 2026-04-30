@@ -88,7 +88,7 @@ export function Credentials({ embedded = false }) {
                 </h3>
                 {section.id === "it-specialist" && (
                   <p className="text-sm text-muted-foreground">
-                    Certiport / Pearson VUE — {section.items.length} credential
+                    Certiport / Pearson VUE: {section.items.length} credential
                     {section.items.length === 1 ? "" : "s"}
                   </p>
                 )}
@@ -185,7 +185,7 @@ function CredentialTile({ cred, colorIndex, isDark, groupId }) {
   return (
     <MotionLink
       to={to}
-      aria-label={`${cred.name} — view details`}
+      aria-label={`${cred.name}: view details`}
       variants={{
         hidden: { opacity: 0, y: 16 },
         show: { opacity: 1, y: 0, transition: spring.soft },

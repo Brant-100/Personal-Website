@@ -66,14 +66,14 @@ const INTEGRATIONS = [
     name: "Google Sheets",
     category: "Productivity",
     color: "#0F9D58",
-    useCase: "Read and write spreadsheet data — great for non-technical stakeholder reporting.",
+    useCase: "Read and write spreadsheet data, great for non-technical stakeholder reporting.",
     snippet: `from googleapiclient.discovery import build\n\nservice = build("sheets", "v4", credentials=creds)\nservice.spreadsheets().values().append(\n  spreadsheetId=SHEET_ID,\n  range="Sheet1!A1",\n  body={"values": [row]},\n).execute()`,
   },
   {
     name: "Resend",
     category: "Comms",
     color: "#000000",
-    useCase: "Transactional email with React templates — clean API, great deliverability.",
+    useCase: "Transactional email with React templates (clean API, great deliverability).",
     snippet: `import resend\n\nresend.api_key = RESEND_KEY\nresend.Emails.send({\n  "from": "hello@yourdomain.com",\n  "to": user.email,\n  "subject": "Welcome!",\n  "html": render_template("welcome.html"),\n})`,
   },
 ];
@@ -102,9 +102,9 @@ export function IntegrationCatalog() {
     <DemoSection
       eyebrow="integrations"
       heading="Services I connect to"
-      description="APIs and platforms that tend to surface in the builds I ship — not a vendor list, just recurring touchpoints."
+      description="APIs and platforms that tend to surface in the builds I ship; not a vendor list, just recurring touchpoints."
     >
-      {/* Filter tabs — low-key grouping, not the main story */}
+      {/* Filter tabs: low-key grouping, not the main story */}
       <div className="mb-4 flex flex-wrap gap-1">
         {CATEGORIES.map((cat) => (
           <button

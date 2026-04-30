@@ -132,7 +132,7 @@ function MotionToken({ token }) {
   const [playing, setPlaying] = useState(false);
   const prefersReduced = useReducedMotion();
   const x = useMotionValue(0);
-  /* Springs can undershoot past 0 on the way back — clamp so the knob never crosses the left gutter */
+  /* Springs can undershoot past 0 on the way back; clamp so the knob never crosses the left gutter */
   const xDraw = useTransform(x, (v) => Math.max(0, v));
 
   const transition = useMemo(() => {
@@ -179,7 +179,7 @@ export function DesignSystemTokensView() {
     <DemoSection
       eyebrow="design tokens"
       heading="The system behind the site"
-      description="Color, spacing, radius, shadow, and motion—the token stack behind most modern UIs."
+      description="Color, spacing, radius, shadow, and motion: the token stack behind most modern UIs."
     >
       <div className="space-y-2">
         {CATEGORIES.map((cat) => {

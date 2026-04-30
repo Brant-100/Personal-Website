@@ -43,7 +43,7 @@ CREDENTIALS = [
     # ----- Certiport / Pearson VUE: IT Specialist Series -----
     {
         "id": "itsp-artificial-intelligence",
-        "name": "IT Specialist – Artificial Intelligence",
+        "name": "IT Specialist: Artificial Intelligence",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "ai",
         "group": "it-specialist",
@@ -72,7 +72,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-cloud-computing",
-        "name": "IT Specialist – Cloud Computing",
+        "name": "IT Specialist: Cloud Computing",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "cloud",
         "group": "it-specialist",
@@ -101,14 +101,14 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-computational-thinking",
-        "name": "IT Specialist – Computational Thinking",
+        "name": "IT Specialist: Computational Thinking",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "foundations",
         "group": "it-specialist",
         "url": "https://www.credly.com/users/brant-simpson/badges",
         "description": (
             "Demonstrates problem decomposition, pattern recognition, abstraction, and "
-            "algorithm design—skills that underpin programming and systems thinking."
+            "algorithm design (skills that underpin programming and systems thinking)."
         ),
         "skills": [
             "Decomposing problems into logical steps",
@@ -129,7 +129,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-cybersecurity",
-        "name": "IT Specialist – Cybersecurity",
+        "name": "IT Specialist: Cybersecurity",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "cybersecurity",
         "group": "it-specialist",
@@ -158,7 +158,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-databases",
-        "name": "IT Specialist – Databases",
+        "name": "IT Specialist: Databases",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "development",
         "group": "it-specialist",
@@ -186,7 +186,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-html-css",
-        "name": "IT Specialist – HTML and CSS",
+        "name": "IT Specialist: HTML and CSS",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "web",
         "group": "it-specialist",
@@ -214,7 +214,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-javascript",
-        "name": "IT Specialist – JavaScript",
+        "name": "IT Specialist: JavaScript",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "development",
         "group": "it-specialist",
@@ -243,7 +243,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-networking",
-        "name": "IT Specialist – Networking",
+        "name": "IT Specialist: Networking",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "network",
         "group": "it-specialist",
@@ -271,7 +271,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-network-security",
-        "name": "IT Specialist – Network Security",
+        "name": "IT Specialist: Network Security",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "cybersecurity",
         "group": "it-specialist",
@@ -299,7 +299,7 @@ CREDENTIALS = [
     },
     {
         "id": "itsp-python",
-        "name": "IT Specialist – Python",
+        "name": "IT Specialist: Python",
         "issuer": "Certiport / Pearson VUE (IT Specialist Series)",
         "category": "development",
         "group": "it-specialist",

@@ -85,7 +85,7 @@ export function Now() {
             <Reveal>
               <NowSection isDark={isDark} title="Writing">
                 <p className="text-muted-foreground leading-relaxed">
-                  I&apos;m actually iterating on the blog page—working toward something more modular and scalable so posts, routing, and data sources stay easy to extend as content grows.
+                  I&apos;m actually iterating on the blog page, working toward something more modular and scalable so posts, routing, and data sources stay easy to extend as content grows.
                 </p>
               </NowSection>
             </Reveal>

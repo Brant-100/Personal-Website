@@ -9,7 +9,7 @@ import { CONTACT_EMAIL, CONTACT_HREF } from "@/lib/contact";
 /**
  * Public profiles on the homepage Contact block and About page.
  *
- * `brandKey` (optional): full-color Simple Icons–style mark; omit `icon` for those rows.
+ * `brandKey` (optional): full-color Simple Icons-style mark; omit `icon` for those rows.
  * Otherwise use a lucide `icon` and optionally `tile` for light-mode gradients.
  */
 
@@ -53,8 +53,8 @@ export const CONTACT_LINKS = [
   {
     id: "instagram",
     label: "Instagram",
-    handle: "@username",
-    href: "https://www.instagram.com/",
+    handle: "@brantsn100",
+    href: "https://www.instagram.com/brantsn100/",
     brandKey: "instagram",
     darkColor: "text-accent",
     tile: "instagram",
@@ -62,7 +62,7 @@ export const CONTACT_LINKS = [
   {
     id: "discord",
     label: "Discord",
-    handle: "Invite or username",
+    handle: "brantsn100",
     href: "https://discord.com/",
     brandKey: "discord",
     darkColor: "text-secondary",
@@ -71,8 +71,8 @@ export const CONTACT_LINKS = [
   {
     id: "snapchat",
     label: "Snapchat",
-    handle: "@username",
-    href: "https://www.snapchat.com/",
+    handle: "brantsn100",
+    href: "https://www.snapchat.com/add/brantsn100",
     brandKey: "snapchat",
     darkColor: "text-muted-foreground",
     tile: "snapchat",
@@ -80,10 +80,15 @@ export const CONTACT_LINKS = [
   {
     id: "facebook",
     label: "Facebook",
-    handle: "Profile name",
-    href: "https://www.facebook.com/",
+    handle: "brantsn100",
+    href: "https://www.facebook.com/brantsn100/",
     brandKey: "facebook",
     darkColor: "text-primary",
     tile: "facebook",
   },
 ];
+
+/** Homepage contact cards only (subset of {@link CONTACT_LINKS}). */
+export const HOMEPAGE_CONTACT_LINKS = CONTACT_LINKS.filter((l) =>
+  ["github", "linkedin", "instagram", "discord", "snapchat", "facebook"].includes(l.id),
+);

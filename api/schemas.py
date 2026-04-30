@@ -38,7 +38,7 @@ class InquiryIn(BaseModel):
     budget: Optional[Budget] = None
     timeline: Optional[Timeline] = None
     message: str = Field(min_length=10, max_length=2000)
-    website: str = Field(default="", max_length=0)  # honeypot — must stay empty
+    website: str = Field(default="", max_length=0)  # honeypot: must stay empty
     turnstileToken: str = Field(min_length=1)
 
     @field_validator("website")

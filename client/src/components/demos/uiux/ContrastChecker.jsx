@@ -37,31 +37,31 @@ const BADGE_POPUPS = {
     site:
       "On a real site, that decides whether body copy and small UI text feel crisp or mushy. Too little contrast tires eyes, hurts readability on phones in sunlight, and can fail accessibility audits or legal checks.",
     plain:
-      "Picture regular-size words on a screen like lettering on a toolbox or a warning sticker: if the letters and the background are too close in color, you squint. This rule means normal paragraphs and small labels need enough difference so most people can read them straight away — bright shop or not.",
+      "Picture regular-size words on a screen like lettering on a toolbox or a warning sticker: if the letters and the background are too close in color, you squint. This rule means normal paragraphs and small labels need enough difference so most people can read them straight away, bright shop or not.",
   },
   "AA Large": {
     what:
-      "**AA** allows **3:1** for **large** text — roughly **24px+** regular weight or **18px+** bold. Headlines and big buttons often qualify, because bigger type is easier to parse.",
+      "**AA** allows **3:1** for **large** text (roughly **24px+** regular weight or **18px+** bold). Headlines and big buttons often qualify, because bigger type is easier to parse.",
     site:
       "You can use slightly softer color pairs for hero titles or big CTAs and still meet AA, but only if the type really is large by the spec. Misjudging that leaves blocks of text harder to read than you expect.",
     plain:
-      "Huge text is like a sign on the side of a truck — you can still make it out from farther away even if the colors aren’t wildly different. So the bar is a bit lower, but only when the words are actually big (headlines, big buttons), not when someone zooms out or shrinks the page.",
+      "Huge text is like a sign on the side of a truck: you can still make it out from farther away even if the colors aren’t wildly different. So the bar is a bit lower, but only when the words are actually big (headlines, big buttons), not when someone zooms out or shrinks the page.",
   },
   "AAA Normal": {
     what:
-      "**AAA** is stricter than AA. **Normal** text must hit **7:1** — a high bar for foreground/background separation.",
+      "**AAA** is stricter than AA. **Normal** text must hit **7:1**, a high bar for foreground/background separation.",
     site:
       "Sites that commit to AAA normal text prioritize maximum legibility (long-form reading, education, inclusive design). You will need bolder color separation, which steers your whole palette.",
     plain:
-      "This is the fussier standard — think safety signage where you really can’t afford someone to misread a line. Small body copy has to jump off the background more than usual. It’s for when you want reading the site to feel effortless, especially for folks with weaker eyesight.",
+      "This is the fussier standard: think safety signage where you really can’t afford someone to misread a line. Small body copy has to jump off the background more than usual. It’s for when you want reading the site to feel effortless, especially for folks with weaker eyesight.",
   },
   "AAA Large": {
     what:
-      "For **AAA**, **large** text must reach **4.5:1** — the same ratio AA requires for normal text, so large type still has to pop clearly off the background.",
+      "For **AAA**, **large** text must reach **4.5:1**, the same ratio AA requires for normal text, so large type still has to pop clearly off the background.",
     site:
       "Even headings under AAA need strong contrast. That affects marketing layouts and brand colors: washed-out hero text on a photo or pastel background often will not pass without extra treatment.",
     plain:
-      "Even big titles don’t get a free ride. It’s like white paint on a dirty bumper — if the letters don’t stand out clean against what’s behind them, people strain. Hero banners and chunky headings still need strong color separation so nobody fights to read them.",
+      "Even big titles don’t get a free ride. It’s like white paint on a dirty bumper: if the letters don’t stand out clean against what’s behind them, people strain. Hero banners and chunky headings still need strong color separation so nobody fights to read them.",
   },
 };
 
@@ -209,7 +209,7 @@ export function ContrastChecker() {
     <DemoSection
       eyebrow="accessibility"
       heading="Contrast checker"
-      description="Pick two colors and see the WCAG contrast ratio live — AA and AAA for both normal and large text."
+      description="Pick two colors and see the WCAG contrast ratio live: AA and AAA for both normal and large text."
       onReset={reset}
     >
       <div className={cn(
@@ -311,7 +311,7 @@ export function ContrastChecker() {
                 className="mt-2 text-xs opacity-80"
                 style={{ color: fg }}
               >
-                Small text sample — harder to read at low contrast.
+                Small text sample (harder to read at low contrast).
               </div>
             </div>
           </div>

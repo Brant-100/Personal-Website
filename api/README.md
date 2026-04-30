@@ -24,7 +24,7 @@ uvicorn main:app --reload --host 127.0.0.1 --port 8765
 
 | Variable              | Required | Description                                                      |
 |-----------------------|----------|------------------------------------------------------------------|
-| `RESEND_API_KEY`      | Yes      | Resend API key — get from resend.com dashboard                   |
+| `RESEND_API_KEY`      | Yes      | Resend API key (`resend.com` dashboard)                             |
 | `CONTACT_TO_EMAIL`    | Yes      | Where inquiry emails are sent (`brant@brantsimpson.com`)         |
 | `CONTACT_FROM_EMAIL`  | Yes      | Sender address (`contact@brantsimpson.com`)                      |
 | `TURNSTILE_SECRET_KEY`| Yes      | Cloudflare Turnstile secret key                                  |
@@ -42,7 +42,7 @@ Set `TURNSTILE_BYPASS=1` locally (or in pytest) to test the inquiry endpoint wit
 | GET    | `/api/credentials`   | List of `Credential` (Sec+, LSSBB, ...)           |
 | GET    | `/api/experience`    | List of `ExperienceEntry` (timeline)              |
 | POST   | `/api/contact`       | Legacy contact form endpoint (kept for compat)    |
-| POST   | `/api/inquiry`       | Full inquiry form — rate-limited, Turnstile, email |
+| POST   | `/api/inquiry`       | Full inquiry form (rate-limited, Turnstile, email)                  |
 
 ### `POST /api/inquiry`
 

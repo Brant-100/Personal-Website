@@ -3,19 +3,19 @@ import { DemoSection } from "@/components/demos/shared/DemoSection";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
-/** Named steps use the same ratios as common musical intervals—reused in typography to space type sizes. */
+/** Named steps use the same ratios as common musical intervals (reused in typography to space type sizes). */
 const RATIO_PRESETS = [
   {
     value: 1.125,
     name: "Minor Second",
     blurb:
-      "The smallest step here: each tier only nudges larger, so hierarchy feels subtle and tight—like a tiny half-step between notes.",
+      "The smallest step here: each tier only nudges larger, so hierarchy feels subtle and tight, like a tiny half-step between notes.",
   },
   {
     value: 1.2,
     name: "Major Second",
     blurb:
-      "Still gentle jumps. Good when you want clear levels without headlines exploding—common for UI-heavy, text-dense layouts.",
+      "Still gentle jumps. Good when you want clear levels without headlines exploding, common for UI-heavy, text-dense layouts.",
   },
   {
     value: 1.25,
@@ -27,13 +27,13 @@ const RATIO_PRESETS = [
     value: 1.333,
     name: "Perfect Fourth",
     blurb:
-      "Based on the 4:3 interval—wider steps, so display type pulls away from body copy more dramatically.",
+      "Based on the 4:3 interval; wider steps, so display type pulls away from body copy more dramatically.",
   },
   {
     value: 1.414,
     name: "Augmented Fourth",
     blurb:
-      "Roughly √2: two steps ≈ double the size. Bold hierarchy; the musical name is the tritone—the “devil’s interval.”",
+      "Roughly √2: two steps ≈ double the size. Bold hierarchy; the musical name is the tritone (the “devil’s interval”).",
   },
   {
     value: 1.5,
@@ -45,7 +45,7 @@ const RATIO_PRESETS = [
     value: 1.618,
     name: "Golden Ratio",
     blurb:
-      "φ ≈ 1.618—the proportion famous in art and nature. Each step scales by phi; many people find the rhythm naturally pleasing.",
+      "φ ≈ 1.618: the proportion famous in art and nature. Each step scales by phi; many people find the rhythm naturally pleasing.",
   },
 ];
 
@@ -54,11 +54,11 @@ const PRESET_MATCH_EPS = 0.015;
 const BASE = 16;
 
 const TIERS = [
-  { label: "caption", n: -1, weight: "font-normal", sample: "Caption — supporting notes and fine print" },
-  { label: "body",    n: 0,  weight: "font-normal", sample: "Body — the primary reading text for paragraphs" },
-  { label: "h3",      n: 1,  weight: "font-semibold", sample: "Heading 3 — section subheadings" },
-  { label: "h2",      n: 2,  weight: "font-bold",     sample: "Heading 2 — major page sections" },
-  { label: "h1",      n: 3,  weight: "font-extrabold", sample: "Heading 1 — primary page title" },
+  { label: "caption", n: -1, weight: "font-normal", sample: "Caption: supporting notes and fine print" },
+  { label: "body",    n: 0,  weight: "font-normal", sample: "Body: the primary reading text for paragraphs" },
+  { label: "h3",      n: 1,  weight: "font-semibold", sample: "Heading 3: section subheadings" },
+  { label: "h2",      n: 2,  weight: "font-bold",     sample: "Heading 2: major page sections" },
+  { label: "h1",      n: 3,  weight: "font-extrabold", sample: "Heading 1: primary page title" },
   { label: "display", n: 4,  weight: "font-extrabold tracking-tight", sample: "Display" },
 ];
 

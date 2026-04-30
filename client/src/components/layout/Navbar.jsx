@@ -88,7 +88,7 @@ export function Navbar() {
 
   return (
     <>
-      {/* Top navbar — logo, page links, theme toggle */}
+      {/* Top navbar: logo, page links, theme toggle */}
       <motion.header
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -144,7 +144,7 @@ export function Navbar() {
         </div>
       </motion.header>
 
-      {/* Bottom floating section dock — home page only, appears after hero */}
+      {/* Bottom floating section dock: home page only, appears after hero */}
       <AnimatePresence>
         {isHome && pastHero && (
           <motion.nav

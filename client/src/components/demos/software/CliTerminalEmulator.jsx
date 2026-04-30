@@ -6,7 +6,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const FILES = {
-  "readme.md":  "# brant.simpson — custom software\nFastAPI services, CLIs, automation, data pipelines.",
+  "readme.md":  "# brant.simpson: custom software\nFastAPI services, CLIs, automation, data pipelines.",
   "config.yml": "version: 1\nhost: 0.0.0.0\nport: 8000\ndebug: false",
   "api.py":     "from fastapi import FastAPI\napp = FastAPI()\n\n@app.get('/health')\ndef health():\n    return {'ok': True}",
 };
@@ -14,20 +14,20 @@ const FILES = {
 const COMMANDS = {
   help: () => [
     "available commands:",
-    "  help        — show this message",
-    "  whoami      — who's running this?",
-    "  ls          — list files",
-    "  cat <file>  — read a file",
-    "  curl <url>  — fake HTTP request",
-    "  scan <host> — port scan demo",
-    "  deploy      — deploy sequence",
-    "  clear       — clear terminal",
+    "  help        : show this message",
+    "  whoami      : who's running this?",
+    "  ls          : list files",
+    "  cat <file>  : read a file",
+    "  curl <url>  : fake HTTP request",
+    "  scan <host> : port scan demo",
+    "  deploy      : deploy sequence",
+    "  clear       : clear terminal",
   ],
 
   whoami: () => [
     "brant simpson",
     "software engineer · cybersecurity · ohio",
-    "available for projects — brantsimpson.com",
+    "available for projects; brantsimpson.com",
   ],
 
   ls: () => Object.keys(FILES).map((f) => `  ${f}`),
@@ -62,7 +62,7 @@ const SCAN_HOST_LINES = (host) => [
   "443/tcp  open  https   nginx/1.25",
   "3306/tcp closed mysql",
   "5432/tcp open  postgres",
-  `scan complete — 4 open ports on ${host}`,
+  `scan complete: 4 open ports on ${host}`,
 ];
 
 const DEPLOY_LINES = [
@@ -74,7 +74,7 @@ const DEPLOY_LINES = [
   "[build]  dist/assets/index-Cm9A3.js  184 kB",
   "[deploy] uploading to CDN...",
   "[deploy] invalidating cache...",
-  "[done]   deployed in 8.4s — https://yourapp.vercel.app",
+  "[done]   deployed in 8.4s at https://yourapp.vercel.app",
 ];
 
 function useTerminal() {
@@ -185,7 +185,7 @@ export function CliTerminalEmulator() {
   const outputRef = useRef(null);
   const inputRef = useRef(null);
 
-  /* scrollIntoView() walks ancestors and can scroll the whole page — only scroll this panel */
+  /* scrollIntoView() walks ancestors and can scroll the whole page; only scroll this panel */
   useEffect(() => {
     const el = outputRef.current;
     if (!el) return;
@@ -196,7 +196,7 @@ export function CliTerminalEmulator() {
     <DemoSection
       eyebrow="cli demo"
       heading="Interactive terminal"
-      description='Try the commands — type "help" to start, "scan 10.0.0.5" or "deploy" for the full experience.'
+      description='Try the commands: type "help" to start, "scan 10.0.0.5" or "deploy" for the full experience.'
       onReset={reset}
     >
       <div

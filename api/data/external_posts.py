@@ -4,7 +4,7 @@
 #   1. Append a dict to EXTERNAL_POSTS with keys: id, title, excerpt, url, source,
 #      date (ISO), tags (list), and optionally author, cover_image, reading_time.
 #   2. `id` becomes the public slug (used only in the list API; there is no /api/posts/{id} body).
-#   3. Deploy the API — no other code changes.
+#   3. Deploy the API; no other code changes.
 #
 # See also: api/content/posts/README.md for internal markdown posts.
 
@@ -27,7 +27,7 @@ EXTERNAL_POSTS: List[Dict[str, Any]] = [
     },
     {
         "id": "krebsonsecurity-home",
-        "title": "Krebs on Security — investigative reporting",
+        "title": "Krebs on Security: investigative reporting",
         "excerpt": "Long-form context on criminal infrastructure, breaches, and how attacks become headlines.",
         "url": "https://krebsonsecurity.com/",
         "source": "other",
@@ -37,7 +37,7 @@ EXTERNAL_POSTS: List[Dict[str, Any]] = [
     },
     {
         "id": "google-project-zero-blog",
-        "title": "Project Zero — vulnerability research",
+        "title": "Project Zero: vulnerability research",
         "excerpt": "Google Project Zero: in-depth writeups on real-world attack surface and defensive lessons.",
         "url": "https://googleprojectzero.blogspot.com/",
         "source": "github",
@@ -49,7 +49,7 @@ EXTERNAL_POSTS: List[Dict[str, Any]] = [
     {
         "id": "testdriven-fastapi-docker-traefik-postgresql",
         "title": "FastAPI, Docker, Traefik, and Postgres (full stack tutorial)",
-        "excerpt": "End-to-end API layout with containers and persistence—useful for shipping services responsibly.",
+        "excerpt": "End-to-end API layout with containers and persistence, useful for shipping services responsibly.",
         "url": "https://testdriven.io/blog/fastapi-docker-traefik/",
         "source": "medium",
         "author": "Michael Herman",
@@ -61,7 +61,7 @@ EXTERNAL_POSTS: List[Dict[str, Any]] = [
     {
         "id": "daniel-miessler-strategy-vs-tactics",
         "title": "Cybersecurity articles and frameworks (Daniel Miessler)",
-        "excerpt": "Index of writing on security programs, mental models, and practice—including how strategy and tactics connect to frameworks like MITRE.",
+        "excerpt": "Index of writing on security programs, mental models, and practice, including how strategy and tactics connect to frameworks like MITRE.",
         "url": "https://danielmiessler.com/blog/cybersecurity",
         "source": "personal",
         "author": "Daniel Miessler",

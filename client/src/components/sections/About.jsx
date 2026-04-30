@@ -63,7 +63,7 @@ export function About() {
               <p className="text-base text-muted-foreground leading-relaxed">
                 I&apos;m finishing up my Software Engineering program at MCCTC, graduating May 2026.
                 Outside of school I&apos;m working toward military service and always have
-                something on the side — a project, a cert, or something I&apos;m trying to figure out.
+                something on the side: a project, a cert, or something I&apos;m trying to figure out.
               </p>
             </Reveal>
           </div>
@@ -120,7 +120,7 @@ export function About() {
                   )}
                 </div>
 
-                {/* Floating badge — school */}
+                {/* Floating badge: school */}
                 <div className={cn(
                   "absolute -left-6 bottom-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium backdrop-blur-sm",
                   isDark
@@ -131,7 +131,7 @@ export function About() {
                   MCCTC · &apos;26
                 </div>
 
-                {/* Floating badge — role */}
+                {/* Floating badge: role */}
                 <div className={cn(
                   "absolute -right-6 top-10 flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium backdrop-blur-sm",
                   isDark

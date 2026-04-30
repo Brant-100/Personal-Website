@@ -4,7 +4,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { FooterFastApiLogo, FooterReactLogo } from "@/components/layout/BrandStack";
 
-/** First column — home section anchors (4). */
+/** First column: home section anchors (4). */
 const FOOTER_NAV_LEFT = [
   { label: "Services", href: "/#services" },
   { label: "Projects", href: "/#projects" },
@@ -12,7 +12,7 @@ const FOOTER_NAV_LEFT = [
   { label: "Experience", href: "/#experience" },
 ];
 
-/** Second column — Contact plus pages (4). */
+/** Second column: Contact plus pages (4). */
 const FOOTER_NAV_RIGHT = [
   { label: "Contact", href: "/#contact" },
   { label: "About", href: "/about" },

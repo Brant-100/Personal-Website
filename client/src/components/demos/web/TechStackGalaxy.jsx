@@ -5,23 +5,23 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const STACK = [
-  { name: "React",         color: "#61DAFB", purpose: "Component-driven UI — the whole frontend is a tree of composable, re-usable pieces." },
+  { name: "React",         color: "#61DAFB", purpose: "Component-driven UI: the whole frontend is a tree of composable, re-usable pieces." },
   { name: "Vite",          color: "#646CFF", purpose: "Sub-second dev server and fast production builds via native ESM and Rollup." },
-  { name: "Tailwind",      color: "#06B6D4", purpose: "Utility-first CSS — no naming wars, no specificity bugs, consistent spacing tokens." },
+  { name: "Tailwind",      color: "#06B6D4", purpose: "Utility-first CSS: no naming wars, no specificity bugs, consistent spacing tokens." },
   { name: "Framer Motion", color: "#FF0055", purpose: "Physics-based animations (springs, layout, presence) that feel real, not tween-y." },
-  { name: "shadcn/ui",     color: "#E4E4E7", purpose: "Accessible Radix primitives with Tailwind styling — owned code, not a black-box library." },
+  { name: "shadcn/ui",     color: "#E4E4E7", purpose: "Accessible Radix primitives with Tailwind styling (owned code, not a black-box library)." },
   { name: "FastAPI",       color: "#009688", purpose: "High-performance Python API with auto-generated OpenAPI docs and Pydantic type safety." },
-  { name: "Python",        color: "#FFD43B", purpose: "Backends, CLIs, data pipelines, automations — Python does it all and does it cleanly." },
-  { name: "Docker",        color: "#2496ED", purpose: "Every service runs in a container so dev and prod are identical — no 'works on my machine.'" },
+  { name: "Python",        color: "#FFD43B", purpose: "Backends, CLIs, data pipelines, automations; Python does it all and does it cleanly." },
+  { name: "Docker",        color: "#2496ED", purpose: "Every service runs in a container so dev and prod are identical (no “works on my machine”)." },
   { name: "TypeScript",    color: "#3178C6", purpose: "Type-safe frontend code means fewer runtime surprises and better editor autocomplete." },
-  { name: "Postgres",      color: "#336791", purpose: "The relational backbone — ACID transactions, JSON columns, and rock-solid performance." },
+  { name: "Postgres",      color: "#336791", purpose: "The relational backbone: ACID transactions, JSON columns, and rock-solid performance." },
 ];
 
 const MORE = {
   name: "and more",
   color: "#94a3b8",
   purpose:
-    "I'm always picking up new tools as projects call for them — this grid is just a handful of some I use day to day.",
+    "I'm always picking up new tools as projects call for them; this grid is just a handful of some I use day to day.",
 };
 
 function randomDrift(seed) {
@@ -86,7 +86,7 @@ function DriftingChip({ tech, driftSeed, hovered, setHovered, isDark, prefersRed
             exit={{ opacity: 0, y: 6 }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
             className={cn(
-              // Center with margin, not translate — Framer sets transform for y and would clobber -translate-x-1/2
+              // Center with margin, not translate: Framer sets transform for y and would clobber -translate-x-1/2
               "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-56 -ml-[7rem] rounded-xl px-3 py-2.5 text-left text-xs shadow-xl",
               isDark
                 ? "bg-card border border-border text-foreground"
@@ -97,7 +97,7 @@ function DriftingChip({ tech, driftSeed, hovered, setHovered, isDark, prefersRed
               {tech.name}
             </div>
             <div className="leading-relaxed text-muted-foreground">{tech.purpose}</div>
-            {/* Full-width flex center — avoids left-1/2 + translate on children breaking under Framer/parent transforms */}
+            {/* Full-width flex center: avoids left-1/2 + translate on children breaking under Framer/parent transforms */}
             <div className="pointer-events-none absolute -bottom-1.5 left-0 right-0 flex justify-center">
               <div
                 className={cn(
@@ -123,7 +123,7 @@ export function TechStackGalaxy() {
     <DemoSection
       eyebrow="tech stack"
       heading="Tools I reach for"
-      description="Hover any chip to see what it does and why I use it. These are highlights — I bring in whatever fits the job."
+      description="Hover any chip to see what it does and why I use it. These are highlights; I bring in whatever fits the job."
     >
       <div
         className={cn(

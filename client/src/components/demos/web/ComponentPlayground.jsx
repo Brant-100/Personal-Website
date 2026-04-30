@@ -48,7 +48,7 @@ function buildClassName(cfg) {
     parts.push("bg-transparent");
   }
 
-  // Ghost has no filled box — box-shadow is nearly invisible; drop-shadow follows the glyphs.
+  // Ghost has no filled box: box-shadow is nearly invisible; drop-shadow follows the glyphs.
   if (cfg.shadow) {
     parts.push(cfg.variant === "ghost" ? "drop-shadow-md" : "shadow-md");
   }
@@ -68,7 +68,7 @@ function buildSnippet(cfg) {
       ? cls.slice(CLASS_PREFIX.length).trim()
       : cls;
 
-  // Split prefix / tail so toggling shadow only changes the second string — avoids a new wrapped line and layout jump
+  // Split prefix / tail so toggling shadow only changes the second string; avoids a new wrapped line and layout jump
   const classNameBlock =
     cls.startsWith(CLASS_PREFIX) && rest
       ? `className={
@@ -231,7 +231,7 @@ export function ComponentPlayground() {
           </div>
         </div>
 
-        {/* Preview + code — fixed preview height + fixed code viewport so toggles don’t resize the column */}
+        {/* Preview + code: fixed preview height + fixed code viewport so toggles don’t resize the column */}
         <div className="flex min-h-0 flex-col gap-4">
           {/* Preview box */}
           <div className={cn(

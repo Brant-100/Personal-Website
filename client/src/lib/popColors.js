@@ -2,8 +2,8 @@
  * Five-color rotation palette for the light theme.
  *
  * Tailwind's JIT scans these literal strings and compiles the matching
- * utility classes. Keep entries as full string literals — never build
- * them with template strings — or the JIT will not see them.
+ * utility classes. Keep entries as full string literals; never build
+ * them with template strings, or the JIT will not see them.
  *
  * Rotation order (as specified by the brief):
  *   pop-pink -> pop-cyan -> pop-purple -> pop-lime -> primary
@@ -36,7 +36,7 @@ export const CHIP_RING = [
 
 /**
  * Vertical accent stripes for FAQ / list rails (opaque bg).
- * Order matches CHIP_* rotation — index with popBy(i, FAQ_STRIPE).
+ * Order matches CHIP_* rotation; index with popBy(i, FAQ_STRIPE).
  */
 export const FAQ_STRIPE = [
   "bg-pop-pink",
@@ -87,7 +87,7 @@ export function popHueIndexFromLabel(label, fallbackIndex = 0) {
 }
 
 /**
- * STACK chips — saturated filled pills (light theme).
+ * STACK chips: saturated filled pills (light theme).
  * Full literal strings for Tailwind JIT.
  */
 export const CHIP_LIGHT_TECH_STACK = [
@@ -100,7 +100,7 @@ export const CHIP_LIGHT_TECH_STACK = [
 ];
 
 /**
- * TAG chips — outlined rings (light theme).
+ * TAG chips: outlined rings (light theme).
  */
 export const CHIP_LIGHT_TAG_OUTLINE = [
   "inline-flex items-center rounded-full bg-transparent px-3 py-1 font-mono text-xs text-pop-pink ring-2 ring-pop-pink",

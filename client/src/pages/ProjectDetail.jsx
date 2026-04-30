@@ -38,7 +38,7 @@ export function ProjectDetail() {
   const isDark = theme === "dark";
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
-  // ── Lightbox state — must be declared before any early returns ─────────────
+  // Lightbox state: must be declared before any early returns
   const [lightboxIdx, setLightboxIdx] = useState(null);
 
   useEffect(() => {

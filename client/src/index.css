@@ -16,7 +16,7 @@
 @layer base {
   /* ---------- LIGHT (vibrant) ---------- */
   :root {
-    /* Warm paper — avoid 98–100% luminance “jet white”; keeps contrast vs UI chrome and body copy */
+    /* Warm paper: avoid 98 to 100% luminance “jet white”; keeps contrast vs UI chrome and body copy */
     --background: 41 38% 96.4%;
     --foreground: 222 47% 11%;
 
@@ -25,7 +25,7 @@
     --card-foreground: 222 47% 11%;
     --card-elevated: 40 55% 97.5%;
 
-    /* Match card family — stepped from --card */
+    /* Match card family (stepped from --card) */
     --popover: 40 58% 98.5%;
     --popover-foreground: 222 47% 11%;
 
@@ -175,7 +175,7 @@
   }
 
   /*
-   * Section titles and lead words that are not full text-neon — adds forward
+   * Section titles and lead words that are not full text-neon: adds forward
    * presence without duplicating the brightest glow on every headline.
    */
   .heading-face {
@@ -195,7 +195,7 @@
       0 10px 26px hsl(var(--primary) / 0.16);
   }
 
-  /* Legacy utility — kept minimal so it does not read as pop-art if used */
+  /* Legacy utility: kept minimal so it does not read as pop-art if used */
   .text-pop {
     -webkit-text-stroke: 0 transparent;
     text-shadow: 0 1px 0 hsl(var(--foreground) / 0.08);
@@ -236,14 +236,14 @@
   /* ---------------------------------------------------------------
    * Light-mode-only surface utilities.
    * Each rule is scoped under :root:not(.dark) so dark mode is never
-   * affected — toggling the theme reverts to the regular treatment.
+   * affected; toggling the theme reverts to the regular treatment.
    * ------------------------------------------------------------- */
 
   :root:not(.dark) .bg-card-elevated {
     background-color: hsl(var(--card-elevated));
   }
 
-  /* Unified light card shell — matches LIGHT_SURFACE_CARD in popColors.js */
+  /* Unified light card shell: matches LIGHT_SURFACE_CARD in popColors.js */
   :root:not(.dark) .surface-card-standard {
     border-radius: 1rem;
     border: 1px solid hsl(var(--border));

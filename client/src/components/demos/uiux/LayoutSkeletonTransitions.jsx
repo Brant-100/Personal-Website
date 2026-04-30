@@ -117,7 +117,7 @@ export function LayoutSkeletonTransitions() {
       description="Click the tabs to watch the same card evolve through the design process."
       onReset={() => setStage(0)}
     >
-      {/* Tabs — full content width so the block reads as one column with the preview */}
+      {/* Tabs: full content width so the block reads as one column with the preview */}
       <div className="mb-6 grid w-full grid-cols-3 gap-1 rounded-xl border border-border bg-card/60 p-1">
         {STAGES.map((s, i) => (
           <button
@@ -153,7 +153,7 @@ export function LayoutSkeletonTransitions() {
       </div>
 
       <p className="mt-4 text-xs text-muted-foreground">
-        {["Rough layout exploration — fast, disposable, zero commitment.", "Structure without color — pure layout decisions.", "Color, type, motion, and the full token system."][stage]}
+        {["Rough layout exploration: fast, disposable, zero commitment.", "Structure without color: pure layout decisions.", "Color, type, motion, and the full token system."][stage]}
       </p>
     </DemoSection>
   );

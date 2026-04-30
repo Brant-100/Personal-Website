@@ -25,7 +25,7 @@ const HIGHLIGHTS = [
   },
   {
     id: "itsp-cybersecurity",
-    name: "IT Specialist – Cybersecurity",
+    name: "IT Specialist: Cybersecurity",
     sub: "Certiport / Pearson VUE",
     issuer: "IT Specialist Series",
     icon: Award,
@@ -93,7 +93,7 @@ export function CredentialHighlights() {
             <MotionLink
               key={cred.id}
               to={`/credentials/${cred.id}`}
-              aria-label={`${cred.name} — view details`}
+              aria-label={`${cred.name}: view details`}
               variants={{
                 hidden: { opacity: 0, y: 16 },
                 show: { opacity: 1, y: 0, transition: spring.soft },

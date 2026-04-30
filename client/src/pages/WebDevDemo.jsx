@@ -43,7 +43,7 @@ export function WebDevDemo() {
         <div className="mb-6">
           <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
           <h2 className="text-2xl font-bold">Let&apos;s build something</h2>
-          <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
             Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
           </p>
         </div>
@@ -62,9 +62,9 @@ export function WebDevDemo() {
             wordpress track
           </div>
           <h3 className="text-xl font-bold">Thinking WordPress instead?</h3>
-          <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-            WordPress is one of the ways I deliver web dev work — fastest path for small sites and
-            anyone who wants to edit content themselves.
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
+            WordPress is one of the ways I deliver web dev work (fastest path for small sites and
+            anyone who wants to edit content themselves).
           </p>
         </div>
         <FAQAccordion items={WORDPRESS_FAQS} />
@@ -239,7 +239,7 @@ function LiveCodeDemo() {
         </div>
         <h3 className="mt-2 text-2xl font-bold">Hover the button →</h3>
         <p className="mt-3 text-muted-foreground">
-          Spring motion, light sweep, and a tiny live meter — no debug flags, just
+          Spring motion, light sweep, and a tiny live meter. No debug flags, just
           feedback you can feel.
         </p>
 
@@ -300,7 +300,7 @@ function LiveCodeDemo() {
             </motion.button>
           </div>
 
-          {/* Live meter — reacts to hover */}
+          {/* Live meter: reacts to hover */}
           <div
             className={cn(
               "flex h-14 items-end gap-1 rounded-xl border px-3 py-2",

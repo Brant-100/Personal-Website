@@ -43,7 +43,7 @@ export function CustomSoftwareDemo() {
         <div className="mb-6">
           <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
           <h2 className="text-2xl font-bold">Let&apos;s build something</h2>
-          <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
             Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
           </p>
         </div>
@@ -229,7 +229,7 @@ function randInt(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1));
 }
 
-/** String or builder — builders run per line so ms / counts vary each run */
+/** String or builder: builders run per line so ms / counts vary each run */
 const PIPELINE_STEPS = [
   "[boot] pipeline.start, run_id=run_9f81a2",
   "[fetch] GET https://api.vendor.example/v2/orders?since=2026-04-20",

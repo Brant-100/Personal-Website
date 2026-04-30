@@ -92,9 +92,6 @@ export function FAQAccordion({ items = [] }) {
                       )}
                     >
                       {item.answer ?? item.a}
-                      {item.needs_review && import.meta.env.DEV && (
-                        <span className="ml-2 font-mono text-[10px] text-destructive">[review]</span>
-                      )}
                     </p>
                   </motion.div>
                 )}

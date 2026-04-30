@@ -21,21 +21,21 @@ EXPERIENCE = [
     },
     {
         "id": "nexus-saas",
-        "title": "Sole Developer — Project Nexus",
+        "title": "Sole Developer, Project Nexus",
         "org": "Independent",
         "period": "2026",
         "summary": (
             "Designed and built Project Nexus from scratch as a self directed SaaS project: "
             "a modular command and control framework with a FastAPI operator server, AES-GCM "
-            "encrypted implant comms, and a tamper evident JSONL audit log. Every component — "
-            "crypto, beacon scheduling, task queue, sandbox detection — was built without "
+            "encrypted implant comms, and a tamper evident JSONL audit log. Every component ("
+            "crypto, beacon scheduling, task queue, sandbox detection) was built without "
             "off the shelf C2 frameworks to ensure full understanding of the stack."
         ),
         "tags": ["python", "fastapi", "security", "solo"],
     },
     {
         "id": "bpa-skillswap",
-        "title": "Web Application Team Member — SkillSwap",
+        "title": "Web Application Team Member, SkillSwap",
         "org": "Business Professionals of America (BPA)",
         "period": "2026",
         "summary": (

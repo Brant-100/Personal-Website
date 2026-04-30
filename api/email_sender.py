@@ -68,7 +68,7 @@ async def send_inquiry_notification(
         "from": f"brantsimpson.com <{CONTACT_FROM}>",
         "to": [CONTACT_TO],
         "reply_to": email,
-        "subject": f"New inquiry from {name} — {service}",
+        "subject": f"New inquiry from {name}: {service}",
         "html": html,
     })
 
@@ -78,11 +78,11 @@ async def send_confirmation_to_user(name: str, email: str) -> Tuple[bool, Option
     html = f"""
     <div style="font-family:-apple-system,BlinkMacSystemFont,sans-serif;max-width:600px">
       <p>Hi {name},</p>
-      <p>Thanks for reaching out — I got your message and I'll reply within 48 hours,
+      <p>Thanks for reaching out. I got your message and I'll reply within 48 hours,
          usually much faster.</p>
       <p>In the meantime, feel free to check out
          <a href="https://brantsimpson.com">brantsimpson.com</a> for more about my work.</p>
-      <p>— Brant</p>
+      <p>Best,<br/>Brant</p>
       <hr style="margin-top:24px;border:none;border-top:1px solid #eee"/>
       <p style="font-size:12px;color:#888">This is an automated confirmation.
          If you didn't send this message, please ignore this email.</p>
@@ -91,6 +91,6 @@ async def send_confirmation_to_user(name: str, email: str) -> Tuple[bool, Option
     return await _post({
         "from": f"Brant Simpson <{CONTACT_FROM}>",
         "to": [email],
-        "subject": "Got your message — I'll reply within 48 hours",
+        "subject": "Got your message; I'll reply within 48 hours",
         "html": html,
     })

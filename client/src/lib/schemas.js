@@ -27,7 +27,7 @@ export const inquirySchema = z.object({
     .or(z.literal("")),
   message: z
     .string()
-    .min(10, "Give me a little more detail — what are you building?")
+    .min(10, "Give me a little more detail: what are you building?")
     .max(2000, "Message is too long. Send the rest over email if needed."),
   website: z.string().max(0).optional(),
   turnstileToken: z.string().min(1, "Please complete the verification"),
@@ -44,8 +44,8 @@ export const inquiryServiceLabels = {
 
 export const budgetLabels = {
   "under-500": "Under $500",
-  "500-1500": "$500 – $1,500",
-  "1500-3500": "$1,500 – $3,500",
+  "500-1500": "$500 to $1,500",
+  "1500-3500": "$1,500 to $3,500",
   "3500-plus": "$3,500+",
   "not-sure": "Not sure yet",
 };
@@ -53,7 +53,7 @@ export const budgetLabels = {
 export const timelineLabels = {
   asap: "ASAP",
   "1-month": "Within 1 month",
-  "1-3-months": "1–3 months out",
+  "1-3-months": "1 to 3 months out",
   flexible: "Flexible",
   "just-exploring": "Just exploring",
 };

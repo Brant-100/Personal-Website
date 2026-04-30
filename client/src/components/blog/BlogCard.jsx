@@ -139,7 +139,7 @@ export function BlogCard({ post, index, featured = false, isDark, compact = fals
         month: "short",
         day: "numeric",
       })
-    : "—";
+    : "-";
 
   const readingLabel =
     post.reading_time != null && String(post.reading_time).trim()

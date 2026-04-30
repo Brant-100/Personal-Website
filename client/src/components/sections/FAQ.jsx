@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
  * FAQ section, usable on the homepage (uses GLOBAL_FAQS by default)
  * or on any service page by passing custom `faqs`.
  *
- * @param {Array}   faqs     — defaults to GLOBAL_FAQS
- * @param {string}  title    — section heading
- * @param {string}  eyebrow  — small label above the heading
+ * @param {Array}   faqs     defaults to GLOBAL_FAQS
+ * @param {string}  title    section heading
+ * @param {string}  eyebrow  small label above the heading
  */
 export function FAQ({
   faqs = GLOBAL_FAQS,
@@ -64,8 +64,8 @@ export function FAQ({
             className="font-medium text-primary underline-offset-4 hover:underline"
           >
             Send it through the contact form
-          </a>{" "}
-          — I&apos;ll answer directly.
+          </a>
+          , and I&apos;ll answer directly.
         </p>
 
         <FAQAccordion items={faqs} />

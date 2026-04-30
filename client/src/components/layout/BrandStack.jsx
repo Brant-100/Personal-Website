@@ -1,5 +1,5 @@
 /**
- * Brand marks for the footer stack strip (Simple Icons–style paths).
+ * Brand marks for the footer stack strip (Simple Icons-style paths).
  * Screen-reader copy lives next to these in Footer.jsx.
  */
 

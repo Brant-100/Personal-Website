@@ -11,7 +11,7 @@ const NODES = {
     id: "client", label: "Client", sub: "React + Vite",
     x: 48, y: 152,
     color: { dark: "#22E5FF", light: "#FA6B1F" },
-    detail: "The React frontend — built with Vite, Tailwind, and Framer Motion. Served as static files via CDN so initial load is instant anywhere in the world.",
+    detail: "The React frontend, built with Vite, Tailwind, and Framer Motion. Served as static files via CDN so initial load is instant anywhere in the world.",
   },
   cdn: {
     id: "cdn", label: "CDN", sub: "Vercel Edge",
@@ -101,7 +101,7 @@ export function ArchitectureDiagramViewer() {
               className="mx-auto block h-auto w-full max-h-[min(58vh,34rem)]"
               style={{ minWidth: 500 }}
             >
-            {/* Edges — static lines; highlight when a connected node is selected */}
+            {/* Edges: static lines; highlight when a connected node is selected */}
             {EDGES.map((e) => {
               const from = NODES[e.from];
               const to = NODES[e.to];
@@ -169,7 +169,7 @@ export function ArchitectureDiagramViewer() {
             </svg>
           </div>
 
-          {/* Details — beside the diagram on large screens; no full-width bottom bar */}
+          {/* Details: beside diagram on large screens; no full-width bottom bar */}
           <div
             className={cn(
               "flex flex-col border-t p-4 sm:p-5 lg:border-t-0",

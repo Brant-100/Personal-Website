@@ -43,7 +43,7 @@ export function UIDesignDemo() {
         <div className="mb-6">
           <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">start a project</div>
           <h2 className="text-2xl font-bold">Let&apos;s design something</h2>
-          <p className="mt-2 text-sm text-muted-foreground max-w-xl">
+          <p className="mt-2 text-left text-sm text-muted-foreground max-w-xl">
             Tell me what you&apos;re working on. I&apos;ll get back to you within 48 hours.
           </p>
         </div>

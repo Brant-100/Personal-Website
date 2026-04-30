@@ -53,18 +53,18 @@ function parseOpenBadgesPayload(json) {
     badge = undefined;
   }
   const badgeObj = badge && typeof badge === "object" ? /** @type {Record<string, unknown>} */ (badge) : {};
-  const badgeName = /** @type {string} */ (badgeObj.name || "—");
+  const badgeName = /** @type {string} */ (badgeObj.name || "N/A");
 
   const issuerRaw = badgeObj.issuer;
-  let issuerName = "—";
+  let issuerName = "N/A";
   if (issuerRaw && typeof issuerRaw === "object") {
     const iname = /** @type {Record<string, unknown>} */ (issuerRaw).name;
     if (iname != null) issuerName = String(iname);
   }
 
-  const assertionId = String(o.id || o.uid || o.uuid || "—");
+  const assertionId = String(o.id || o.uid || o.uuid || "N/A");
 
-  let recipientDisplay = "—";
+  let recipientDisplay = "N/A";
   if (hashed || identity.includes("$")) {
     recipientDisplay = "Verified (hashed identity)";
   } else if (identity.includes("@")) {
@@ -75,7 +75,7 @@ function parseOpenBadgesPayload(json) {
   }
 
   return {
-    issuedOn: issuedOn || "—",
+    issuedOn: issuedOn || "N/A",
     badgeName,
     issuerName,
     assertionId,
@@ -502,7 +502,7 @@ export function CredentialDetail() {
           <Reveal>
             <SectionBlock isDark={isDark} title="Certificate (PDF)">
               <p className="text-sm text-muted-foreground">
-                No PDF is linked for this credential yet (e.g. pending upload for IT Specialist – JavaScript).
+                No PDF is linked for this credential yet (e.g. pending upload for IT Specialist: JavaScript).
               </p>
             </SectionBlock>
           </Reveal>
@@ -600,7 +600,7 @@ export function CredentialDetail() {
                     {!verifyLoading && verifyFailed && (
                       <div className="space-y-3 text-sm">
                         <p className="text-muted-foreground">
-                          Live verification unavailable — view on Credly for authoritative verification.
+                          Live verification unavailable; view on Credly for authoritative verification.
                         </p>
                         <Button asChild variant="outline" size="sm">
                           <a href={credlyOutUrl} target="_blank" rel="noreferrer">

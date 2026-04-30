@@ -15,9 +15,9 @@ export const SHOW_HEADSHOT = false;
  * - `pages/AboutPage.jsx` (full about page)
  *
  * **Manual same-path updates (URLs must stay in sync):**
- * - `client/index.html` — JSON-LD `"image"` — add/update when `SHOW_HEADSHOT` is true (absolute URL).
+ * - `client/index.html`: JSON-LD `"image"`; add/update when `SHOW_HEADSHOT` is true (absolute URL).
  *
- * **Optional / separate art:** `og-image.png`, `twitter:image` — branded share cards;
+ * **Optional / separate art:** `og-image.png`, `twitter:image`; branded share cards;
  * regenerate those only if you want your face on link previews too.
  */
 

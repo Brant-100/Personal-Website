@@ -88,7 +88,7 @@ export function PerformanceScoreCard() {
     <DemoSection
       eyebrow="lighthouse scores"
       heading="Measurably fast"
-      description="Every site I ship targets green across the board — not just on paper."
+      description="Every site I ship targets green across the board, not just on paper."
     >
       <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
         {SCORES.map((s) => (

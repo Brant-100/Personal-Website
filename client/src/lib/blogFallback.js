@@ -39,7 +39,7 @@ export const BLOG_FALLBACK_EXTERNAL = [
   {
     kind: "external",
     slug: "krebsonsecurity-home",
-    title: "Krebs on Security — investigative reporting",
+    title: "Krebs on Security: investigative reporting",
     excerpt:
       "Long-form context on criminal infrastructure, breaches, and how attacks become headlines.",
     url: "https://krebsonsecurity.com/",
@@ -50,7 +50,7 @@ export const BLOG_FALLBACK_EXTERNAL = [
   {
     kind: "external",
     slug: "google-project-zero-blog",
-    title: "Project Zero — vulnerability research",
+    title: "Project Zero: vulnerability research",
     excerpt: "Google Project Zero: in-depth writeups on real-world attack surface and defensive lessons.",
     url: "https://googleprojectzero.blogspot.com/",
     source: "github",
@@ -63,7 +63,7 @@ export const BLOG_FALLBACK_EXTERNAL = [
     slug: "testdriven-fastapi-docker-traefik-postgresql",
     title: "FastAPI, Docker, Traefik, and Postgres (full stack tutorial)",
     excerpt:
-      "End-to-end API layout with containers and persistence—useful for shipping services responsibly.",
+      "End-to-end API layout with containers and persistence, useful for shipping services responsibly.",
     url: "https://testdriven.io/blog/fastapi-docker-traefik/",
     source: "medium",
     author: "Michael Herman",
@@ -76,7 +76,7 @@ export const BLOG_FALLBACK_EXTERNAL = [
     slug: "daniel-miessler-strategy-vs-tactics",
     title: "Cybersecurity articles and frameworks (Daniel Miessler)",
     excerpt:
-      "Index of writing on security programs, mental models, and practice—including how strategy and tactics connect to frameworks like MITRE.",
+      "Index of writing on security programs, mental models, and practice, including how strategy and tactics connect to frameworks like MITRE.",
     url: "https://danielmiessler.com/blog/cybersecurity",
     source: "personal",
     author: "Daniel Miessler",

@@ -505,7 +505,7 @@ async def inquiry(request: Request, data: InquiryIn) -> InquiryOut:
             detail="Couldn't send your message right now. Please email me directly at brant@brantsimpson.com.",
         )
 
-    # Best-effort confirmation to submitter — don't fail the request if this errors.
+    # Best-effort confirmation to submitter; don't fail the request if this errors.
     ok2, err2 = await send_confirmation_to_user(data.name, data.email)
     if not ok2:
         logger.warning("inquiry: confirmation send failed: %s", err2)

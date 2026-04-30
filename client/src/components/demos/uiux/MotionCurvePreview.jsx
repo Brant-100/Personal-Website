@@ -15,7 +15,7 @@ const CURVES = [
   ease: 'linear',
   duration: 0.75,
 }}`,
-    note: "Constant speed — scrubbers, loaders, anything that should feel neutral.",
+    note: "Constant speed: scrubbers, loaders, anything that should feel neutral.",
   },
   {
     name: "ease-in",
@@ -26,7 +26,7 @@ const CURVES = [
   ease: 'easeIn',
   duration: 0.7,
 }}`,
-    note: "Creeps in, then accelerates — common for things leaving focus.",
+    note: "Creeps in, then accelerates, common for things leaving focus.",
   },
   {
     name: "circ-out",
@@ -37,7 +37,7 @@ const CURVES = [
   ease: [0, 0, 0.55, 1],
   duration: 0.65,
 }}`,
-    note: "Circular deceleration — long, soft landing.",
+    note: "Circular deceleration: long, soft landing.",
   },
   {
     name: "back-out",
@@ -48,7 +48,7 @@ const CURVES = [
   ease: [0.175, 0.885, 0.32, 1.275],
   duration: 0.65,
 }}`,
-    note: "Passes the end value slightly, then settles — overshoot without a physics spring.",
+    note: "Passes the end value slightly, then settles (overshoot without a physics spring).",
   },
   {
     name: "anticipate",
@@ -59,7 +59,7 @@ const CURVES = [
   ease: [0.36, 0, 0.66, -0.56],
   duration: 0.55,
 }}`,
-    note: "Bezier dips below zero — wind-up before the main move (anticipate-style).",
+    note: "Bezier dips below zero: wind-up before the main move (anticipate-style).",
   },
   {
     name: "emphasized",
@@ -70,7 +70,7 @@ const CURVES = [
   ease: [0.2, 0, 0, 1],
   duration: 0.55,
 }}`,
-    note: "Standard expressive decel — familiar from Material-style motion.",
+    note: "Standard expressive decel, familiar from Material-style motion.",
   },
   {
     name: "expo-out",
@@ -81,7 +81,7 @@ const CURVES = [
   ease: [0.16, 1, 0.3, 1],
   duration: 0.55,
 }}`,
-    note: "Snappy start, very soft finish — common in iOS-feeling transitions.",
+    note: "Snappy start, very soft finish, common in iOS-feeling transitions.",
   },
   {
     name: "cubic-overshoot",
@@ -92,7 +92,7 @@ const CURVES = [
   ease: [0.34, 1.56, 0.64, 1],
   duration: 0.55,
 }}`,
-    note: "Bezier pushes past 1 on the graph — playful, cartoony settle.",
+    note: "Bezier pushes past 1 on the graph: playful, cartoony settle.",
   },
 ];
 
@@ -164,7 +164,7 @@ export function MotionCurvePreview() {
     <DemoSection
       eyebrow="motion curves"
       heading="Every curve, live"
-      description="Hover a tile to see the animation — and the code that produces it."
+      description="Hover a tile to see the animation and the code that produces it."
     >
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 items-start">
         {CURVES.map((curve) => {

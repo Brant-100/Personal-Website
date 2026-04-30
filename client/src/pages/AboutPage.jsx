@@ -105,7 +105,7 @@ export function AboutPage() {
 
                 <Reveal>
                   <p className="text-muted-foreground leading-[1.75] md:leading-[1.8]">
-                    Main focus: Project Nexus—a custom C2 framework built from scratch. Expanding operator tooling and
+                    Main focus: Project Nexus, a custom C2 framework built from scratch. Expanding operator tooling and
                     MITRE-aligned coverage so defensive thinking tracks real implant and C2 behavior.
                   </p>
                 </Reveal>
@@ -164,7 +164,7 @@ export function AboutPage() {
                       "mt-2 text-sm leading-snug font-sans normal-case tracking-normal",
                       isDark ? "text-muted-foreground" : "text-foreground/78"
                     )}>
-                      Some tools I use—not an exhaustive list.
+                      Some tools I use, not an exhaustive list.
                     </p>
                   </div>
                   <motion.ul
@@ -255,7 +255,7 @@ export function AboutPage() {
                 )}
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
-                Email and public profiles—tap a card to open the link.
+                Email and public profiles: tap a card to open the link.
               </p>
             </Reveal>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -305,7 +305,7 @@ export function AboutPage() {
                 )}
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
-                If anything above fits what you&apos;re looking for, use the form—I read every message myself and usually
+                If anything above fits what you&apos;re looking for, use the form; I read every message myself and usually
                 reply within 48 hours.
               </p>
             </div>

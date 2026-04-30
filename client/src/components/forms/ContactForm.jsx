@@ -27,8 +27,8 @@ const optionStyle = {
 /**
  * Shared contact/inquiry form used everywhere on the site.
  *
- * @param {string}  defaultService — pre-selects the service dropdown
- * @param {boolean} compact        — hides budget + timeline (for tighter layouts)
+ * @param {string}  defaultService pre-selects the service dropdown
+ * @param {boolean} compact        hides budget + timeline (for tighter layouts)
  */
 export function ContactForm({ defaultService = "general", compact = false }) {
   const { theme } = useTheme();
@@ -126,7 +126,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
           : LIGHT_SURFACE_CARD
       )}
     >
-      {/* Honeypot — visually hidden from real users */}
+          {/* Honeypot: visually hidden from real users */}
       <div
         style={{ position: "absolute", left: "-9999px", top: "-9999px", visibility: "hidden" }}
         aria-hidden="true"
@@ -204,7 +204,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       >
         <textarea
           rows={5}
-          placeholder="Tell me about your project — what it does, who it's for, any constraints."
+          placeholder="Tell me about your project: what it does, who it's for, any constraints."
           {...register("message")}
           className={cn(inputCls(isDark), "resize-y")}
         />

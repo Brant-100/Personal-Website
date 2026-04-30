@@ -4,7 +4,7 @@ import { Section, Reveal, spring, staggerContainer } from "@/components/motion/M
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
-import { CONTACT_LINKS } from "@/data/contactLinks";
+import { HOMEPAGE_CONTACT_LINKS } from "@/data/contactLinks";
 import { LogoDiscord, LogoFacebook, LogoInstagram, LogoSnapchat } from "@/components/social/SocialBrandLogos";
 
 const SOCIAL_BRAND_LOGOS = {
@@ -48,7 +48,7 @@ export function Contact() {
           )}
         </h2>
         <p className={cn("mt-4 text-lg", isDark ? "text-foreground/75" : "text-muted-foreground")}>
-          The fastest way to reach me — I reply within 48 hours.
+          The fastest way to reach me. I reply within 48 hours.
         </p>
       </Reveal>
 
@@ -67,7 +67,7 @@ export function Contact() {
         viewport={{ once: true, amount: 0.2 }}
         className="mt-10 md:mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {CONTACT_LINKS.map((link, i) => (
+        {HOMEPAGE_CONTACT_LINKS.map((link, i) => (
           <ContactCard key={link.id} link={link} index={i} isDark={isDark} />
         ))}
       </motion.div>

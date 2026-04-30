@@ -3,7 +3,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /**
- * CaseStudySnapshot — one per service page.
+ * CaseStudySnapshot: one per service page.
  * @param {{ problem, approach, outcome, metric, label, accent }} props
  */
 export function CaseStudySnapshot({ problem, approach, outcome, metric, label, accent }) {
@@ -90,7 +90,7 @@ export function UIUXCaseStudy() {
       label="Design system that scaled"
       problem="A startup had 4 devs, 3 inconsistent button styles, no color system, and every new feature took a week just for the UI."
       approach="Built a token based design system in Figma + Tailwind with 30 components, dark/light modes, and written usage guidelines."
-      outcome="New feature UI time dropped from 5–7 days to under 1 day. Designers and devs work from the same source of truth."
+      outcome="New feature UI time dropped from 5 to 7 days to under 1 day. Designers and devs work from the same source of truth."
       metric={{ value: "6×", label: "faster UI iteration" }}
       accent="#B678FF"
     />

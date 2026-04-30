@@ -279,7 +279,7 @@ function EmptyBlogState({ isDark, hasSearch }) {
           )}
         >
           <p className="text-center text-muted-foreground sm:text-left">
-            Topics planned next—watch the repo for drafts turning into posts.
+            Topics planned next; watch the repo for drafts turning into posts.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {topics.map((t) => (
