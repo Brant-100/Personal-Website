@@ -3,7 +3,7 @@
 // Never default to localhost in production; the browser would call the visitor's machine, not your API.
 const rawBase =
   import.meta.env.VITE_API_BASE_URL ||
-  (import.meta.env.DEV ? "http://localhost:8765" : "");
+  (import.meta.env.DEV ? "http://127.0.0.1:8765" : "");
 const BASE_URL = rawBase ? rawBase.replace(/\/+$/, "") : "";
 
 async function request(path, { fallback = null, signal } = {}) {

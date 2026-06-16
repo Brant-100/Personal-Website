@@ -128,7 +128,7 @@ export function PricingCard({ startsAt, engagementType, includes = [], excludes 
 export function WebPricingCard() {
   return (
     <PricingCard
-      startsAt="$800"
+      startsAt="$1,200"
       engagementType="Project-based"
       includes={[
         "Requirements & discovery call",
@@ -144,7 +144,7 @@ export function WebPricingCard() {
         "Custom backend / database (quoted separately)",
         "Ongoing maintenance after 30 days",
       ]}
-      note="Most sites land in the $800 to $2,500 range. Larger apps or e-commerce quoted after a call."
+      note="Most projects start at $1,200. Final quote depends on scope discussed during discovery."
     />
   );
 }
@@ -152,7 +152,7 @@ export function WebPricingCard() {
 export function UIUXPricingCard() {
   return (
     <PricingCard
-      startsAt="$400"
+      startsAt="$500"
       engagementType="Project-based"
       includes={[
         "Discovery + requirements session",
@@ -168,7 +168,7 @@ export function UIUXPricingCard() {
         "User research / usability testing",
         "Motion / prototype animations beyond basics",
       ]}
-      note="Scope-dependent: component library audits and full design systems are quoted individually."
+      note="Most projects start at $500. Final quote depends on scope discussed during discovery."
     />
   );
 }
@@ -176,7 +176,7 @@ export function UIUXPricingCard() {
 export function SoftwarePricingCard() {
   return (
     <PricingCard
-      startsAt="$600"
+      startsAt="$1,000"
       engagementType="Project-based or hourly"
       includes={[
         "Requirements & architecture session",
@@ -192,7 +192,7 @@ export function SoftwarePricingCard() {
         "Third-party API subscriptions",
         "Ongoing feature development",
       ]}
-      note="Small scripts from $200. Hourly rate available for long-running projects or retainer work."
+      note="Most projects start at $1,000. Final quote depends on scope discussed during discovery."
     />
   );
 }

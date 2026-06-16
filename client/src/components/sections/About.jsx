@@ -51,7 +51,7 @@ export function About() {
           <div className="space-y-4 max-w-xl">
             <Reveal>
               <p className="text-lg md:text-xl font-medium leading-snug">
-                I&apos;m a 17 year old from{" "}
+                I&apos;m a software developer based in{" "}
                 <span className={cn("inline-flex items-center gap-1", isDark ? "text-primary" : "text-primary")}>
                   <MapPin className="h-4 w-4" />Ohio
                 </span>{" "}

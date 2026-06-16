@@ -15,6 +15,7 @@ const SOCIAL_BRAND_LOGOS = {
 };
 import { ContactForm } from "@/components/forms/ContactForm";
 import { FAQ } from "@/components/sections/FAQ";
+import { BookCallButton } from "@/components/BookCallButton";
 
 export function Contact() {
   const { theme } = useTheme();
@@ -55,6 +56,10 @@ export function Contact() {
       {/* Contact form */}
       <Reveal className="mb-10">
         <ContactForm />
+      </Reveal>
+
+      <Reveal className="mb-10">
+        <BookCallButton variant={isDark ? "default" : "pop"} />
       </Reveal>
 
       <FAQ embedded />

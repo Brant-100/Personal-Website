@@ -15,6 +15,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BookCallButton } from "@/components/BookCallButton";
 import { Badge } from "@/components/ui/badge";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { useTheme } from "@/hooks/useTheme";
@@ -569,12 +570,13 @@ export function ProjectDetail() {
           )}
 
           {/* Back CTA */}
-          <Reveal className="pt-4">
+          <Reveal className="pt-4 flex flex-wrap items-center gap-4">
             <Button variant={isDark ? "default" : "pop"} asChild>
               <Link to="/#projects" className="inline-flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" /> All Projects
               </Link>
             </Button>
+            <BookCallButton variant="outline" />
           </Reveal>
         </div>
       </div>

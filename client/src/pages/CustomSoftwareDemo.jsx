@@ -14,10 +14,14 @@ import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { CUSTOM_SOFTWARE_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
+import { BookCallButton } from "@/components/BookCallButton";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function CustomSoftwareDemo() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <ServicePageLayout
       eyebrow="03 · service / custom software"
@@ -55,6 +59,9 @@ export function CustomSoftwareDemo() {
           <h2 className="text-2xl font-bold">Custom software questions</h2>
         </div>
         <FAQAccordion items={CUSTOM_SOFTWARE_FAQS} />
+      </div>
+      <div className="mt-16 flex justify-center">
+        <BookCallButton variant={isDark ? "default" : "pop"} />
       </div>
       <OtherServicesNav current="software" />
     </ServicePageLayout>

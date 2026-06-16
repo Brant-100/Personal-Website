@@ -15,6 +15,7 @@ import { api } from "@/lib/api";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { LIGHT_SURFACE_CARD, tagChipLightClass } from "@/lib/popColors";
+import { BookCallButton } from "@/components/BookCallButton";
 
 const SERVICE_ROUTES = {
   "web-development": "/services/web-development",
@@ -117,6 +118,13 @@ export function Services() {
           <ServiceCard key={svc.id || svc.title} service={svc} index={idx} isDark={isDark} />
         ))}
       </div>
+
+      <Reveal className="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+        <p className={cn("text-base", isDark ? "text-foreground/78" : "text-muted-foreground")}>
+          Not sure which fits? Book a discovery call.
+        </p>
+        <BookCallButton variant={isDark ? "default" : "pop"} />
+      </Reveal>
     </Section>
   );
 }

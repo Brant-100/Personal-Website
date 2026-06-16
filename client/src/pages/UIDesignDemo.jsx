@@ -14,10 +14,14 @@ import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { UI_UX_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
+import { BookCallButton } from "@/components/BookCallButton";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function UIDesignDemo() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <ServicePageLayout
       eyebrow="02 · service / ui · ux design"
@@ -55,6 +59,9 @@ export function UIDesignDemo() {
           <h2 className="text-2xl font-bold">UI / UX design questions</h2>
         </div>
         <FAQAccordion items={UI_UX_FAQS} />
+      </div>
+      <div className="mt-16 flex justify-center">
+        <BookCallButton variant={isDark ? "default" : "pop"} />
       </div>
       <OtherServicesNav current="uiux" />
     </ServicePageLayout>
