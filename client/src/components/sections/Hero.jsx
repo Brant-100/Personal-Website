@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
 import { AnimatedHeadline, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { cn } from "@/lib/utils";
+import { RESUME_PDF } from "@/lib/contact";
 import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 const ROLES = [
@@ -122,11 +123,7 @@ export function Hero() {
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a
-                href={isDark ? "/Brant_Simpson_Resume_Dark.pdf" : "/Brant_Simpson_Resume_Light.pdf"}
-                download
-                className="inline-flex items-center gap-2"
-              >
+              <a href={RESUME_PDF} download className="inline-flex items-center gap-2">
                 <Download className="h-4 w-4" />
                 Resume
               </a>

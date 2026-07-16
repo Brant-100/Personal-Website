@@ -30,6 +30,7 @@ const SECTIONS = [
   { id: "services", label: "Services" },
   { id: "projects", label: "Projects" },
   { id: "credentials", label: "Credentials" },
+  { id: "testimonials", label: "Testimonials" },
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];
