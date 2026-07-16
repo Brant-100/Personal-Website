@@ -191,8 +191,12 @@ export function CommandPalette() {
                     value="Download resume PDF"
                     onSelect={() => run(() => {
                       const a = document.createElement("a");
-                      a.href = "/Brant_Simpson_Resume.pdf";
-                      a.download = "Brant_Simpson_Resume.pdf";
+                      a.href = isDark
+                        ? "/Brant_Simpson_Resume_Dark.pdf"
+                        : "/Brant_Simpson_Resume_Light.pdf";
+                      a.download = isDark
+                        ? "Brant_Simpson_Resume_Dark.pdf"
+                        : "Brant_Simpson_Resume_Light.pdf";
                       a.click();
                     })}
                     className={itemClass}

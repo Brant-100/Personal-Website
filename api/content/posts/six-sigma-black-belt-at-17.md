@@ -1,6 +1,7 @@
 ---
 title: "Lean Six Sigma Black Belt at 17: What It Taught Me About Building Software"
 date: "2026-02-10"
+draft: true
 tags: ["six-sigma", "process", "engineering", "retrospective"]
 excerpt: "DMAIC isn't just a manufacturing framework. It maps directly to debugging, incident response, and feature planning, and finishing Black Belt at 17 changed how I think about problems."
 ---

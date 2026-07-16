@@ -342,6 +342,16 @@ def get_experience() -> List[ExperienceEntry]:
     return [ExperienceEntry(**e) for e in EXPERIENCE]
 
 
+def _is_draft(meta: dict) -> bool:
+    return bool(meta.get("draft", False))
+
+
+def _post_is_draft(path: pathlib.Path) -> bool:
+    post = fm.load(str(path))
+    meta = post.metadata if isinstance(post.metadata, dict) else {}
+    return _is_draft(meta)
+
+
 def _meta_from_md_file(path: pathlib.Path) -> PostMeta:
     """Frontmatter-only metadata for list endpoint (no body)."""
     post = fm.load(str(path))
@@ -413,7 +423,11 @@ def get_posts() -> List[PostMeta]:
     posts: List[PostMeta] = []
     if POSTS_DIR.exists():
         for md_file in POSTS_DIR.glob("*.md"):
+            if md_file.stem == "README":
+                continue
             try:
+                if _post_is_draft(md_file):
+                    continue
                 posts.append(_meta_from_md_file(md_file))
             except Exception as exc:
                 logger.warning("Could not parse %s: %s", md_file, exc)
@@ -431,7 +445,7 @@ def get_posts() -> List[PostMeta]:
 @app.get("/api/posts/{slug}", response_model=PostDetail, tags=["blog"])
 def get_post(slug: str) -> PostDetail:
     md_file = POSTS_DIR / f"{slug}.md"
-    if not md_file.exists():
+    if not md_file.exists() or _post_is_draft(md_file):
         raise HTTPException(status_code=404, detail=f"Post '{slug}' not found")
     return _load_post(md_file)
 

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
-import { Terminal } from "lucide-react";
+import { Menu, Terminal, X } from "lucide-react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -43,7 +43,37 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState(null);
 
   const [dockVisible, setDockVisible] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const mobilePanelRef = useRef(null);
   const isHome = location.pathname === "/";
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onPointerDown = (e) => {
+      if (mobilePanelRef.current && !mobilePanelRef.current.contains(e.target)) {
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [mobileOpen]);
 
   useEffect(() => {
     let timer;
@@ -138,11 +168,87 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 shrink-0 md:gap-3">
+            <button
+              type="button"
+              className={cn(
+                "inline-flex h-9 w-9 items-center justify-center rounded-lg md:hidden",
+                isDark
+                  ? "text-foreground hover:bg-primary/10"
+                  : "text-foreground hover:bg-muted"
+              )}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav-panel"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMobileOpen((open) => !open)}
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
             <ThemeToggle />
           </div>
         </div>
       </motion.header>
+
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm md:hidden"
+              aria-hidden
+            />
+            <motion.nav
+              ref={mobilePanelRef}
+              id="mobile-nav-panel"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 32 }}
+              className={cn(
+                "fixed inset-y-0 right-0 z-50 flex w-[min(100%,20rem)] flex-col border-l md:hidden",
+                isDark
+                  ? "border-primary/20 bg-background/95 shadow-presence-rest"
+                  : "border-border bg-background shadow-2xl"
+              )}
+              aria-label="Mobile primary"
+            >
+              <div className="flex items-center justify-between border-b border-border px-4 py-4">
+                <span className="font-mono text-sm font-bold tracking-tight">
+                  brant<span className="text-primary">.</span>simpson
+                </span>
+                <button
+                  type="button"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground"
+                  aria-label="Close menu"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="flex flex-col gap-1 p-4">
+                {NAV_LINKS.map((l) => (
+                  <Link
+                    key={l.href}
+                    to={l.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "rounded-lg px-3 py-3 text-base font-medium transition-colors",
+                      location.pathname === l.href
+                        ? "bg-primary/10 text-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+              </div>
+            </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Bottom floating section dock: home page only, appears after hero */}
       <AnimatePresence>

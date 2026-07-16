@@ -7,6 +7,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added
+- `Testimonials` section on the homepage with a clearly marked placeholder entry for a future client quote.
+- Mobile hamburger menu and slide-out drawer in `Navbar.jsx` (page links reachable below `md` breakpoint).
+
+### Changed
+- `BOOKING_URL` in `client/src/lib/contact.js` → real Cal.com link (`https://cal.com/brant-simpson-k7rgcg`).
+- Command palette resume download uses theme-aware Dark/Light PDFs (removed generic placeholder PDF).
+- Rasterized `og-image.png`, `favicon.ico`, and `apple-touch-icon.png` from existing SVG sources; removed placeholder caption from `og-image.svg`.
+- Blog API hides posts with `draft: true` frontmatter; six stub posts marked draft until content is written.
+- Homepage section numbering: testimonials `04`, experience `05`, contact `06`.
+
 ---
 
 ## [0.2.0] (2026-04-22) · Portfolio Sweep
@@ -33,7 +44,7 @@ Fifteen atomic commits on `develop` covering a comprehensive overhaul of the sit
 **About section** (`client/src/components/sections/About.jsx`)
 - Three-paragraph narrative: who/what I build, current focus (Nexus, security track), quiet 1B4X1 context.
 - Six Sigma Black Belt → DMAIC bridge callout block.
-- Skills self-assessment grid with animated progress bars (Python, React, FastAPI, Docker, SQL, TypeScript, Tailwind, Cybersecurity).
+- Skills stack chip grid on About page (Python, React, FastAPI, Docker, SQL, TypeScript, Tailwind, Cybersecurity).
 - "Open to" chip row: contract dev, mentorship, operator conversations.
 - Ohio · EST location note.
 - Ethics statement: "All security testing and tooling demos are against systems I own or am explicitly authorized to test."
