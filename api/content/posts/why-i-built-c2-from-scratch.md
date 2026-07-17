@@ -1,6 +1,7 @@
 ---
 title: "Why I Built a C2 Framework From Scratch Instead of Using Cobalt Strike"
 date: "2026-04-20"
+draft: true
 tags: ["nexus", "security", "c2", "learning"]
 excerpt: "The case for building your own offensive tooling: not to avoid detection, but to understand every component well enough to explain it under pressure."
 ---

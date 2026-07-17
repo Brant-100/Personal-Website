@@ -22,6 +22,29 @@ const SKILLS = [
   { name: "Cybersecurity", icon: Shield,   category: "security" },
 ];
 
+const HOW_I_WORK_STEPS = [
+  {
+    title: "Discovery call",
+    body: "A 20-minute call to understand your project, your constraints, and what you actually need. No pressure, no pitch.",
+  },
+  {
+    title: "Proposal",
+    body: "A written scope, timeline, and price within 48 hours. You know exactly what you're paying for before anything starts.",
+  },
+  {
+    title: "Build",
+    body: "Weekly check-ins and staging previews at every milestone. You see progress as it happens, with no surprise scope creep.",
+  },
+  {
+    title: "Handoff",
+    body: "Code, credentials, and a walkthrough so you're never left guessing. It's all yours on final payment.",
+  },
+  {
+    title: "30 days of support",
+    body: "Bug fixes included for 30 days after launch. Ongoing work is quoted separately, and you're never locked in.",
+  },
+];
+
 export function AboutPage() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
@@ -214,6 +237,86 @@ export function AboutPage() {
               </Reveal>
             </div>
           </div>
+
+          <section
+            id="how-i-work"
+            aria-labelledby="how-i-work-heading"
+            className="mt-16 scroll-mt-24 md:mt-24"
+          >
+            <Reveal className="mb-4">
+              {!isDark && <span className="section-accent-bar bg-pop-purple" aria-hidden />}
+              <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+                {isDark ? "// process" : "process ·"}
+              </span>
+            </Reveal>
+            <Reveal className="mb-8 max-w-3xl">
+              <h2
+                id="how-i-work-heading"
+                className="text-4xl font-extrabold tracking-tight md:text-5xl"
+              >
+                {isDark ? (
+                  <>
+                    How I{" "}
+                    <span className="relative inline-block text-primary">
+                      work
+                      <span
+                        className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
+                        aria-hidden
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    How I{" "}
+                    <span className="relative inline-block text-primary">
+                      work
+                      <span className="absolute inset-x-0 -bottom-1 h-2 bg-accent/70 -z-10" />
+                    </span>
+                  </>
+                )}
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
+                No mystery. Here&apos;s exactly how a project goes from first call to launch.
+              </p>
+            </Reveal>
+
+            <motion.ol
+              variants={staggerContainer(0.08, 0.06)}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {HOW_I_WORK_STEPS.map((step, i) => (
+                <motion.li
+                  key={step.title}
+                  variants={{
+                    hidden: { opacity: 0, y: 16 },
+                    show: { opacity: 1, y: 0 },
+                  }}
+                  className={cn(
+                    "list-none rounded-2xl p-6",
+                    isDark
+                      ? "border border-border bg-card/75 backdrop-blur-sm shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]"
+                      : LIGHT_SURFACE_CARD
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "mb-4 inline-flex h-9 w-9 items-center justify-center rounded-xl font-mono text-xs font-bold",
+                      isDark
+                        ? "bg-primary/10 text-primary ring-1 ring-primary/30"
+                        : "bg-primary text-primary-foreground"
+                    )}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="text-lg font-bold tracking-tight">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+                </motion.li>
+              ))}
+            </motion.ol>
+          </section>
 
           <Credentials embedded />
 

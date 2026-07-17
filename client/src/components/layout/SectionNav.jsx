@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { SHOW_TESTIMONIALS } from "@/components/sections/Testimonials";
 
 const SECTIONS = [
   { id: "about", label: "About" },
   { id: "services", label: "Services" },
   { id: "projects", label: "Projects" },
   { id: "credentials", label: "Credentials" },
+  ...(SHOW_TESTIMONIALS ? [{ id: "testimonials", label: "Testimonials" }] : []),
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];

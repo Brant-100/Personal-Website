@@ -7,3 +7,9 @@ export const CONTACT_EMAIL = "brant@brantsimpson.com";
 
 /** Full mailto: href */
 export const CONTACT_HREF = `mailto:${CONTACT_EMAIL}`;
+
+/** Cal.com discovery call booking URL */
+export const BOOKING_URL = "https://cal.com/brant-simpson-k7rgcg";
+
+/** Public resume PDF (replace `client/public/Brant_Simpson_Resume.pdf` when updating) */
+export const RESUME_PDF = "/Brant_Simpson_Resume.pdf";

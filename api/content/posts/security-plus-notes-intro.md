@@ -1,6 +1,7 @@
 ---
 title: "Security+ SY0-701 Study Notes: Introduction and Approach"
 date: "2026-03-15"
+draft: true
 tags: ["security-plus", "certifications", "study-notes"]
 excerpt: "How I approached the SY0-701 exam, what resources worked, what didn't, and a note on what the certification actually measures."
 ---

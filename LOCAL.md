@@ -40,12 +40,11 @@ npm install
 
 ## Every session
 
-**Terminal 1 — API**
+**Terminal 1 — API** (no venv activation needed)
 
 ```powershell
 cd api
-.\.venv\Scripts\Activate.ps1
-uvicorn main:app --reload --host 127.0.0.1 --port 8765
+python -m uvicorn main:app --reload --host 127.0.0.1 --port 8765
 ```
 
 **Terminal 2 — client**
@@ -53,6 +52,13 @@ uvicorn main:app --reload --host 127.0.0.1 --port 8765
 ```powershell
 cd client
 npm run dev
+```
+
+If `npm` is not recognized (Node installed but PATH not updated), use the full path:
+
+```powershell
+cd client
+& "C:\Program Files\nodejs\npm.cmd" run dev
 ```
 
 Smoke check: http://localhost:8765/api/health
@@ -65,9 +71,15 @@ Smoke check: http://localhost:8765/api/health
 
 The `api\.venv` folder only exists after you run `python -m venv .venv` from `api` (first-time setup). If you never did that, there is no `Scripts\Activate.ps1` yet — run the **First time only → API** block, then try **Every session** again.
 
+**`localhost` cannot reach the API (connection failed / timed out)**
+
+On some Windows setups, `localhost` resolves to IPv6 (`::1`) while uvicorn listens on `127.0.0.1`. The client uses `http://127.0.0.1:8765` via `client/.env.development`. After changing env files, restart `npm run dev`.
+
 **Execution policy blocks activation**
 
-If PowerShell says scripts are disabled, run once (as Administrator if needed):
+PowerShell may refuse `Activate.ps1` with "running scripts is disabled". You do **not** need to activate the venv — use the **Every session → API** command (`python -m uvicorn ...`) instead.
+
+Optional fix if you want activation to work:
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser

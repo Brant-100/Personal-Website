@@ -1,6 +1,7 @@
 ---
 title: "CTF Walkthrough: [Machine Name] (TryHackMe / HackTheBox)"
 date: "2026-04-01"
+draft: true
 tags: ["ctf", "walkthrough", "security"]
 excerpt: "A step by step walkthrough of [machine name]: reconnaissance, initial access, privilege escalation, and lessons learned."
 ---

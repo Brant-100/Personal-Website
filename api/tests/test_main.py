@@ -106,11 +106,12 @@ async def test_posts_list(client):
     assert r.status_code == 200
     data = r.json()
     assert isinstance(data, list)
-    # Internal markdown posts + curated external entries
-    assert len(data) >= 6 + len(EXTERNAL_POSTS)
+    # Published internal posts + curated external entries
+    assert len(data) >= 1 + len(EXTERNAL_POSTS)
     slugs = [p["slug"] for p in data]
-    assert "nexus-phase-1-retrospective" in slugs
-    assert "why-i-built-c2-from-scratch" in slugs
+    assert "project-nexus-architecture-deep-dive" in slugs
+    assert "nexus-phase-1-retrospective" not in slugs
+    assert "why-i-built-c2-from-scratch" not in slugs
     kinds = {p.get("kind", "internal") for p in data}
     assert "external" in kinds
     assert "internal" in kinds
@@ -123,14 +124,20 @@ async def test_posts_list(client):
 
 @pytest.mark.asyncio
 async def test_post_detail(client):
-    r = await client.get("/api/posts/nexus-phase-1-retrospective")
+    r = await client.get("/api/posts/project-nexus-architecture-deep-dive")
     assert r.status_code == 200
     p = r.json()
-    assert p["slug"] == "nexus-phase-1-retrospective"
+    assert p["slug"] == "project-nexus-architecture-deep-dive"
     assert p["title"] is not None
     assert p.get("kind") == "internal"
     assert isinstance(p["content"], str)
     assert len(p["content"]) > 0
+
+
+@pytest.mark.asyncio
+async def test_post_draft_not_found(client):
+    r = await client.get("/api/posts/nexus-phase-1-retrospective")
+    assert r.status_code == 404
 
 
 @pytest.mark.asyncio

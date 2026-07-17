@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { CONTACT_EMAIL } from "@/lib/contact";
+import { CONTACT_EMAIL, RESUME_PDF } from "@/lib/contact";
 
 const SECTION_ANCHORS = [
   { id: "about", label: "Go to About", icon: User },
@@ -191,7 +191,7 @@ export function CommandPalette() {
                     value="Download resume PDF"
                     onSelect={() => run(() => {
                       const a = document.createElement("a");
-                      a.href = "/Brant_Simpson_Resume.pdf";
+                      a.href = RESUME_PDF;
                       a.download = "Brant_Simpson_Resume.pdf";
                       a.click();
                     })}

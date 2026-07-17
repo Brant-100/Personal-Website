@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Mail, Terminal, Code2, Sparkles, Download, Zap, ShieldCheck, Flag, BookOpen } from "lucide-react";
+import { ArrowRight, Terminal, Code2, Sparkles, Download, Zap, ShieldCheck, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BookCallButton } from "@/components/BookCallButton";
 import { Badge } from "@/components/ui/badge";
 import { useTheme } from "@/hooks/useTheme";
 import { AnimatedHeadline, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { cn } from "@/lib/utils";
+import { RESUME_PDF } from "@/lib/contact";
 import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
 const ROLES = [
   { label: "Software Development", icon: Code2 },
   { label: "Cybersecurity", icon: ShieldCheck },
-  { label: "Military Enlistment", icon: Flag },
   { label: "Continuous Learning", icon: BookOpen },
 ];
 
@@ -93,11 +94,6 @@ export function Hero() {
             </span>
           </Reveal>
 
-          <Reveal className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
-            I write software, dig into security, and am working toward serving in the military.
-            Still early in the journey, but I show up, I learn fast, and I get things done.
-          </Reveal>
-
           {/* Now-building chip */}
           <Reveal className="mt-5">
             <div className={cn(
@@ -115,23 +111,14 @@ export function Hero() {
           </Reveal>
 
           <Reveal className="mt-7 flex flex-wrap items-center gap-4">
-            <Button size="lg" variant={isDark ? "default" : "pop"} asChild>
+            <BookCallButton size="lg" variant={isDark ? "default" : "pop"} />
+            <Button size="lg" variant="outline" asChild>
               <a href="#projects" className="inline-flex items-center gap-2">
                 View Work <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-              <a href="#contact" className="inline-flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                Get in touch
-              </a>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <a
-                href={isDark ? "/Brant_Simpson_Resume_Dark.pdf" : "/Brant_Simpson_Resume_Light.pdf"}
-                download
-                className="inline-flex items-center gap-2"
-              >
+              <a href={RESUME_PDF} download className="inline-flex items-center gap-2">
                 <Download className="h-4 w-4" />
                 Resume
               </a>

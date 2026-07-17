@@ -14,10 +14,14 @@ import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { WEB_DEV_FAQS, WORDPRESS_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
+import { BookCallButton } from "@/components/BookCallButton";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function WebDevDemo() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <ServicePageLayout
       eyebrow="01 · service / web development"
@@ -67,7 +71,23 @@ export function WebDevDemo() {
             anyone who wants to edit content themselves).
           </p>
         </div>
+        <div
+          className={cn(
+            "mb-6 rounded-2xl border border-border p-5",
+            isDark ? "bg-card/70 backdrop-blur" : "bg-card/80 backdrop-blur-sm shadow-soft"
+          )}
+        >
+          <div className="font-mono text-[10px] uppercase tracking-widest text-primary mb-1">
+            Pricing
+          </div>
+          <p className="text-sm text-muted-foreground">
+            WordPress sites start at $400. Final quote depends on scope discussed during discovery.
+          </p>
+        </div>
         <FAQAccordion items={WORDPRESS_FAQS} />
+      </div>
+      <div className="mt-16 flex justify-center">
+        <BookCallButton variant={isDark ? "default" : "pop"} />
       </div>
       <OtherServicesNav current="web" />
     </ServicePageLayout>

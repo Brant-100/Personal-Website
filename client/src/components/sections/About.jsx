@@ -51,7 +51,7 @@ export function About() {
           <div className="space-y-4 max-w-xl">
             <Reveal>
               <p className="text-lg md:text-xl font-medium leading-snug">
-                I&apos;m a 17 year old from{" "}
+                I&apos;m a software developer based in{" "}
                 <span className={cn("inline-flex items-center gap-1", isDark ? "text-primary" : "text-primary")}>
                   <MapPin className="h-4 w-4" />Ohio
                 </span>{" "}
@@ -61,9 +61,8 @@ export function About() {
 
             <Reveal>
               <p className="text-base text-muted-foreground leading-relaxed">
-                I&apos;m finishing up my Software Engineering program at MCCTC, graduating May 2026.
-                Outside of school I&apos;m working toward military service and always have
-                something on the side: a project, a cert, or something I&apos;m trying to figure out.
+                I graduated from MCCTC&apos;s Software Engineering program in May 2026, and I&apos;m excited
+                to start new projects and work with people.
               </p>
             </Reveal>
           </div>

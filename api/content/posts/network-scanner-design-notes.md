@@ -1,6 +1,7 @@
 ---
 title: "Building a Multithreaded Network Scanner in Python: Design Notes"
 date: "2026-01-20"
+draft: true
 tags: ["python", "networking", "recon", "network-scanner"]
 excerpt: "Why threading over asyncio, how banner grabbing actually works, and what I learned building a recon tool from raw sockets."
 ---
