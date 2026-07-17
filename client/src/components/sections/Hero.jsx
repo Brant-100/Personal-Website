@@ -94,11 +94,6 @@ export function Hero() {
             </span>
           </Reveal>
 
-          <Reveal className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed">
-            I build websites and software for teams that want code they can trust and a developer who actually shows up.
-            Currently available for contract work.
-          </Reveal>
-
           {/* Now-building chip */}
           <Reveal className="mt-5">
             <div className={cn(

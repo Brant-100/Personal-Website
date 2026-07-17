@@ -67,7 +67,7 @@ export function Experience() {
             isDark ? "text-primary" : "text-secondary"
           )}
         >
-          {isDark ? "// 05" : "05 ·"} timeline
+          {isDark ? "// 04" : "04 ·"} timeline
         </span>
       </Reveal>
       <Reveal className="mb-16 max-w-3xl">

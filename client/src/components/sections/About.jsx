@@ -61,9 +61,8 @@ export function About() {
 
             <Reveal>
               <p className="text-base text-muted-foreground leading-relaxed">
-                I&apos;m finishing up my Software Engineering program at MCCTC, graduating May 2026.
-                Outside of school I&apos;m working toward military service and always have
-                something on the side: a project, a cert, or something I&apos;m trying to figure out.
+                I graduated from MCCTC&apos;s Software Engineering program in May 2026, and I&apos;m excited
+                to start new projects and work with people.
               </p>
             </Reveal>
           </div>

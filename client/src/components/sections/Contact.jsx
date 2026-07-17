@@ -26,7 +26,7 @@ export function Contact() {
       <Reveal className="mb-4">
         {!isDark && <span className="section-accent-bar bg-pop-pink" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 06" : "06 ·"} contact
+          {isDark ? "// 05" : "05 ·"} contact
         </span>
       </Reveal>
       <Reveal className="mb-12 max-w-3xl">

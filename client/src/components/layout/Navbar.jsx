@@ -5,6 +5,7 @@ import { Menu, Terminal, X } from "lucide-react";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
+import { SHOW_TESTIMONIALS } from "@/components/sections/Testimonials";
 
 /** Ordered groups flattened into `NAV_LINKS` below (keeps edit intent in one place). */
 const NAV_CLUSTERS = [
@@ -30,7 +31,7 @@ const SECTIONS = [
   { id: "services", label: "Services" },
   { id: "projects", label: "Projects" },
   { id: "credentials", label: "Credentials" },
-  { id: "testimonials", label: "Testimonials" },
+  ...(SHOW_TESTIMONIALS ? [{ id: "testimonials", label: "Testimonials" }] : []),
   { id: "experience", label: "Experience" },
   { id: "contact", label: "Contact" },
 ];

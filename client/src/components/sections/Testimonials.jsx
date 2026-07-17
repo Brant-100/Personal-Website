@@ -4,6 +4,9 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 
+/** Set true when a real testimonial is ready to ship. */
+export const SHOW_TESTIMONIALS = false;
+
 // TODO: replace with a real testimonial before launch
 const PLACEHOLDER_TESTIMONIALS = [
   {
@@ -17,6 +20,8 @@ const PLACEHOLDER_TESTIMONIALS = [
 
 export function Testimonials() {
   const { theme } = useTheme();
+  if (!SHOW_TESTIMONIALS) return null;
+
   const isDark = theme === "dark";
   const testimonial = PLACEHOLDER_TESTIMONIALS[0];
 
