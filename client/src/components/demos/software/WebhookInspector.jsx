@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown, Trash2, Zap } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const EVENT_TEMPLATES = [
@@ -124,9 +123,7 @@ function makeEvent(template) {
 }
 
 export function WebhookInspector() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [events, setEvents] = useState([]);
   const [expanded, setExpanded] = useState(null);
 
@@ -159,9 +156,7 @@ export function WebhookInspector() {
               onClick={() => trigger(t)}
               className={cn(
                 "flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left text-xs font-medium transition-colors",
-                isDark
-                  ? "border-border bg-card/60 hover:border-primary/50 hover:bg-primary/5"
-                  : "border-border bg-card hover:border-foreground"
+                "border-border bg-card/60 hover:border-primary/50 hover:bg-primary/5"
               )}
             >
               <Zap className="h-3.5 w-3.5 text-primary shrink-0" />
@@ -173,7 +168,7 @@ export function WebhookInspector() {
         {/* Event list */}
         <div className={cn(
           "overflow-hidden rounded-2xl",
-          isDark ? "border border-border bg-card/70 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+          "border border-border bg-card/70 backdrop-blur"
         )}>
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
             <span className="font-mono text-xs text-muted-foreground">
@@ -212,7 +207,7 @@ export function WebhookInspector() {
                     className={cn(
                       "flex w-full items-center gap-3 border-b border-border/50 px-4 py-2.5 text-left transition-colors last:border-0",
                       expanded === ev.uid
-                        ? isDark ? "bg-primary/5" : "bg-accent/10"
+                        ? "bg-primary/5"
                         : "hover:bg-muted/30"
                     )}
                   >

@@ -4,10 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { tagChipLightClass } from "@/lib/popColors";
-
 export function ServicePageLayout({
   eyebrow,
   title,
@@ -15,10 +12,7 @@ export function ServicePageLayout({
   tags = [],
   children,
 }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  useEffect(() => {
+useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
 
@@ -26,18 +20,10 @@ export function ServicePageLayout({
     <div className="relative overflow-hidden pt-28 md:pt-36">
       {/* Backdrop (differs per theme) */}
       <div className="pointer-events-none absolute inset-0 -z-0 overflow-hidden">
-        {isDark ? (
-          <>
-            <div className="absolute inset-0 bg-cyber-grid bg-grid-32 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
-            <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
-          </>
-        ) : (
-          <>
-            <div className="absolute -left-16 top-10 h-72 w-72 rounded-full bg-primary/25 blur-3xl" />
-            <div className="absolute right-10 top-32 h-64 w-64 rounded-full bg-secondary/25 blur-3xl" />
-            <div className="absolute left-1/3 bottom-10 h-48 w-48 rounded-full bg-accent/25 blur-3xl" />
-          </>
-        )}
+        <>
+          <div className="absolute inset-0 bg-cyber-grid bg-grid-32 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
+          <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
+        </>
       </div>
 
       <section className="container relative z-10 pb-16">
@@ -61,7 +47,6 @@ export function ServicePageLayout({
           className="mt-6 max-w-3xl"
         >
           <div className="mb-4">
-            {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
             <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
               {eyebrow}
             </div>
@@ -69,7 +54,7 @@ export function ServicePageLayout({
           <h1
             className={cn(
               "text-4xl md:text-6xl font-extrabold tracking-tight",
-              isDark && "text-neon"
+              "text-neon"
             )}
           >
             {title}
@@ -78,24 +63,18 @@ export function ServicePageLayout({
 
           {tags.length > 0 && (
             <div className="mt-6 flex flex-wrap gap-2">
-              {tags.map((t, ti) =>
-                isDark ? (
-                  <Badge key={t} variant="default">
-                    {t}
-                  </Badge>
-                ) : (
-                  <span key={t} className={tagChipLightClass(t, ti)}>
-                    {t}
-                  </span>
-                )
-              )}
+              {tags.map((t) => (
+                <Badge key={t} variant="default">
+                  {t}
+                </Badge>
+              ))}
             </div>
           )}
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Button
               size="lg"
-              variant={isDark ? "default" : "pop"}
+              variant="default"
               onClick={() => {
                 const el = document.getElementById("inquiry");
                 if (el) el.scrollIntoView({ behavior: "smooth" });

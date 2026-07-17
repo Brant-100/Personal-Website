@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { X, Copy, Check } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const INTEGRATIONS = [
@@ -81,9 +80,7 @@ const INTEGRATIONS = [
 const CATEGORIES = ["All", ...new Set(INTEGRATIONS.map((i) => i.category))];
 
 export function IntegrationCatalog() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [filter, setFilter] = useState("All");
   const [selected, setSelected] = useState(null);
   const [copied, setCopied] = useState(false);
@@ -114,9 +111,7 @@ export function IntegrationCatalog() {
             className={cn(
               "rounded-full px-2.5 py-0.5 text-[11px] font-medium transition-colors",
               filter === cat
-                ? isDark
-                  ? "bg-primary/20 text-primary"
-                  : "bg-foreground/10 text-foreground"
+                ? "bg-primary/20 text-primary"
                 : "text-muted-foreground/80 hover:bg-muted/40 hover:text-muted-foreground"
             )}
           >
@@ -140,15 +135,13 @@ export function IntegrationCatalog() {
               className={cn(
                 "rounded-2xl border p-4 text-center transition-all",
                 selected === intg.name
-                  ? isDark ? "border-primary/40 bg-primary/5" : "border-foreground/40 bg-accent/10"
-                  : isDark
-                    ? "border-border/80 bg-card/40 hover:border-border hover:bg-card/60"
-                    : "border-border bg-card/80 hover:border-foreground/25"
+                  ? "border-primary/40 bg-primary/5"
+                  : "border-border/80 bg-card/40 hover:border-border hover:bg-card/60"
               )}
             >
               <div
                 className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-xl text-white font-bold text-sm"
-                style={{ background: intg.color === "#000000" || intg.color === "#171515" ? (isDark ? "#2a2a2a" : "#1a1a1a") : intg.color }}
+                style={{ background: intg.color === "#000000" || intg.color === "#171515" ? ("#2a2a2a") : intg.color }}
               >
                 {intg.name.slice(0, 2)}
               </div>
@@ -172,7 +165,7 @@ export function IntegrationCatalog() {
             transition={{ type: "spring", stiffness: 280, damping: 26 }}
             className={cn(
               "mt-4 overflow-hidden rounded-2xl",
-              isDark ? "border border-border bg-card/60 backdrop-blur" : "border border-foreground/20 bg-card"
+              "border border-border bg-card/60 backdrop-blur"
             )}
           >
             <div className="flex items-center justify-between border-b border-border px-5 py-3">

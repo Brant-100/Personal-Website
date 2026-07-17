@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Copy, Check, ArrowRight } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const SIZES = ["sm", "md", "lg"];
@@ -89,9 +88,7 @@ function buildSnippet(cfg) {
 }
 
 export function ComponentPlayground() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [cfg, setCfg] = useState(() => ({ ...DEFAULT }));
+const [cfg, setCfg] = useState(() => ({ ...DEFAULT }));
   const [copied, setCopied] = useState(false);
 
   const set = (key, val) => setCfg((p) => ({ ...p, [key]: val }));
@@ -119,7 +116,7 @@ export function ComponentPlayground() {
         {/* Controls */}
         <div className={cn(
           "space-y-5 rounded-2xl p-5",
-          isDark ? "border border-border bg-card/60 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+          "border border-border bg-card/60 backdrop-blur"
         )}>
           <div>
             <label className="block text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1.5">Label</label>
@@ -156,7 +153,7 @@ export function ComponentPlayground() {
                   className={cn(
                     "flex-1 rounded-lg px-2 py-1 text-xs font-medium capitalize transition-colors",
                     cfg.variant === v
-                      ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+                      ? "bg-primary text-primary-foreground"
                       : "border border-border text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -176,7 +173,7 @@ export function ComponentPlayground() {
                   className={cn(
                     "flex-1 rounded-lg px-2 py-1 text-xs font-medium uppercase transition-colors",
                     cfg.size === s
-                      ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+                      ? "bg-primary text-primary-foreground"
                       : "border border-border text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -196,7 +193,7 @@ export function ComponentPlayground() {
                   className={cn(
                     "rounded-lg px-2 py-1 text-xs font-medium transition-colors",
                     cfg.rounded === r
-                      ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+                      ? "bg-primary text-primary-foreground"
                       : "border border-border text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -236,7 +233,7 @@ export function ComponentPlayground() {
           {/* Preview box */}
           <div className={cn(
             "flex h-40 shrink-0 items-center justify-center rounded-2xl",
-            isDark ? "border border-border bg-card/60 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+            "border border-border bg-card/60 backdrop-blur"
           )}>
             <motion.button
               key={JSON.stringify(cfg)}
@@ -254,7 +251,7 @@ export function ComponentPlayground() {
           {/* Generated code */}
           <div className={cn(
             "relative flex min-h-0 flex-col overflow-hidden rounded-2xl",
-            isDark ? "border border-border bg-card/70" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+            "border border-border bg-card/70"
           )}>
             <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-2">
               <span className="font-mono text-xs text-muted-foreground">generated jsx</span>

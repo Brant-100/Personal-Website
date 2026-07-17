@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { Check, X, ArrowDown } from "lucide-react";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /**
@@ -8,10 +7,7 @@ import { cn } from "@/lib/utils";
  * @param {{ startsAt, engagementType, includes, excludes, note }} props
  */
 export function PricingCard({ startsAt, engagementType, includes = [], excludes = [], note }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  const scrollToForm = () => {
+const scrollToForm = () => {
     const el = document.getElementById("inquiry");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -33,14 +29,12 @@ export function PricingCard({ startsAt, engagementType, includes = [], excludes 
         {/* Main card */}
         <div className={cn(
           "rounded-2xl",
-          isDark
-            ? "border border-border bg-card/70 backdrop-blur"
-            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+          "border border-border bg-card/70 backdrop-blur"
         )}>
           {/* Header */}
           <div className={cn(
             "px-6 py-5 border-b border-border",
-            isDark ? "bg-primary/5" : "bg-accent/10"
+            "bg-primary/5"
           )}>
             <div className="font-mono text-[10px] uppercase tracking-widest text-primary mb-1">
               {engagementType}
@@ -90,14 +84,12 @@ export function PricingCard({ startsAt, engagementType, includes = [], excludes 
         {/* CTA sidebar */}
         <div className={cn(
           "flex flex-col items-center justify-center gap-4 rounded-2xl px-8 py-8 text-center",
-          isDark
-            ? "border border-primary/40 bg-primary/5"
-            : "border border-border bg-foreground text-background shadow-soft"
+          "border border-primary/40 bg-primary/5"
         )}>
-          <div className={cn("text-base font-bold", !isDark && "text-background")}>
+          <div className={cn("text-base font-bold", !"text-background")}>
             Not sure what you need?
           </div>
-          <p className={cn("text-sm max-w-[180px]", isDark ? "text-muted-foreground" : "text-background/70")}>
+          <p className={cn("text-sm max-w-[180px]", "text-muted-foreground")}>
             Tell me what you&apos;re building and I&apos;ll send you a custom estimate.
           </p>
           <motion.button
@@ -107,14 +99,12 @@ export function PricingCard({ startsAt, engagementType, includes = [], excludes 
             transition={{ type: "spring", stiffness: 380, damping: 26 }}
             className={cn(
               "inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold",
-              isDark
-                ? "bg-primary text-primary-foreground shadow-neon-cyan"
-                : "bg-background text-foreground border border-background/20"
+              "bg-primary text-primary-foreground shadow-neon-cyan"
             )}
           >
             Request a quote <ArrowDown className="h-4 w-4" />
           </motion.button>
-          <span className={cn("font-mono text-[10px]", isDark ? "text-muted-foreground" : "text-background/50")}>
+          <span className={cn("font-mono text-[10px]", "text-muted-foreground")}>
             reply within 48h
           </span>
         </div>

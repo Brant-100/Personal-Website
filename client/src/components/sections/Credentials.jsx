@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Section, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 import { CREDENTIAL_ICON_MAP } from "@/lib/credentialIcons";
 import { FALLBACK as CREDENTIAL_FALLBACK } from "@/lib/credentialFallback";
 
@@ -40,9 +38,7 @@ function groupCredentials(items) {
 }
 
 export function Credentials({ embedded = false }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [items, setItems] = useState(CREDENTIAL_FALLBACK);
+const [items, setItems] = useState(CREDENTIAL_FALLBACK);
 
   useEffect(() => {
     const ctrl = new AbortController();
@@ -60,9 +56,8 @@ export function Credentials({ embedded = false }) {
       className={cn(embedded ? "w-full max-w-none px-0 py-16 md:py-24" : "container")}
     >
       <Reveal className="mb-4">
-        {!isDark && <span className="section-accent-bar bg-pop-lime" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// credentials" : "credentials ·"} vault
+          {"// credentials"} vault
         </span>
       </Reveal>
       <Reveal className="mb-12 max-w-3xl">
@@ -108,7 +103,6 @@ export function Credentials({ embedded = false }) {
                     key={cred.id || cred.name}
                     cred={cred}
                     colorIndex={tileOffset + i}
-                    isDark={isDark}
                     groupId={section.id}
                   />
                 ))}
@@ -121,7 +115,7 @@ export function Credentials({ embedded = false }) {
   );
 }
 
-function CredentialTile({ cred, colorIndex, isDark, groupId }) {
+function CredentialTile({ cred, colorIndex, groupId }) {
   const Icon = CREDENTIAL_ICON_MAP[cred.category] || CREDENTIAL_ICON_MAP.default;
   const to = `/credentials/${cred.id}`;
 
@@ -131,13 +125,7 @@ function CredentialTile({ cred, colorIndex, isDark, groupId }) {
         <div
           className={cn(
             "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl",
-            isDark
-              ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-              : colorIndex % 3 === 0
-                ? "bg-primary text-primary-foreground"
-                : colorIndex % 3 === 1
-                  ? "bg-secondary text-secondary-foreground"
-                  : "bg-accent text-accent-foreground"
+            "bg-primary/10 text-primary ring-1 ring-primary/30"
           )}
         >
           <Icon className="h-6 w-6" />
@@ -151,7 +139,7 @@ function CredentialTile({ cred, colorIndex, isDark, groupId }) {
           <div
             className={cn(
               "text-base font-semibold leading-snug",
-              isDark && "text-neon",
+              "text-neon",
               groupId !== "it-specialist" && "mt-1"
             )}
           >
@@ -167,7 +155,7 @@ function CredentialTile({ cred, colorIndex, isDark, groupId }) {
       <div
         className={cn(
           "absolute -right-6 -bottom-6 h-20 w-20 rounded-full opacity-20",
-          isDark ? "bg-primary" : "hidden"
+          "bg-primary"
         )}
       />
     </>
@@ -176,9 +164,7 @@ function CredentialTile({ cred, colorIndex, isDark, groupId }) {
   const tileClass = cn(
     "relative block overflow-hidden rounded-2xl transition-colors",
     groupId === "it-specialist" ? "p-4" : "p-5",
-    isDark
-      ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/50 hover:shadow-neon-cyan"
-      : cn(LIGHT_SURFACE_CARD, "hover:border-primary/35"),
+    "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/50 hover:shadow-neon-cyan",
     "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
   );
 
@@ -190,7 +176,7 @@ function CredentialTile({ cred, colorIndex, isDark, groupId }) {
         hidden: { opacity: 0, y: 16 },
         show: { opacity: 1, y: 0, transition: spring.soft },
       }}
-      whileHover={{ y: -4, rotate: isDark ? 0 : colorIndex % 2 === 0 ? 1.5 : -1.5 }}
+      whileHover={{ y: -4, rotate: 0}}
       transition={spring.snap}
       className={tileClass}
     >

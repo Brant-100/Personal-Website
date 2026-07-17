@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Code2, Palette, Cpu, ArrowRight, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
-
 const SERVICES = [
   {
     id: "web",
@@ -56,10 +53,7 @@ const SERVICES = [
 ];
 
 export function ServicesPage() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  useEffect(() => {
+useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
 
@@ -67,18 +61,11 @@ export function ServicesPage() {
     <div className="relative pt-28 md:pt-36">
       {/* Backdrop */}
       <div className="pointer-events-none absolute inset-0 -z-0 overflow-hidden">
-        {isDark ? (
-          <>
-            <div className="absolute inset-0 bg-cyber-grid bg-grid-32 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
-            <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
-            <div className="absolute left-1/4 top-1/3 h-64 w-64 rounded-full bg-secondary/10 blur-3xl" />
-          </>
-        ) : (
-          <>
-            <div className="absolute -left-16 top-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-            <div className="absolute right-10 top-32 h-64 w-64 rounded-full bg-secondary/20 blur-3xl" />
-          </>
-        )}
+        <>
+          <div className="absolute inset-0 bg-cyber-grid bg-grid-32 [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_70%)]" />
+          <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute left-1/4 top-1/3 h-64 w-64 rounded-full bg-secondary/10 blur-3xl" />
+        </>
       </div>
 
       <div className="container relative z-10 pb-28 md:pb-32">
@@ -90,7 +77,6 @@ export function ServicesPage() {
           className="max-w-2xl"
         >
           <div className="mb-3">
-            {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
             <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
               freelance services
             </div>
@@ -98,7 +84,7 @@ export function ServicesPage() {
           <h1
             className={cn(
               "font-mono text-4xl font-extrabold tracking-tight md:text-5xl text-foreground",
-              isDark && "text-neon"
+              "text-neon"
             )}
           >
             What I build
@@ -124,12 +110,7 @@ export function ServicesPage() {
                   to={svc.href}
                   className={cn(
                     "group block rounded-2xl border p-6 transition-all sm:p-8",
-                    isDark
-                      ? "border-border bg-card/60 backdrop-blur hover:border-primary/40 hover:bg-card/80"
-                      : cn(
-                          LIGHT_SURFACE_CARD,
-                          "transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/35"
-                        )
+                    "border-border bg-card/60 backdrop-blur hover:border-primary/40 hover:bg-card/80 hover:-translate-y-0.5"
                   )}
                 >
                   <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-7">
@@ -137,13 +118,7 @@ export function ServicesPage() {
                     <div
                       className={cn(
                         "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ring-1 transition-colors",
-                        isDark
-                          ? `${svc.accent.bg} ${svc.accent.dark} ${svc.accent.ring}`
-                          : cn(
-                              svc.id === "web" && "bg-primary/18 text-primary ring-primary/35",
-                              svc.id === "uiux" && "bg-secondary/18 text-secondary ring-secondary/35",
-                              svc.id === "software" && "bg-pop-purple/22 text-pop-purple ring-pop-purple/40"
-                            )
+                        `${svc.accent.bg} ${svc.accent.dark} ${svc.accent.ring}`
                       )}
                     >
                       <Icon className="h-6 w-6" />
@@ -155,7 +130,7 @@ export function ServicesPage() {
                         <span
                           className={cn(
                             "font-mono text-[11px]",
-                            isDark ? "text-muted-foreground/60" : "text-foreground/45"
+                            "text-muted-foreground/60"
                           )}
                         >
                           {svc.num}
@@ -167,7 +142,7 @@ export function ServicesPage() {
                       <p
                         className={cn(
                           "mt-1.5 text-sm font-semibold",
-                          isDark ? "text-muted-foreground" : "text-foreground/75"
+                          "text-muted-foreground"
                         )}
                       >
                         {svc.tagline}
@@ -179,19 +154,13 @@ export function ServicesPage() {
                             key={b}
                             className={cn(
                               "flex items-start gap-2 text-xs font-semibold",
-                              isDark ? "text-muted-foreground" : "text-foreground/78"
+                              "text-muted-foreground"
                             )}
                           >
                             <span
                               className={cn(
                                 "mt-[3px] h-1.5 w-1.5 shrink-0 rounded-full",
-                                isDark
-                                  ? svc.accent.dark.replace("text-", "bg-")
-                                  : svc.id === "web"
-                                    ? "bg-primary"
-                                    : svc.id === "uiux"
-                                      ? "bg-secondary"
-                                      : "bg-pop-purple"
+                                svc.accent.dark.replace("text-", "bg-")
                               )}
                             />
                             {b}
@@ -204,7 +173,7 @@ export function ServicesPage() {
                     <ArrowRight
                       className={cn(
                         "hidden h-5 w-5 shrink-0 self-center transition-transform group-hover:translate-x-1 sm:block",
-                        isDark ? "text-muted-foreground" : "text-foreground/50"
+                        "text-muted-foreground"
                       )}
                     />
                   </div>
@@ -221,7 +190,7 @@ export function ServicesPage() {
           transition={{ delay: 0.45, duration: 0.4 }}
           className={cn(
             "mt-12 rounded-2xl border p-7 sm:p-9",
-            isDark ? "border-border bg-card/50 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+            "border-border bg-card/50 backdrop-blur"
           )}
         >
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
@@ -233,7 +202,7 @@ export function ServicesPage() {
             </div>
             <Button
               size="lg"
-              variant={isDark ? "default" : "pop"}
+              variant="default"
               asChild
               className="shrink-0"
             >

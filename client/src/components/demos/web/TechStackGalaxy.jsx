@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const STACK = [
@@ -33,7 +32,7 @@ function randomDrift(seed) {
   };
 }
 
-function DriftingChip({ tech, driftSeed, hovered, setHovered, isDark, prefersReduced, dashedIdle }) {
+function DriftingChip({ tech, driftSeed, hovered, setHovered, prefersReduced, dashedIdle }) {
   const drift = randomDrift(driftSeed);
   const isOn = hovered === tech.name;
 
@@ -61,12 +60,8 @@ function DriftingChip({ tech, driftSeed, hovered, setHovered, isDark, prefersRed
           isOn
             ? "border-transparent text-black"
             : dashedIdle
-            ? isDark
-              ? "border-dashed border-primary/40 bg-card/80 text-muted-foreground hover:border-primary/60 hover:text-foreground"
-              : "border-dashed border-foreground/35 bg-card text-muted-foreground hover:border-foreground/55 hover:text-foreground"
-            : isDark
-            ? "border-border bg-card/80 text-foreground hover:border-primary/40"
-            : "border-border bg-card text-foreground hover:border-foreground"
+            ? "border-dashed border-primary/40 bg-card/80 text-muted-foreground hover:border-primary/60 hover:text-foreground"
+            : "border-border bg-card/80 text-foreground hover:border-primary/40"
         )}
         style={isOn ? { background: tech.color } : {}}
       >
@@ -88,9 +83,7 @@ function DriftingChip({ tech, driftSeed, hovered, setHovered, isDark, prefersRed
             className={cn(
               // Center with margin, not translate: Framer sets transform for y and would clobber -translate-x-1/2
               "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-56 -ml-[7rem] rounded-xl px-3 py-2.5 text-left text-xs shadow-xl",
-              isDark
-                ? "bg-card border border-border text-foreground"
-                : "border border-border bg-card/80 backdrop-blur-sm text-foreground shadow-soft"
+              "bg-card border border-border text-foreground"
             )}
           >
             <div className="mb-0.5 font-semibold" style={{ color: tech.color }}>
@@ -102,7 +95,7 @@ function DriftingChip({ tech, driftSeed, hovered, setHovered, isDark, prefersRed
               <div
                 className={cn(
                   "h-3 w-3 shrink-0 rotate-45",
-                  isDark ? "bg-card border-r border-b border-border" : "bg-card border-r-2 border-b-2 border-foreground"
+                  "bg-card border-r border-b border-border"
                 )}
               />
             </div>
@@ -114,9 +107,7 @@ function DriftingChip({ tech, driftSeed, hovered, setHovered, isDark, prefersRed
 }
 
 export function TechStackGalaxy() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [hovered, setHovered] = useState(null);
 
   return (
@@ -128,7 +119,7 @@ export function TechStackGalaxy() {
       <div
         className={cn(
           "relative flex flex-col gap-8 rounded-2xl p-8 min-h-[280px]",
-          isDark ? "border border-border bg-card/60 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+          "border border-border bg-card/60 backdrop-blur"
         )}
       >
         <div className="flex flex-wrap items-center justify-center gap-3">
@@ -139,7 +130,6 @@ export function TechStackGalaxy() {
               driftSeed={i}
               hovered={hovered}
               setHovered={setHovered}
-              isDark={isDark}
               prefersReduced={prefersReduced}
             />
           ))}
@@ -151,7 +141,6 @@ export function TechStackGalaxy() {
             driftSeed={STACK.length}
             hovered={hovered}
             setHovered={setHovered}
-            isDark={isDark}
             prefersReduced={prefersReduced}
             dashedIdle
           />

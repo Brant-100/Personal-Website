@@ -12,9 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD, tagChipLightClass } from "@/lib/popColors";
 import { BookCallButton } from "@/components/BookCallButton";
 
 const SERVICE_ROUTES = {
@@ -62,9 +60,7 @@ const FALLBACK = [
 ];
 
 export function Services() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [items, setItems] = useState(FALLBACK);
+const [items, setItems] = useState(FALLBACK);
 
   useEffect(() => {
     const ctrl = new AbortController();
@@ -77,59 +73,45 @@ export function Services() {
   return (
     <Section id="services" className="container">
       <Reveal className="mb-4 flex items-center gap-2">
-        {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
         <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-          {isDark ? "// 01" : "01 ·"} services
+          {"// 01"} services
         </span>
       </Reveal>
 
       <Reveal className="mb-4 max-w-3xl">
         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          {isDark ? (
-            <>
-              <span className="text-neon">Freelance</span>
-              <span className="heading-face">{" "}work for teams</span>
-              <br />
-              <span className="heading-face">that want to </span>
-              <span className="text-accent">ship</span>
-              <span className="heading-face">.</span>
-            </>
-          ) : (
-            <>
-              Freelance work for teams
-              <br />
-              that want to{" "}
-              <span className="relative inline-block text-primary">
-                ship
-                <span className="absolute inset-x-0 -bottom-1 h-2 bg-accent/70 -z-10" />
-              </span>
-              .
-            </>
-          )}
+          <>
+            <span className="text-neon">Freelance</span>
+            <span className="heading-face">{" "}work for teams</span>
+            <br />
+            <span className="heading-face">that want to </span>
+            <span className="text-accent">ship</span>
+            <span className="heading-face">.</span>
+          </>
         </h2>
       </Reveal>
 
-      <Reveal className={cn("mb-12 max-w-2xl leading-relaxed", isDark ? "text-foreground/78" : "text-muted-foreground")}>
+      <Reveal className={cn("mb-12 max-w-2xl leading-relaxed", "text-foreground/78")}>
         Got something you want built? Let&apos;s make it happen.
       </Reveal>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {items.map((svc, idx) => (
-          <ServiceCard key={svc.id || svc.title} service={svc} index={idx} isDark={isDark} />
+          <ServiceCard key={svc.id || svc.title} service={svc} index={idx} />
         ))}
       </div>
 
       <Reveal className="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-        <p className={cn("text-base", isDark ? "text-foreground/78" : "text-muted-foreground")}>
+        <p className={cn("text-base", "text-foreground/78")}>
           Not sure which fits? Book a discovery call.
         </p>
-        <BookCallButton variant={isDark ? "default" : "pop"} />
+        <BookCallButton variant="default" />
       </Reveal>
     </Section>
   );
 }
 
-function ServiceCard({ service, index, isDark }) {
+function ServiceCard({ service, index }) {
   const Icon = ICONS[service.icon] || Sparkles;
   const route = SERVICE_ROUTES[service.id];
 
@@ -144,7 +126,7 @@ function ServiceCard({ service, index, isDark }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ ...spring.soft, delay: index * 0.08 }}
-      whileHover={{ y: -6, rotate: isDark ? 0 : -1 }}
+      whileHover={{ y: -6, rotate: 0}}
       className="group"
     >
     <CardWrapper {...wrapperProps} className="block h-full">
@@ -152,12 +134,7 @@ function ServiceCard({ service, index, isDark }) {
         className={cn(
           "relative h-full overflow-hidden transition-all",
           route && "cursor-pointer",
-          isDark
-            ? "bg-card/60 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300 hover:border-primary/60 hover:shadow-neon-cyan"
-            : cn(
-                LIGHT_SURFACE_CARD,
-                "transition-colors hover:border-primary/35"
-              )
+          "bg-card/60 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300 hover:border-primary/60 hover:shadow-neon-cyan"
         )}
       >
         {/* Decorative top bar */}
@@ -174,24 +151,18 @@ function ServiceCard({ service, index, isDark }) {
           <div
             className={cn(
               "mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl",
-              isDark
-                ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-                : index === 0
-                ? "bg-primary text-primary-foreground"
-                : index === 1
-                ? "bg-secondary text-secondary-foreground"
-                : "bg-pop-purple text-white"
+              "bg-primary/10 text-primary ring-1 ring-primary/30"
             )}
           >
             <Icon className="h-6 w-6" />
           </div>
-          <CardTitle className={cn("flex items-center justify-between text-2xl", isDark && "heading-face")}>
+          <CardTitle className={cn("flex items-center justify-between text-2xl", "heading-face")}>
             {service.title}
             <ArrowUpRight
               className={cn(
                 "h-5 w-5 transition-transform",
                 "group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
-                isDark ? "text-primary" : "text-foreground/50"
+                "text-primary"
               )}
             />
           </CardTitle>
@@ -210,7 +181,7 @@ function ServiceCard({ service, index, isDark }) {
                 <span
                   className={cn(
                     "inline-block h-1.5 w-1.5 rounded-full",
-                    isDark ? "bg-primary" : "bg-foreground"
+                    "bg-primary"
                   )}
                 />
                 {b}
@@ -220,33 +191,27 @@ function ServiceCard({ service, index, isDark }) {
 
           {service.tags && (
             <div className="mt-6 flex flex-wrap gap-2">
-              {service.tags.map((t, ti) =>
-                isDark ? (
-                  <Badge key={t} variant="default">
-                    {t}
-                  </Badge>
-                ) : (
-                  <span key={t} className={tagChipLightClass(t, ti)}>
-                    {t}
-                  </span>
-                )
-              )}
+              {service.tags.map((t) => (
+                <Badge key={t} variant="default">
+                  {t}
+                </Badge>
+              ))}
             </div>
           )}
         </CardContent>
 
         {/* subtle hover sheen (dark mode only) */}
-        {isDark && (
+        
           <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
           </div>
-        )}
+        
 
         {route && (
           <div
             className={cn(
               "absolute bottom-4 right-4 font-mono text-[10px] uppercase tracking-[0.25em] transition-colors",
-              isDark ? "text-primary" : "text-foreground/60 group-hover:text-primary"
+              "text-primary"
             )}
           >
             view demo →

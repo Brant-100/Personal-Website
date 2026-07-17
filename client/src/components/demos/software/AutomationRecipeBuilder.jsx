@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Plus, Trash2, ChevronUp, ChevronDown, X, Copy, Check, Zap, ArrowRight } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const TRIGGERS = [
@@ -52,9 +51,7 @@ function buildCode(trigger, actions) {
 }
 
 export function AutomationRecipeBuilder() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [trigger, setTrigger] = useState(null);
   const [actions, setActions] = useState([]);
   const [showCode, setShowCode] = useState(false);
@@ -98,7 +95,7 @@ export function AutomationRecipeBuilder() {
                   className={cn(
                     "flex w-full items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm transition-all",
                     trigger === t.id
-                      ? isDark ? "border-primary/60 bg-primary/10 text-foreground" : "border border-border bg-accent/30"
+                      ? "border-primary/60 bg-primary/10 text-foreground"
                       : "border-border bg-card/60 text-muted-foreground hover:text-foreground hover:border-primary/30"
                   )}
                 >
@@ -123,7 +120,7 @@ export function AutomationRecipeBuilder() {
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors",
                       added
-                        ? isDark ? "border-primary/60 bg-primary/10 text-primary" : "border-foreground bg-foreground/10 text-foreground"
+                        ? "border-primary/60 bg-primary/10 text-primary"
                         : "border-border text-muted-foreground hover:text-foreground hover:border-primary/40"
                     )}
                   >
@@ -141,7 +138,7 @@ export function AutomationRecipeBuilder() {
           <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-primary">3. Your recipe</div>
           <div className={cn(
             "min-h-[200px] rounded-2xl border p-4",
-            isDark ? "border-border bg-card/60" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+            "border-border bg-card/60"
           )}>
             {!trigger && actions.length === 0 && (
               <div className="flex h-full min-h-[160px] items-center justify-center text-xs text-muted-foreground">
@@ -153,7 +150,7 @@ export function AutomationRecipeBuilder() {
                 {/* Trigger node */}
                 <div className={cn(
                   "flex items-center gap-3 rounded-xl border px-4 py-3",
-                  isDark ? "border-primary/40 bg-primary/5" : "border-foreground/40 bg-accent/20"
+                  "border-primary/40 bg-primary/5"
                 )}>
                   <Zap className="h-4 w-4 text-primary shrink-0" />
                   <div>
@@ -180,7 +177,7 @@ export function AutomationRecipeBuilder() {
                       >
                         <div className={cn(
                           "flex flex-1 items-center gap-3 rounded-xl border px-4 py-2.5",
-                          isDark ? "border-border bg-card/80" : "border-border bg-card"
+                          "border-border bg-card/80"
                         )}>
                           <ArrowRight className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
                           <span className="text-sm font-medium flex-1">{action?.icon} {action?.label}</span>
@@ -211,9 +208,7 @@ export function AutomationRecipeBuilder() {
             className={cn(
               "mt-3 w-full rounded-xl px-4 py-2.5 text-sm font-semibold transition-all",
               canGenerate
-                ? isDark
-                  ? "bg-primary text-primary-foreground hover:brightness-110 shadow-neon-cyan"
-                  : "border border-border bg-accent text-accent-foreground shadow-soft"
+                ? "bg-primary text-primary-foreground hover:brightness-110 shadow-neon-cyan"
                 : "cursor-not-allowed bg-muted text-muted-foreground"
             )}
           >
@@ -232,7 +227,7 @@ export function AutomationRecipeBuilder() {
             transition={{ type: "spring", stiffness: 280, damping: 26 }}
             className={cn(
               "mt-4 overflow-hidden rounded-2xl",
-              isDark ? "border border-border bg-card/70" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+              "border border-border bg-card/70"
             )}
           >
             <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-3">

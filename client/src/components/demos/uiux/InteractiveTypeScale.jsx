@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /** Named steps use the same ratios as common musical intervals (reused in typography to space type sizes). */
@@ -75,9 +74,7 @@ function getRatioName(val) {
 }
 
 export function InteractiveTypeScale() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [ratio, setRatio] = useState(1.333);
+const [ratio, setRatio] = useState(1.333);
 
   const reset = () => setRatio(1.333);
 
@@ -90,7 +87,7 @@ export function InteractiveTypeScale() {
     >
       <div className={cn(
         "rounded-2xl p-6",
-        isDark ? "border border-border bg-card/70 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+        "border border-border bg-card/70 backdrop-blur"
       )}>
         {/* Slider */}
         <div className="mb-8 flex flex-wrap items-center gap-4">
@@ -146,7 +143,7 @@ export function InteractiveTypeScale() {
         <details
           className={cn(
             "mt-8 rounded-lg border px-3 py-2 text-left",
-            isDark ? "border-border bg-background/40" : "border-border bg-muted/30"
+            "border-border bg-background/40"
           )}
         >
           <summary className="cursor-pointer select-none text-xs font-medium text-foreground">

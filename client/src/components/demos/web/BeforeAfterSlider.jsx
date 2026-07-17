@@ -2,7 +2,6 @@ import { useRef, useState, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { GripVertical } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 function FauxSiteBefore() {
@@ -34,46 +33,46 @@ function FauxSiteBefore() {
   );
 }
 
-function FauxSiteAfter({ isDark }) {
+function FauxSiteAfter() {
   return (
     <div className={cn(
       "h-full w-full overflow-hidden font-sans",
-      isDark ? "bg-[#070B14] text-white" : "bg-card text-foreground"
+      "bg-[#070B14] text-white"
     )}>
       <div className={cn(
         "flex items-center justify-between px-4 py-2.5",
-        isDark ? "bg-[#0D1220]" : "bg-card border-b border-border"
+        "bg-[#0D1220]"
       )}>
-        <span className={cn("font-bold text-xs tracking-tight", isDark ? "text-cyan-400" : "text-indigo-600")}>
+        <span className={cn("font-bold text-xs tracking-tight", "text-cyan-400")}>
           yourco.
         </span>
         <div className="flex gap-3 text-[10px] text-gray-400">
           <span>Work</span><span>Services</span><span>Contact</span>
         </div>
       </div>
-      <div className={cn("px-4 pt-5 pb-4", isDark ? "bg-[#070B14]" : "bg-gradient-to-br from-indigo-50/95 to-background")}>
-        <div className={cn("text-[10px] font-mono uppercase tracking-[0.2em] mb-1", isDark ? "text-cyan-400" : "text-indigo-400")}>
+      <div className={cn("px-4 pt-5 pb-4", "bg-[#070B14]")}>
+        <div className={cn("text-[10px] font-mono uppercase tracking-[0.2em] mb-1", "text-cyan-400")}>
           available now
         </div>
         <div className="text-base font-extrabold leading-tight">
           Products built<br />
-          <span className={isDark ? "text-cyan-400" : "text-indigo-600"}>to convert.</span>
+          <span className={"text-cyan-400"}>to convert.</span>
         </div>
         <div className="mt-2 text-[9px] text-gray-400 max-w-[180px]">
           Bold design. Clean code. Shipped fast.
         </div>
         <div className={cn(
           "mt-3 inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[9px] font-bold",
-          isDark ? "bg-cyan-400 text-black" : "bg-indigo-600 text-white"
+          "bg-cyan-400 text-black"
         )}>
           Start a project →
         </div>
       </div>
       <div className="mt-2 grid grid-cols-3 gap-1.5 px-4">
         {[
-          { label: "Speed", color: isDark ? "bg-cyan-400/20 border-cyan-400/30" : "bg-indigo-100 border-indigo-200" },
-          { label: "Design", color: isDark ? "bg-purple-400/20 border-purple-400/30" : "bg-violet-100 border-violet-200" },
-          { label: "Scale",  color: isDark ? "bg-green-400/20 border-green-400/30"  : "bg-emerald-100 border-emerald-200" },
+          { label: "Speed", color: "bg-cyan-400/20 border-cyan-400/30" },
+          { label: "Design", color: "bg-purple-400/20 border-purple-400/30" },
+          { label: "Scale",  color: "bg-green-400/20 border-green-400/30" },
         ].map((c) => (
           <div key={c.label} className={cn("rounded-lg border p-2 text-center text-[9px] font-semibold", c.color)}>
             {c.label}
@@ -85,9 +84,7 @@ function FauxSiteAfter({ isDark }) {
 }
 
 export function BeforeAfterSlider() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
 
   const containerRef = useRef(null);
   const [pct, setPct] = useState(50);
@@ -128,7 +125,7 @@ export function BeforeAfterSlider() {
         ref={containerRef}
         className={cn(
           "relative select-none overflow-hidden rounded-2xl border",
-          isDark ? "border-border" : "border border-border shadow-soft"
+          "border-border"
         )}
         style={{ height: 320, cursor: "col-resize" }}
         onPointerDown={onPointerDown}
@@ -145,14 +142,14 @@ export function BeforeAfterSlider() {
           className="absolute inset-0"
           style={{ clipPath: `inset(0 0 0 ${pct}%)` }}
         >
-          <FauxSiteAfter isDark={isDark} />
+          <FauxSiteAfter />
         </div>
 
         {/* Divider line */}
         <div
           className={cn(
             "absolute inset-y-0 w-0.5 shadow-lg",
-            isDark ? "bg-white/80" : "bg-foreground/25"
+            "bg-white/80"
           )}
           style={{ left: `${pct}%`, transform: "translateX(-50%)" }}
         />
@@ -161,7 +158,7 @@ export function BeforeAfterSlider() {
         <motion.div
           className={cn(
             "absolute top-1/2 flex h-10 w-10 -translate-y-1/2 -translate-x-1/2 items-center justify-center rounded-full shadow-xl",
-            isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+            "bg-primary text-primary-foreground"
           )}
           style={{ left: `${pct}%` }}
           animate={prefersReduced ? {} : { scale: dragging.current ? 1.1 : 1 }}

@@ -15,9 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { stackChipLightClass } from "@/lib/popColors";
 import { CREDENTIAL_ICON_MAP } from "@/lib/credentialIcons";
 import { FALLBACK as CREDENTIAL_FALLBACK } from "@/lib/credentialFallback";
 import { CertificatePdfView } from "@/components/credentials/CertificatePdfView";
@@ -85,9 +83,7 @@ function parseOpenBadgesPayload(json) {
 
 export function CredentialDetail() {
   const { id } = useParams();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [cred, setCred] = useState(/** @type {Record<string, unknown> | null} */ (null));
+const [cred, setCred] = useState(/** @type {Record<string, unknown> | null} */ (null));
   const [loading, setLoading] = useState(true);
 
   const belts = useMemo(() => {
@@ -235,8 +231,8 @@ export function CredentialDetail() {
   if (loading) {
     return (
       <section className="container flex min-h-[60vh] items-center justify-center py-24">
-        <div className={cn("font-mono text-sm", isDark ? "text-primary" : "text-primary")}>
-          {isDark ? "// loading..." : "loading..."}
+        <div className={cn("font-mono text-sm", "text-primary")}>
+          {"// loading..."}
         </div>
       </section>
     );
@@ -267,10 +263,10 @@ export function CredentialDetail() {
       <div
         className={cn(
           "relative overflow-hidden pb-16 pt-32 md:pt-40",
-          isDark ? "bg-gradient-to-br from-background via-background to-primary/5" : "bg-gradient-to-br from-background via-background to-primary/10"
+          "bg-gradient-to-br from-background via-background to-primary/5"
         )}
       >
-        {isDark && (
+        
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0"
@@ -280,7 +276,7 @@ export function CredentialDetail() {
               backgroundSize: "32px 32px",
             }}
           />
-        )}
+        
 
         <div className="container relative z-10">
           <Reveal className="mb-6">
@@ -288,7 +284,7 @@ export function CredentialDetail() {
               to="/about#credentials"
               className={cn(
                 "inline-flex items-center gap-2 text-sm font-medium transition-colors",
-                isDark ? "text-muted-foreground hover:text-foreground" : "text-muted-foreground hover:text-foreground"
+                "text-muted-foreground hover:text-foreground"
               )}
             >
               <ArrowLeft className="h-4 w-4" /> Back to Credentials Vault
@@ -304,13 +300,13 @@ export function CredentialDetail() {
               Credentials
             </Link>
             <ChevronRight className="h-3 w-3" />
-            <span className={isDark ? "text-primary" : "text-foreground"}>{credName}</span>
+            <span className={"text-primary"}>{credName}</span>
           </Reveal>
 
           <div className="flex flex-col gap-5">
             <Reveal className="flex flex-wrap items-center gap-2">
               {issueDate && (
-                <Badge variant={isDark ? "default" : "accent"} className="gap-1">
+                <Badge variant="default" className="gap-1">
                   <Calendar className="h-3 w-3" />
                   Issued {issueDate}
                 </Badge>
@@ -319,7 +315,7 @@ export function CredentialDetail() {
                 <span
                   className={cn(
                     "inline-flex items-center rounded-md px-2 py-0.5 font-mono text-[10px]",
-                    isDark ? "bg-muted/60 text-muted-foreground" : "bg-muted text-muted-foreground"
+                    "bg-muted/60 text-muted-foreground"
                   )}
                 >
                   Expires {expiresDate}
@@ -340,7 +336,7 @@ export function CredentialDetail() {
                     <h1
                       className={cn(
                         "text-5xl font-extrabold tracking-tight md:text-6xl",
-                        isDark ? "text-neon text-foreground" : "text-foreground"
+                        "text-neon text-foreground"
                       )}
                     >
                       {credName}
@@ -351,7 +347,7 @@ export function CredentialDetail() {
                       className={cn(
                         "mt-3 text-lg md:text-xl",
                         !showCredlyHeroBadge && "md:mt-4",
-                        isDark ? "text-primary" : "text-primary"
+                        "text-primary"
                       )}
                     >
                       {issuer}
@@ -389,7 +385,7 @@ export function CredentialDetail() {
                 <div
                   className={cn(
                     "rounded-2xl p-5",
-                    isDark ? "border border-border bg-card/85" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+                    "border border-border bg-card/85"
                   )}
                 >
                   <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-primary">Category</div>
@@ -397,7 +393,7 @@ export function CredentialDetail() {
                     <span
                       className={cn(
                         "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg",
-                        isDark ? "bg-primary/10 text-primary" : "bg-foreground text-background"
+                        "bg-primary/10 text-primary"
                       )}
                     >
                       <Icon className="h-5 w-5" />
@@ -415,7 +411,7 @@ export function CredentialDetail() {
         <div className="mx-auto max-w-4xl space-y-14">
           {description && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="About this credential" icon={<FileText className="h-4 w-4" />}>
+              <SectionBlock title="About this credential" icon={<FileText className="h-4 w-4" />}>
                 <p className="text-muted-foreground leading-relaxed">{description}</p>
               </SectionBlock>
             </Reveal>
@@ -423,14 +419,14 @@ export function CredentialDetail() {
 
         {skills.length > 0 && (
           <Reveal>
-            <SectionBlock isDark={isDark} title="Skills validated">
+            <SectionBlock title="Skills validated">
               <div className="flex flex-wrap gap-2">
                 {skills.map((s, si) => (
                   <span
                     key={s}
                     className={cn(
                       "rounded-md px-2 py-1 font-mono text-xs",
-                      isDark ? "bg-muted/60 text-primary" : stackChipLightClass(s, si)
+                      "bg-muted/60 text-primary"
                     )}
                   >
                     {s}
@@ -455,12 +451,8 @@ export function CredentialDetail() {
                     className={cn(
                       "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                       beltIdx === i
-                        ? isDark
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-foreground text-background"
-                        : isDark
-                          ? "border border-border bg-card/60 text-muted-foreground hover:border-primary/40"
-                          : "border border-border bg-card/80 text-muted-foreground hover:bg-muted"
+                        ? "bg-primary text-primary-foreground"
+                        : "border border-border bg-card/60 text-muted-foreground hover:border-primary/40"
                     )}
                   >
                     {label}
@@ -473,9 +465,9 @@ export function CredentialDetail() {
 
         {pdfUrl ? (
           <Reveal>
-            <SectionBlock isDark={isDark} title="Certificate (PDF)" icon={<FileText className="h-4 w-4" />}>
+            <SectionBlock title="Certificate (PDF)" icon={<FileText className="h-4 w-4" />}>
               <div className="flex flex-wrap gap-3">
-                <Button asChild variant={isDark ? "default" : "pop"}>
+                <Button asChild variant="default">
                   <a href={pdfUrl} download>
                     <Download className="h-4 w-4 mr-2" />
                     Download PDF
@@ -491,16 +483,16 @@ export function CredentialDetail() {
               <div
                 className={cn(
                   "mt-4 rounded-2xl overflow-hidden",
-                  isDark ? "border border-border" : "border border-border shadow-soft"
+                  "border border-border"
                 )}
               >
-                <CertificatePdfView key={pdfUrl} pdfUrl={pdfUrl} isDark={isDark} />
+                <CertificatePdfView key={pdfUrl} pdfUrl={pdfUrl} />
               </div>
             </SectionBlock>
           </Reveal>
         ) : (
           <Reveal>
-            <SectionBlock isDark={isDark} title="Certificate (PDF)">
+            <SectionBlock title="Certificate (PDF)">
               <p className="text-sm text-muted-foreground">
                 No PDF is linked for this credential yet (e.g. pending upload for IT Specialist: JavaScript).
               </p>
@@ -509,7 +501,7 @@ export function CredentialDetail() {
         )}
 
         <Reveal>
-          <SectionBlock isDark={isDark} title="Verification" icon={<ShieldCheck className="h-4 w-4" />}>
+          <SectionBlock title="Verification" icon={<ShieldCheck className="h-4 w-4" />}>
             {belts.length > 1 && (
               <ul className="mb-6 space-y-2 text-sm text-muted-foreground">
                 {belts.map((b) => {
@@ -522,7 +514,7 @@ export function CredentialDetail() {
                       key={n + cid}
                       className={cn(
                         "rounded-lg border-l-2 py-1 pl-3",
-                        isDark ? "border-secondary/50" : "border-foreground/30"
+                        "border-secondary/50"
                       )}
                     >
                       <span className="font-medium text-foreground">{n}</span>
@@ -549,7 +541,7 @@ export function CredentialDetail() {
                   rel="noreferrer"
                   className={cn(
                     "text-sm font-medium underline-offset-4 hover:underline",
-                    isDark ? "text-primary" : "text-primary"
+                    "text-primary"
                   )}
                 >
                   Verify on issuer site
@@ -559,14 +551,14 @@ export function CredentialDetail() {
 
             <div className="flex flex-wrap gap-3">
               {showInlineVerify && (
-                <Button type="button" variant={isDark ? "default" : "pop"} onClick={() => setVerifyOpen((v) => !v)}>
+                <Button type="button" variant="default" onClick={() => setVerifyOpen((v) => !v)}>
                   <BadgeCheck className="h-4 w-4 mr-2" />
                   {verifyOpen ? "Hide live verification" : "Verify here"}
                 </Button>
               )}
               <Button
                 asChild
-                variant={showInlineVerify ? "outline" : isDark ? "default" : "pop"}
+                variant={showInlineVerify ? "outline" : "default"}
               >
                 <a href={credlyOutUrl} target="_blank" rel="noreferrer">
                   <ExternalLink className="h-4 w-4 mr-2" />
@@ -588,7 +580,7 @@ export function CredentialDetail() {
                   <div
                     className={cn(
                       "mt-6 rounded-2xl p-5",
-                      isDark ? "border border-border bg-card/70" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+                      "border border-border bg-card/70"
                     )}
                   >
                     {verifyLoading && (
@@ -641,7 +633,7 @@ export function CredentialDetail() {
         </Reveal>
 
         <Reveal className="pt-4">
-          <Button variant={isDark ? "default" : "pop"} asChild>
+          <Button variant="default" asChild>
             <Link to="/about#credentials" className="inline-flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" /> Back to Credentials Vault
             </Link>
@@ -653,15 +645,15 @@ export function CredentialDetail() {
   );
 }
 
-function SectionBlock({ isDark, title, icon, children }) {
+function SectionBlock({ title, icon, children }) {
   return (
     <div>
-      <h2 className={cn("mb-6 flex items-center gap-2 text-2xl font-extrabold tracking-tight", isDark && "text-neon")}>
+      <h2 className={cn("mb-6 flex items-center gap-2 text-2xl font-extrabold tracking-tight", "text-neon")}>
         {icon && (
           <span
             className={cn(
               "flex h-8 w-8 items-center justify-center rounded-lg",
-              isDark ? "bg-primary/10 text-primary" : "bg-foreground text-background"
+              "bg-primary/10 text-primary"
             )}
           >
             {icon}

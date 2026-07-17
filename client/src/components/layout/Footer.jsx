@@ -1,8 +1,16 @@
 import { Github, Linkedin, Mail, Award, Terminal } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { FooterFastApiLogo, FooterReactLogo } from "@/components/layout/BrandStack";
+import { FOOTER_SOCIAL_LINKS } from "@/data/contactLinks";
+import { LogoDiscord, LogoFacebook, LogoInstagram, LogoSnapchat } from "@/components/social/SocialBrandLogos";
+
+const SOCIAL_BRAND_LOGOS = {
+  instagram: LogoInstagram,
+  discord: LogoDiscord,
+  snapchat: LogoSnapchat,
+  facebook: LogoFacebook,
+};
 
 /** First column: home section anchors (4). */
 const FOOTER_NAV_LEFT = [
@@ -24,10 +32,7 @@ const NAV_HEADING_STYLE =
   "mb-3 font-mono text-xs uppercase tracking-[0.3em] text-primary";
 
 export function Footer() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  const buildStamp =
+const buildStamp =
     typeof __BUILD_DATE__ !== "undefined"
       ? new Date(__BUILD_DATE__).toLocaleDateString("en-US", {
           year: "numeric",
@@ -45,9 +50,7 @@ export function Footer() {
               <span
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-lg",
-                  isDark
-                    ? "bg-primary/10 text-primary ring-1 ring-primary/40"
-                    : "bg-foreground text-background"
+                  "bg-primary/10 text-primary ring-1 ring-primary/40"
                 )}
               >
                 <Terminal className="h-4 w-4" />
@@ -129,6 +132,25 @@ export function Footer() {
               >
                 <Award className="h-4 w-4" /> Credly badges
               </a>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                {FOOTER_SOCIAL_LINKS.map((link) => {
+                  const Logo = SOCIAL_BRAND_LOGOS[link.brandKey];
+                  return (
+                    <a
+                      key={link.id}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={link.label}
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+                    >
+                      {Logo ? (
+                        <Logo className="h-[1.15rem] w-[1.15rem]" />
+                      ) : null}
+                    </a>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

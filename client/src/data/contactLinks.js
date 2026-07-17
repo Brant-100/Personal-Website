@@ -90,5 +90,10 @@ export const CONTACT_LINKS = [
 
 /** Homepage contact cards only (subset of {@link CONTACT_LINKS}). */
 export const HOMEPAGE_CONTACT_LINKS = CONTACT_LINKS.filter((l) =>
-  ["github", "linkedin", "instagram", "discord", "snapchat", "facebook"].includes(l.id),
+  ["email", "github", "linkedin", "credly"].includes(l.id),
+);
+
+/** Social profiles shown in the footer icon row. */
+export const FOOTER_SOCIAL_LINKS = CONTACT_LINKS.filter((l) =>
+  ["instagram", "discord", "snapchat", "facebook"].includes(l.id),
 );

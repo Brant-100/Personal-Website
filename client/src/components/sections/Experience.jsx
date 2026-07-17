@@ -2,10 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD, tagChipLightClass } from "@/lib/popColors";
-
 /** Mirrors `api/data/experience.py` when the API is offline. */
 const FALLBACK = [
   {
@@ -38,9 +35,7 @@ const FALLBACK = [
 ];
 
 export function Experience() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [items, setItems] = useState(FALLBACK);
+const [items, setItems] = useState(FALLBACK);
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -60,21 +55,20 @@ export function Experience() {
   return (
     <Section id="experience" className="container">
       <Reveal className="mb-4">
-        {!isDark && <span className="section-accent-bar bg-primary" aria-hidden />}
         <span
           className={cn(
             "font-mono text-xs uppercase tracking-[0.3em]",
-            isDark ? "text-primary" : "text-secondary"
+            "text-primary"
           )}
         >
-          {isDark ? "// 04" : "04 ·"} timeline
+          {"// 04"} timeline
         </span>
       </Reveal>
       <Reveal className="mb-16 max-w-3xl">
-        <h2 className={cn("text-4xl md:text-5xl font-extrabold tracking-tight", isDark && "heading-face")}>
+        <h2 className={cn("text-4xl md:text-5xl font-extrabold tracking-tight", "heading-face")}>
           Experience
         </h2>
-        <p className={cn("mt-4 text-lg", isDark ? "text-foreground/75" : "text-muted-foreground")}>
+        <p className={cn("mt-4 text-lg", "text-foreground/75")}>
           Teamwork, competitions, and shipped products.
         </p>
       </Reveal>
@@ -89,7 +83,7 @@ export function Experience() {
           style={{ scaleY: lineScale, originY: 0 }}
           className={cn(
             "absolute left-4 md:left-1/2 top-0 h-full w-[2px] -translate-x-1/2",
-            isDark ? "bg-primary shadow-neon-cyan" : "bg-primary"
+            "bg-primary shadow-neon-cyan"
           )}
         />
 
@@ -99,8 +93,7 @@ export function Experience() {
               key={entry.id || entry.title}
               entry={entry}
               index={i}
-              isDark={isDark}
-            />
+              />
           ))}
         </div>
       </div>
@@ -108,7 +101,7 @@ export function Experience() {
   );
 }
 
-function TimelineEntry({ entry, index, isDark }) {
+function TimelineEntry({ entry, index }) {
   const isLeft = index % 2 === 0;
 
   return (
@@ -125,15 +118,13 @@ function TimelineEntry({ entry, index, isDark }) {
       <div
         className={cn(
           "absolute left-4 md:left-1/2 top-2 h-4 w-4 -translate-x-1/2 rounded-full border-2",
-          isDark
-            ? "bg-background border-primary shadow-neon-cyan"
-            : "bg-background border-primary/40"
+          "bg-background border-primary shadow-neon-cyan"
         )}
       >
         <div
           className={cn(
             "absolute inset-1 rounded-full",
-            isDark ? "bg-primary" : index % 3 === 0 ? "bg-primary" : index % 3 === 1 ? "bg-secondary" : "bg-accent"
+            "bg-primary"
           )}
         />
       </div>
@@ -147,18 +138,13 @@ function TimelineEntry({ entry, index, isDark }) {
         <div
           className={cn(
             "inline-block rounded-2xl p-6 text-left",
-            isDark
-              ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
-              : cn(
-                  LIGHT_SURFACE_CARD,
-                  "transition-colors hover:border-primary/35"
-                )
+            "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300 hover:border-primary/35"
           )}
         >
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-primary">
             {entry.period}
           </div>
-          <h3 className={cn("mt-2 text-xl font-bold", isDark && "text-neon")}>
+          <h3 className={cn("mt-2 text-xl font-bold", "text-neon")}>
             {entry.title}
           </h3>
           <div className="text-sm text-muted-foreground">{entry.org}</div>
@@ -172,9 +158,7 @@ function TimelineEntry({ entry, index, isDark }) {
                   key={t}
                   className={cn(
                     "rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest",
-                    isDark
-                      ? "bg-muted text-primary"
-                      : tagChipLightClass(t, ti)
+                    "bg-muted text-primary"
                   )}
                 >
                   {t}

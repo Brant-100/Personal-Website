@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /* Left → right = request path; below API = async worker path; Postgres/S3 branch off the API */
@@ -71,13 +70,11 @@ function nodeCenter(n) {
 }
 
 export function ArchitectureDiagramViewer() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [selected, setSelected] = useState(null);
 
   const selectedNode = selected ? NODES[selected] : null;
-  const nodeColor = (n) => isDark ? n.color.dark : n.color.light;
+  const nodeColor = (n) => n.color.dark;
 
   return (
     <DemoSection
@@ -87,7 +84,7 @@ export function ArchitectureDiagramViewer() {
     >
       <div className={cn(
         "overflow-hidden rounded-2xl",
-        isDark ? "border border-border bg-card/70 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+        "border border-border bg-card/70 backdrop-blur"
       )}>
         <div className="grid lg:grid-cols-[minmax(0,1.35fr)_min(100%,280px)] lg:divide-x lg:divide-border">
           {/* Diagram */}
@@ -115,8 +112,8 @@ export function ArchitectureDiagramViewer() {
                   key={`${e.from}-${e.to}`}
                   x1={f.cx} y1={f.cy} x2={t.cx} y2={t.cy}
                   stroke={isHighlighted
-                    ? (isDark ? "#22E5FF" : "#FA6B1F")
-                    : (isDark ? "rgba(255,255,255,0.14)" : "rgba(0,0,0,0.14)")
+                    ? ("#22E5FF")
+                    : ("rgba(255,255,255,0.14)")
                   }
                   strokeWidth={isHighlighted ? 2.5 : 1.25}
                   strokeDasharray={isAsync ? "6 5" : undefined}
@@ -138,8 +135,8 @@ export function ArchitectureDiagramViewer() {
                     x={node.x} y={node.y}
                     width={NW} height={NH}
                     rx={10}
-                    fill={isDark ? "rgba(13,18,32,0.9)" : "rgba(255,255,255,0.95)"}
-                    stroke={isSelected ? color : (isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)")}
+                    fill={"rgba(13,18,32,0.9)"}
+                    stroke={isSelected ? color : ("rgba(255,255,255,0.15)")}
                     strokeWidth={isSelected ? 2 : 1}
                     animate={!prefersReduced ? {
                       filter: isSelected ? `drop-shadow(0 0 8px ${color}80)` : "none"
@@ -151,7 +148,7 @@ export function ArchitectureDiagramViewer() {
                     textAnchor="middle"
                     fontSize={13}
                     fontWeight="600"
-                    fill={isSelected ? color : (isDark ? "rgba(255,255,255,0.85)" : "rgba(0,0,0,0.8)")}
+                    fill={isSelected ? color : ("rgba(255,255,255,0.85)")}
                   >
                     {node.label}
                   </text>
@@ -159,7 +156,7 @@ export function ArchitectureDiagramViewer() {
                     x={node.x + NW / 2} y={node.y + 42}
                     textAnchor="middle"
                     fontSize={11}
-                    fill={isDark ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)"}
+                    fill={"rgba(255,255,255,0.4)"}
                   >
                     {node.sub}
                   </text>
@@ -173,7 +170,7 @@ export function ArchitectureDiagramViewer() {
           <div
             className={cn(
               "flex flex-col border-t p-4 sm:p-5 lg:border-t-0",
-              isDark ? "bg-card/40 lg:bg-transparent" : "bg-muted/20 lg:bg-transparent"
+              "bg-card/40 lg:bg-transparent"
             )}
           >
             <div className="mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">

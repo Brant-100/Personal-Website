@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Info, X } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 function hexToRgb(hex) {
@@ -165,10 +164,7 @@ function Badge({ pass, label, isOpen, onToggleInfo }) {
 }
 
 export function ContrastChecker() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  const [fg, setFg] = useState("#ffffff");
+const [fg, setFg] = useState("#ffffff");
   const [bg, setBg] = useState("#1a1a2e");
   const [text, setText] = useState("The quick brown fox jumps over the lazy dog.");
   const [openBadge, setOpenBadge] = useState(null);
@@ -214,7 +210,7 @@ export function ContrastChecker() {
     >
       <div className={cn(
         "rounded-2xl p-6",
-        isDark ? "border border-border bg-card/70 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+        "border border-border bg-card/70 backdrop-blur"
       )}>
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr_1fr]">
           {/* Color pickers */}

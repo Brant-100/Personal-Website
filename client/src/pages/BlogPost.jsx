@@ -6,9 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { tagChipLightClass } from "@/lib/popColors";
 import {
   loadFallbackBlogPost,
   getMergedFallbackPostsMeta,
@@ -47,9 +45,7 @@ function pickRelatedPosts(currentSlug, currentTags, allPosts) {
 
 export function BlogPost() {
   const { slug } = useParams();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [post, setPost] = useState(null);
+const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [related, setRelated] = useState([]);
 
@@ -148,7 +144,7 @@ export function BlogPost() {
     return (
       <section className="container flex min-h-[60vh] items-center justify-center py-24">
         <div className={cn("font-mono text-sm text-primary")}>
-          {isDark ? "// loading..." : "loading..."}
+          {"// loading..."}
         </div>
       </section>
     );
@@ -173,7 +169,7 @@ export function BlogPost() {
       variants={staggerContainer(0.07, 0.05)}
       className="relative pt-32 pb-24 md:pt-40 md:pb-32"
     >
-      {isDark && (
+      
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -183,7 +179,7 @@ export function BlogPost() {
             backgroundSize: "32px 32px",
           }}
         />
-      )}
+      
 
       <div className="container relative z-10">
         <Reveal className="mb-8 flex items-center gap-2 font-mono text-xs text-muted-foreground">
@@ -195,7 +191,7 @@ export function BlogPost() {
             Blog
           </Link>
           <ChevronRight className="h-3 w-3" />
-          <span className={isDark ? "text-primary" : "text-foreground"}>{post.title}</span>
+          <span className={"text-primary"}>{post.title}</span>
         </Reveal>
 
         <div className="mx-auto max-w-3xl">
@@ -204,7 +200,7 @@ export function BlogPost() {
               <span
                 className={cn(
                   "inline-flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest",
-                  isDark ? "text-primary" : "text-muted-foreground",
+                  "text-primary",
                 )}
               >
                 <Calendar className="h-2.5 w-2.5" />
@@ -220,7 +216,7 @@ export function BlogPost() {
                 key={t}
                 className={cn(
                   "inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest",
-                  isDark ? "bg-muted text-primary" : cn(tagChipLightClass(t, ti), "gap-1 font-medium uppercase"),
+                  "bg-muted text-primary font-medium"
                 )}
               >
                 <Tag className="h-2 w-2" />
@@ -230,7 +226,7 @@ export function BlogPost() {
           </Reveal>
 
           <Reveal>
-            <h1 className={cn("text-4xl font-extrabold tracking-tight md:text-6xl", isDark && "text-neon")}>
+            <h1 className={cn("text-4xl font-extrabold tracking-tight md:text-6xl", "text-neon")}>
               {post.title}
             </h1>
           </Reveal>
@@ -245,38 +241,25 @@ export function BlogPost() {
             <div
               className={cn(
                 "mt-12 rounded-2xl p-8",
-                isDark
-                  ? "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
-                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft",
+                "border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300",
               )}
             >
               <div
                 className={cn(
                   "prose max-w-none",
-                  isDark
-                    ? [
-                        "prose-invert",
-                        "prose-headings:font-mono prose-headings:text-foreground",
-                        "prose-h1:text-neon prose-h2:text-neon",
-                        "prose-a:text-primary prose-a:no-underline hover:prose-a:underline",
-                        "prose-code:text-accent prose-code:bg-muted/50 prose-code:rounded prose-code:px-1 prose-code:text-sm",
-                        "prose-pre:bg-muted/60 prose-pre:border prose-pre:border-border",
-                        "prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground",
-                        "prose-strong:text-foreground",
-                        "prose-hr:border-border",
-                        "prose-img:mx-auto prose-img:my-8 prose-img:max-w-full prose-img:rounded-xl prose-img:border prose-img:border-border/70 prose-img:shadow-[0_12px_40px_-12px_hsl(var(--foreground)/0.15)]",
-                        "prose-table:text-sm prose-th:font-mono prose-td:align-top",
-                      ].join(" ")
-                    : [
-                        "prose-headings:font-display prose-headings:text-foreground",
-                        "prose-a:text-primary prose-a:no-underline hover:prose-a:underline",
-                        "prose-code:bg-muted/60 prose-code:rounded prose-code:px-1 prose-code:text-sm",
-                        "prose-pre:bg-muted/60 prose-pre:border-2 prose-pre:border-foreground",
-                        "prose-blockquote:border-primary",
-                        "prose-strong:text-foreground",
-                        "prose-img:mx-auto prose-img:my-8 prose-img:max-w-full prose-img:rounded-xl prose-img:border-2 prose-img:border-foreground/10 prose-img:shadow-soft",
-                        "prose-table:text-sm prose-th:font-mono prose-td:align-top",
-                      ].join(" "),
+                  [
+                    "prose-invert",
+                    "prose-headings:font-mono prose-headings:text-foreground",
+                    "prose-h1:text-neon prose-h2:text-neon",
+                    "prose-a:text-primary prose-a:no-underline hover:prose-a:underline",
+                    "prose-code:text-accent prose-code:bg-muted/50 prose-code:rounded prose-code:px-1 prose-code:text-sm",
+                    "prose-pre:bg-muted/60 prose-pre:border prose-pre:border-border",
+                    "prose-blockquote:border-primary/40 prose-blockquote:text-muted-foreground",
+                    "prose-strong:text-foreground",
+                    "prose-hr:border-border",
+                    "prose-img:mx-auto prose-img:my-8 prose-img:max-w-full prose-img:rounded-xl prose-img:border prose-img:border-border/70 prose-img:shadow-[0_12px_40px_-12px_hsl(var(--foreground)/0.15)]",
+                    "prose-table:text-sm prose-th:font-mono prose-td:align-top",
+                  ].join(" ")
                 )}
               >
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
@@ -286,19 +269,19 @@ export function BlogPost() {
 
           {related.length > 0 ? (
             <Reveal className="mt-16">
-              <h2 className={cn("mb-6 font-mono text-sm uppercase tracking-[0.2em]", isDark ? "text-primary" : "text-foreground")}>
+              <h2 className={cn("mb-6 font-mono text-sm uppercase tracking-[0.2em]", "text-primary")}>
                 Related
               </h2>
               <div className="grid gap-4 items-start md:grid-cols-1">
                 {related.map((rp, ri) => (
-                  <BlogCard key={rp.slug} post={rp} index={ri} compact isDark={isDark} />
+                  <BlogCard key={rp.slug} post={rp} index={ri} compact />
                 ))}
               </div>
             </Reveal>
           ) : null}
 
           <Reveal className="mt-12">
-            <Button variant={isDark ? "default" : "pop"} asChild>
+            <Button variant="default" asChild>
               <Link to="/blog" className="inline-flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" /> All Posts
               </Link>

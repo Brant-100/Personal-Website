@@ -15,14 +15,10 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { CUSTOM_SOFTWARE_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { BookCallButton } from "@/components/BookCallButton";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function CustomSoftwareDemo() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  return (
+return (
     <ServicePageLayout
       eyebrow="03 · service / custom software"
       title="Custom Software Solutions"
@@ -61,7 +57,7 @@ export function CustomSoftwareDemo() {
         <FAQAccordion items={CUSTOM_SOFTWARE_FAQS} />
       </div>
       <div className="mt-16 flex justify-center">
-        <BookCallButton variant={isDark ? "default" : "pop"} />
+        <BookCallButton variant="default" />
       </div>
       <OtherServicesNav current="software" />
     </ServicePageLayout>
@@ -69,9 +65,7 @@ export function CustomSoftwareDemo() {
 }
 
 function CapabilityGrid() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const items = [
+const items = [
     { icon: Cog, title: "Automations", body: "Replace repetitive manual work with Python scripts, schedulers, and webhooks." },
     { icon: Cpu, title: "APIs & Services", body: "FastAPI backends with typed schemas, OpenAPI docs, and container ready deploys." },
     { icon: Database, title: "Data tooling", body: "ETL jobs, reporting pipelines, CLIs that stitch systems together cleanly." },
@@ -91,22 +85,14 @@ function CapabilityGrid() {
             <Card
               className={cn(
                 "h-full transition-all",
-                isDark
-                  ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border border-border shadow-soft"
+                "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
               )}
             >
               <CardHeader>
                 <div
                   className={cn(
                     "mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl",
-                    isDark
-                      ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-                      : i === 0
-                      ? "bg-primary text-primary-foreground"
-                      : i === 1
-                      ? "bg-secondary text-secondary-foreground"
-                      : "bg-accent text-accent-foreground"
+                    "bg-primary/10 text-primary ring-1 ring-primary/30"
                   )}
                 >
                   <Icon className="h-5 w-5" />
@@ -160,9 +146,7 @@ const ENDPOINTS = [
 ];
 
 function FakeApiDemo() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [activeId, setActiveId] = useState(ENDPOINTS[0].id);
+const [activeId, setActiveId] = useState(ENDPOINTS[0].id);
   const active = ENDPOINTS.find((e) => e.id === activeId);
 
   return (
@@ -179,9 +163,7 @@ function FakeApiDemo() {
                 className={cn(
                   "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-all",
                   isActive
-                    ? isDark
-                      ? "border border-primary/50 bg-primary/10 shadow-neon-cyan"
-                      : "border border-border bg-accent/40 backdrop-blur-sm shadow-soft"
+                    ? "border border-primary/50 bg-primary/10 shadow-neon-cyan"
                     : "border border-border bg-card/60 hover:border-primary/40"
                 )}
               >
@@ -208,9 +190,7 @@ function FakeApiDemo() {
           transition={{ duration: 0.25 }}
           className={cn(
             "overflow-x-auto rounded-2xl p-5 font-mono text-xs leading-6",
-            isDark
-              ? "border border-border bg-card/70 backdrop-blur"
-              : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+            "border border-border bg-card/70 backdrop-blur"
           )}
         >
           <span className="text-muted-foreground">{`# ${active.method} ${active.path}`}</span>
@@ -223,7 +203,7 @@ function FakeApiDemo() {
             </>
           )}
           <span className="text-muted-foreground">{"# 200 OK\n"}</span>
-          <span className={isDark ? "text-accent" : "text-foreground"}>
+          <span className={"text-accent"}>
             {JSON.stringify(active.response, null, 2)}
           </span>
         </motion.pre>
@@ -259,9 +239,7 @@ function resolvePipelineLine(step) {
 }
 
 function PipelineDemo() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [running, setRunning] = useState(false);
+const [running, setRunning] = useState(false);
   const [lines, setLines] = useState([]);
   const timer = useRef(null);
   const lineIndex = useRef(0);
@@ -322,9 +300,7 @@ function PipelineDemo() {
               "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all",
               running
                 ? "cursor-not-allowed bg-muted text-muted-foreground"
-                : isDark
-                ? "bg-primary text-primary-foreground shadow-neon-cyan hover:brightness-110"
-                : "border border-border bg-accent text-accent-foreground shadow-soft"
+                : "bg-primary text-primary-foreground shadow-neon-cyan hover:brightness-110"
             )}
           >
             <Play className="h-4 w-4" /> Run
@@ -346,7 +322,7 @@ function PipelineDemo() {
 
       <div className={cn(
         "relative overflow-hidden rounded-2xl",
-        isDark ? "border border-border bg-card/80 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+        "border border-border bg-card/80 backdrop-blur"
       )}>
         <div className="flex items-center gap-2 border-b border-border bg-background/60 px-4 py-2">
           <Terminal className="h-4 w-4 text-primary" />

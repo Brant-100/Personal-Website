@@ -5,9 +5,7 @@ import { Turnstile } from "@marsidev/react-turnstile";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Check, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 import { BASE_URL } from "@/lib/api";
 import {
   inquirySchema,
@@ -31,9 +29,7 @@ const optionStyle = {
  * @param {boolean} compact        hides budget + timeline (for tighter layouts)
  */
 export function ContactForm({ defaultService = "general", compact = false }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+const [status, setStatus] = useState("idle"); // idle | submitting | success | error
   const [errorMessage, setErrorMessage] = useState(null);
 
   const {
@@ -92,9 +88,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
         animate={{ opacity: 1, y: 0 }}
         className={cn(
           "rounded-2xl p-8 text-center",
-          isDark
-            ? "border border-primary/40 bg-primary/5 shadow-neon-cyan"
-            : LIGHT_SURFACE_CARD
+          "border border-primary/40 bg-primary/5 shadow-neon-cyan"
         )}
       >
         <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/20 text-primary">
@@ -121,9 +115,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       noValidate
       className={cn(
         "space-y-4 p-6 md:p-8",
-        isDark
-          ? "rounded-2xl border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
-          : LIGHT_SURFACE_CARD
+        "rounded-2xl border border-border bg-card/70 backdrop-blur shadow-presence-rest transition-shadow duration-300"
       )}
     >
           {/* Honeypot: visually hidden from real users */}
@@ -138,28 +130,28 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Your name" error={errors.name?.message} isDark={isDark}>
+        <Field label="Your name" error={errors.name?.message} >
           <input
             type="text"
             autoComplete="name"
             placeholder="First Last"
             {...register("name")}
-            className={inputCls(isDark)}
+            className={inputCls()}
           />
         </Field>
-        <Field label="Email" error={errors.email?.message} isDark={isDark}>
+        <Field label="Email" error={errors.email?.message} >
           <input
             type="email"
             autoComplete="email"
             placeholder="you@example.com"
             {...register("email")}
-            className={inputCls(isDark)}
+            className={inputCls()}
           />
         </Field>
       </div>
 
-      <Field label="What do you need?" error={errors.service?.message} isDark={isDark}>
-        <select {...register("service")} className={selectCls(isDark)}>
+      <Field label="What do you need?" error={errors.service?.message} >
+        <select {...register("service")} className={selectCls()}>
           {Object.entries(inquiryServiceLabels).map(([value, label]) => (
             <option key={value} value={value} style={optionStyle}>
               {label}
@@ -170,8 +162,8 @@ export function ContactForm({ defaultService = "general", compact = false }) {
 
       {!compact && (
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Budget (optional)" isDark={isDark}>
-            <select {...register("budget")} className={selectCls(isDark)}>
+          <Field label="Budget (optional)" >
+            <select {...register("budget")} className={selectCls()}>
               <option value="" style={optionStyle}>
                 Select a range
               </option>
@@ -182,8 +174,8 @@ export function ContactForm({ defaultService = "general", compact = false }) {
               ))}
             </select>
           </Field>
-          <Field label="Timeline (optional)" isDark={isDark}>
-            <select {...register("timeline")} className={selectCls(isDark)}>
+          <Field label="Timeline (optional)" >
+            <select {...register("timeline")} className={selectCls()}>
               <option value="" style={optionStyle}>
                 Select a timeline
               </option>
@@ -200,13 +192,12 @@ export function ContactForm({ defaultService = "general", compact = false }) {
       <Field
         label="What are you building?"
         error={errors.message?.message}
-        isDark={isDark}
-      >
+        >
         <textarea
           rows={5}
           placeholder="Tell me about your project: what it does, who it's for, any constraints."
           {...register("message")}
-          className={cn(inputCls(isDark), "resize-y")}
+          className={cn(inputCls(), "resize-y")}
         />
       </Field>
 
@@ -218,7 +209,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
             onSuccess={(token) => setValue("turnstileToken", token, { shouldValidate: true })}
             onError={() => setValue("turnstileToken", "", { shouldValidate: false })}
             onExpire={() => setValue("turnstileToken", "", { shouldValidate: false })}
-            options={{ theme: isDark ? "dark" : "light" }}
+            options={{ theme: "dark" }}
           />
           {errors.turnstileToken?.message && (
             <p className="mt-1 text-xs text-destructive">
@@ -253,7 +244,7 @@ export function ContactForm({ defaultService = "general", compact = false }) {
         <Button
           type="submit"
           size="lg"
-          variant={isDark ? "default" : "pop"}
+          variant="default"
           disabled={isSubmitting || (TURNSTILE_SITE_KEY && !turnstileToken)}
           className="inline-flex items-center gap-2"
         >
@@ -272,13 +263,13 @@ export function ContactForm({ defaultService = "general", compact = false }) {
   );
 }
 
-function Field({ label, error, isDark, children }) {
+function Field({ label, error, children }) {
   return (
     <label className="block space-y-1.5">
       <span
         className={cn(
           "font-mono text-[10px] uppercase tracking-[0.2em]",
-          isDark ? "text-primary" : "text-muted-foreground"
+          "text-primary"
         )}
       >
         {label}
@@ -289,22 +280,18 @@ function Field({ label, error, isDark, children }) {
   );
 }
 
-function inputCls(isDark) {
+function inputCls() {
   return cn(
     "block w-full rounded-xl border bg-transparent px-3 py-2.5 text-sm outline-none transition-colors",
     "placeholder:text-muted-foreground/50",
-    isDark
-      ? "border-border focus:border-primary"
-      : "border border-border bg-background/80 backdrop-blur-sm focus:border-primary"
+    "border-border focus:border-primary"
   );
 }
 
-function selectCls(isDark) {
+function selectCls() {
   return cn(
     "block w-full rounded-xl border px-3 py-2.5 text-sm outline-none transition-colors",
     "text-foreground",
-    isDark
-      ? "border-border bg-card focus:border-primary [color-scheme:dark]"
-      : "border border-border bg-card/70 backdrop-blur-sm focus:border-primary [color-scheme:light]"
+    "border-border bg-card focus:border-primary [color-scheme:dark]"
   );
 }

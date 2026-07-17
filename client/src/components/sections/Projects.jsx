@@ -4,6 +4,7 @@ import {
   Github,
   ExternalLink,
   Lock,
+  FileText,
   Sparkles,
   Activity,
   Calendar,
@@ -21,10 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Section, Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { api } from "@/lib/api";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD, stackChipLightClass, tagChipLightClass } from "@/lib/popColors";
-
 /** Per-project visual language, tuned for site light/dark, not generic inversion. */
 const ACCENT = {
   skillswap: {
@@ -95,10 +93,10 @@ function getAccent(themeKey) {
   return ACCENT[themeKey] || ACCENT.default;
 }
 
-function yearBadgeVariant(accentKey, isDark) {
+function yearBadgeVariant(accentKey) {
   if (accentKey === "healthhive") return "accent";
-  if (accentKey === "skillswap") return isDark ? "default" : "secondary";
-  return isDark ? "default" : "accent";
+  if (accentKey === "skillswap") return "default";
+  return "default";
 }
 
 const FILTER_TAGS = [
@@ -181,7 +179,7 @@ const FALLBACK = [
     ],
     tech: ["Next.js 15", "React 19", "TypeScript", "Prisma", "PostgreSQL", "NextAuth.js", "OpenAI"],
     tags: ["edtech", "ai", "full-stack", "web"],
-    status: "public",
+    status: "case-study",
     year: "2026",
     last_updated: "April 2026",
     accent_theme: "skillswap",
@@ -205,7 +203,7 @@ const FALLBACK = [
     ],
     tech: ["Django 5.1", "HTML5", "CSS3", "JavaScript", "SQLite"],
     tags: ["wellness", "django", "teams", "web"],
-    status: "public",
+    status: "case-study",
     year: "2025",
     last_updated: "2025",
     accent_theme: "healthhive",
@@ -217,9 +215,7 @@ const FALLBACK = [
 ];
 
 export function Projects() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [items, setItems] = useState(FALLBACK);
+const [items, setItems] = useState(FALLBACK);
   const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
@@ -243,21 +239,20 @@ export function Projects() {
   return (
     <Section id="projects" className="container">
       <Reveal className="mb-4">
-        {!isDark && <span className="section-accent-bar bg-pop-purple" aria-hidden />}
         <span
           className={cn(
             "font-mono text-xs uppercase tracking-[0.3em]",
-            isDark ? "text-primary" : "text-secondary"
+            "text-primary"
           )}
         >
-          {isDark ? "// 02" : "02 ·"} selected work
+          {"// 02"} selected work
         </span>
       </Reveal>
       <Reveal className="mb-8 max-w-3xl">
-        <h2 className={cn("text-4xl md:text-5xl font-extrabold tracking-tight", isDark && "heading-face")}>
+        <h2 className={cn("text-4xl md:text-5xl font-extrabold tracking-tight", "heading-face")}>
           Projects
         </h2>
-        <p className={cn("mt-4 text-lg", isDark ? "text-foreground/75" : "text-muted-foreground")}>
+        <p className={cn("mt-4 text-lg", "text-foreground/75")}>
           Security focused builds, product engineering, and wellness tooling, each with its own visual identity.
         </p>
       </Reveal>
@@ -273,13 +268,9 @@ export function Projects() {
                 onClick={() => setActiveFilter(f.id)}
                 className={cn(
                   "rounded-full px-4 py-1.5 text-xs font-mono font-semibold uppercase tracking-[0.18em] transition-all",
-                  isDark
-                    ? isActive
-                      ? "bg-primary text-primary-foreground shadow-neon-cyan"
-                      : "border border-border text-muted-foreground hover:border-primary/50 hover:text-primary"
-                    : isActive
-                    ? "border border-primary/50 bg-primary text-primary-foreground shadow-soft-orange"
-                    : "border border-border bg-card/80 backdrop-blur-sm text-foreground hover:bg-primary/10"
+                  isActive
+                    ? "bg-primary text-primary-foreground shadow-neon-cyan"
+                    : "border border-border text-muted-foreground hover:border-primary/50 hover:text-primary"
                 )}
               >
                 {f.label}
@@ -299,7 +290,7 @@ export function Projects() {
           className="grid items-start gap-4 md:grid-cols-2 md:gap-5"
         >
           {filtered.map((p, i) => (
-            <ProjectCard key={p.id || p.title} project={p} index={i} isDark={isDark} />
+            <ProjectCard key={p.id || p.title} project={p} index={i} />
           ))}
         </motion.div>
       </AnimatePresence>
@@ -307,7 +298,7 @@ export function Projects() {
   );
 }
 
-export function ProjectCard({ project, index, isDark }) {
+export function ProjectCard({ project, index }) {
   const [expanded, setExpanded] = useState(false);
   const accentKey = project.accent_theme || "default";
   const a = getAccent(accentKey);
@@ -317,9 +308,7 @@ export function ProjectCard({ project, index, isDark }) {
   const techPreview = tech.slice(0, 3);
   const techExtra = Math.max(0, tech.length - techPreview.length);
 
-  const cardBase = isDark
-    ? "bg-card/70 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300"
-    : LIGHT_SURFACE_CARD;
+  const cardBase = "bg-card/70 backdrop-blur border-border shadow-presence-rest transition-shadow duration-300";
 
   return (
     <motion.div
@@ -334,7 +323,7 @@ export function ProjectCard({ project, index, isDark }) {
         className={cn(
           "relative flex h-fit min-h-0 flex-col overflow-hidden transition-all duration-300",
           cardBase,
-          isDark ? a.cardDark : cn(a.cardLight)
+          a.cardDark
         )}
       >
         {/* Theme-specific ambient mesh */}
@@ -342,14 +331,14 @@ export function ProjectCard({ project, index, isDark }) {
           aria-hidden
           className={cn(
             "pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-gradient-to-br opacity-60 blur-3xl transition-opacity group-hover:opacity-100",
-            isDark ? a.meshDark : a.meshLight
+            a.meshDark
           )}
         />
         <div
           aria-hidden
           className={cn(
             "pointer-events-none absolute -left-12 bottom-0 h-40 w-40 rounded-full bg-gradient-to-tr opacity-40 blur-2xl",
-            isDark ? a.meshDark : a.meshLight
+            a.meshDark
           )}
         />
 
@@ -361,19 +350,18 @@ export function ProjectCard({ project, index, isDark }) {
                   className={cn(
                     "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg md:h-10 md:w-10 md:rounded-xl",
                     expanded && "h-11 w-11 rounded-xl",
-                    isDark ? a.iconWrapDark : a.iconWrapLight
+                    a.iconWrapDark
                   )}
                 >
                   <Icon className={cn("h-4 w-4", expanded && "h-5 w-5")} />
                 </span>
               )}
               <Badge
-                variant={yearBadgeVariant(accentKey, isDark)}
+                variant={yearBadgeVariant(accentKey)}
                 className={cn(
                   accentKey === "healthhive" &&
-                    isDark &&
                     "font-bold tabular-nums tracking-tight text-lime-50 [text-shadow:0_1px_2px_rgb(0_0_0_/_0.75),0_0_16px_hsl(var(--accent)/0.55)]",
-                  !isDark && "border-transparent font-semibold tabular-nums"
+                  !"border-transparent font-semibold tabular-nums"
                 )}
               >
                 {project.year || "2026"}
@@ -383,7 +371,7 @@ export function ProjectCard({ project, index, isDark }) {
                 <span
                   className={cn(
                     "inline-flex items-center gap-1 font-mono text-[10px]",
-                    isDark ? "rounded-md bg-muted/60 px-2 py-0.5 text-muted-foreground" : cn(tagChipLightClass("updated", 1), "py-0.5")
+                    "rounded-md bg-muted/60 px-2 py-0.5 text-muted-foreground"
                   )}
                 >
                   <Calendar className="h-2.5 w-2.5" />
@@ -396,6 +384,10 @@ export function ProjectCard({ project, index, isDark }) {
               {project.status === "private" ? (
                 <span className="flex items-center gap-1">
                   <Lock className="h-3 w-3" /> private
+                </span>
+              ) : project.status === "case-study" ? (
+                <span className="flex items-center gap-1 font-mono uppercase tracking-wider text-secondary">
+                  <FileText className="h-3 w-3" /> case study
                 </span>
               ) : (
                 project.repo_url && (
@@ -430,7 +422,7 @@ export function ProjectCard({ project, index, isDark }) {
               expanded
                 ? "mt-3 text-2xl md:text-3xl"
                 : "mt-2 text-lg md:text-xl",
-              isDark ? a.titleDark : a.titleLight || "text-foreground"
+              a.titleDark
             )}
           >
             {project.title}
@@ -452,9 +444,7 @@ export function ProjectCard({ project, index, isDark }) {
                 key={t}
                 className={cn(
                   "font-mono text-[11px] leading-tight",
-                  isDark
-                    ? "rounded-md bg-muted px-2 py-0.5 text-primary ring-1 ring-primary/25"
-                    : stackChipLightClass(t, ti)
+                  "rounded-md bg-muted px-2 py-0.5 text-primary ring-1 ring-primary/25"
                 )}
               >
                 {t}
@@ -495,7 +485,7 @@ export function ProjectCard({ project, index, isDark }) {
                     {(project.features || []).slice(0, 5).map((line) => (
                       <li
                         key={line.slice(0, 48)}
-                        className={cn(isDark ? a.bulletDark : a.bulletLight)}
+                        className={cn(a.bulletDark)}
                       >
                         {line}
                       </li>
@@ -508,7 +498,7 @@ export function ProjectCard({ project, index, isDark }) {
                     <div
                       className={cn(
                         "mb-1.5 font-mono text-[10px] uppercase tracking-[0.2em]",
-                        isDark ? "text-accent" : "text-muted-foreground"
+                        "text-accent"
                       )}
                     >
                       MITRE ATT&CK
@@ -522,9 +512,7 @@ export function ProjectCard({ project, index, isDark }) {
                           rel="noreferrer"
                           className={cn(
                             "font-mono text-[11px] transition-opacity hover:opacity-90",
-                            isDark
-                              ? "rounded px-2 py-0.5 bg-accent/15 text-accent ring-1 ring-accent/30 shadow-none hover:bg-accent/30"
-                              : tagChipLightClass(t, ti)
+                            "rounded px-2 py-0.5 bg-accent/15 text-accent ring-1 ring-accent/30 shadow-none hover:bg-accent/30"
                           )}
                         >
                           {t}
@@ -549,9 +537,7 @@ export function ProjectCard({ project, index, isDark }) {
                       key={t}
                       className={cn(
                         "relative font-mono text-xs",
-                        isDark
-                          ? "rounded-md px-2 py-1 bg-muted text-primary ring-1 ring-primary/25"
-                          : stackChipLightClass(t, ti)
+                        "rounded-md px-2 py-1 bg-muted text-primary ring-1 ring-primary/25"
                       )}
                     >
                       {t}
@@ -566,7 +552,7 @@ export function ProjectCard({ project, index, isDark }) {
                         key={t}
                         className={cn(
                           "text-[10px] uppercase tracking-widest",
-                          isDark ? "text-muted-foreground" : tagChipLightClass(t, ti)
+                          "text-muted-foreground"
                         )}
                       >
                         #{t}
@@ -583,7 +569,7 @@ export function ProjectCard({ project, index, isDark }) {
         <div
           className={cn(
             "relative z-10 mt-auto flex flex-col gap-3 border-t px-6 py-3",
-            isDark ? "border-border/80" : "border-foreground/15"
+            "border-border/80"
           )}
         >
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -591,9 +577,7 @@ export function ProjectCard({ project, index, isDark }) {
               to={`/projects/${project.id}`}
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.18em] transition-all",
-                isDark
-                  ? "border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
-                  : "border border-border text-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary"
+                "border border-primary/40 text-primary hover:bg-primary/10 hover:border-primary"
               )}
             >
               view details <ArrowRight className="h-3 w-3" />
@@ -605,9 +589,7 @@ export function ProjectCard({ project, index, isDark }) {
               onClick={() => setExpanded((v) => !v)}
               className={cn(
                 "inline-flex items-center gap-1 rounded-md px-2 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.16em] transition-colors",
-                isDark
-                  ? "text-muted-foreground hover:bg-muted hover:text-primary"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                "text-muted-foreground hover:bg-muted hover:text-primary"
               )}
             >
               {expanded ? "Less" : "Expand"}
@@ -620,7 +602,7 @@ export function ProjectCard({ project, index, isDark }) {
         </div>
 
         {/* Cyber-style sheen; SkillSwap / HealthHive get their own mesh above */}
-        {isDark && (accentKey === "cyber" || accentKey === "default") && (
+        {(accentKey === "cyber" || accentKey === "default") && (
           <div className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
             <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-primary/30 via-transparent to-secondary/30 blur-2xl" />
           </div>

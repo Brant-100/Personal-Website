@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@/context/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BackToTop } from "@/components/layout/BackToTop";
@@ -27,8 +26,7 @@ function AppShell({ children }) {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <BrowserRouter>
+    <BrowserRouter>
         <ScrollToTop />
         <AppShell>
         <div className="relative min-h-screen">
@@ -56,6 +54,5 @@ export default function App() {
         </div>
         </AppShell>
       </BrowserRouter>
-    </ThemeProvider>
   );
 }

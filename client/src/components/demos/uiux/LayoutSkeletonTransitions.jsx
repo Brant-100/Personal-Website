@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const STAGES = ["Sketch", "Wireframe", "Hi-Fi"];
@@ -68,25 +67,23 @@ function WireframeCard() {
   );
 }
 
-function HiFiCard({ isDark }) {
+function HiFiCard() {
   return (
     <div className={cn(
       "overflow-hidden rounded-2xl",
-      isDark ? "border border-primary/30 bg-card shadow-neon-cyan" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+      "border border-primary/30 bg-card shadow-neon-cyan"
     )}>
       {/* Hero image */}
       <div className={cn(
         "flex h-40 items-center justify-center md:h-52",
-        isDark
-          ? "bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/10"
-          : "bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10"
+        "bg-gradient-to-br from-primary/20 via-secondary/10 to-accent/10"
       )}>
-        <span className={cn("font-mono text-xs uppercase tracking-widest", isDark ? "text-primary" : "text-primary")}>
+        <span className={cn("font-mono text-xs uppercase tracking-widest", "text-primary")}>
           featured project
         </span>
       </div>
       <div className="p-6 md:p-8">
-        <div className={cn("mb-1 font-mono text-[10px] uppercase tracking-widest", isDark ? "text-accent" : "text-secondary")}>
+        <div className={cn("mb-1 font-mono text-[10px] uppercase tracking-widest", "text-accent")}>
           case study
         </div>
         <h3 className="text-lg font-extrabold leading-tight md:text-xl">A product built to convert.</h3>
@@ -95,7 +92,7 @@ function HiFiCard({ isDark }) {
         </p>
         <button className={cn(
           "mt-4 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-bold",
-          isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+          "bg-primary text-primary-foreground"
         )}>
           View case study →
         </button>
@@ -105,9 +102,7 @@ function HiFiCard({ isDark }) {
 }
 
 export function LayoutSkeletonTransitions() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [stage, setStage] = useState(0);
 
   return (
@@ -127,7 +122,7 @@ export function LayoutSkeletonTransitions() {
             className={cn(
               "rounded-lg px-3 py-2 text-sm font-semibold transition-colors sm:px-4 sm:py-1.5",
               stage === i
-                ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+                ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -147,7 +142,7 @@ export function LayoutSkeletonTransitions() {
           >
             {stage === 0 && <SketchCard />}
             {stage === 1 && <WireframeCard />}
-            {stage === 2 && <HiFiCard isDark={isDark} />}
+            {stage === 2 && <HiFiCard />}
           </motion.div>
         </AnimatePresence>
       </div>
