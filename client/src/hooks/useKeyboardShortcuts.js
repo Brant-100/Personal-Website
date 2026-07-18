@@ -1,18 +1,15 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@/hooks/useTheme";
 
 /**
  * Global keyboard shortcuts:
  *   g p  : jump to #projects
  *   g c  : jump to #contact
  *   g b  : navigate to /blog
- *   t    : toggle theme
  *
  * Does NOT fire when focus is inside an input, textarea, or contenteditable.
  */
 export function useKeyboardShortcuts() {
-  const { toggle } = useTheme();
   const navigate = useNavigate();
   const pendingRef = useRef(null);
 
@@ -38,7 +35,6 @@ export function useKeyboardShortcuts() {
 
       const key = e.key.toLowerCase();
 
-      // "g" prefix sequence
       if (pendingRef.current === "g") {
         pendingRef.current = null;
         clearTimeout(pendingRef._timer);
@@ -53,16 +49,10 @@ export function useKeyboardShortcuts() {
         pendingRef._timer = setTimeout(() => {
           pendingRef.current = null;
         }, 800);
-        return;
-      }
-
-      if (key === "t") {
-        toggle();
-        return;
       }
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [toggle, navigate]);
+  }, [navigate]);
 }

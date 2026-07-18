@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, Terminal, X } from "lucide-react";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { SHOW_TESTIMONIALS } from "@/components/sections/Testimonials";
 
@@ -37,10 +35,8 @@ const SECTIONS = [
 ];
 
 export function Navbar() {
-  const { theme } = useTheme();
-  const location = useLocation();
-  const isDark = theme === "dark";
-  const [scrolled, setScrolled] = useState(false);
+const location = useLocation();
+const [scrolled, setScrolled] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
 
@@ -120,7 +116,7 @@ export function Navbar() {
 
   return (
     <>
-      {/* Top navbar: logo, page links, theme toggle */}
+      {/* Top navbar: logo, page links, menu */}
       <motion.header
         initial={{ y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -131,7 +127,7 @@ export function Navbar() {
           scrolled
             ? cn(
                 "border-b border-border bg-background/92 dark:bg-background/95 supports-[backdrop-filter]:backdrop-blur-sm supports-[backdrop-filter]:bg-background/80",
-                isDark ? "shadow-presence-rest dark:border-primary/22" : "shadow-[0_12px_36px_-14px_rgb(0_0_0_/0.06)]"
+                "shadow-presence-rest dark:border-primary/22"
               )
             : "border-b border-transparent bg-transparent"
         )}
@@ -141,9 +137,7 @@ export function Navbar() {
             <span
               className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-lg",
-                isDark
-                  ? "bg-primary/10 text-primary ring-1 ring-primary/40"
-                  : "bg-foreground text-background"
+                "bg-primary/10 text-primary ring-1 ring-primary/40"
               )}
             >
               <Terminal className="h-4 w-4" />
@@ -175,9 +169,7 @@ export function Navbar() {
               type="button"
               className={cn(
                 "inline-flex h-9 w-9 items-center justify-center rounded-lg md:hidden",
-                isDark
-                  ? "text-foreground hover:bg-primary/10"
-                  : "text-foreground hover:bg-muted"
+                "text-foreground hover:bg-primary/10"
               )}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav-panel"
@@ -186,8 +178,7 @@ export function Navbar() {
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <ThemeToggle />
-          </div>
+</div>
         </div>
       </motion.header>
 
@@ -211,9 +202,7 @@ export function Navbar() {
               transition={{ type: "spring", stiffness: 320, damping: 32 }}
               className={cn(
                 "fixed inset-y-0 right-0 z-50 flex w-[min(100%,20rem)] flex-col border-l md:hidden",
-                isDark
-                  ? "border-primary/20 bg-background/95 shadow-presence-rest"
-                  : "border-border bg-background shadow-2xl"
+                "border-primary/20 bg-background/95 shadow-presence-rest"
               )}
               aria-label="Mobile primary"
             >

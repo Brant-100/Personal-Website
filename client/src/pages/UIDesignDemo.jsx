@@ -15,14 +15,10 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { UI_UX_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { BookCallButton } from "@/components/BookCallButton";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function UIDesignDemo() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  return (
+return (
     <ServicePageLayout
       eyebrow="02 · service / ui · ux design"
       title="UI / UX Design"
@@ -61,7 +57,7 @@ export function UIDesignDemo() {
         <FAQAccordion items={UI_UX_FAQS} />
       </div>
       <div className="mt-16 flex justify-center">
-        <BookCallButton variant={isDark ? "default" : "pop"} />
+        <BookCallButton variant="default" />
       </div>
       <OtherServicesNav current="uiux" />
     </ServicePageLayout>
@@ -69,9 +65,7 @@ export function UIDesignDemo() {
 }
 
 function PrinciplesGrid() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const items = [
+const items = [
     { icon: Palette, title: "Color with intent", body: "Every hue carries a role: hierarchy, state, emotion. No color used twice for different meaning." },
     { icon: Type, title: "Typography as system", body: "Modular scale, consistent rhythm. Headings earn weight; body breathes." },
     { icon: Eye, title: "Motion with restraint", body: "Animation reinforces structure. Springs feel physical, not decorative." },
@@ -91,22 +85,14 @@ function PrinciplesGrid() {
             <Card
               className={cn(
                 "h-full transition-all",
-                isDark
-                  ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+                "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
               )}
             >
               <CardHeader>
                 <div
                   className={cn(
                     "mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl",
-                    isDark
-                      ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-                      : i === 0
-                      ? "bg-primary text-primary-foreground"
-                      : i === 1
-                      ? "bg-secondary text-secondary-foreground"
-                      : "bg-accent text-accent-foreground"
+                    "bg-primary/10 text-primary ring-1 ring-primary/30"
                   )}
                 >
                   <Icon className="h-5 w-5" />
@@ -159,9 +145,7 @@ const PALETTES = [
 ];
 
 function PaletteStudio() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [active, setActive] = useState(PALETTES[0].id);
+const [active, setActive] = useState(PALETTES[0].id);
   const [copied, setCopied] = useState(null);
   const palette = PALETTES.find((p) => p.id === active);
 
@@ -187,7 +171,7 @@ function PaletteStudio() {
                 className={cn(
                   "rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
                   isActive
-                    ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+                    ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -210,7 +194,7 @@ function PaletteStudio() {
             whileHover={{ y: -4 }}
             className={cn(
               "group relative flex aspect-[3/4] flex-col items-start justify-end overflow-hidden rounded-2xl p-4 text-left transition-shadow",
-              isDark ? "shadow-lg hover:shadow-neon-cyan" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+              "shadow-lg hover:shadow-neon-cyan"
             )}
             style={{ background: c.hex }}
           >
@@ -242,17 +226,13 @@ function PaletteStudio() {
 }
 
 function TypographyShowcase() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  return (
+return (
     <div>
       <h2 className="mb-6 text-2xl font-bold">Type that carries a voice</h2>
       <div
         className={cn(
           "rounded-2xl p-8 md:p-10",
-          isDark
-            ? "border border-border bg-card/70 backdrop-blur"
-            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+          "border border-border bg-card/70 backdrop-blur"
         )}
       >
         <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary">

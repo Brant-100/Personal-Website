@@ -1,41 +1,20 @@
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Terminal, Code2, Sparkles, Download, Zap, ShieldCheck, BookOpen } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Terminal, Sparkles, Download, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookCallButton } from "@/components/BookCallButton";
 import { Badge } from "@/components/ui/badge";
-import { useTheme } from "@/hooks/useTheme";
 import { AnimatedHeadline, Reveal, spring, staggerContainer } from "@/components/motion/MotionPrimitives";
 import { cn } from "@/lib/utils";
 import { RESUME_PDF } from "@/lib/contact";
-import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
-
-const ROLES = [
-  { label: "Software Development", icon: Code2 },
-  { label: "Cybersecurity", icon: ShieldCheck },
-  { label: "Continuous Learning", icon: BookOpen },
-];
 
 export function Hero() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
   const prefersReduced = useReducedMotion();
-
-  const [roleIdx, setRoleIdx] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setRoleIdx((i) => (i + 1) % ROLES.length), 2800);
-    return () => clearInterval(id);
-  }, []);
-  const activeRole = ROLES[roleIdx];
-  const ActiveIcon = activeRole.icon;
 
   return (
     <section id="hero" className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
-      {/* Theme-specific backdrop flair */}
-      <ThemeBackdrop isDark={isDark} />
+      <ThemeBackdrop />
 
       <div className="container relative z-10 grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:items-center">
-        {/* Left column: headline + CTAs */}
         <motion.div
           initial="hidden"
           animate="show"
@@ -43,75 +22,42 @@ export function Hero() {
           className="max-w-2xl"
         >
           <Reveal className="mb-6">
-            {!isDark && (
-              <span className="section-accent-bar bg-primary" aria-hidden />
-            )}
             <Badge
-              variant={isDark ? "default" : "accent"}
+              variant="default"
               className="gap-2 px-3 py-1 text-[11px] uppercase tracking-[0.22em]"
             >
               <Sparkles className="h-3 w-3" />
-              {isDark ? "// online // available for work" : "available for hire · 2026"}
+              {"// online // available for work"}
             </Badge>
           </Reveal>
 
           <AnimatedHeadline
             text="Brant Simpson"
-            className={cn(
-              "text-5xl md:text-7xl font-extrabold leading-[1.02] tracking-tight",
-              isDark ? "text-neon text-foreground" : "text-foreground"
-            )}
+            className="text-5xl md:text-7xl font-extrabold leading-[1.02] tracking-tight text-neon text-foreground"
           />
 
           <AnimatedHeadline
             text="builds things that matter"
-            className={cn(
-              "mt-3 text-4xl md:text-6xl font-extrabold leading-[1.05] tracking-tight",
-              isDark ? "text-primary" : "text-primary"
-            )}
-            wordClassName={isDark ? "text-neon" : ""}
+            className="mt-3 text-4xl md:text-6xl font-extrabold leading-[1.05] tracking-tight text-primary"
+            wordClassName="text-neon"
           />
 
-          <Reveal className="mt-8 flex items-center gap-3 text-lg md:text-xl text-muted-foreground">
-            <span className="text-foreground/80">Focused on</span>
-            <span className="relative inline-flex min-w-[17ch] items-center">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={activeRole.label}
-                  initial={{ y: 18, opacity: 0, filter: "blur(6px)" }}
-                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                  exit={{ y: -18, opacity: 0, filter: "blur(6px)" }}
-                  transition={spring.snap}
-                  className={cn(
-                    "inline-flex items-center gap-2 font-semibold",
-                    isDark ? "text-accent" : "text-secondary"
-                  )}
-                >
-                  <ActiveIcon className="h-5 w-5" />
-                  {activeRole.label}
-                </motion.span>
-              </AnimatePresence>
+          <Reveal className="mt-8 text-lg md:text-xl leading-relaxed text-muted-foreground">
+            <span className="text-foreground/90">
+              Software developer &amp; security engineer — now taking freelance web and software work.
             </span>
           </Reveal>
 
-          {/* Now-building chip */}
           <Reveal className="mt-5">
-            <div className={cn(
-              "inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs",
-              isDark
-                ? "border border-accent/30 bg-accent/10 text-accent"
-                : "border border-border bg-card/75 text-foreground shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)] backdrop-blur-sm"
-            )}>
-              <Zap className={cn("h-3 w-3", isDark ? "text-accent" : "text-primary")} />
+            <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-4 py-1.5 font-mono text-xs text-accent">
+              <Zap className="h-3 w-3 text-accent" />
               <span>now building:</span>
-              <span className={isDark ? "text-foreground" : "text-primary"}>
-                Nexus Phase 2 · EDPT
-              </span>
+              <span className="text-foreground">Nexus Phase 2 · EDPT</span>
             </div>
           </Reveal>
 
           <Reveal className="mt-7 flex flex-wrap items-center gap-4">
-            <BookCallButton size="lg" variant={isDark ? "default" : "pop"} />
+            <BookCallButton size="lg" variant="default" />
             <Button size="lg" variant="outline" asChild>
               <a href="#projects" className="inline-flex items-center gap-2">
                 View Work <ArrowRight className="h-4 w-4" />
@@ -124,71 +70,43 @@ export function Hero() {
               </a>
             </Button>
           </Reveal>
-
         </motion.div>
 
-        {/* Right column: theme-dependent visual */}
         <motion.div
           initial={{ opacity: 0, y: prefersReduced ? 0 : 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...spring.soft, delay: prefersReduced ? 0 : 0.25 }}
           className="relative"
         >
-          <AnimatePresence mode="wait">
-            {isDark ? (
-              <motion.div
-                key="terminal"
-                initial={{ opacity: 0, scale: prefersReduced ? 1 : 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: prefersReduced ? 1 : 0.96 }}
-                transition={spring.snap}
-              >
-                <TerminalCard prefersReduced={prefersReduced} />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="popart"
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={spring.snap}
-              >
-                <PopArtCard />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <TerminalCard prefersReduced={prefersReduced} />
         </motion.div>
       </div>
     </section>
   );
 }
 
-/* ============================================================ */
-/* Theme-dependent right-side visuals                          */
-/* ============================================================ */
-
 function TerminalCard({ prefersReduced = false }) {
   const lines = [
     { prompt: "~$", text: "whoami" },
     { prompt: ">", text: "brant.simpson", accent: true },
-    { prompt: "~$", text: "nmap -sS -Pn target.local" },
-    { prompt: ">", text: "22/tcp  open  ssh" },
-    { prompt: ">", text: "443/tcp open  https" },
-    { prompt: "~$", text: "./nexus --deploy implant.enc" },
-    { prompt: ">", text: "[+] AES-GCM handshake OK", accent: true },
+    { prompt: "~$", text: "pytest --cov nexus/" },
+    { prompt: ">", text: "214 passed · 91% coverage", accent: true },
+    { prompt: "~$", text: "git log --oneline -1" },
+    { prompt: ">", text: "feat: AES-GCM session handshake", muted: true },
+    { prompt: "~$", text: "./deploy --prod" },
+    { prompt: ">", text: "✓ live in 34s", accent: true },
     { prompt: "~$", text: "" },
   ];
 
   return (
     <div className="relative">
       <div className="relative overflow-hidden rounded-2xl border border-border bg-card/80 backdrop-blur shadow-neon-cyan">
-        {/* chrome */}
         <div className="flex items-center gap-2 border-b border-border/80 bg-background/60 px-4 py-3">
           <span className="h-3 w-3 rounded-full bg-destructive/80" />
           <span className="h-3 w-3 rounded-full bg-accent/80" />
           <span className="h-3 w-3 rounded-full bg-primary/80" />
           <span className="ml-3 font-mono text-xs text-muted-foreground">
-            brant@nexus : ~/ops
+            brant@nexus : ~/ship
           </span>
           <Terminal className="ml-auto h-4 w-4 text-primary" />
         </div>
@@ -202,7 +120,7 @@ function TerminalCard({ prefersReduced = false }) {
               transition={{ delay: prefersReduced ? 0 : 0.4 + i * 0.12, ...spring.soft }}
               className={cn(
                 "flex gap-2",
-                l.accent ? "text-accent" : "text-foreground/90"
+                l.accent ? "text-accent" : l.muted ? "text-muted-foreground" : "text-foreground/90"
               )}
             >
               <span className="text-primary">{l.prompt}</span>
@@ -212,7 +130,6 @@ function TerminalCard({ prefersReduced = false }) {
             </motion.div>
           ))}
 
-          {/* scanline sheen (skipped when prefers-reduced-motion) */}
           {!prefersReduced && (
             <div className="pointer-events-none absolute inset-0 overflow-hidden">
               <div className="absolute inset-x-0 h-24 bg-gradient-to-b from-primary/0 via-primary/10 to-primary/0 animate-scanline" />
@@ -221,104 +138,18 @@ function TerminalCard({ prefersReduced = false }) {
         </div>
       </div>
 
-      {/* corner ticks */}
       <div className="absolute -left-2 -top-2 h-4 w-4 border-l-2 border-t-2 border-primary" />
       <div className="absolute -right-2 -bottom-2 h-4 w-4 border-r-2 border-b-2 border-primary" />
     </div>
   );
 }
 
-function PopArtCard() {
-  return (
-    <div className="relative">
-      {/* big colorful blobs */}
-      <motion.div
-        className="absolute -left-10 -top-6 h-40 w-40 rounded-full bg-pop-pink/80 blur-0 mix-blend-multiply"
-        animate={{ y: [0, -10, 0], rotate: [0, 6, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute -right-6 top-10 h-28 w-28 rounded-full bg-secondary/80 mix-blend-multiply"
-        animate={{ y: [0, 12, 0], rotate: [0, -8, 0] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute left-1/2 bottom-0 h-24 w-24 -translate-x-1/2 rounded-full bg-accent/90 mix-blend-multiply"
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <motion.div
-        whileHover={{ rotate: -2, y: -4 }}
-        transition={spring.snap}
-        className={cn("relative p-8", LIGHT_SURFACE_CARD)}
-      >
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-accent/90 px-3 py-1 text-xs font-bold uppercase tracking-widest text-accent-foreground shadow-sm">
-          <Sparkles className="h-3 w-3" /> now building
-        </div>
-        <h3 className="text-3xl font-extrabold leading-tight">
-          Products that <span className="text-primary">pop</span>,
-          <br />
-          systems that <span className="text-secondary">hold</span>.
-        </h3>
-        <p className="mt-4 text-sm text-muted-foreground">
-          Shipping bold, accessible interfaces for startups and teams,
-          then stress testing the infra behind them.
-        </p>
-
-        <div className="mt-6 grid grid-cols-3 gap-3">
-          {[
-            { label: "Ship", color: "bg-primary" },
-            { label: "Design", color: "bg-secondary" },
-            { label: "Secure", color: "bg-accent" },
-          ].map((b) => (
-            <div
-              key={b.label}
-              className={cn(
-                "flex h-16 items-center justify-center rounded-xl border border-border/50 font-bold text-white shadow-sm",
-                b.color
-              )}
-            >
-              {b.label}
-            </div>
-          ))}
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-/* ============================================================ */
-/* Page-wide theme backdrop behind the hero                     */
-/* ============================================================ */
-function ThemeBackdrop({ isDark }) {
+function ThemeBackdrop() {
   return (
     <div className="pointer-events-none absolute inset-0 -z-0 overflow-hidden">
-      {isDark ? (
-        <>
-          <div className="absolute inset-0 bg-cyber-grid bg-grid-32 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]" />
-          <div className="absolute left-1/2 top-40 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
-          <div className="absolute right-10 top-20 h-56 w-56 rounded-full bg-secondary/15 blur-3xl" />
-        </>
-      ) : (
-        <>
-          <div className="absolute -left-24 top-10 h-80 w-80 rounded-full bg-primary/25 blur-3xl" />
-          <div className="absolute right-10 top-40 h-72 w-72 rounded-full bg-secondary/25 blur-3xl" />
-          <div className="absolute left-1/3 bottom-0 h-64 w-64 rounded-full bg-accent/25 blur-3xl" />
-          {/* playful dotted pattern */}
-          <svg
-            className="absolute inset-0 h-full w-full opacity-[0.06]"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <pattern id="dots" width="18" height="18" patternUnits="userSpaceOnUse">
-                <circle cx="2" cy="2" r="1.2" fill="currentColor" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#dots)" />
-          </svg>
-        </>
-      )}
+      <div className="absolute inset-0 bg-cyber-grid bg-grid-32 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_75%)]" />
+      <div className="absolute left-1/2 top-40 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/15 blur-3xl" />
+      <div className="absolute right-10 top-20 h-56 w-56 rounded-full bg-secondary/15 blur-3xl" />
     </div>
   );
 }

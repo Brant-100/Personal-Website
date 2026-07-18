@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /**
@@ -7,10 +6,7 @@ import { cn } from "@/lib/utils";
  * @param {{ problem, approach, outcome, metric, label, accent }} props
  */
 export function CaseStudySnapshot({ problem, approach, outcome, metric, label, accent }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  return (
+return (
     <div className="mt-16">
       <div className="mb-6">
         <div className="font-mono text-xs uppercase tracking-[0.3em] text-primary mb-1">case study</div>
@@ -24,18 +20,14 @@ export function CaseStudySnapshot({ problem, approach, outcome, metric, label, a
         transition={{ type: "spring", stiffness: 140, damping: 20 }}
         className={cn(
           "overflow-hidden rounded-2xl",
-          isDark
-            ? "border border-border bg-card/70 backdrop-blur"
-            : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+          "border border-border bg-card/70 backdrop-blur"
         )}
       >
         {/* Metric hero */}
         <div
           className="flex items-center justify-center px-6 py-10"
           style={{
-            background: isDark
-              ? `linear-gradient(135deg, ${accent}15 0%, transparent 70%)`
-              : `linear-gradient(135deg, ${accent}10 0%, transparent 70%)`,
+            background: `linear-gradient(135deg, ${accent}15 0%, transparent 70%)`,
           }}
         >
           <div className="text-center">

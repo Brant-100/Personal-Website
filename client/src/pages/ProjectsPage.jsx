@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Reveal, spring } from "@/components/motion/MotionPrimitives";
 import { ProjectCard } from "@/components/sections/Projects";
 import { api } from "@/lib/api";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { FALLBACK as PROJECT_FALLBACK } from "@/lib/projectFallback";
 
@@ -14,9 +13,7 @@ const FILTER_TAGS = [
 ];
 
 export function ProjectsPage() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [items, setItems] = useState(PROJECT_FALLBACK);
+const [items, setItems] = useState(PROJECT_FALLBACK);
   const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
@@ -39,37 +36,27 @@ export function ProjectsPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Full-height backdrop: blurred orbs bleed behind header + filters + grid so the mesh never visibly restarts */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        {isDark ? (
-          <>
-            <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
-            <div
-              aria-hidden
-              className="absolute inset-0"
-              style={{
-                backgroundImage:
-                  "linear-gradient(hsl(var(--primary)/0.05) 1px,transparent 1px),linear-gradient(90deg,hsl(var(--primary)/0.05) 1px,transparent 1px)",
-                backgroundSize: "32px 32px",
-              }}
-            />
-            <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
-            <div className="absolute left-1/4 top-1/3 h-64 w-64 rounded-full bg-secondary/10 blur-3xl" />
-          </>
-        ) : (
-          <>
-            <div className="absolute -left-16 top-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
-            <div className="absolute right-10 top-32 h-64 w-64 rounded-full bg-secondary/20 blur-3xl" />
-            {/* Soft accent low in the layout, positioned by % of page so it overlaps filters + grid, not clipped at one band */}
-            <div className="absolute left-1/2 top-[45%] h-[28rem] w-[min(90vw,48rem)] -translate-x-1/2 rounded-full bg-pop-pink/[0.07] blur-3xl" />
-            <div className="absolute -bottom-32 left-[15%] h-72 w-72 rounded-full bg-secondary/[0.12] blur-3xl" />
-          </>
-        )}
+        <>
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(hsl(var(--primary)/0.05) 1px,transparent 1px),linear-gradient(90deg,hsl(var(--primary)/0.05) 1px,transparent 1px)",
+              backgroundSize: "32px 32px",
+            }}
+          />
+          <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-primary/10 blur-3xl" />
+          <div className="absolute left-1/4 top-1/3 h-64 w-64 rounded-full bg-secondary/10 blur-3xl" />
+        </>
       </div>
 
       <div className="relative z-10">
         <div className="container pb-24 pt-32 md:pt-40 md:pb-32">
           <Reveal className="mb-3">
             <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              {isDark ? "// selected work" : "selected work"}
+              {"// selected work"}
             </span>
           </Reveal>
           <Reveal className="max-w-3xl">
@@ -79,7 +66,7 @@ export function ProjectsPage() {
             <p
               className={cn(
                 "mt-4 max-w-xl text-lg",
-                isDark ? "text-muted-foreground" : "text-foreground/82"
+                "text-muted-foreground"
               )}
             >
               Security tools, full stack platforms, and wellness software; each
@@ -104,13 +91,9 @@ export function ProjectsPage() {
                       onClick={() => setActiveFilter(f.id)}
                       className={cn(
                         "rounded-full px-4 py-1.5 text-xs font-mono font-semibold uppercase tracking-[0.18em] transition-all",
-                        isDark
-                          ? isActive
-                            ? "bg-primary text-primary-foreground shadow-neon-cyan"
-                            : "border border-border text-muted-foreground hover:border-primary/50 hover:text-primary"
-                          : isActive
-                            ? "border border-primary/50 bg-primary text-primary-foreground shadow-soft-orange"
-                            : "border border-border bg-card/80 backdrop-blur-sm text-foreground hover:bg-primary/10"
+                        isActive
+                          ? "bg-primary text-primary-foreground shadow-neon-cyan"
+                          : "border border-border text-muted-foreground hover:border-primary/50 hover:text-primary"
                       )}
                     >
                       {f.label}
@@ -131,7 +114,7 @@ export function ProjectsPage() {
                 className="grid items-start gap-4 md:grid-cols-2 md:gap-5"
               >
                 {filtered.map((p, i) => (
-                  <ProjectCard key={p.id || p.title} project={p} index={i} isDark={isDark} />
+                  <ProjectCard key={p.id || p.title} project={p} index={i} />
                 ))}
                 {filtered.length === 0 && (
                   <p className="col-span-full py-16 text-center text-muted-foreground">

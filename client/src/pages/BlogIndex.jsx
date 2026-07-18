@@ -2,9 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Github, ListFilter, Search } from "lucide-react";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD } from "@/lib/popColors";
 import {
   getMergedFallbackPostsMeta,
 } from "@/lib/blogFallback";
@@ -48,9 +46,7 @@ function applyTitleSearch(posts, rawQuery) {
 }
 
 export function BlogIndex() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [posts, setPosts] = useState([]);
+const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterKey, setFilterKey] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -111,7 +107,7 @@ export function BlogIndex() {
       variants={staggerContainer(0.07, 0.05)}
       className="relative pt-32 pb-24 md:pt-40 md:pb-32"
     >
-      {isDark && (
+      
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -121,16 +117,16 @@ export function BlogIndex() {
             backgroundSize: "32px 32px",
           }}
         />
-      )}
+      
 
       <div className="container relative z-10">
         <Reveal className="mb-4">
           <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-            {isDark ? "// WRITING" : "WRITING ·"}
+            {"// WRITING"}
           </span>
         </Reveal>
         <Reveal className="mb-10">
-          <h1 className={cn("text-5xl font-extrabold tracking-tight md:text-7xl", isDark && "text-neon")}>
+          <h1 className={cn("text-5xl font-extrabold tracking-tight md:text-7xl", "text-neon")}>
             Blog
           </h1>
         </Reveal>
@@ -138,14 +134,14 @@ export function BlogIndex() {
         {loading ? (
           <Reveal>
             <div className="font-mono text-sm text-primary">
-              {isDark ? "// loading posts..." : "loading..."}
+              {"// loading posts..."}
             </div>
           </Reveal>
         ) : (
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start lg:gap-x-10 xl:grid-cols-[minmax(0,1fr)_18rem] xl:gap-x-12">
             <div className="min-w-0">
               {filtered.length === 0 ? (
-                <EmptyBlogState isDark={isDark} hasSearch={Boolean(searchQuery.trim())} />
+                <EmptyBlogState hasSearch={Boolean(searchQuery.trim())} />
               ) : (
                 <motion.div
                   variants={staggerContainer(0.06)}
@@ -155,11 +151,11 @@ export function BlogIndex() {
                 >
                   {featured ? (
                     <div className="md:col-span-2 lg:col-span-2 xl:col-span-3">
-                      <BlogCard post={featured} index={featuredIndex} featured isDark={isDark} />
+                      <BlogCard post={featured} index={featuredIndex} featured />
                     </div>
                   ) : null}
                   {gridPosts.map((post, i) => (
-                    <BlogCard key={post.slug} post={post} index={(featured ? 3 : 0) + i} isDark={isDark} />
+                    <BlogCard key={post.slug} post={post} index={(featured ? 3 : 0) + i} />
                   ))}
                 </motion.div>
               )}
@@ -168,9 +164,7 @@ export function BlogIndex() {
             <aside
               className={cn(
                 "relative z-50 isolate w-full lg:sticky lg:top-24 lg:self-start",
-                isDark
-                  ? "rounded-2xl border border-border bg-card/60 p-5 shadow-presence-rest"
-                  : cn(LIGHT_SURFACE_CARD, "p-5"),
+                "rounded-2xl border border-border bg-card/60 p-5 shadow-presence-rest"
               )}
               aria-labelledby="blog-post-filter-heading"
             >
@@ -192,7 +186,7 @@ export function BlogIndex() {
                   <Search
                     className={cn(
                       "pointer-events-none absolute left-3 top-1/2 z-[2] h-4 w-4 -translate-y-1/2 opacity-45",
-                      isDark ? "text-muted-foreground" : "text-muted-foreground",
+                      "text-muted-foreground",
                     )}
                     aria-hidden
                   />
@@ -206,9 +200,7 @@ export function BlogIndex() {
                     spellCheck={false}
                     className={cn(
                       "relative z-[1] block w-full rounded-xl border px-3 py-2.5 pl-9 text-sm shadow-sm outline-none transition-colors placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary",
-                      isDark
-                        ? "border-border bg-background/90 text-foreground"
-                        : "border-border bg-card text-foreground",
+                      "border-border bg-background/90 text-foreground",
                     )}
                     aria-describedby="blog-post-search-hint"
                   />
@@ -226,9 +218,7 @@ export function BlogIndex() {
                 onChange={(e) => setFilterKey(e.target.value)}
                 className={cn(
                   "relative z-[1] block w-full cursor-pointer rounded-xl border px-3 py-2.5 text-sm font-medium shadow-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-primary",
-                  isDark
-                    ? "border-border bg-background/90 text-foreground"
-                    : "border-border bg-card text-foreground",
+                  "border-border bg-background/90 text-foreground",
                 )}
               >
                 <optgroup label="Browse">
@@ -254,7 +244,7 @@ export function BlogIndex() {
   );
 }
 
-function EmptyBlogState({ isDark, hasSearch }) {
+function EmptyBlogState({ hasSearch }) {
   const topics = ["Nexus Phase 2 writeup", "Detection engineering notes", "CTF walkthrough series", "Blue-team lab builds"];
   return (
     <Reveal>
@@ -275,7 +265,7 @@ function EmptyBlogState({ isDark, hasSearch }) {
         <div
           className={cn(
             "rounded-2xl p-6",
-            isDark ? "border border-border bg-card/70 shadow-presence-rest" : LIGHT_SURFACE_CARD,
+            "border border-border bg-card/70 shadow-presence-rest",
           )}
         >
           <p className="text-center text-muted-foreground sm:text-left">
@@ -287,7 +277,7 @@ function EmptyBlogState({ isDark, hasSearch }) {
                 key={t}
                 className={cn(
                   "rounded-xl border border-dashed px-4 py-3 text-center font-mono text-xs uppercase tracking-wide text-muted-foreground",
-                  isDark ? "border-border/80 bg-muted/30" : "border-border bg-card/50",
+                  "border-border/80 bg-muted/30",
                 )}
               >
                 {t}

@@ -9,7 +9,6 @@ import {
 } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const CATEGORIES = [
@@ -170,9 +169,7 @@ function MotionToken({ token }) {
 }
 
 export function DesignSystemTokensView() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [open, setOpen] = useState("colors");
 
   return (
@@ -190,7 +187,7 @@ export function DesignSystemTokensView() {
               className={cn(
                 "overflow-hidden rounded-2xl border transition-colors",
                 isOpen
-                  ? isDark ? "border-primary/40" : "border-foreground"
+                  ? "border-primary/40"
                   : "border-border"
               )}
             >
@@ -199,7 +196,7 @@ export function DesignSystemTokensView() {
                 className={cn(
                   "flex w-full items-center justify-between px-5 py-4 text-left transition-colors",
                   isOpen
-                    ? isDark ? "bg-primary/5" : "bg-accent/20"
+                    ? "bg-primary/5"
                     : "bg-card/60 hover:bg-muted/40"
                 )}
               >

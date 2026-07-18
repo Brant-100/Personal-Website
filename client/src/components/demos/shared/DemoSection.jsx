@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { RotateCcw } from "lucide-react";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /**
@@ -12,10 +11,7 @@ import { cn } from "@/lib/utils";
  * - children: the actual demo content
  */
 export function DemoSection({ eyebrow, heading, description, onReset, className, children }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  return (
+return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -40,9 +36,7 @@ export function DemoSection({ eyebrow, heading, description, onReset, className,
             onClick={onReset}
             className={cn(
               "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
-              isDark
-                ? "border border-border text-muted-foreground hover:text-foreground"
-                : "border border-border text-muted-foreground hover:text-foreground"
+              "border border-border text-muted-foreground hover:text-foreground"
             )}
           >
             <RotateCcw className="h-3 w-3" />

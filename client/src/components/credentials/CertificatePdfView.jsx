@@ -62,7 +62,7 @@ function PdfPages({ pdfUrl, pageWidth, onLoadSuccess, onLoadError }) {
 /**
  * Renders PDF pages with PDF.js (no browser PDF chrome). Click preview to open fullscreen.
  */
-export function CertificatePdfView({ pdfUrl, isDark }) {
+export function CertificatePdfView({ pdfUrl }) {
   const containerRef = useRef(null);
   const [width, setWidth] = useState(720);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -138,7 +138,7 @@ export function CertificatePdfView({ pdfUrl, isDark }) {
         }}
         className={cn(
           "flex w-full flex-col items-center gap-3 overflow-x-hidden rounded-xl px-2 py-4 outline-none transition sm:px-4 sm:py-5",
-          isDark ? "bg-muted/25" : "bg-muted/20",
+          "bg-muted/25",
           inlineReady &&
             "cursor-pointer hover:ring-2 hover:ring-primary/40 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         )}

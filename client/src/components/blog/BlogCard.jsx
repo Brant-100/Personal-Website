@@ -12,14 +12,6 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  CARD_HOVER_SHADOW,
-  CARD_SHADOW,
-  FAQ_STRIPE,
-  LIGHT_SURFACE_CARD,
-  popBy,
-  tagChipLightClass,
-} from "@/lib/popColors";
 import { spring } from "@/components/motion/MotionPrimitives";
 
 function isHttpsUrl(src) {
@@ -95,13 +87,36 @@ function SourceBadgePresentation({ source }) {
   );
 }
 
-const shellClass = (isDark) =>
-  cn(
-    "group block h-auto overflow-hidden rounded-2xl text-left outline-none ring-offset-4 ring-offset-background transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 focus-visible:ring-2 focus-visible:ring-primary",
-    isDark
-      ? "border border-border bg-card/70 backdrop-blur-sm shadow-presence-rest hover:border-primary/35"
-      : cn(LIGHT_SURFACE_CARD, "transition-colors"),
-  );
+const FAQ_STRIPE = [
+  "bg-pop-pink",
+  "bg-pop-cyan",
+  "bg-pop-purple",
+  "bg-pop-lime",
+  "bg-primary",
+];
+
+const CARD_SHADOW = [
+  "shadow-soft-pink",
+  "shadow-soft-cyan",
+  "shadow-soft-purple",
+  "shadow-soft-orange",
+  "shadow-soft-blue",
+];
+
+const CARD_HOVER_SHADOW = [
+  "hover:shadow-soft-pink",
+  "hover:shadow-soft-cyan",
+  "hover:shadow-soft-purple",
+  "hover:shadow-soft-orange",
+  "hover:shadow-soft-blue",
+];
+
+const popBy = (i, arr) => arr[((i % arr.length) + arr.length) % arr.length];
+
+const shellClass = cn(
+  "group block h-auto overflow-hidden rounded-2xl text-left outline-none ring-offset-4 ring-offset-background transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 focus-visible:ring-2 focus-visible:ring-primary",
+  "border border-border bg-card/70 backdrop-blur-sm shadow-presence-rest hover:border-primary/35 transition-colors"
+);
 
 /**
  * Unified blog list card (internal route vs external link).
@@ -109,11 +124,10 @@ const shellClass = (isDark) =>
  * @param {object} props.post
  * @param {number} props.index
  * @param {boolean} [props.featured]
- * @param {boolean} props.isDark
  * @param {boolean} [props.compact]
  * @param {string} [props.className]
  */
-export function BlogCard({ post, index, featured = false, isDark, compact = false, className }) {
+export function BlogCard({ post, index, featured = false, compact = false, className }) {
   const [heroImgFailed, setHeroImgFailed] = useState(false);
   const kind = post.kind ?? "internal";
   const external = kind === "external";
@@ -169,7 +183,7 @@ export function BlogCard({ post, index, featured = false, isDark, compact = fals
         <span
           className={cn(
             "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em]",
-            isDark ? "bg-primary/25 text-primary" : "bg-primary text-primary-foreground shadow-sm",
+            "bg-primary/25 text-primary",
           )}
         >
           Written by me
@@ -248,7 +262,7 @@ export function BlogCard({ post, index, featured = false, isDark, compact = fals
             featured ? "md:text-2xl" : "md:text-xl",
             "break-words font-bold leading-snug",
             compact ? "text-base md:text-lg" : "text-lg",
-            isDark && "text-neon",
+            "text-neon",
           )}
         >
           {post.title}
@@ -302,9 +316,7 @@ export function BlogCard({ post, index, featured = false, isDark, compact = fals
               key={`${post.slug}-${t}-${ti}`}
               className={cn(
                 "inline-flex max-w-[11rem] items-center truncate rounded-full px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-widest",
-                isDark
-                  ? "bg-muted text-primary"
-                  : cn(tagChipLightClass(t, ti)),
+                "bg-muted text-primary"
               )}
             >
               <Tag className="mr-1 h-2.5 w-2.5 shrink-0 opacity-70" aria-hidden /> {t}
@@ -316,7 +328,7 @@ export function BlogCard({ post, index, featured = false, isDark, compact = fals
   );
 
   const cardInner = cn(
-    shellClass(isDark),
+    shellClass,
     hoverShadowRing,
     compact ? "flex flex-row items-start gap-3 md:gap-5" : "flex flex-col",
     className,

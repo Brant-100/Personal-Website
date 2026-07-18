@@ -7,10 +7,7 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { ContactCard } from "@/components/sections/Contact";
 import { CONTACT_LINKS } from "@/data/contactLinks";
 import { HEADSHOT_PUBLIC_PATH, SHOW_HEADSHOT } from "@/lib/headshot";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD, stackChipLightClass } from "@/lib/popColors";
-
 const SKILLS = [
   { name: "Python",             icon: Terminal, category: "backend"  },
   { name: "React",              icon: Code2,    category: "frontend" },
@@ -46,10 +43,7 @@ const HOW_I_WORK_STEPS = [
 ];
 
 export function AboutPage() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  return (
+return (
     <motion.div
       initial="hidden"
       animate="show"
@@ -64,7 +58,7 @@ export function AboutPage() {
               to="/"
               className={cn(
                 "inline-flex items-center gap-2 text-sm font-medium transition-colors",
-                isDark ? "text-muted-foreground hover:text-foreground" : "text-muted-foreground hover:text-foreground"
+                "text-muted-foreground hover:text-foreground"
               )}
             >
               <ArrowLeft className="h-4 w-4" /> Back home
@@ -75,36 +69,24 @@ export function AboutPage() {
             {/* Left column: full narrative */}
             <div>
               <Reveal className="mb-4">
-                {!isDark && <span className="section-accent-bar bg-pop-pink" aria-hidden />}
                 <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-                  {isDark ? "// about" : "about ·"}
+                  {"// about"}
                 </span>
               </Reveal>
 
               <Reveal className="mb-10">
                 <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-                  {isDark ? (
-                    <>
-                      Who I{" "}
-                      <span className="relative inline-block text-primary">
-                        am
-                        <span
-                          className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
-                          aria-hidden
-                        />
-                      </span>
-                      .
-                    </>
-                  ) : (
-                    <>
-                      Who I{" "}
-                      <span className="relative inline-block text-primary">
-                        am
-                        <span className="absolute inset-x-0 -bottom-1 h-2 bg-accent/70 -z-10" />
-                      </span>
-                      .
-                    </>
-                  )}
+                  <>
+                    Who I{" "}
+                    <span className="relative inline-block text-primary">
+                      am
+                      <span
+                        className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
+                        aria-hidden
+                      />
+                    </span>
+                    .
+                  </>
                 </h1>
               </Reveal>
 
@@ -125,20 +107,6 @@ export function AboutPage() {
                     plans for what happens after deploy. Available for contract web and software work.
                   </p>
                 </Reveal>
-
-                <Reveal>
-                  <p className="text-muted-foreground leading-[1.75] md:leading-[1.8]">
-                    Main focus: Project Nexus, a custom C2 framework built from scratch. Expanding operator tooling and
-                    MITRE-aligned coverage so defensive thinking tracks real implant and C2 behavior.
-                  </p>
-                </Reveal>
-
-                <Reveal>
-                  <p className="text-muted-foreground leading-[1.75] md:leading-[1.8]">
-                    I&apos;m pre-enlistment and targeting the USAF 1B4X1 Cyber Warfare Operations career field. That track
-                    is why I build offensive tooling, map everything to MITRE, and take detection seriously.
-                  </p>
-                </Reveal>
               </motion.div>
 
             </div>
@@ -151,9 +119,7 @@ export function AboutPage() {
                     <div
                       className={cn(
                         "relative overflow-hidden rounded-2xl",
-                        isDark
-                          ? "bg-card/70 p-1 ring-2 ring-primary/40"
-                          : cn(LIGHT_SURFACE_CARD, "p-4")
+                        "bg-card/70 p-4 ring-2 ring-primary/40"
                       )}
                     >
                       <img
@@ -164,9 +130,9 @@ export function AboutPage() {
                         className="block h-[260px] w-[260px] rounded-xl"
                         decoding="async"
                       />
-                      {isDark && (
+                      
                         <div className="absolute inset-0 pointer-events-none rounded-2xl bg-gradient-to-tr from-primary/10 via-transparent to-secondary/10" />
-                      )}
+                      
                     </div>
                   </div>
                 </Reveal>
@@ -176,16 +142,16 @@ export function AboutPage() {
                 <div
                   className={cn(
                     "rounded-2xl p-6",
-                    isDark ? "border border-border bg-card/70 backdrop-blur" : LIGHT_SURFACE_CARD
+                    "border border-border bg-card/70 backdrop-blur"
                   )}
                 >
                   <div className="mb-4">
-                    <div className={cn("font-mono text-[11px] uppercase tracking-[0.25em]", isDark ? "text-primary" : "text-foreground/70")}>
+                    <div className={cn("font-mono text-[11px] uppercase tracking-[0.25em]", "text-primary")}>
                       Stack
                     </div>
                     <p className={cn(
                       "mt-2 text-sm leading-snug font-sans normal-case tracking-normal",
-                      isDark ? "text-muted-foreground" : "text-foreground/78"
+                      "text-muted-foreground"
                     )}>
                       Some tools I use, not an exhaustive list.
                     </p>
@@ -208,27 +174,13 @@ export function AboutPage() {
                           }}
                           className={cn(
                             "flex min-h-10 min-w-0 items-center gap-2 text-sm leading-snug",
-                            isDark
-                              ? "rounded-lg bg-muted/60 px-2.5 py-2 text-foreground/90"
-                              : ""
+                            "rounded-lg bg-muted/60 px-2.5 py-2 text-foreground/90"
                           )}
                         >
-                          {isDark ? (
-                            <>
-                              <Icon className="h-4 w-4 shrink-0 translate-y-px text-primary" aria-hidden />
-                              <span className="min-w-0 font-bold">{s.name}</span>
-                            </>
-                          ) : (
-                            <span
-                              className={cn(
-                                "inline-flex min-h-10 w-full min-w-0 max-w-full items-center gap-1.5",
-                                stackChipLightClass(s.name, i)
-                              )}
-                            >
-                              <Icon className="h-3.5 w-3.5 shrink-0 text-white opacity-95" aria-hidden />
-                              <span className="min-w-0 truncate font-semibold">{s.name}</span>
-                            </span>
-                          )}
+                          <>
+                            <Icon className="h-4 w-4 shrink-0 translate-y-px text-primary" aria-hidden />
+                            <span className="min-w-0 font-bold">{s.name}</span>
+                          </>
                         </motion.li>
                       );
                     })}
@@ -244,9 +196,8 @@ export function AboutPage() {
             className="mt-16 scroll-mt-24 md:mt-24"
           >
             <Reveal className="mb-4">
-              {!isDark && <span className="section-accent-bar bg-pop-purple" aria-hidden />}
               <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-                {isDark ? "// process" : "process ·"}
+                {"// process"}
               </span>
             </Reveal>
             <Reveal className="mb-8 max-w-3xl">
@@ -254,26 +205,16 @@ export function AboutPage() {
                 id="how-i-work-heading"
                 className="text-4xl font-extrabold tracking-tight md:text-5xl"
               >
-                {isDark ? (
-                  <>
-                    How I{" "}
-                    <span className="relative inline-block text-primary">
-                      work
-                      <span
-                        className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
-                        aria-hidden
-                      />
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    How I{" "}
-                    <span className="relative inline-block text-primary">
-                      work
-                      <span className="absolute inset-x-0 -bottom-1 h-2 bg-accent/70 -z-10" />
-                    </span>
-                  </>
-                )}
+                <>
+                  How I{" "}
+                  <span className="relative inline-block text-primary">
+                    work
+                    <span
+                      className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
+                      aria-hidden
+                    />
+                  </span>
+                </>
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
                 No mystery. Here&apos;s exactly how a project goes from first call to launch.
@@ -296,17 +237,13 @@ export function AboutPage() {
                   }}
                   className={cn(
                     "list-none rounded-2xl p-6",
-                    isDark
-                      ? "border border-border bg-card/75 backdrop-blur-sm shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]"
-                      : LIGHT_SURFACE_CARD
+                    "border border-border bg-card/75 backdrop-blur-sm shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]"
                   )}
                 >
                   <div
                     className={cn(
                       "mb-4 inline-flex h-9 w-9 items-center justify-center rounded-xl font-mono text-xs font-bold",
-                      isDark
-                        ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-                        : "bg-primary text-primary-foreground"
+                      "bg-primary/10 text-primary ring-1 ring-primary/30"
                     )}
                   >
                     {String(i + 1).padStart(2, "0")}
@@ -326,9 +263,8 @@ export function AboutPage() {
             className="mt-16 scroll-mt-24 md:mt-24"
           >
             <Reveal className="mb-4">
-              {!isDark && <span className="section-accent-bar bg-pop-cyan" aria-hidden />}
               <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-                {isDark ? "// social" : "social ·"}
+                {"// social"}
               </span>
             </Reveal>
             <Reveal className="mb-8 max-w-3xl">
@@ -336,34 +272,24 @@ export function AboutPage() {
                 id="about-social-heading"
                 className="text-4xl font-extrabold tracking-tight md:text-5xl"
               >
-                {isDark ? (
-                  <>
-                    Around the{" "}
-                    <span className="relative inline-block text-primary">
-                      web
-                      <span
-                        className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
-                        aria-hidden
-                      />
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    Around the{" "}
-                    <span className="relative inline-block text-primary">
-                      web
-                      <span className="absolute inset-x-0 -bottom-1 h-2 bg-accent/70 -z-10" />
-                    </span>
-                  </>
-                )}
+                <>
+                  Around the{" "}
+                  <span className="relative inline-block text-primary">
+                    web
+                    <span
+                      className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
+                      aria-hidden
+                    />
+                  </span>
+                </>
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
                 Email and public profiles: tap a card to open the link.
               </p>
             </Reveal>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {CONTACT_LINKS.map((link, index) => (
-                <ContactCard key={link.id} link={link} index={index} isDark={isDark} />
+              {CONTACT_LINKS.map((link) => (
+                <ContactCard key={link.id} link={link} />
               ))}
             </div>
           </section>
@@ -374,9 +300,8 @@ export function AboutPage() {
             className="mt-14 scroll-mt-24 pt-4 md:mt-20 md:pt-8"
           >
             <Reveal className="mb-4">
-              {!isDark && <span className="section-accent-bar bg-pop-pink" aria-hidden />}
               <span className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-                {isDark ? "// say hello" : "say hello ·"}
+                {"// say hello"}
               </span>
             </Reveal>
             <div className="mb-10 max-w-3xl">
@@ -384,28 +309,17 @@ export function AboutPage() {
                 id="about-contact-heading"
                 className="text-4xl font-extrabold tracking-tight md:text-5xl"
               >
-                {isDark ? (
-                  <>
-                    Say{" "}
-                    <span className="relative inline-block text-primary">
-                      hello
-                      <span
-                        className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
-                        aria-hidden
-                      />
-                    </span>
-                    .
-                  </>
-                ) : (
-                  <>
-                    Say{" "}
-                    <span className="relative inline-block text-primary">
-                      hello
-                      <span className="absolute inset-x-0 -bottom-1 h-2 bg-accent/70 -z-10" />
-                    </span>
-                    .
-                  </>
-                )}
+                <>
+                  Say{" "}
+                  <span className="relative inline-block text-primary">
+                    hello
+                    <span
+                      className="absolute inset-x-0 -bottom-1 h-2 rounded-sm bg-primary/25 -z-10"
+                      aria-hidden
+                    />
+                  </span>
+                  .
+                </>
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground md:text-xl">
                 If anything above fits what you&apos;re looking for, use the form; I read every message myself and usually

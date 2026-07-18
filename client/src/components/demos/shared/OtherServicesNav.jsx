@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Palette, Cpu } from "lucide-react";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const ALL_SERVICES = [
@@ -29,9 +28,7 @@ const ALL_SERVICES = [
 ];
 
 export function OtherServicesNav({ current }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const others = ALL_SERVICES.filter((s) => s.id !== current);
+const others = ALL_SERVICES.filter((s) => s.id !== current);
 
   return (
     <div className="mt-16">
@@ -55,16 +52,12 @@ export function OtherServicesNav({ current }) {
                 to={svc.href}
                 className={cn(
                   "group flex items-start gap-4 rounded-2xl border p-5 transition-all",
-                  isDark
-                    ? "border-border bg-card/60 hover:border-primary/50 hover:shadow-neon-cyan hover:bg-primary/5"
-                    : "border border-border bg-card/80 backdrop-blur-sm shadow-soft hover:translate-y-[-2px]"
+                  "border-border bg-card/60 hover:border-primary/50 hover:shadow-neon-cyan hover:bg-primary/5"
                 )}
               >
                 <div className={cn(
                   "mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors",
-                  isDark
-                    ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-                    : "bg-foreground text-background"
+                  "bg-primary/10 text-primary ring-1 ring-primary/30"
                 )}>
                   <Icon className="h-5 w-5" />
                 </div>

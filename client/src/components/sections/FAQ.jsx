@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { FAQAccordion } from "@/components/demos/shared/FAQAccordion";
 import { GLOBAL_FAQS } from "@/data/faqs";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /**
@@ -19,10 +18,7 @@ export function FAQ({
   /** When true, omit outer `container` and reduce vertical padding (e.g. nested under contact). */
   embedded = false,
 }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  const outerClass = embedded
+const outerClass = embedded
     ? "w-full pt-10 md:pt-14"
     : "container py-14 md:py-20";
 
@@ -38,23 +34,22 @@ export function FAQ({
         className="mx-auto max-w-3xl"
       >
         <div className="mb-2">
-          {!isDark && <span className="section-accent-bar bg-secondary" aria-hidden />}
           <div
             className={cn(
               "font-mono text-xs uppercase tracking-[0.3em]",
-              isDark ? "text-primary" : "text-primary"
+              "text-primary"
             )}
           >
             {eyebrow}
           </div>
         </div>
-        <h2 className={cn("mb-4 text-3xl font-extrabold tracking-tight md:text-4xl", isDark && "heading-face")}>
+        <h2 className={cn("mb-4 text-3xl font-extrabold tracking-tight md:text-4xl", "heading-face")}>
           {title}
         </h2>
         <p
           className={cn(
             "mb-6 text-lg leading-relaxed",
-            isDark ? "text-muted-foreground" : "text-foreground/80"
+            "text-muted-foreground"
           )}
         >
           What people usually want to know before we talk. Don&apos;t see your

@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const FILES = {
@@ -179,9 +178,7 @@ function useTerminal() {
 }
 
 export function CliTerminalEmulator() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const { lines, input, setInput, onKeyDown, reset } = useTerminal();
+const { lines, input, setInput, onKeyDown, reset } = useTerminal();
   const outputRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -202,7 +199,7 @@ export function CliTerminalEmulator() {
       <div
         className={cn(
           "overflow-hidden rounded-2xl",
-          isDark ? "border border-border bg-card/80 backdrop-blur" : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+          "border border-border bg-card/80 backdrop-blur"
         )}
         onClick={() => inputRef.current?.focus()}
       >
@@ -230,7 +227,7 @@ export function CliTerminalEmulator() {
                 className={cn(
                   line.type === "input"   && "text-primary",
                   line.type === "error"   && "text-destructive",
-                  line.type === "success" && (isDark ? "text-accent" : "text-green-600"),
+                  line.type === "success" && ("text-accent"),
                   line.type === "output"  && "text-foreground/80",
                 )}
               >
@@ -243,7 +240,7 @@ export function CliTerminalEmulator() {
         {/* Input row */}
         <div className={cn(
           "flex items-center gap-2 border-t border-border px-4 py-2",
-          isDark ? "bg-background/40" : "bg-muted/30"
+          "bg-background/40"
         )}>
           <span className="font-mono text-xs text-primary shrink-0">$</span>
           <input

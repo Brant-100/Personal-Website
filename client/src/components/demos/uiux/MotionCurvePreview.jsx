@@ -1,7 +1,6 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 /* Curves here are chosen to *not* duplicate Design system tokens → Motion (soft / snap / bouncy springs, ease-out, ease-in-out). */
@@ -99,7 +98,7 @@ const CURVES = [
 const TRACK_GUTTER_PX = 8;
 const DOT_PX = 16;
 
-function BallTrack({ curve, isHovered, prefersReduced, isDark }) {
+function BallTrack({ curve, isHovered, prefersReduced }) {
   const trackRef = useRef(null);
   const [travelPx, setTravelPx] = useState(0);
 
@@ -126,7 +125,7 @@ function BallTrack({ curve, isHovered, prefersReduced, isDark }) {
       <div
         className={cn(
           "absolute left-2 right-2 top-1/2 h-px -translate-y-1/2",
-          isDark ? "bg-border" : "bg-border"
+          "bg-border"
         )}
       />
       {/* Wrapper keeps vertical centering: Framer's `x` overwrites transform on the motion node */}
@@ -134,7 +133,7 @@ function BallTrack({ curve, isHovered, prefersReduced, isDark }) {
         <motion.div
           className={cn(
             "block h-4 w-4 rounded-full will-change-transform",
-            isDark ? "bg-primary shadow-neon-cyan" : "bg-foreground"
+            "bg-primary shadow-neon-cyan"
           )}
           initial={false}
           animate={active ? { x: [0, travelPx] } : { x: 0 }}
@@ -155,9 +154,7 @@ function BallTrack({ curve, isHovered, prefersReduced, isDark }) {
 }
 
 export function MotionCurvePreview() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [hovered, setHovered] = useState(null);
 
   return (
@@ -177,12 +174,12 @@ export function MotionCurvePreview() {
               className={cn(
                 "flex flex-col rounded-2xl border p-3 transition-colors cursor-default",
                 isHovered
-                  ? isDark ? "border-primary/50 bg-primary/5" : "border-foreground bg-accent/10"
+                  ? "border-primary/50 bg-primary/5"
                   : "border-border bg-card/60"
               )}
             >
               <div className="mb-2 shrink-0">
-                <BallTrack curve={curve} isHovered={isHovered} prefersReduced={prefersReduced} isDark={isDark} />
+                <BallTrack curve={curve} isHovered={isHovered} prefersReduced={prefersReduced} />
               </div>
               <div className="text-sm font-semibold leading-tight">{curve.label}</div>
               <div className="mt-1 shrink-0 text-[11px] leading-snug text-muted-foreground">{curve.note}</div>
@@ -193,7 +190,7 @@ export function MotionCurvePreview() {
                     animate={{ opacity: 1 }}
                     className={cn(
                       "max-h-[6rem] max-w-full overflow-y-auto overscroll-contain rounded-md p-1.5 font-mono text-[9px] leading-relaxed whitespace-pre-wrap break-words [overflow-wrap:anywhere]",
-                      isDark ? "bg-muted/40" : "bg-muted/60"
+                      "bg-muted/40"
                     )}
                   >
                     {curve.code}

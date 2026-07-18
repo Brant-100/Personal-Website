@@ -6,6 +6,7 @@ import {
   Github,
   ExternalLink,
   Lock,
+  FileText,
   Calendar,
   ChevronRight,
   Lightbulb,
@@ -18,26 +19,14 @@ import { Button } from "@/components/ui/button";
 import { BookCallButton } from "@/components/BookCallButton";
 import { Badge } from "@/components/ui/badge";
 import { Reveal, staggerContainer } from "@/components/motion/MotionPrimitives";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
-import { LIGHT_SURFACE_CARD, stackChipLightClass, tagChipLightClass, FAQ_STRIPE, popBy } from "@/lib/popColors";
-
-/** Deterministic hue index for rotating pop-colors (badges / tag pills). */
-function popHueKey(str) {
-  let h = 0;
-  const s = str ?? "";
-  for (let i = 0; i < s.length; i++) h = (h + s.charCodeAt(i) * (i + 7)) >>> 0;
-  return h % 5;
-}
 
 /** Inline fallback for when API is offline */
 import { FALLBACK as PROJECT_FALLBACK } from "@/lib/projectFallback";
 
 export function ProjectDetail() {
   const { id } = useParams();
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [project, setProject] = useState(null);
+const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   // Lightbox state: must be declared before any early returns
   const [lightboxIdx, setLightboxIdx] = useState(null);
@@ -95,8 +84,8 @@ export function ProjectDetail() {
   if (loading) {
     return (
       <section className="container flex min-h-[60vh] items-center justify-center py-24">
-        <div className={cn("font-mono text-sm", isDark ? "text-primary" : "text-primary")}>
-          {isDark ? "// loading..." : "loading..."}
+        <div className={cn("font-mono text-sm", "text-primary")}>
+          {"// loading..."}
         </div>
       </section>
     );
@@ -129,10 +118,10 @@ export function ProjectDetail() {
       <div
         className={cn(
           "relative pb-16 pt-32 md:pt-40",
-          isDark && "bg-gradient-to-br from-background via-background to-primary/5"
+          "bg-gradient-to-br from-background via-background to-primary/5"
         )}
       >
-        {isDark && (
+        
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0"
@@ -142,7 +131,7 @@ export function ProjectDetail() {
               backgroundSize: "32px 32px",
             }}
           />
-        )}
+        
 
         <div className="container relative z-10">
           {/* Breadcrumb */}
@@ -151,26 +140,26 @@ export function ProjectDetail() {
               to="/"
               className={cn(
                 "transition-colors hover:text-foreground",
-                isDark ? "hover:text-primary" : "font-medium text-foreground/65 hover:text-foreground"
+                "hover:text-primary"
               )}
             >
               Home
             </Link>
-            <ChevronRight className={cn("h-3 w-3 shrink-0", !isDark && "text-primary/55")} />
+            <ChevronRight className="h-3 w-3 shrink-0 text-primary/55" />
             <Link
               to="/#projects"
               className={cn(
                 "transition-colors hover:text-foreground",
-                isDark ? "hover:text-primary" : "font-medium text-foreground/65 hover:text-foreground"
+                "hover:text-primary"
               )}
             >
               Projects
             </Link>
-            <ChevronRight className={cn("h-3 w-3 shrink-0", !isDark && "text-primary/55")} />
+            <ChevronRight className="h-3 w-3 shrink-0 text-primary/55" />
             <span
               className={cn(
                 "max-w-[min(100%,14rem)] truncate sm:max-w-none",
-                isDark ? "text-primary" : "font-bold text-[hsl(var(--primary-strong))]"
+                "text-primary"
               )}
             >
               {project.title}
@@ -184,14 +173,16 @@ export function ProjectDetail() {
                 {project.status === "private" ? (
                   <span className={cn(
                     "inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs",
-                    isDark
-                      ? "border border-primary/30 bg-primary/10 text-primary"
-                      : cn(
-                          LIGHT_SURFACE_CARD,
-                          "!rounded-full font-semibold backdrop-blur-sm"
-                        )
+                    "border border-primary/30 bg-primary/10 text-primary"
                   )}>
                     <Lock className="h-3 w-3" /> private repo
+                  </span>
+                ) : project.status === "case-study" ? (
+                  <span className={cn(
+                    "inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs uppercase tracking-wider",
+                    "border border-secondary/30 bg-secondary/10 text-secondary"
+                  )}>
+                    <FileText className="h-3 w-3" /> case study
                   </span>
                 ) : project.repo_url && (
                   <a
@@ -200,12 +191,7 @@ export function ProjectDetail() {
                     rel="noreferrer"
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs transition-colors",
-                      isDark
-                        ? "border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                        : cn(
-                            LIGHT_SURFACE_CARD,
-                            "!rounded-full font-semibold backdrop-blur-sm transition-colors hover:border-primary hover:bg-primary/[0.08] hover:text-primary"
-                          )
+                      "border border-border text-muted-foreground hover:border-primary hover:text-primary"
                     )}
                   >
                     <Github className="h-3 w-3" /> view source
@@ -218,31 +204,17 @@ export function ProjectDetail() {
                     rel="noreferrer"
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs transition-colors",
-                      isDark
-                        ? "border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                        : cn(
-                            LIGHT_SURFACE_CARD,
-                            "!rounded-full font-semibold backdrop-blur-sm transition-colors hover:border-secondary hover:bg-secondary/[0.08] hover:text-secondary"
-                          )
+                      "border border-border text-muted-foreground hover:border-primary hover:text-primary"
                     )}
                   >
                     <ExternalLink className="h-3 w-3" /> live site
                   </a>
                 )}
-                {project.year &&
-                  (isDark ? (
-                    <Badge variant="default">{project.year}</Badge>
-                  ) : (
-                    <span className={tagChipLightClass(String(project.year), popHueKey(project.id ?? "yr"))}>
-                      {project.year}
-                    </span>
-                  ))}
+                {project.year && <Badge variant="default">{project.year}</Badge>}
                 {project.last_updated && (
                   <span className={cn(
                     "inline-flex items-center gap-1 px-2.5 py-1 font-mono text-[10px] font-semibold",
-                    isDark
-                      ? "rounded-md bg-muted/60 text-muted-foreground"
-                      : cn(tagChipLightClass("updated", popHueKey(project.id ?? "u")), "gap-1 py-0.5 font-semibold")
+                    "rounded-md bg-muted/60 text-muted-foreground"
                   )}>
                     <Calendar className="h-2.5 w-2.5 shrink-0" />
                     Updated {project.last_updated}
@@ -255,7 +227,7 @@ export function ProjectDetail() {
                   className={cn(
                     /* Match dark mode: JetBrains Mono overrides light global Space Grotesk on h1 */
                     "font-mono text-5xl font-extrabold tracking-tight md:text-7xl",
-                    isDark ? "text-neon text-foreground" : cn("heading-face text-foreground")
+                    "text-neon text-foreground"
                   )}
                 >
                   {project.title}
@@ -264,22 +236,16 @@ export function ProjectDetail() {
               <Reveal>
                 <p className={cn(
                   "mt-4 text-xl leading-relaxed",
-                  isDark ? "text-primary" : "font-bold text-[hsl(var(--primary-strong))] shadow-[0_1px_0_hsl(var(--foreground)/0.08)]"
+                  "text-primary"
                 )}
                 >
-                  {!isDark && (
-                    <span
-                      aria-hidden
-                      className="-ml-0.5 mr-3 inline-block h-[0.75em] w-1 shrink-0 rounded-full bg-accent shadow-sm ring-2 ring-accent/50"
-                    />
-                  )}
                   {project.tagline}
                 </p>
               </Reveal>
               <Reveal>
                 <p className={cn(
                   "mt-4 max-w-xl leading-relaxed",
-                  isDark ? "text-muted-foreground" : "font-medium text-foreground/87"
+                  "text-muted-foreground"
                 )}>
                   {project.description}
                 </p>
@@ -291,12 +257,7 @@ export function ProjectDetail() {
             <Reveal className="lg:min-w-[200px]">
               <div className={cn(
                 "rounded-2xl p-5 transition-shadow duration-300",
-                isDark
-                  ? "border border-border bg-card/85 hover:border-primary/35 hover:shadow-presence-rest"
-                  : cn(
-                      LIGHT_SURFACE_CARD,
-                      "backdrop-blur-sm transition-colors hover:border-primary/35"
-                    )
+                "border border-border bg-card/85 hover:border-primary/35 hover:shadow-presence-rest"
               )}>
                 <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-[hsl(var(--primary-strong))]">
                   Stack
@@ -307,7 +268,7 @@ export function ProjectDetail() {
                       key={t}
                       className={cn(
                         "font-mono text-xs",
-                        isDark ? "rounded-md bg-muted px-2 py-1 text-primary" : stackChipLightClass(t, ti)
+                        "rounded-md bg-muted px-2 py-1 text-primary"
                       )}
                     >
                       {t}
@@ -325,9 +286,7 @@ export function ProjectDetail() {
                           key={t}
                           className={cn(
                             "inline-flex items-center text-[10px] font-bold uppercase tracking-widest",
-                            isDark
-                              ? "rounded-full border border-accent/35 bg-accent/10 px-2.5 py-1 text-accent ring-1 ring-accent/35"
-                              : tagChipLightClass(t, ti)
+                            "rounded-full border border-accent/35 bg-accent/10 px-2.5 py-1 text-accent ring-1 ring-accent/35"
                           )}
                         >
                           #{t}
@@ -349,7 +308,7 @@ export function ProjectDetail() {
           {/* Problem */}
           {project.problem && (
             <Reveal>
-              <SectionBlock isDark={isDark} lightAnchorSurface title="The problem" icon={<AlertTriangle className="h-4 w-4" />}>
+              <SectionBlock title="The problem" icon={<AlertTriangle className="h-4 w-4" />}>
                 <p className="text-muted-foreground leading-relaxed">{project.problem}</p>
               </SectionBlock>
             </Reveal>
@@ -358,12 +317,12 @@ export function ProjectDetail() {
           {/* Constraints */}
           {(project.constraints || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} lightAnchorSurface title="Constraints">
+              <SectionBlock title="Constraints">
                 <ul className="space-y-2">
                   {project.constraints.map((c) => (
                     <li key={c.slice(0, 40)} className={cn(
                       "text-sm text-muted-foreground border-l-2 pl-3",
-                      isDark ? "border-secondary/50" : "border-foreground/30"
+                      "border-secondary/50"
                     )}>{c}</li>
                   ))}
                 </ul>
@@ -374,7 +333,7 @@ export function ProjectDetail() {
           {/* Features */}
           {(project.features || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} lightAnchorSurface title="What it does">
+              <SectionBlock title="What it does">
                 <ul className="space-y-3">
                   {project.features.map((f, i) => (
                     <li key={f.slice(0, 48)} className="flex gap-3 text-sm leading-relaxed">
@@ -382,10 +341,10 @@ export function ProjectDetail() {
                         aria-hidden
                         className={cn(
                           "mt-2 h-2 w-2 shrink-0 rounded-full",
-                          isDark ? "bg-primary" : popBy(i, FAQ_STRIPE)
+                          "bg-primary"
                         )}
                       />
-                      <span className={cn("text-muted-foreground", isDark && "text-foreground/90")}>{f}</span>
+                      <span className={cn("text-muted-foreground", "text-foreground/90")}>{f}</span>
                     </li>
                   ))}
                 </ul>
@@ -396,7 +355,7 @@ export function ProjectDetail() {
           {/* Architecture diagram */}
           {project.architecture_diagram_url && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="Architecture" icon={<Cpu className="h-4 w-4" />}>
+              <SectionBlock title="Architecture" icon={<Cpu className="h-4 w-4" />}>
                 <div className="mx-auto flex w-full max-w-5xl justify-center">
                   <div
                     role="button"
@@ -405,7 +364,7 @@ export function ProjectDetail() {
                     onKeyDown={(e) => e.key === "Enter" && setLightboxIdx(archLightboxIdx)}
                     className={cn(
                       "inline-block max-w-full overflow-hidden rounded-2xl",
-                      isDark ? "border border-border" : cn(LIGHT_SURFACE_CARD, "backdrop-blur-sm")
+                      "border border-border backdrop-blur-sm"
                     )}
                     aria-label="Expand architecture diagram"
                   >
@@ -427,7 +386,7 @@ export function ProjectDetail() {
           {/* Screenshots */}
           {screenshots.length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="Screenshots">
+              <SectionBlock title="Screenshots">
                 <div
                   className={cn(
                     "grid items-start gap-3",
@@ -446,7 +405,7 @@ export function ProjectDetail() {
                         aria-label={`Expand screenshot: ${s.caption || s.url}`}
                         className={cn(
                           "overflow-hidden rounded-lg leading-none cursor-pointer",
-                          isDark ? "border border-border/60" : "border border-border shadow-[0_8px_32px_-8px_hsl(var(--foreground)/0.12)]"
+                          "border border-border/60"
                         )}
                       >
                         <img
@@ -482,8 +441,6 @@ export function ProjectDetail() {
           {(project.mitre_techniques || []).length > 0 && (
             <Reveal>
               <SectionBlock
-                isDark={isDark}
-                lightAnchorSurface
                 title={`MITRE ATT&CK: ${project.mitre_techniques.length} techniques mapped`}
               >
                 <div className="flex flex-wrap gap-2">
@@ -495,9 +452,7 @@ export function ProjectDetail() {
                       rel="noreferrer"
                       className={cn(
                         "font-mono text-xs transition-opacity",
-                        isDark
-                          ? "rounded-lg border border-accent/30 bg-accent/10 px-3 py-1.5 text-accent ring-transparent hover:bg-accent/20"
-                          : cn(tagChipLightClass(t, ti), "hover:opacity-90")
+                        "rounded-lg border border-accent/30 bg-accent/10 px-3 py-1.5 text-accent ring-transparent hover:bg-accent/20 hover:opacity-90"
                       )}
                     >
                       {t}
@@ -506,7 +461,7 @@ export function ProjectDetail() {
                 </div>
                 <p className={cn(
                   "mt-4 text-xs",
-                  isDark ? "text-muted-foreground" : "text-muted-foreground"
+                  "text-muted-foreground"
                 )}>
                   All techniques are mapped against systems owned or explicitly authorized for testing. These mappings are used for detection engineering: understanding attacker TTPs to build better defenses.
                 </p>
@@ -517,26 +472,24 @@ export function ProjectDetail() {
           {/* Technical decisions */}
           {(project.technical_decisions || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="Key technical decisions">
+              <SectionBlock title="Key technical decisions">
                 <div className="space-y-6">
                   {project.technical_decisions.map((d) => (
                     <div
                       key={d.decision.slice(0, 40)}
                       className={cn(
                         "rounded-2xl p-5 transition-all duration-300",
-                        isDark
-                          ? "border border-border bg-card/70"
-                          : cn(LIGHT_SURFACE_CARD, "backdrop-blur-sm")
+                        "border border-border bg-card/70 backdrop-blur-sm"
                       )}
                     >
-                      <div className={cn("mb-1 font-semibold", isDark && "text-neon")}>{d.decision}</div>
-                      <div className={cn("mb-2 text-sm leading-relaxed", isDark ? "text-muted-foreground" : "text-foreground/88")}>
+                      <div className={cn("mb-1 font-semibold", "text-neon")}>{d.decision}</div>
+                      <div className={cn("mb-2 text-sm leading-relaxed", "text-muted-foreground")}>
                         <span className={cn("font-mono text-[10px] uppercase tracking-widest mr-2 font-semibold text-primary")}>
                           why:
                         </span>
                         {d.why}
                       </div>
-                      <div className={cn("text-sm leading-relaxed", isDark ? "text-muted-foreground" : "text-foreground/82")}>
+                      <div className={cn("text-sm leading-relaxed", "text-muted-foreground")}>
                         <span className={cn("font-mono text-[10px] uppercase tracking-widest mr-2 font-semibold text-secondary")}>
                           tradeoffs:
                         </span>
@@ -552,14 +505,12 @@ export function ProjectDetail() {
           {/* Lessons learned */}
           {(project.lessons_learned || []).length > 0 && (
             <Reveal>
-              <SectionBlock isDark={isDark} title="Lessons learned" icon={<Lightbulb className="h-4 w-4" />}>
+              <SectionBlock title="Lessons learned" icon={<Lightbulb className="h-4 w-4" />}>
                 <ul className="space-y-3">
                   {project.lessons_learned.map((l) => (
                     <li key={l.slice(0, 48)} className={cn(
                       "rounded-lg p-3 text-sm leading-relaxed",
-                      isDark
-                        ? "border border-secondary/20 bg-secondary/5 text-foreground/90"
-                        : cn(LIGHT_SURFACE_CARD, "!rounded-xl backdrop-blur-sm text-foreground/90")
+                      "border border-secondary/20 bg-secondary/5 text-foreground/90 rounded-xl backdrop-blur-sm"
                     )}>
                       {l}
                     </li>
@@ -571,7 +522,7 @@ export function ProjectDetail() {
 
           {/* Back CTA */}
           <Reveal className="pt-4 flex flex-wrap items-center gap-4">
-            <Button variant={isDark ? "default" : "pop"} asChild>
+            <Button variant="default" asChild>
               <Link to="/#projects" className="inline-flex items-center gap-2">
                 <ArrowLeft className="h-4 w-4" /> All Projects
               </Link>
@@ -666,45 +617,27 @@ export function ProjectDetail() {
   );
 }
 
-function SectionBlock({ isDark, title, icon, children, lightAnchorSurface }) {
-  const heading = (
-    <h2
-      className={cn(
-        "mb-6 flex items-center gap-2 text-2xl font-extrabold tracking-tight",
-        isDark && "text-neon"
-      )}
-    >
-      {icon && (
-        <span
-          className={cn(
-            "flex h-8 w-8 items-center justify-center rounded-lg",
-            isDark
-              ? "bg-primary/10 text-primary"
-              : cn(
-                  "border border-border bg-muted/60",
-                  lightAnchorSurface ? "text-primary" : "text-[hsl(var(--primary-strong))]"
-                )
-          )}
-        >
-          {icon}
-        </span>
-      )}
-      {title}
-    </h2>
-  );
-
-  if (!isDark && lightAnchorSurface) {
-    return (
-      <div className={cn(LIGHT_SURFACE_CARD, "p-6 backdrop-blur-sm")}>
-        {heading}
-        {children}
-      </div>
-    );
-  }
-
+function SectionBlock({ title, icon, children }) {
   return (
     <div>
-      {heading}
+      <h2
+        className={cn(
+          "mb-6 flex items-center gap-2 text-2xl font-extrabold tracking-tight",
+          "text-neon"
+        )}
+      >
+        {icon && (
+          <span
+            className={cn(
+              "flex h-8 w-8 items-center justify-center rounded-lg",
+              "bg-primary/10 text-primary"
+            )}
+          >
+            {icon}
+          </span>
+        )}
+        {title}
+      </h2>
       {children}
     </div>
   );

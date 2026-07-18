@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, Paintbrush, Code2, Sparkles, Rocket, LifeBuoy } from "lucide-react";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 const PHASES = [
@@ -63,9 +62,7 @@ const PHASES = [
 ];
 
 export function ProjectTimeline() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [active, setActive] = useState("discovery");
 
   const toggle = (id) => setActive((prev) => (prev === id ? null : id));
@@ -98,12 +95,8 @@ export function ProjectTimeline() {
                   className={cn(
                     "relative z-10 flex h-10 w-10 items-center justify-center rounded-full border-2 transition-colors",
                     isActive
-                      ? isDark
-                        ? "border-primary bg-primary text-primary-foreground shadow-neon-cyan"
-                        : "border-foreground bg-foreground text-background"
-                      : isDark
-                      ? "border-border bg-card/80 text-muted-foreground group-hover:border-primary/60 group-hover:text-primary"
-                      : "border-border bg-card text-muted-foreground group-hover:border-foreground group-hover:text-foreground"
+                      ? "border-primary bg-primary text-primary-foreground shadow-neon-cyan"
+                      : "border-border bg-card/80 text-muted-foreground group-hover:border-primary/60 group-hover:text-primary"
                   )}
                 >
                   <Icon className="h-4 w-4" />
@@ -132,15 +125,13 @@ export function ProjectTimeline() {
                 transition={{ type: "spring", stiffness: 280, damping: 26 }}
                 className={cn(
                   "mt-4 rounded-2xl p-5",
-                  isDark
-                    ? "border border-primary/30 bg-primary/5 backdrop-blur"
-                    : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+                  "border border-primary/30 bg-primary/5 backdrop-blur"
                 )}
               >
                 <div className="flex items-start gap-3">
                   <div className={cn(
                     "mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                    isDark ? "bg-primary/10 text-primary" : "bg-foreground text-background"
+                    "bg-primary/10 text-primary"
                   )}>
                     <Icon className="h-4 w-4" />
                   </div>
@@ -168,16 +159,14 @@ export function ProjectTimeline() {
                 className={cn(
                   "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors",
                   isActive
-                    ? isDark
-                      ? "border border-primary/40 bg-primary/10"
-                      : "border border-border bg-accent/30"
+                    ? "border border-primary/40 bg-primary/10"
                     : "border border-border bg-card/60 hover:border-primary/30"
                 )}
               >
                 <div className={cn(
                   "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
                   isActive
-                    ? isDark ? "bg-primary text-primary-foreground" : "bg-foreground text-background"
+                    ? "bg-primary text-primary-foreground"
                     : "bg-muted text-muted-foreground"
                 )}>
                   <Icon className="h-3.5 w-3.5" />

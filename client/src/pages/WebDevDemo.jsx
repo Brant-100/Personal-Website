@@ -15,14 +15,10 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { WEB_DEV_FAQS, WORDPRESS_FAQS } from "@/data/faqs";
 import { OtherServicesNav } from "@/components/demos/shared/OtherServicesNav";
 import { BookCallButton } from "@/components/BookCallButton";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export function WebDevDemo() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  return (
+return (
     <ServicePageLayout
       eyebrow="01 · service / web development"
       title="Web Development"
@@ -74,7 +70,7 @@ export function WebDevDemo() {
         <div
           className={cn(
             "mb-6 rounded-2xl border border-border p-5",
-            isDark ? "bg-card/70 backdrop-blur" : "bg-card/80 backdrop-blur-sm shadow-soft"
+            "bg-card/70 backdrop-blur"
           )}
         >
           <div className="font-mono text-[10px] uppercase tracking-widest text-primary mb-1">
@@ -87,7 +83,7 @@ export function WebDevDemo() {
         <FAQAccordion items={WORDPRESS_FAQS} />
       </div>
       <div className="mt-16 flex justify-center">
-        <BookCallButton variant={isDark ? "default" : "pop"} />
+        <BookCallButton variant="default" />
       </div>
       <OtherServicesNav current="web" />
     </ServicePageLayout>
@@ -95,10 +91,7 @@ export function WebDevDemo() {
 }
 
 function FeatureGrid() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-
-  const items = [
+const items = [
     {
       icon: Zap,
       title: "Lightning fast",
@@ -131,22 +124,14 @@ function FeatureGrid() {
             <Card
               className={cn(
                 "h-full transition-all",
-                isDark
-                  ? "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
-                  : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+                "bg-card/70 backdrop-blur hover:border-primary/50 hover:shadow-neon-cyan"
               )}
             >
               <CardHeader>
                 <div
                   className={cn(
                     "mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl",
-                    isDark
-                      ? "bg-primary/10 text-primary ring-1 ring-primary/30"
-                      : i === 0
-                      ? "bg-primary text-primary-foreground"
-                      : i === 1
-                      ? "bg-secondary text-secondary-foreground"
-                      : "bg-accent text-accent-foreground"
+                    "bg-primary/10 text-primary ring-1 ring-primary/30"
                   )}
                 >
                   <Icon className="h-5 w-5" />
@@ -163,9 +148,7 @@ function FeatureGrid() {
 }
 
 function DevicePreview() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [device, setDevice] = useState("desktop");
+const [device, setDevice] = useState("desktop");
 
   const sizes = {
     desktop: "w-full aspect-[16/10]",
@@ -194,9 +177,7 @@ function DevicePreview() {
                 className={cn(
                   "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors",
                   active
-                    ? isDark
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-foreground text-background"
+                    ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 )}
                 aria-pressed={active}
@@ -214,7 +195,7 @@ function DevicePreview() {
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
           className={cn(
             "relative overflow-hidden rounded-[22px] border-4",
-            isDark ? "border-border bg-muted/40" : "border-2 border-border bg-background/80 backdrop-blur-sm shadow-soft",
+            "border-border bg-muted/40",
             sizes[device]
           )}
         >
@@ -231,9 +212,9 @@ function DevicePreview() {
             <div className="mt-3 h-8 w-3/4 rounded bg-foreground/60" />
             <div className="mt-2 h-3 w-1/2 rounded bg-foreground/20" />
             <div className="mt-6 grid grid-cols-3 gap-2">
-              <div className={cn("h-16 rounded-lg", isDark ? "bg-primary/30" : "bg-primary")} />
-              <div className={cn("h-16 rounded-lg", isDark ? "bg-secondary/30" : "bg-secondary")} />
-              <div className={cn("h-16 rounded-lg", isDark ? "bg-accent/30" : "bg-accent")} />
+              <div className={cn("h-16 rounded-lg", "bg-primary/30")} />
+              <div className={cn("h-16 rounded-lg", "bg-secondary/30")} />
+              <div className={cn("h-16 rounded-lg", "bg-accent/30")} />
             </div>
             <div className="mt-4 h-24 rounded-lg bg-muted" />
           </div>
@@ -244,9 +225,7 @@ function DevicePreview() {
 }
 
 function LiveCodeDemo() {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const prefersReduced = useReducedMotion();
+const prefersReduced = useReducedMotion();
   const [hovered, setHovered] = useState(false);
 
   const barPattern = [0.35, 0.85, 0.5, 1, 0.45, 0.92, 0.6];
@@ -269,7 +248,7 @@ function LiveCodeDemo() {
             <motion.div
               className={cn(
                 "pointer-events-none absolute -inset-3 rounded-2xl",
-                isDark ? "bg-primary/15" : "bg-primary/10"
+                "bg-primary/15"
               )}
               animate={
                 prefersReduced
@@ -293,9 +272,7 @@ function LiveCodeDemo() {
               whileTap={{ scale: 0.96 }}
               className={cn(
                 "relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-6 py-3 font-semibold transition-shadow",
-                isDark
-                  ? "bg-primary text-primary-foreground shadow-neon-cyan hover:shadow-[0_0_28px_rgba(34,229,255,0.55)]"
-                  : "border border-border bg-accent text-accent-foreground shadow-soft hover:brightness-[1.05] hover:shadow-soft-orange"
+                "bg-primary text-primary-foreground shadow-neon-cyan hover:shadow-[0_0_28px_rgba(34,229,255,0.55)]"
               )}
             >
               <motion.span
@@ -324,9 +301,7 @@ function LiveCodeDemo() {
           <div
             className={cn(
               "flex h-14 items-end gap-1 rounded-xl border px-3 py-2",
-              isDark
-                ? "border-primary/30 bg-card/50 backdrop-blur"
-                : "border-foreground/20 bg-muted/40"
+              "border-primary/30 bg-card/50 backdrop-blur"
             )}
             aria-hidden
           >
@@ -335,7 +310,7 @@ function LiveCodeDemo() {
                 key={i}
                 className={cn(
                   "w-1.5 rounded-full",
-                  isDark ? "bg-primary" : "bg-foreground"
+                  "bg-primary"
                 )}
                 initial={false}
                 animate={{
@@ -364,9 +339,7 @@ function LiveCodeDemo() {
         <pre
           className={cn(
             "mt-2 overflow-x-auto rounded-2xl border p-5 font-mono text-xs leading-6",
-            isDark
-              ? "border-border bg-card/70 backdrop-blur"
-              : "border border-border bg-card/80 backdrop-blur-sm shadow-soft"
+            "border-border bg-card/70 backdrop-blur"
           )}
         >
 {`<motion.button

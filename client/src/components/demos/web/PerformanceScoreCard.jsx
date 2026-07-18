@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { DemoSection } from "@/components/demos/shared/DemoSection";
-import { useTheme } from "@/hooks/useTheme";
-
 const SCORES = [
   { label: "Performance",     value: 100, color: "#22E5FF", detail: "Vite code-splitting, lazy routes, tree-shaken deps." },
   { label: "Accessibility",   value: 100, color: "#3BF475", detail: "Semantic HTML, ARIA labels, focus rings, skip links." },
@@ -16,9 +14,7 @@ const R = (SIZE - STROKE) / 2;
 const CIRC = 2 * Math.PI * R;
 
 function Gauge({ label, value, color, detail, animate: shouldAnimate }) {
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  const [count, setCount] = useState(0);
+const [count, setCount] = useState(0);
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
 
@@ -54,7 +50,7 @@ function Gauge({ label, value, color, detail, animate: shouldAnimate }) {
           <circle
             cx={SIZE / 2} cy={SIZE / 2} r={R}
             fill="none"
-            stroke={isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}
+            stroke={"rgba(255,255,255,0.06)"}
             strokeWidth={STROKE}
           />
           <motion.circle
@@ -65,7 +61,7 @@ function Gauge({ label, value, color, detail, animate: shouldAnimate }) {
             strokeLinecap="round"
             strokeDasharray={CIRC}
             strokeDashoffset={dashOffset}
-            style={{ filter: isDark ? `drop-shadow(0 0 4px ${color})` : "none" }}
+            style={{ filter: `drop-shadow(0 0 4px ${color})` }}
             transition={{ duration: 0.05 }}
           />
         </svg>

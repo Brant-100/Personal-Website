@@ -2,12 +2,11 @@ import { useEffect, useState, useCallback } from "react";
 import { Command } from "cmdk";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search, Moon, Sun, Mail, Github, Linkedin, Award,
+  Search, Mail, Github, Linkedin, Award,
   FolderOpen, Clock, FileText, User,
   Briefcase, Star, Download,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { CONTACT_EMAIL, RESUME_PDF } from "@/lib/contact";
 
@@ -23,8 +22,6 @@ const SECTION_ANCHORS = [
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const { theme, toggle } = useTheme();
-  const isDark = theme === "dark";
   const navigate = useNavigate();
 
   const close = useCallback(() => {
@@ -32,7 +29,6 @@ export function CommandPalette() {
     setQuery("");
   }, []);
 
-  // ⌘K / Ctrl+K to open
   useEffect(() => {
     const onKey = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -66,21 +62,18 @@ export function CommandPalette() {
   const itemClass = cn(
     "flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
     "data-[selected='true']:bg-primary/10 data-[selected='true']:text-primary",
-    isDark
-      ? "text-foreground/80 hover:bg-muted/60 hover:text-foreground"
-      : "text-foreground/80 hover:bg-muted hover:text-foreground"
+    "text-foreground/80 hover:bg-muted/60 hover:text-foreground"
   );
 
   const groupHeading = cn(
     "mb-1 px-3 pt-3 font-mono text-[10px] uppercase tracking-[0.25em]",
-    isDark ? "text-primary/60" : "text-muted-foreground"
+    "text-primary/60"
   );
 
   return (
     <AnimatePresence>
       {open && (
         <>
-          {/* Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
@@ -90,7 +83,6 @@ export function CommandPalette() {
             className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm"
           />
 
-          {/* Palette */}
           <motion.div
             key="palette"
             initial={{ opacity: 0, scale: 0.97, y: -10 }}
@@ -99,9 +91,7 @@ export function CommandPalette() {
             transition={{ type: "spring", stiffness: 380, damping: 26 }}
             className={cn(
               "fixed left-1/2 top-[20vh] z-50 w-full max-w-lg -translate-x-1/2 overflow-hidden rounded-2xl shadow-2xl",
-              isDark
-                ? "border border-border bg-card/95 backdrop-blur shadow-neon-cyan"
-                : "border border-border bg-card/80 shadow-soft backdrop-blur-sm"
+              "border border-border bg-card/95 backdrop-blur shadow-neon-cyan"
             )}
           >
             <Command
@@ -112,20 +102,20 @@ export function CommandPalette() {
             >
               <div className={cn(
                 "flex items-center gap-3 border-b px-4 py-3",
-                isDark ? "border-border" : "border-foreground/20"
+                "border-border"
               )}>
-                <Search className={cn("h-4 w-4 shrink-0", isDark ? "text-primary" : "text-foreground/50")} />
+                <Search className={cn("h-4 w-4 shrink-0", "text-primary")} />
                 <Command.Input
                   placeholder="Search commands…"
                   className={cn(
                     "flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60",
-                    isDark ? "text-foreground" : "text-foreground"
+                    "text-foreground"
                   )}
                   autoFocus
                 />
                 <kbd className={cn(
                   "rounded-md px-1.5 py-0.5 font-mono text-[10px]",
-                  isDark ? "border border-border bg-muted text-muted-foreground" : "border border-border text-muted-foreground"
+                  "border border-border bg-muted text-muted-foreground"
                 )}>
                   ESC
                 </kbd>
@@ -136,7 +126,6 @@ export function CommandPalette() {
                   No results.
                 </Command.Empty>
 
-                {/* Navigate */}
                 <Command.Group heading="">
                   <div className={groupHeading}>Navigate</div>
                   {SECTION_ANCHORS.map(({ id, label, icon: Icon }) => (
@@ -168,17 +157,8 @@ export function CommandPalette() {
                   </Command.Item>
                 </Command.Group>
 
-                {/* Actions */}
                 <Command.Group heading="">
                   <div className={groupHeading}>Actions</div>
-                  <Command.Item
-                    value="Toggle theme dark light"
-                    onSelect={() => run(toggle)}
-                    className={itemClass}
-                  >
-                    {isDark ? <Sun className="h-4 w-4 shrink-0 text-accent" /> : <Moon className="h-4 w-4 shrink-0 text-secondary" />}
-                    Toggle theme ({isDark ? "→ Light" : "→ Dark"})
-                  </Command.Item>
                   <Command.Item
                     value="Copy email address"
                     onSelect={() => run(copyEmail)}
@@ -202,7 +182,6 @@ export function CommandPalette() {
                   </Command.Item>
                 </Command.Group>
 
-                {/* External links */}
                 <Command.Group heading="">
                   <div className={groupHeading}>Links</div>
                   {[
@@ -222,21 +201,19 @@ export function CommandPalette() {
                   ))}
                 </Command.Group>
 
-                {/* Keyboard shortcuts cheat-sheet */}
                 <Command.Group heading="">
                   <div className={groupHeading}>Keyboard shortcuts</div>
                   {[
                     ["g p", "Jump to Projects"],
                     ["g c", "Jump to Contact"],
                     ["g b", "Jump to Blog"],
-                    ["t", "Toggle theme"],
                     ["⌘K / Ctrl+K", "Open command palette"],
                   ].map(([keys, desc]) => (
                     <div key={keys} className="flex items-center justify-between px-3 py-1.5 text-xs text-muted-foreground">
                       <span>{desc}</span>
                       <kbd className={cn(
                         "rounded px-1.5 py-0.5 font-mono text-[10px]",
-                        isDark ? "border border-border bg-muted" : "border border-border"
+                        "border border-border bg-muted"
                       )}>{keys}</kbd>
                     </div>
                   ))}
